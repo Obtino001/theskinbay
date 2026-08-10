@@ -1,0 +1,175 @@
+{
+  "sections": {
+    "lux_product_block_display_ELt7zW": {
+      "type": "lux-product-block-display",
+      "name": "Luxury Product Display",
+      "settings": {
+        "page_bg": "#ffffff",
+        "box_bg": "#efefee",
+        "accent_color": "#000000",
+        "text_color": "#1a1a1a",
+        "btn_text_color": "#ffffff"
+      }
+    },
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 12,
+            "sticky_details_desktop": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "one",
+            "image_gap": 0,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "bottom",
+            "thumbnail_width": 64,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": false,
+            "media_fit": "cover",
+            "media_radius": 4,
+            "extend_media": true,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": false,
+        "gap": 40,
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "pp_pairing": {
+      "type": "product-perfect-pairing",
+      "settings": {}
+    },
+    "product_smart_video_WrBk4t": {
+      "type": "product-smart-video",
+      "name": "Smart Product Video",
+      "settings": {
+        "heading": "See it in Action",
+        "max_width": 950,
+        "loop_video": true
+      }
+    },
+    "product_bundle_manual_i6VBAb": {
+      "type": "product-bundle-manual",
+      "name": "Curated Bundle (Dynamic)",
+      "settings": {
+        "heading": "Perfectly Paired",
+        "bundle_label": "Recommended Item",
+        "bg_color": "#ffffff",
+        "text_color": "#333333",
+        "accent_color": "#8a2be2",
+        "btn_text": "ADD BOTH TO BASKET",
+        "btn_bg_color": "#d3d3d3",
+        "btn_text_color": "#ffffff",
+        "btn_border_color": "#333333",
+        "margin_top": 20,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "header_size": 24
+      }
+    },
+    "smart_skincare_master_WKQWUd": {
+      "type": "smart-skincare-master",
+      "name": "Smart Skin Matcher",
+      "settings": {
+        "heading": "RELATED PRODUCTS",
+        "heading_size": 24,
+        "status_size": 18,
+        "title_size": 18,
+        "meta_size": 18,
+        "page_width": 1600,
+        "text_step_1": "Analyzing Skincare Profile...",
+        "text_step_2": "Comparing Ingredients...",
+        "text_step_3": "Finding Compatible Brands...",
+        "text_final": "Matches Found",
+        "bg_color": "#ffffff",
+        "heading_color": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "Recently Viewed Products"
+      }
+    },
+    "collection_product_page_iUqHpj": {
+      "type": "collection-product-page",
+      "disabled": true,
+      "name": "Exclusive Bundle Carousel",
+      "settings": {
+        "heading": "EXCLUSIVE BUNDLES WITH THESKINBAY",
+        "collection": "bundle-deals",
+        "products_to_show": 12,
+        "heading_size": 24,
+        "title_size": 16,
+        "meta_size": 13,
+        "page_width": 1600,
+        "bg_color": "#ffffff",
+        "heading_color": "#000000",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "lux_product_block_display_ELt7zW",
+    "main",
+    "pp_pairing",
+    "product_smart_video_WrBk4t",
+    "product_bundle_manual_i6VBAb",
+    "smart_skincare_master_WKQWUd",
+    "recently_viewed",
+    "collection_product_page_iUqHpj"
+  ]
+}
+

@@ -1,0 +1,241 @@
+{
+  "sections": {
+    "lf_hero": {
+      "type": "consultation-welcome",
+      "settings": {}
+    },
+    "lf_value": {
+      "type": "lf-pillars",
+      "blocks": {
+        "v1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "check",
+            "show_number": false,
+            "title": "It pays for itself",
+            "body": "\u00a320 to book \u2014 fully redeemable against your first purchase. Most clients spend far more than that."
+          }
+        },
+        "v2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "show_number": false,
+            "title": "45 minutes of honest advice",
+            "body": "A focused 1:1 with a clinically trained specialist. Ask anything. Get real answers, not upselling."
+          }
+        },
+        "v3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "list",
+            "show_number": false,
+            "title": "A routine built for your skin",
+            "body": "Leave with a written AM/PM plan and product list \u2014 tailored to you, not a shelf of bestsellers."
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "settings": {
+        "eyebrow": "Why it works",
+        "heading": "Stop guessing. <em>Start treating.</em>",
+        "bg_color": "#ffffff",
+        "card_bg": "#faf8f5",
+        "accent_color": "#0b1225",
+        "header_image": "consult-h-value.png"
+      }
+    },
+    "lf_steps": {
+      "type": "lf-pillars",
+      "blocks": {
+        "s1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "calendar",
+            "show_number": true,
+            "title": "Book your slot",
+            "body": "Choose a 45-minute face-to-face appointment or a 20-minute phone consultation \u2014 whichever suits you."
+          }
+        },
+        "s3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "show_number": true,
+            "title": "Your 1:1 with Emmalee",
+            "body": "A focused session with a clinically trained specialist. Ask anything. Get honest, expert answers."
+          }
+        },
+        "s4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "check",
+            "show_number": true,
+            "title": "Your personal routine",
+            "body": "Leave with a written AM/PM skincare routine and a 90-day skin plan built around your concerns."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "eyebrow": "How it works",
+        "heading": "Three steps to <em>better skin.</em>",
+        "bg_color": "#faf8f5",
+        "card_bg": "#ffffff",
+        "accent_color": "#0b1225",
+        "header_image": "consult-h-steps.png"
+      }
+    },
+    "lf_concerns": {
+      "type": "lf-pillars",
+      "blocks": {
+        "c1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "Anti-Ageing",
+            "body": "Fine lines, loss of firmness, uneven tone. Clinical actives that target the visible signs of ageing with evidence behind every recommendation.",
+            "link": "/collections/skincare-for-anti-aging-skin"
+          }
+        },
+        "c2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "Pigmentation",
+            "body": "Dark spots, sun damage, post-inflammatory marks. Evidence-backed brightening and resurfacing treatments that go beyond the surface.",
+            "link": "/collections/pigmentation-dark-spots"
+          }
+        },
+        "c3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "Dry & Dehydrated",
+            "body": "Tight, rough, uncomfortable skin. Barrier-restoring formulas that lock in hydration and repair where it counts most.",
+            "link": "/collections/dry-dehydrated-skin"
+          }
+        },
+        "c4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "Rosacea & Sensitivity",
+            "body": "Redness, flushing, reactive skin. Gentle, non-irritating formulas chosen by a clinical specialist \u2014 nothing that flares you up.",
+            "link": "/collections/rosacea-redness"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "Common concerns",
+        "heading": "Start with what your skin <em>tells you.</em>",
+        "bg_color": "#ffffff",
+        "card_bg": "#faf8f5",
+        "accent_color": "#0b1225",
+        "header_image": "consult-h-concerns.png"
+      }
+    },
+    "lf_credentials": {
+      "type": "lf-editorial-dark",
+      "settings": {
+        "eyebrow": "Your specialist",
+        "heading": "Clinically trained.<br><em>Expertly curated.</em>",
+        "body": "Emmalee Fitton is a SkinCeuticals European Master Physician with over a decade on the clinic floor and 2,000+ personal skin consultations. Every product she recommends is one she has personally tested, used clinically, and stands behind.",
+        "cta_label": "Book Your Consultation",
+        "cta_link": "https://mediprodirect.book.app/book-now/availability?services=W3sicyI6MTUxMzM2MH1d",
+        "image": "shopify://shop_images/EmmaLee_Fitton_TheSkinBay_Founder.jpg",
+        "image_focal": "center top",
+        "header_image": "consult-h-credentials.png"
+      }
+    },
+    "lf_faq": {
+      "type": "tsb-rewards-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How much does the consultation cost?",
+            "answer": "The consultation is \u00a320, but this is fully redeemable against your first purchase \u2014 so it effectively costs nothing if you go on to buy a product. Most clients do."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it in-person or online?",
+            "answer": "We offer both. A 45-minute face-to-face appointment at our clinic, or a 20-minute phone consultation from wherever you are. You choose at the point of booking."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What will I receive after my consultation?",
+            "answer": "A personalised AM/PM skincare routine, a 90-day skin plan, and specific product recommendations tailored to your skin type and concerns. You'll leave knowing exactly what to buy and why."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I have to buy from TheSkinBay?",
+            "answer": "There's no obligation at all. However, every product Emmalee recommends is available in store, and your \u00a320 fee is fully redeemable \u2014 so there's a real incentive to shop with us."
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I book?",
+            "answer": "Click the booking button on this page to choose your slot. We offer morning, afternoon and evening appointments. If you need help, email us at info@theskinbay.co.uk and we'll get you sorted."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "eyebrow": "Common questions",
+        "heading": "Everything you'd ask <em>before booking.</em>"
+      }
+    },
+    "lf_cta": {
+      "type": "lf-consult-cta",
+      "settings": {
+        "eyebrow": "Ready when you are",
+        "heading": "Book your consultation. <em>Get your routine.</em>",
+        "body": "\u00a320 to book \u00b7 fully redeemable \u00b7 45-min private 1:1.",
+        "cta_label": "Book Now",
+        "cta_link": "https://mediprodirect.book.app/book-now/availability?services=W3sicyI6MTUxMzM2MH1d",
+        "header_image": "consult-h-cta.png"
+      }
+    }
+  },
+  "order": [
+    "lf_hero",
+    "lf_value",
+    "lf_steps",
+    "lf_concerns",
+    "lf_credentials",
+    "lf_faq",
+    "lf_cta"
+  ]
+}

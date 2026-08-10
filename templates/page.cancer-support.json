@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "main": {
+      "type": "cancer-support-page",
+      "blocks": {
+        "care_0": {
+          "type": "care",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0568/0621/1767/files/3337875816847_Cicaplast-Baume-B5-Repairing-Balm_100ml_11_NEW_La-Roche-Posay.jpg?v=1778393862",
+            "title": "Repair & Soothe",
+            "description": "Multi-purpose balm to comfort dry, irritated and reactive areas.",
+            "link": "/collections/la-roche-posay-cicaplast"
+          }
+        },
+        "care_1": {
+          "type": "care",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0568/0621/1767/files/13150757-1775335528714392.jpg?v=1782350417",
+            "title": "Nourish Dry Skin",
+            "description": "Rich, replenishing balm for very dry, tight and uncomfortable skin.",
+            "link": "/collections/la-roche-posay-moisturisers"
+          }
+        },
+        "care_2": {
+          "type": "care",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0568/0621/1767/files/3337875578486_EN_1.jpg?v=1778308822",
+            "title": "Gentle Cleanse",
+            "description": "Soft, fragrance-free cleansing for sensitised, delicate skin.",
+            "link": "/collections/la-roche-posay-cleanser"
+          }
+        },
+        "care_3": {
+          "type": "care",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0568/0621/1767/files/LaRoche-PosayUVAirDailyInvisibleFluidSPF50_40ml.webp?v=1778308124",
+            "title": "Daily Sun Protection",
+            "description": "High broad-spectrum protection for skin made sensitive to UV.",
+            "link": "/collections/la-roche-posay-anthelios"
+          }
+        }
+      },
+      "block_order": [
+        "care_0",
+        "care_1",
+        "care_2",
+        "care_3"
+      ],
+      "settings": {
+        "eyebrow": "La Roche-Posay · Dermatological Care",
+        "heading": "Cancer Support",
+        "subheading": "Gentle, dermatologist-developed skincare to help your skin feel more comfortable during and after cancer treatment.",
+        "hero_image": "shopify://shop_images/la-roche-posay-cancer-support-header-5ppl.jpg",
+        "hero_cta_text": "Explore the Range",
+        "hero_cta_link": "",
+        "intro": "<p>Cancer treatments such as chemotherapy, radiotherapy and targeted therapies can leave skin feeling dry, tight, sensitive and reactive. La Roche-Posay, developed alongside dermatologists and oncology healthcare professionals, offers simple, well-tolerated skincare to help restore comfort — so caring for your skin can be one less thing to worry about.</p>",
+        "note_title": "You are not alone",
+        "note_body": "<p>Looking after your skin can bring a small sense of comfort and routine during a difficult time. Our team is here to help you choose gentle products that feel right for you.</p>",
+        "disclaimer": "",
+        "footer_cta_text": "Shop La Roche-Posay",
+        "footer_cta_link": "",
+        "header_image": "cancer-h-hero.png"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

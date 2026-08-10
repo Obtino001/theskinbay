@@ -1,0 +1,409 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "settings": {
+        "bg": "#F6C21A",
+        "tagline": "The at-home, self-injectable wellness kit everyone's talking about. Pharmaceutical-grade NAD+ that boosts energy, clarity and skin repair, replenished on your own schedule.",
+        "cta_text": "Add to bag",
+        "trust_line": "ISO-certified labs \u00b7 ~100% bioavailability \u00b7 Discreet, tracked UK dispatch"
+      },
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "icon": "bolt",
+            "label": "Energy"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "icon": "sparkle",
+            "label": "Skin renewal"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "icon": "brain",
+            "label": "Clarity"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "icon": "clock",
+            "label": "Longevity"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "nad_trust": {
+      "type": "nad-trust",
+      "settings": {
+        "bg": "#F6C21A"
+      },
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "lab",
+            "title": "Certified labs",
+            "sub": "ISO-certified, batch-tested"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "drop",
+            "title": "~100% bioavailability",
+            "sub": "Bypasses digestion"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Certificate of Analysis",
+            "sub": "Purity on request"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Discreet UK dispatch",
+            "sub": "Tracked delivery"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "settings": {
+        "bg": "#F6C21A",
+        "intro": "NAD+ is the coenzyme every cell uses to make energy and repair itself. Levels fall as we age, replenishing it supports how you feel, think and look."
+      },
+      "blocks": {
+        "b1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "bolt",
+            "title": "Boost energy",
+            "text": "Fuels mitochondrial energy production for sustained, all-day vitality."
+          }
+        },
+        "b2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Skin renewal",
+            "text": "Supports cellular turnover for smoother, more radiant-looking skin."
+          }
+        },
+        "b3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "brain",
+            "title": "Mental clarity",
+            "text": "Helps sharpen focus, memory and cognitive performance."
+          }
+        },
+        "b4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "Age from within",
+            "text": "Powers DNA repair and healthy cellular ageing at the source."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    "nad_if2": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#F6C21A",
+        "image_index": 3,
+        "layout": "left",
+        "eyebrow": "THE RITUAL",
+        "heading": "A few quiet minutes, every other day",
+        "body": "<p>No clinic, no appointments. Each kit comes with everything you need for a hygienic at-home routine, plus a step-by-step guide. Refrigerate on arrival, rotate sites, and let your cells do the rest.</p>"
+      }
+    },
+    "nad_science": {
+      "type": "nad-science",
+      "settings": {
+        "bg": "#F6C21A",
+        "insight": "NAD+ powers the sirtuin and PARP enzymes that regulate cellular repair, inflammation and gene expression. Raising NAD+ availability has been shown to mimic the effects of caloric restriction, extending cellular lifespan and improving metabolic resilience."
+      }
+    },
+    "nad_if3": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#F6C21A",
+        "image_index": 6,
+        "layout": "right",
+        "eyebrow": "WHY SUBCUTANEOUS",
+        "heading": "Close to 100% bioavailability",
+        "body": "<p>Oral supplements are largely broken down in digestion. Delivered subcutaneously, NAD+ reaches your system directly, so cells can start using it straight away for energy and repair.</p>"
+      }
+    },
+    "nad_howto": {
+      "type": "nad-howto",
+      "settings": {
+        "bg": "#F6C21A",
+        "kit_heading": "What's inside the kit",
+        "note": "For adult use only. Consult your practitioner before beginning NAD+ therapy, particularly if pregnant, breastfeeding or managing a health condition."
+      },
+      "blocks": {
+        "k1": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Vial containing 1000mg NAD+"
+          }
+        },
+        "k2": {
+          "type": "kititem",
+          "settings": {
+            "qty": "20 \u00d7",
+            "item": "Micro syringes"
+          }
+        },
+        "k3": {
+          "type": "kititem",
+          "settings": {
+            "qty": "20 \u00d7",
+            "item": "Antibacterial wipes"
+          }
+        },
+        "k4": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Sharps bin for safe disposal"
+          }
+        },
+        "k5": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Step-by-step instruction guide"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4",
+        "k5"
+      ]
+    },
+    "nad_tutorial": {
+      "type": "nad-tutorial",
+      "settings": {
+        "bg": "#F6C21A",
+        "video_id": "QA7y6spItFo",
+        "eyebrow": "NEED A HAND?",
+        "heading": "How to inject, step by step",
+        "sub": "A calm, straightforward walkthrough so your first time feels easy. Watch whenever you need it.",
+        "note": "Always follow the printed guide included in your kit."
+      }
+    },
+    "nad_founder": {
+      "type": "nad-founder",
+      "settings": {
+        "bg": "#F6C21A",
+        "quote": "Energy, brightness, clarity, and if I have a drink, I don't get hangovers anymore. Genuinely one of my favourite things we stock.",
+        "signature": "Emmalee x",
+        "role": "Founder, theskinbay"
+      }
+    },
+    "nad_crosssell": {
+      "type": "nad-crosssell",
+      "settings": {
+        "bg": "#F6C21A",
+        "collection": "l-gluthatione",
+        "more_heading": "You may also love",
+        "max_products": 4,
+        "view_all_url": "/collections/l-gluthatione",
+        "view_all_text": "Shop all L-Glutathione"
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "settings": {
+        "bg": "#F6C21A"
+      },
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "Is NAD+ safe to use at home?",
+            "a": "<p>Yes, when used as directed. Each kit is produced in ISO-certified labs, batch-tested for purity, and includes everything for hygienic self-administration plus a step-by-step guide and video. Always speak to your practitioner first if you are pregnant, breastfeeding or managing a health condition.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How soon will I feel a difference?",
+            "a": "<p>Many people report increased energy, clarity and focus within the first week. NAD+ works best taken consistently across the full protocol.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How often should I use it?",
+            "a": "<p>If it is your first time, use one 0.25ml micro-injection daily for the first three days, then move to every other day. Each vial holds roughly 20 doses.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Why injection instead of a capsule?",
+            "a": "<p>Subcutaneous delivery bypasses the digestive system, where much of an oral dose is broken down. That gives NAD+ close to 100% bioavailability, so your cells can use it straight away.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "Will the injection hurt?",
+            "a": "<p>It can sting slightly and small bruises are not unusual. Take the vial out of the fridge about 30 minutes beforehand, as cold solution stings more. Pinch the skin, insert at a 45 degree angle just under the skin, and rotate sites each time.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "q": "Where is best to inject?",
+            "a": "<p>The needles are for subcutaneous injection, just under the skin into fatty tissue. The stomach, hips or buttocks all work well. Rotate the site with each dose to minimise irritation.</p>"
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "q": "Who is NAD+ not suitable for?",
+            "a": "<p>NAD+ is not suitable for anyone under 18, or with an allergy to NAD+ or sterile solutions. Please avoid it, or speak to your doctor first, if you have or have had: active or previous cancer, pregnancy or breastfeeding, Lyme disease, a recent skin graft, atrial fibrillation, immunosuppression, an organ transplant, or a history of Haemophilus influenzae.</p>"
+          }
+        },
+        "q8": {
+          "type": "qa",
+          "settings": {
+            "q": "Are there any side effects?",
+            "a": "<p>Most people notice none and simply feel alert and energised. Occasionally there can be temporary tiredness for a day or two, or mild sensitivity at the injection site. If that happens, choose a different site next time, and stop if anything feels unusual.</p>"
+          }
+        },
+        "q9": {
+          "type": "qa",
+          "settings": {
+            "q": "What colour should the solution be?",
+            "a": "<p>A transparent liquid that is either colourless or has a light yellow tint. Both are completely normal.</p>"
+          }
+        },
+        "q10": {
+          "type": "qa",
+          "settings": {
+            "q": "How should I store it, and what is the shelf life?",
+            "a": "<p>Refrigerate the vial for optimal freshness. Unopened and stored correctly it keeps its quality for 12 months. NAD+ also stays stable at room temperature for several weeks, so a day in transit is no problem.</p>"
+          }
+        },
+        "q11": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I dispose of the needles and vial?",
+            "a": "<p>Place all used needles and the empty vial into the sharps bin provided, making sure nothing sticks out of the top.</p>"
+          }
+        },
+        "q12": {
+          "type": "qa",
+          "settings": {
+            "q": "How is this different from an IV drip?",
+            "a": "<p>It delivers the same NAD+ benefits with near 100% bioavailability, but on your own schedule and at a fraction of the cost of in-clinic IV therapy. No appointments, no waiting rooms.</p>"
+          }
+        },
+        "q13": {
+          "type": "qa",
+          "settings": {
+            "q": "How is it delivered?",
+            "a": "<p>Discreetly and tracked across the UK, packed with a cool pack to keep it in perfect condition. A Certificate of Analysis is available on request.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9",
+        "q10",
+        "q11",
+        "q12",
+        "q13"
+      ]
+    },
+    "nad_breaker": {
+      "type": "nad-breaker",
+      "settings": {
+        "bg": "#F6C21A",
+        "colour": "black"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_trust",
+    "nad_benefits",
+    "nad_if2",
+    "nad_science",
+    "nad_if3",
+    "nad_howto",
+    "nad_tutorial",
+    "nad_breaker",
+    "nad_founder",
+    "nad_crosssell",
+    "nad_faq"
+  ]
+}

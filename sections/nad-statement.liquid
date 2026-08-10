@@ -1,0 +1,54 @@
+{%- comment -%} NAD bespoke, opening statement banner (text-banner graphic + lede + stat chips) {%- endcomment -%}
+<section class="nad-statement" style="background:{{ section.settings.bg }};">
+  <div class="nadst-wrap">
+    <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;margin:-1px;border:0;">{{ section.settings.hidden_heading }}</h2>
+    <img class="nadst-banner" src="{{ 'nad-h-statement.png' | asset_url }}" alt="{{ section.settings.hidden_heading | escape }}" loading="lazy" width="1500" height="720">
+    {%- if section.settings.lede != blank -%}
+      <p class="nadst-lede">{{ section.settings.lede }}</p>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="nadst-stats">
+        {%- for block in section.blocks -%}
+          <div class="nadst-stat" {{ block.shopify_attributes }}>
+            <span class="nadst-num">{{ block.settings.value }}</span>
+            <span class="nadst-lbl">{{ block.settings.label }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+<style>
+  .nad-visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .nad-statement{padding:58px 20px 34px;}
+  .nadst-wrap{max-width:1180px;margin:0 auto;text-align:center;}
+  .nadst-banner{width:100%;max-width:760px;height:auto;margin:0 auto;display:block;}
+  .nadst-lede{font-family:'Lato',sans-serif;max-width:640px;margin:8px auto 0;color:#141414;font-size:17px;line-height:1.6;}
+  .nadst-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:34px;}
+  .nadst-stat{background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:18px;padding:20px 30px;min-width:152px;}
+  .nadst-num{display:block;font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#141414;line-height:1;}
+  .nadst-lbl{display:block;font-family:'Lato',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6b6b6b;margin-top:9px;}
+  @media(max-width:749px){.nad-statement{padding:34px 16px 26px;}.nadst-num{font-size:24px;}.nadst-stat{padding:13px 18px;min-width:120px;}}
+</style>
+{% schema %}
+{
+  "name": "NAD · Statement",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#FBF8F2" },
+    { "type": "text", "id": "hidden_heading", "label": "Hidden SEO heading", "default": "Cellular energy at home with NAD+" },
+    { "type": "textarea", "id": "lede", "label": "Lede line", "default": "Pharmaceutical-grade NAD+ replenished from the inside out, for energy, clarity, recovery and skin renewal, on your own schedule." }
+  ],
+  "blocks": [
+    { "type": "stat", "name": "Stat chip", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "1000mg" },
+      { "type": "text", "id": "label", "label": "Label", "default": "NAD+ per vial" }
+    ]}
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "NAD · Statement", "blocks": [
+    { "type": "stat", "settings": { "value": "1000mg", "label": "NAD+ per vial" } },
+    { "type": "stat", "settings": { "value": "~100%", "label": "Bioavailability" } },
+    { "type": "stat", "settings": { "value": "20", "label": "Doses per vial" } }
+  ]}]
+}
+{% endschema %}

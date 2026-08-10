@@ -1,0 +1,372 @@
+{% schema %}
+{
+  "name": "Founder Dr Pinnell",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Styles"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Dr Pinnell)"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "OUR FOUNDER: DR. SHELDON PINNELL"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_bio",
+      "label": "Biography Text",
+      "default": "<p>Dr. Sheldon Pinnell was a distinguished member of the Duke University Medical Center faculty for almost 40 years...</p>"
+    },
+    {
+      "type": "header",
+      "content": "The Patent Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_patent",
+      "label": "Show Patent Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "patent_title",
+      "label": "Patent Title",
+      "default": "THE DUKE ANTIOXIDANT PATENT"
+    },
+    {
+      "type": "richtext",
+      "id": "patent_text",
+      "label": "Patent Content",
+      "default": "<p>SkinCeuticals was the first to discover the exact formulation specifications required...</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "patent_image",
+      "label": "Patent/Science Image"
+    },
+    {
+      "type": "header",
+      "content": "Quote Section"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text",
+      "default": "My mission is to improve skin health. Dedicated to this purpose, we make one simple promise, to provide advanced skincare backed by science."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": ", DR. SHELDON PINNELL"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Bottom Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Bottom Button Label",
+      "default": "SHOP SKINCEUTICALS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Timeline Milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year/Era",
+          "default": "1940s - 1960s"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Dr. Pinnell graduates from Duke University..."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Founder Dr Pinnell",
+      "blocks": [
+        {
+          "type": "milestone"
+        },
+        {
+          "type": "milestone"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="tsb-founder-section" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  <div class="page-width tsb-container">
+    
+    <!-- HERO SECTION -->
+    <div class="tsb-hero-grid">
+      <div class="tsb-hero-image">
+        {% if section.settings.hero_image %}
+          <img 
+            src="{{ section.settings.hero_image | image_url: width: 800 }}" 
+            loading="lazy" 
+            alt="{{ section.settings.hero_image.alt | escape }}"
+            width="{{ section.settings.hero_image.width }}"
+            height="{{ section.settings.hero_image.height }}"
+          >
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+      <div class="tsb-hero-content">
+        <img class="sk-hbanner" src="{{ 'skc-h-hero.png' | asset_url }}" alt="SkinCeuticals Founder: Dr. Sheldon Pinnell">
+        <h1 class="h2 tsb-title sk-hvh">{{ section.settings.hero_title }}</h1>
+        <div class="rte tsb-text">
+          {{ section.settings.hero_bio }}
+        </div>
+      </div>
+    </div>
+
+    <!-- PATENT SECTION -->
+    {% if section.settings.show_patent %}
+    <div class="tsb-patent-section">
+      <div class="tsb-patent-content">
+        <img class="sk-hbanner" src="{{ 'skc-h-patent.png' | asset_url }}" alt="A life dedicated to research">
+        <h2 class="h3 tsb-subtitle sk-hvh">{{ section.settings.patent_title }}</h2>
+        <div class="rte tsb-text">
+          {{ section.settings.patent_text }}
+        </div>
+      </div>
+      <div class="tsb-patent-image">
+         {% if section.settings.patent_image %}
+          <img 
+            src="{{ section.settings.patent_image | image_url: width: 800 }}" 
+            loading="lazy" 
+            alt="{{ section.settings.patent_image.alt | escape }}"
+             width="{{ section.settings.patent_image.width }}"
+            height="{{ section.settings.patent_image.height }}"
+          >
+        {% else %}
+          <div class="tsb-placeholder-box">Image</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- TIMELINE SECTION -->
+    {% if section.blocks.size > 0 %}
+    <div class="tsb-timeline-section">
+      <img class="sk-hbanner" src="{{ 'skc-h-milestones.png' | asset_url }}" alt="Career Milestones">
+      <h3 class="h3 tsb-subtitle text-center sk-hvh">CAREER MILESTONES</h3>
+      <div class="tsb-timeline-grid">
+        {% for block in section.blocks %}
+          <div class="tsb-timeline-item" {{ block.shopify_attributes }}>
+            <div class="tsb-year">{{ block.settings.year }}</div>
+            <div class="tsb-milestone-desc">{{ block.settings.description }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- QUOTE SECTION -->
+    <div class="tsb-quote-section">
+      <blockquote>
+        "{{ section.settings.quote_text }}"
+      </blockquote>
+      <cite>{{ section.settings.quote_author }}</cite>
+      
+      {% if section.settings.button_link != blank %}
+        <div class="tsb-cta-wrapper">
+          <a href="{{ section.settings.button_link }}" class="button btn primary-button">
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .sk-hbanner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 12px;}
+  .sk-hvh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  /* Base Styles to Match Skin Bay / Shopify Theme Defaults */
+  .tsb-founder-section {
+    padding: 60px 0;
+    overflow: hidden;
+  }
+  
+  .tsb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .tsb-title {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .tsb-subtitle {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  .tsb-text p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+
+  /* Grid Layouts */
+  .tsb-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+  
+  .tsb-hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .tsb-patent-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    background: #f9f9f9; /* Light grey accent typical of skin brands */
+    padding: 40px;
+    margin-bottom: 80px;
+  }
+
+  /* Timeline */
+  .tsb-timeline-section {
+    margin-bottom: 80px;
+  }
+  
+  .text-center { text-align: center; }
+
+  .tsb-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .tsb-timeline-item {
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .tsb-year {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: inherit;
+    opacity: 0.8;
+  }
+
+  /* Quote */
+  .tsb-quote-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+
+  .tsb-quote-section blockquote {
+    font-family: serif; /* Often used for quotes even on sans sites */
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-style: italic;
+    margin-bottom: 20px;
+    border: none;
+    padding: 0;
+  }
+
+  .tsb-quote-section cite {
+    display: block;
+    font-style: normal;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .tsb-cta-wrapper {
+    margin-top: 20px;
+  }
+
+  /* Placeholder */
+  .tsb-placeholder-box {
+    background: #e1e1e1;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+  }
+
+  /* Responsive Mobile */
+  @media only screen and (max-width: 749px) {
+    .tsb-hero-grid.tsb-patent-section {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .tsb-patent-section {
+      /* Reorder so text is above image on mobile if desired */
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .tsb-founder-section {
+      padding: 30px 0;
+    }
+  }
+</style>

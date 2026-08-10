@@ -1,0 +1,154 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_UfcDyT": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>{{ closest.page.title }}</p>{{ closest.page.content }}",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_UfcDyT"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "retinol_section_ncxE93": {
+      "type": "retinol-section",
+      "blocks": {
+        "benefit_7PxxwP": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Cellular Renewal",
+            "benefit_desc": "Accelerates the skin's natural turnover process to shed dead cells and reveal fresher skin."
+          }
+        },
+        "benefit_NWiiRC": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Collagen Boost",
+            "benefit_desc": "Stimulates collagen synthesis to thicken the skin and reduce the depth of wrinkles."
+          }
+        },
+        "benefit_LqRJ4j": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Clearer Pores",
+            "benefit_desc": "Helps unclog pores and regulate oil production, reducing acne breakouts and texture."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_7PxxwP",
+        "benefit_NWiiRC",
+        "benefit_LqRJ4j"
+      ],
+      "name": "Skin Bay Retinol",
+      "settings": {
+        "title_size_d": 28,
+        "title_size_m": 20,
+        "subtitle_size_d": 14,
+        "subtitle_size_m": 12,
+        "h2_size_d": 23,
+        "h2_size_m": 20,
+        "body_size_d": 15,
+        "body_size_m": 14,
+        "card_title_size": 18,
+        "padding_top": 15,
+        "padding_bottom": 15,
+        "padding_top_m": 5,
+        "padding_bottom_m": 5,
+        "internal_spacing": 80,
+        "bg_color": "#ffffff",
+        "text_color": "#333333",
+        "heading_color": "#000000",
+        "accent_color": "#3F2A56",
+        "card_bg": "#f9f8fa",
+        "border_color": "#eee",
+        "subtitle": "The Age-Defying Standard",
+        "title": "Retinol Complex",
+        "intro_text": "<p>Experience the transformative power of the industry’s most researched ingredient. Designed to accelerate cellular turnover, Retinol reveals a smoother, more youthful complexion beneath the surface.</p>",
+        "hero_image": "shopify://shop_images/image5_dbb1b08f-1a49-4980-9d19-bc15e43b8eea.webp",
+        "show_cta": true,
+        "cta_text": "shop now",
+        "cta_link": "shopify://collections/retinol",
+        "definition_title": "What Is Retinol?",
+        "definition_text": "<p>Retinol is a form of Vitamin A, a nutrient essential for skin health. Unlike exfoliants that work on the surface, Retinol operates at a cellular level. It penetrates deep into the dermis to neutralize free radicals and boost the production of elastin and collagen, creating a 'plumping' effect that reduces the appearance of fine lines, wrinkles, and enlarged pores.</p>",
+        "benefits_title": "Visible Results",
+        "ritual_title": "Usage Protocol",
+        "ritual_text": "<p>Apply a pea-sized amount to clean, dry skin only at night. If you are new to Retinol, start by using it twice a week to allow your skin to adjust, then gradually increase frequency. It is vital to use a broad-spectrum sunscreen every morning, as Retinol can increase skin sensitivity to the sun.</p>",
+        "alert_text": "Note: Do not use simultaneously with Vitamin C or AHAs."
+      }
+    },
+    "sliding_feature_tTUPVN": {
+      "type": "sliding-feature",
+      "name": "Collection Banner Slider",
+      "settings": {
+        "collection": "retinol",
+        "product_limit": 8,
+        "desktop_height": 450,
+        "banner_width": 33,
+        "mobile_banner_height": 350,
+        "banner_image": "shopify://shop_images/retinol-lead-1569604457.avif",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "banner_text_color": "#ffffff",
+        "banner_heading": "Retinol",
+        "heading_size": 36,
+        "banner_text": "Retinol and retinoids are derivatives of vitamin A that improve the biological condition of the skin, diminishing blemishes and making it look smoother.",
+        "desc_size": 16,
+        "btn_text": "SHOP NOW",
+        "btn_size": 14,
+        "btn_link": "shopify://collections/retinol",
+        "bg_color": "#ffffff",
+        "pt_desk": 36,
+        "pb_desk": 36,
+        "pt_mob": 20,
+        "pb_mob": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "retinol_section_ncxE93",
+    "sliding_feature_tTUPVN"
+  ]
+}

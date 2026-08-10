@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "lib": {
+      "type": "ingredients-library",
+      "settings": {}
+    }
+  },
+  "order": [
+    "lib"
+  ]
+}

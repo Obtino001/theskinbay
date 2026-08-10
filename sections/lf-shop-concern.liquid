@@ -1,0 +1,168 @@
+<style>
+  .lf-hp *, .lf-hp *::before, .lf-hp *::after { box-sizing:border-box; }
+  .lf-hp a { text-decoration:none; }
+  .lf-inner { max-width:1560px; margin:0 auto; padding:0 40px; }
+  .lf-section-eyebrow { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,0,0,.35); display:block; }
+  .lf-section-title   { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; letter-spacing:-.015em; color:#111; margin:0; line-height:1.1; }
+  .lf-section-header  { display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; margin-bottom:44px; }
+  .lf-view-all        { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5625rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.45); border-bottom:1px solid rgba(0,0,0,.2); padding-bottom:1px; transition:color .15s; white-space:nowrap; }
+  .lf-view-all:hover  { color:#000; border-color:#000; }
+
+  .lf-concerns-section { padding:56px 0; background:#fff; }
+  /* carousel (chip cards, matches collection slider) */
+  .lf-concern-carousel { position:relative; max-width:1320px; margin:22px auto 0; padding:0 20px; }
+  .lf-concern-vp { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; cursor:grab; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; }
+  .lf-concern-vp::-webkit-scrollbar { display:none; }
+  .lf-concern-vp:active { cursor:grabbing; }
+  .lf-concerns-grid { display:flex; gap:14px; padding:4px 2px; }
+  .lf-concern-card { flex:0 0 210px; scroll-snap-align:start; display:block; overflow:hidden; position:relative; border-radius:16px; background:#1c1c1c; }
+  .lf-concern-img-wrap { position:relative; aspect-ratio:4/5; overflow:hidden; background:#1a1a1a; }
+  .lf-concern-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
+  .lf-concern-card:hover .lf-concern-img { transform:scale(1.06); }
+  .lf-concern-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.62) 0%,rgba(0,0,0,.12) 55%,rgba(0,0,0,0) 100%); }
+  .lf-concern-name { position:absolute; bottom:0; left:0; right:0; padding:16px 16px 18px; font-family:'Lato',var(--font-body--family),sans-serif; font-size:14px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#fff; text-align:left; z-index:2; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+  .lf-concern-placeholder { position:absolute; inset:0; }
+  .lf-concern-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:42px; height:42px; border-radius:50%; border:1.5px solid rgba(20,20,20,.14); background:#fff; color:#141414; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,.1); transition:background .2s,color .2s; }
+  .lf-concern-arrow:hover { background:#141414; color:#fff; }
+  .lf-concern-arrow--prev { left:-10px; } .lf-concern-arrow--next { right:-10px; }
+
+  @media (max-width:749px)  { .lf-concerns-section { padding:36px 0; } .lf-concern-carousel { padding:0 12px; } .lf-concern-card { flex:0 0 150px; border-radius:14px; } .lf-concerns-grid { gap:10px; } .lf-concern-arrow { display:none; } .lf-inner { padding:0 20px; } .lf-section-header { align-items:center; } }
+</style>
+
+<div class="lf-hp">
+  {%- assign _concern_blocks = section.blocks | where: 'type', 'concern' -%}
+  <section class="lf-concerns-section">
+    <div class="lf-inner">
+      <div class="lf-section-header">
+        <div>
+          {%- if section.settings.header_image != blank -%}
+            <h2 class="lf-section-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">{{ section.settings.heading | default: 'Shop by Concern' | strip_html }}</h2>
+            <img class="lf-hdr-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | default: 'Shop by Concern' | strip_html | escape }}" width="1500" height="340" style="display:block;width:min(420px,80vw);max-width:none;height:auto;">
+          {%- else -%}
+            <span class="lf-section-eyebrow">{{ section.settings.eyebrow | default: 'Find your routine' }}</span>
+            <h2 class="lf-section-title">{{ section.settings.heading | default: 'Shop by Concern' }}</h2>
+          {%- endif -%}
+        </div>
+        <a href="{{ section.settings.view_all_link | default: '/collections/all' }}" class="lf-view-all">{{ section.settings.view_all_label | default: 'View all' }}</a>
+      </div>
+      <div class="lf-concern-carousel">
+      <button type="button" class="lf-concern-arrow lf-concern-arrow--prev" aria-label="Scroll left" data-cc-prev>&#8249;</button>
+      <div class="lf-concern-vp" id="lf-cc-vp-{{ section.id }}">
+      <div class="lf-concerns-grid">
+        {%- if _concern_blocks.size > 0 -%}
+          {%- for block in _concern_blocks -%}
+            {%- assign _c = collections[block.settings.collection] -%}
+            {%- assign _label = block.settings.label -%}
+            {%- if _label == blank and _c != blank -%}{%- assign _label = _c.title -%}{%- endif -%}
+            {%- assign _href = block.settings.link -%}
+            {%- if _href == blank and _c != blank -%}{%- assign _href = _c.url -%}{%- endif -%}
+            <a href="{{ _href | default: '#' }}" class="lf-concern-card" {{ block.shopify_attributes }}>
+              <div class="lf-concern-img-wrap">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ _label | escape }}" class="lf-concern-img" loading="lazy">
+                {%- elsif _c.image != blank -%}
+                  <img src="{{ _c.image | image_url: width: 500 }}" alt="{{ _label | escape }}" class="lf-concern-img" loading="lazy">
+                {%- elsif _c.products.first.featured_image != blank -%}
+                  <img src="{{ _c.products.first.featured_image | image_url: width: 500 }}" alt="{{ _label | escape }}" class="lf-concern-img" loading="lazy">
+                {%- else -%}
+                  <div class="lf-concern-placeholder" style="background:linear-gradient(160deg,#3d2b1e,#5a3d2a);"></div>
+                {%- endif -%}
+                <div class="lf-concern-overlay"></div>
+                <span class="lf-concern-name">{{ _label }}</span>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign _concern_links = nil -%}
+          {%- for _nl in linklists['main-menu'].links -%}
+            {%- unless _concern_links -%}
+              {%- assign _nlh = _nl.title | handleize -%}
+              {%- if _nlh contains 'concern' -%}{%- assign _concern_links = _nl.links -%}
+              {%- else -%}
+                {%- for _cl in _nl.links -%}{%- unless _concern_links -%}{%- assign _clh = _cl.title | handleize -%}{%- if _clh contains 'concern' -%}{%- assign _concern_links = _cl.links -%}{%- endif -%}{%- endunless -%}{%- endfor -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- assign _fb = 'pigmentation|Pigmentation,ageing|Ageing,acne|Acne,barrier-repair|Barrier Repair,spf|SPF,hydration|Hydration' | split: ',' -%}
+          {%- assign _src = _concern_links | default: _fb -%}
+          {%- for entry in _src -%}
+            {%- if _concern_links -%}
+              {%- assign c_handle = entry.url | split: '/collections/' | last | split: '?' | first -%}
+              {%- assign c_name = entry.title -%}
+              {%- assign c_url = entry.url -%}
+            {%- else -%}
+              {%- assign _ep = entry | split: '|' -%}
+              {%- assign c_handle = _ep[0] -%}
+              {%- assign c_name = _ep[1] -%}
+              {%- assign c_url = '/collections/' | append: c_handle -%}
+            {%- endif -%}
+            {%- assign c_col = collections[c_handle] -%}
+            {%- assign c_idx = forloop.index -%}
+            <a href="{{ c_url }}" class="lf-concern-card">
+              <div class="lf-concern-img-wrap">
+                {%- if c_col.image != blank -%}
+                  <img src="{{ c_col.image | image_url: width: 500 }}" alt="{{ c_name | escape }}" class="lf-concern-img" loading="lazy">
+                {%- elsif c_col.products.first.featured_image != blank -%}
+                  <img src="{{ c_col.products.first.featured_image | image_url: width: 500 }}" alt="{{ c_name | escape }}" class="lf-concern-img" loading="lazy">
+                {%- else -%}
+                  {%- case c_idx -%}{%- when 1 -%}<div class="lf-concern-placeholder" style="background:linear-gradient(160deg,#3d2b1e,#5a3d2a);"></div>{%- when 2 -%}<div class="lf-concern-placeholder" style="background:linear-gradient(160deg,#251a2e,#3d2844);"></div>{%- when 3 -%}<div class="lf-concern-placeholder" style="background:linear-gradient(160deg,#1a2828,#1e3a30);"></div>{%- else -%}<div class="lf-concern-placeholder" style="background:linear-gradient(160deg,#1a2030,#202840);"></div>{%- endcase -%}
+                {%- endif -%}
+                <div class="lf-concern-overlay"></div>
+                <span class="lf-concern-name">{{ c_name }}</span>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      </div>
+      <button type="button" class="lf-concern-arrow lf-concern-arrow--next" aria-label="Scroll right" data-cc-next>&#8250;</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var vp=document.getElementById('lf-cc-vp-{{ section.id }}');
+  if(!vp) return;
+  var wrap=vp.closest('.lf-concern-carousel');
+  var down=false,sx=0,sl=0,moved=false;
+  vp.addEventListener('mousedown',function(e){down=true;moved=false;sx=e.pageX-vp.offsetLeft;sl=vp.scrollLeft;});
+  vp.addEventListener('mouseleave',function(){down=false;});
+  vp.addEventListener('mouseup',function(){down=false;});
+  vp.addEventListener('mousemove',function(e){if(!down)return;e.preventDefault();moved=true;vp.scrollLeft=sl-(e.pageX-vp.offsetLeft-sx)*1.4;});
+  vp.addEventListener('click',function(e){if(moved)e.preventDefault();},true);
+  function step(){var c=vp.querySelector('.lf-concern-card');return c?c.offsetWidth*2+28:420;}
+  var pv=wrap.querySelector('[data-cc-prev]'),nx=wrap.querySelector('[data-cc-next]');
+  if(pv)pv.addEventListener('click',function(){vp.scrollBy({left:-step(),behavior:'smooth'});});
+  if(nx)nx.addEventListener('click',function(){vp.scrollBy({left:step(),behavior:'smooth'});});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Concern",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow",       "label": "Pre-heading",    "default": "Find your routine" },
+    { "type": "text", "id": "heading",        "label": "Heading",        "default": "Shop by Concern" },
+    { "type": "text", "id": "header_image",   "label": "Header banner asset (blank = text)" },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "View all" },
+    { "type": "url",  "id": "view_all_link",  "label": "View all link" }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Concern",
+      "settings": [
+        { "type": "collection",  "id": "collection", "label": "Collection" },
+        { "type": "text",        "id": "label",      "label": "Label override" },
+        { "type": "image_picker","id": "image",      "label": "Image override" },
+        { "type": "url",         "id": "link",       "label": "Link override" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Shop by Concern" }]
+}
+{% endschema %}

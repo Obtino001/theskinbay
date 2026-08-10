@@ -1,0 +1,217 @@
+<style>
+  .lf-hp *, .lf-hp *::before, .lf-hp *::after { box-sizing: border-box; }
+  .lf-hp a { text-decoration: none; }
+  .lf-inner { max-width: 1560px; margin: 0 auto; padding: 0 40px; }
+  .lf-btn { display:inline-block; padding:13px 36px; font-family:'Lato',var(--font-body--family),sans-serif; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; text-decoration:none; border-radius:0; transition:background .18s,color .18s,border-color .18s; cursor:pointer; white-space:nowrap; line-height:1; border:1px solid transparent; }
+  .lf-btn--dark  { background:#000; color:#fff; border-color:#000; }
+  .lf-btn--dark:hover { background:transparent; color:#000; }
+
+  /* ── Brand statement ─────────────────────────────────────── */
+  .lf-brand-stmt { padding: 36px 40px 32px; text-align: center; background: #fff; border-top: 1px solid rgba(0,0,0,.05); }
+  .lf-brand-stmt__eyebrow { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,0,0,.35); display:block; margin-bottom:10px; }
+  .lf-brand-stmt__heading { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; line-height:1.08; color:#0c0c0c; margin:0 0 12px; letter-spacing:-.015em; }
+  .lf-brand-stmt__body { font-size:.875rem; color:rgba(0,0,0,.5); line-height:1.6; max-width:520px; margin:0 auto 22px; }
+
+  /* ── Brand carousel (chip cards, matches collection slider) ── */
+  .lf-brand-carousel { background:#fff; position:relative; padding:0 20px 6px; }
+  .lf-bc-wrap { position:relative; max-width:1320px; margin:0 auto; }
+  .lf-bc-viewport { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; cursor:grab; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; }
+  .lf-bc-viewport::-webkit-scrollbar { display:none; }
+  .lf-bc-viewport:active { cursor:grabbing; }
+  .lf-bc-strip { display:flex; gap:14px; padding:4px 2px; }
+  .lf-bc-card {
+    flex:0 0 210px; scroll-snap-align:start;
+    position:relative; display:block; overflow:hidden; aspect-ratio:4/5; border-radius:16px; text-decoration:none; background:#1c1c1c;
+  }
+  .lf-bc-img-wrap { position:absolute; inset:0; }
+  .lf-bc-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
+  .lf-bc-card:hover .lf-bc-img { transform:scale(1.06); }
+  .lf-bc-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.62) 0%,rgba(0,0,0,.12) 55%,rgba(0,0,0,0) 100%); }
+  .lf-bc-placeholder { position:absolute; inset:0; background:linear-gradient(160deg,#2a2320,#4a3d33); }
+  .lf-bc-content { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:16px 16px 18px; pointer-events:none; }
+  .lf-bc-name { font-family:'Lato',var(--font-body--family),sans-serif; font-size:14px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#fff; text-align:left; line-height:1.25; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+  .lf-bc-shop { font-family:'Lato',var(--font-body--family),sans-serif; font-size:10px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,0); transition:color .3s ease; }
+  .lf-bc-card:hover .lf-bc-shop { color:rgba(255,255,255,.85); }
+  .lf-bc-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:42px; height:42px; border-radius:50%; border:1.5px solid rgba(20,20,20,.14); background:#fff; color:#141414; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,.1); transition:background .2s,color .2s; }
+  .lf-bc-arrow:hover { background:#141414; color:#fff; }
+  .lf-bc-arrow--prev { left:-10px; } .lf-bc-arrow--next { right:-10px; }
+
+  @media (max-width:749px)  { .lf-brand-carousel { padding:0 12px 4px; } .lf-bc-card { flex:0 0 150px; border-radius:14px; } .lf-bc-strip { gap:10px; } .lf-bc-arrow { display:none; } .lf-brand-stmt { padding:24px 24px 20px; } }
+</style>
+
+<div class="lf-hp">
+  {%- assign _brand_blocks = section.blocks | where: 'type', 'brand' -%}
+
+  {%- comment -%}── Brand statement header ──────────────────────────────{%- endcomment -%}
+  <section class="lf-brand-stmt">
+    {%- if section.settings.header_image != blank -%}
+      <h2 class="lf-brand-stmt__heading" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">{{ section.settings.heading | default: 'Shop by Brand' | strip_html }}</h2>
+      <img class="lf-hdr-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | default: 'Shop by Brand' | strip_html | escape }}" width="1500" height="340" style="display:block;width:min(420px,80vw);max-width:none;height:auto;margin:0 auto;">
+    {%- else -%}
+      <span class="lf-brand-stmt__eyebrow">{{ section.settings.eyebrow | default: 'Premium brands' }}</span>
+      <h2 class="lf-brand-stmt__heading">{{ section.settings.heading | default: 'Shop by Brand' }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <p class="lf-brand-stmt__body">{{ section.settings.body }}</p>
+    {%- endif -%}
+    <a href="{{ section.settings.view_all_link | default: '/collections/brands' }}" class="lf-btn lf-btn--dark">{{ section.settings.view_all_label | default: 'View All Brands' }}</a>
+  </section>
+
+  {%- comment -%}── Brand carousel ──────────────────────────────────────{%- endcomment -%}
+  {%- assign _ov_color   = section.settings.overlay_color   | default: '#000000' -%}
+  {%- assign _ov_opacity = section.settings.overlay_opacity | default: 52 | times: 1 -%}
+  {%- assign _ov_opacity_dec = _ov_opacity | divided_by: 100.0 -%}
+
+  <section class="lf-brand-carousel" id="lf-bc-{{ section.id }}">
+    <div class="lf-bc-wrap">
+    <button type="button" class="lf-bc-arrow lf-bc-arrow--prev" aria-label="Scroll left" data-bc-prev>&#8249;</button>
+    <div class="lf-bc-viewport" id="lf-bc-vp-{{ section.id }}">
+      <div class="lf-bc-strip">
+
+        {%- if _brand_blocks.size > 0 -%}
+          {%- comment -%} Render editor blocks ─────────────────────────{%- endcomment -%}
+          {%- for block in _brand_blocks -%}
+            {%- assign _b_ov_c = block.settings.overlay_color   | default: _ov_color -%}
+            {%- assign _b_ov_o = block.settings.overlay_opacity -%}
+            {%- if _b_ov_o == blank or _b_ov_o == '' -%}{%- assign _b_ov_o = _ov_opacity -%}{%- endif -%}
+            {%- assign _b_ov_dec = _b_ov_o | times: 1 | divided_by: 100.0 -%}
+            <a href="{{ block.settings.url | default: '/collections/all' }}" class="lf-bc-card" {{ block.shopify_attributes }}>
+              <div class="lf-bc-img-wrap">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 700 }}"
+                       alt="{{ block.settings.name | escape }}" class="lf-bc-img" loading="lazy">
+                {%- else -%}
+                  <div class="lf-bc-placeholder"></div>
+                {%- endif -%}
+              </div>
+              <div class="lf-bc-overlay"></div>
+              <div class="lf-bc-content">
+                <span class="lf-bc-name">{{ block.settings.name | default: 'Brand' }}</span>
+                <span class="lf-bc-shop">Explore &rarr;</span>
+              </div>
+            </a>
+          {%- endfor -%}
+
+        {%- else -%}
+          {%- comment -%} Auto-populate from nav menu ─────────────────{%- endcomment -%}
+          {%- assign _hp_menu = linklists['main-menu'] -%}
+          {%- assign _bc_priority = 'skinceuticals|cliniccare|medik8|nad-at-home|avene|voya|vichy|la-roche-posay|skinade|jane-iredale|vita-liberata|cebelia|caromed-italia|olaplex|amalian' | split: '|' -%}
+          {%- assign _hp_brands_list = nil -%}
+          {%- for _nl in _hp_menu.links -%}
+            {%- assign _nl_h = _nl.title | handleize -%}
+            {%- if _nl_h == 'brands' -%}{%- assign _hp_brands_list = _nl.links -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+          {%- for _bc_slug in _bc_priority -%}
+            {%- for brand in _hp_brands_list -%}
+              {%- assign _bh = brand.url | split: '/collections/' | last -%}
+              {%- assign _bth = brand.title | handleize -%}
+              {%- if _bh == _bc_slug or _bth == _bc_slug -%}
+                {%- assign bc_col = collections[_bh] -%}
+                <a href="{{ brand.url }}" class="lf-bc-card">
+                  <div class="lf-bc-img-wrap">
+                    {%- if bc_col.image != blank -%}
+                      <img src="{{ bc_col.image | image_url: width: 700 }}" alt="{{ brand.title | escape }}" class="lf-bc-img" loading="lazy">
+                    {%- elsif bc_col.products.first.featured_image != blank -%}
+                      <img src="{{ bc_col.products.first.featured_image | image_url: width: 700 }}" alt="{{ brand.title | escape }}" class="lf-bc-img" loading="lazy">
+                    {%- else -%}
+                      <div class="lf-bc-placeholder"></div>
+                    {%- endif -%}
+                  </div>
+                  <div class="lf-bc-overlay"></div>
+                  <div class="lf-bc-content">
+                    <span class="lf-bc-name">{{ brand.title }}</span>
+                    <span class="lf-bc-shop">Explore &rarr;</span>
+                  </div>
+                </a>
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- for brand in _hp_brands_list -%}
+            {%- assign _bh = brand.url | split: '/collections/' | last -%}
+            {%- assign _bth = brand.title | handleize -%}
+            {%- unless _bc_priority contains _bh or _bc_priority contains _bth -%}
+              {%- assign bc_col = collections[_bh] -%}
+              <a href="{{ brand.url }}" class="lf-bc-card">
+                <div class="lf-bc-img-wrap">
+                  {%- if bc_col.image != blank -%}
+                    <img src="{{ bc_col.image | image_url: width: 700 }}" alt="{{ brand.title | escape }}" class="lf-bc-img" loading="lazy">
+                  {%- elsif bc_col.products.first.featured_image != blank -%}
+                    <img src="{{ bc_col.products.first.featured_image | image_url: width: 700 }}" alt="{{ brand.title | escape }}" class="lf-bc-img" loading="lazy">
+                  {%- else -%}
+                    <div class="lf-bc-placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="lf-bc-overlay"></div>
+                <div class="lf-bc-content">
+                  <span class="lf-bc-name">{{ brand.title }}</span>
+                  <span class="lf-bc-shop">Explore &rarr;</span>
+                </div>
+              </a>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+      </div>
+    </div>
+    <button type="button" class="lf-bc-arrow lf-bc-arrow--next" aria-label="Scroll right" data-bc-next>&#8250;</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function() {
+  var vp = document.getElementById('lf-bc-vp-{{ section.id }}');
+  if (!vp) return;
+  var wrap = vp.closest('.lf-bc-wrap');
+  var down = false, sx = 0, sl = 0;
+  vp.addEventListener('mousedown', function(e){ down=true; sx=e.pageX-vp.offsetLeft; sl=vp.scrollLeft; });
+  vp.addEventListener('mouseleave', function(){ down=false; });
+  vp.addEventListener('mouseup',   function(){ down=false; });
+  vp.addEventListener('mousemove', function(e){
+    if(!down) return; e.preventDefault();
+    vp.scrollLeft = sl - (e.pageX-vp.offsetLeft-sx)*1.4;
+  });
+  vp.querySelectorAll('.lf-bc-card').forEach(function(c){
+    c.addEventListener('click', function(e){ if(Math.abs(vp.scrollLeft-sl) > 6) e.preventDefault(); });
+  });
+  function step(){ var c=vp.querySelector('.lf-bc-card'); return c ? c.offsetWidth*2+28 : 420; }
+  var pv=wrap.querySelector('[data-bc-prev]'), nx=wrap.querySelector('[data-bc-next]');
+  if(pv) pv.addEventListener('click', function(){ vp.scrollBy({left:-step(),behavior:'smooth'}); });
+  if(nx) nx.addEventListener('click', function(){ vp.scrollBy({left:step(),behavior:'smooth'}); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Brand Showcase",
+  "tag": "div",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text",     "id": "eyebrow",       "label": "Pre-heading",   "default": "Premium brands" },
+    { "type": "text",     "id": "heading",        "label": "Heading",       "default": "Shop by Brand" },
+    { "type": "text",     "id": "header_image",   "label": "Header banner asset (blank = text)" },
+    { "type": "textarea", "id": "body",           "label": "Body text",     "default": "Discover clinically curated skincare from the world's leading dermatology brands." },
+    { "type": "text",     "id": "view_all_label", "label": "Button label",  "default": "View All Brands" },
+    { "type": "url",      "id": "view_all_link",  "label": "Button link" },
+    { "type": "header",   "content": "Default overlay" },
+    { "type": "color",    "id": "overlay_color",   "label": "Overlay colour",   "default": "#000000" },
+    { "type": "range",    "id": "overlay_opacity", "label": "Overlay opacity %", "min": 0, "max": 100, "step": 1, "default": 52 }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand Card",
+      "settings": [
+        { "type": "image_picker", "id": "image",           "label": "Brand image" },
+        { "type": "text",         "id": "name",            "label": "Brand name" },
+        { "type": "url",          "id": "url",             "label": "Link" },
+        { "type": "color",        "id": "overlay_color",   "label": "Overlay colour (overrides default)", "default": "#000000" },
+        { "type": "range",        "id": "overlay_opacity", "label": "Overlay opacity % (overrides default)", "min": 0, "max": 100, "step": 1, "default": 52 }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [{ "name": "Brand Showcase" }]
+}
+{% endschema %}

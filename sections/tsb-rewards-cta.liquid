@@ -1,0 +1,156 @@
+<style>
+  .tsb-rcta *.tsb-rcta *::before.tsb-rcta *::after { box-sizing: border-box; }
+  .tsb-rcta a { text-decoration: none; }
+
+  .tsb-rcta-section {
+    background: #000;
+    padding: 112px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .tsb-rcta-deco {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 50%, rgba(234,222,176,0.05) 0%, transparent 100%);
+  }
+  .tsb-rcta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .tsb-rcta-eyebrow {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: block;
+    margin-bottom: 20px;
+  }
+  .tsb-rcta-h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 8px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .tsb-rcta-script {
+    font-family: 'Playfair Display', 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+    color: #EADEB0;
+    display: block;
+    margin-bottom: 28px;
+    line-height: 1.3;
+  }
+  .tsb-rcta-rule {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 auto 28px;
+  }
+  .tsb-rcta-body {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.85;
+    margin: 0 0 44px;
+  }
+  .tsb-rcta-btns {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tsb-rcta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 38px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .tsb-rcta-btn-primary {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+  .tsb-rcta-btn-primary:hover {
+    background: transparent;
+    color: #fff;
+  }
+  .tsb-rcta-btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.25);
+  }
+  .tsb-rcta-btn-secondary:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+  .tsb-rcta-note {
+    margin-top: 28px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 599px) {
+    .tsb-rcta-section { padding: 80px 0; }
+    .tsb-rcta-btns { flex-direction: column; align-items: center; }
+    .tsb-rcta-btn { width: 100%; max-width: 280px; }
+  }
+</style>
+
+<section class="tsb-rcta-section">
+  <div class="tsb-rcta-deco" aria-hidden="true"></div>
+  <div class="tsb-rcta-content">
+    {%- render 'sb-brand-heading', image: 'rwd-h-cta.png', text: 'Become a Member Today', tag: 'h2', max: 440 -%}
+    <div class="tsb-rcta-rule" aria-hidden="true"></div>
+    <p class="tsb-rcta-body">{{ section.settings.body | default: 'Membership is complimentary and instant. Start earning on your very next order.' }}</p>
+    <div class="tsb-rcta-btns">
+      {%- if section.settings.primary_label != blank -%}
+        <a href="{{ section.settings.primary_url | default: '/account/register' }}" class="tsb-rcta-btn tsb-rcta-btn-primary">{{ section.settings.primary_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        <a href="{{ section.settings.secondary_url | default: '/account/login' }}" class="tsb-rcta-btn tsb-rcta-btn-secondary">{{ section.settings.secondary_label }}</a>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.note != blank -%}
+      <p class="tsb-rcta-note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rewards, CTA",
+  "tag": "div",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",        "label": "Eyebrow",              "default": "Begin Your Journey" },
+    { "type": "text",     "id": "heading",         "label": "Heading (Playfair Display)",   "default": "Become a Member" },
+    { "type": "text",     "id": "script_line",     "label": "Script accent (Sloop)","default": "Today." },
+    { "type": "textarea", "id": "body",            "label": "Body copy",            "default": "Membership is complimentary and instant. Start earning on your very next order." },
+    { "type": "text",     "id": "primary_label",   "label": "Primary button label", "default": "Create Your Account" },
+    { "type": "url",      "id": "primary_url",     "label": "Primary button link" },
+    { "type": "text",     "id": "secondary_label", "label": "Secondary button label","default": "Sign In" },
+    { "type": "url",      "id": "secondary_url",   "label": "Secondary button link" },
+    { "type": "text",     "id": "note",            "label": "Small print note",     "default": "Free to join. No minimum spend required." }
+  ],
+  "presets": [{ "name": "Rewards, CTA" }]
+}
+{% endschema %}

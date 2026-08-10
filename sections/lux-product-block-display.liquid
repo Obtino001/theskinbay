@@ -1,0 +1,645 @@
+{% render 'product-schema' %}
+{% assign sb_uid = section.id | replace: '_', '' | downcase %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --page-bg: {{ section.settings.page_bg | default: '#ffffff' }};
+  --box-bg: {{ section.settings.box_bg | default: '#f9f8f6' }};
+  --accent: {{ section.settings.accent_color | default: '#000000' }};
+  --text: {{ section.settings.text_color | default: '#1a1a1a' }};
+  --btn-text: {{ section.settings.btn_text_color | default: '#ffffff' }};
+  --sb-body: 'Lato', sans-serif;
+}
+
+.omni-perfect-{{sb_uid}} { background-color: var(--page-bg); color: var(--text); font-family: var(--sb-body) !important; padding: 20px 0 100px 0; overflow-x: hidden; }
+.omni-perfect-{{sb_uid}} * { font-family: var(--sb-body) !important; box-sizing: border-box; }
+.omni-grid { max-width: 1600px; margin: 0 auto; padding: 0 30px; display: grid; grid-template-columns: 1fr 460px; gap: 48px; align-items: start; }
+
+/* --- GALLERY --- */
+.omni-gallery-col { min-width: 0; }
+.omni-thumbs-wrap { display: flex; align-items: center; gap: 6px; margin-top: 14px; }
+.omni-thumbs-rail { display: flex; flex-direction: row; gap: 10px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding-bottom: 4px; flex: 1 1 auto; min-width: 0; scroll-behavior: smooth; }
+.omni-thumbs-rail::-webkit-scrollbar { display: none; }
+.omni-thumbs-arrow { flex: 0 0 auto; width: 30px; height: 90px; display: none; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 4px; cursor: pointer; color: #141414; padding: 0; transition: 0.2s; }
+.omni-thumbs-arrow:hover { background: #f4f4f4; border-color: #ddd; }
+.omni-thumbs-wrap.is-scrollable .omni-thumbs-arrow { display: flex; }
+.omni-thumb { width: 72px; height: 90px; object-fit: cover; cursor: pointer; border: 1px solid #eee; border-radius: 4px; transition: 0.3s; background: #fff; flex-shrink: 0; }
+.omni-thumb.active { border-color: var(--accent); border-width: 2px; }
+.omni-stage { position: static; width: 100%; overflow: visible; }
+.omni-track { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.omni-slide { min-width: 0; display: flex; align-items: center; justify-content: center; }
+.omni-slide img { width: 100%; height: auto; aspect-ratio: 1/1; object-fit: cover; display: block; border-radius: 4px; }
+.omni-nav-arrow { display: none; } /* Hidden on desktop */
+
+/* --- BUY COLUMN --- */
+.omni-buy-col { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 40px; }
+.omni-brand { font-size: 12px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin: 0; }
+.omni-title { font-family: 'Playfair Display', Georgia, serif !important; font-size: 30px; font-weight: 500; text-transform: none; line-height: 1.12; margin: 10px 0; letter-spacing: -0.2px; }
+.omni-price-row { font-size: 24px; font-weight: 500; display: flex; align-items: baseline; gap: 12px; }
+.omni-was { font-size: 16px; text-decoration: line-through; opacity: 0.4; }
+.omni-save-badge { display: inline-flex; align-items: center; align-self: center; background: var(--accent); color: #fff; font-family: var(--sb-body), 'Lato', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; line-height: 1; white-space: nowrap; }
+
+/* --- VARIANTS / SWATCHES --- */
+.omni-variants { margin-top: 10px; display: flex; flex-direction: column; gap: 20px; }
+.omni-opt-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+.omni-opt-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.omni-swatch { width: 46px; height: 46px; border-radius: 50%; border: 1px solid #ddd; background-color: #f4f4f4; background-size: cover; background-position: center; transition: 0.2s; display: block; }
+.omni-opt-grid--swatch { gap: 16px; }
+.omni-swatch-wrap { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; width: 66px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.omni-swatch-wrap .omni-swatch { box-shadow: 0 0 0 1px #e6e6e6; }
+.omni-swatch-wrap:hover .omni-swatch { transform: scale(1.04); }
+.omni-swatch-wrap.active .omni-swatch { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); transform: scale(1.06); }
+.omni-swatch-name { font-size: 10.5px; line-height: 1.2; font-weight: 600; text-align: center; color: var(--text); letter-spacing: 0.2px; word-break: break-word; }
+.omni-swatch-wrap.active .omni-swatch-name { font-weight: 800; }
+.omni-pill { padding: 10px 18px; border: 1px solid #ddd; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; background: #fff; }
+.omni-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* --- SUBSCRIPTION BOX --- */
+.omni-sub-wrap { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.omni-sub-card { padding: 18px; border: 1px solid #eee; border-radius: 12px; cursor: pointer; transition: 0.3s ease; background: #fff; position: relative; display: flex; align-items: center; justify-content: space-between; }
+.omni-sub-card:hover { border-color: #ddd; }
+.omni-sub-card.active { border-color: var(--accent); background: var(--box-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+.omni-sub-info { display: flex; align-items: center; gap: 15px; }
+.omni-sub-dot { width: 18px; height: 18px; border: 2px solid #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; flex-shrink: 0; }
+.omni-sub-card.active .omni-sub-dot { border-color: var(--accent); }
+.omni-sub-card.active .omni-sub-dot::after { content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+.omni-sub-label { display: flex; flex-direction: column; }
+.omni-sub-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.omni-sub-desc { font-size: 11px; color: #666; font-weight: 500; }
+.omni-sub-badge { background: #E9FCE9; color: #008A00; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+/* --- ACCORDIONS --- */
+.omni-acc-wrap { margin-top: 30px; border-top: 1px solid #eee; }
+.omni-acc-item { border-bottom: 1px solid #eee; width: 100%; }
+.omni-acc-trigger { width: 100%; padding: 22px 0; background: none; border: none; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; color: var(--text); letter-spacing: 1.5px; outline: none; text-align: left; }
+.omni-acc-content { max-height: 0; height: 0; overflow: hidden; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-size: 15px; line-height: 1.7; color: #444; }
+.omni-acc-item.active .omni-acc-content { max-height: 1500px; height: auto; visibility: visible; padding-bottom: 25px; }
+.omni-desc-card, .omni-desc-card p { font-size: 15px; line-height: 1.65; color: #333; }
+.omni-plus { font-size: 18px; transition: 0.4s; flex-shrink: 0; }
+.omni-acc-item.active .omni-plus { transform: rotate(45deg); }
+
+/* --- ACTIONS --- */
+.omni-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.omni-btn { width: 100%; padding: 20px; border-radius: 50px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; border: none; }
+.omni-btn-bag { background: #fff; color: #000; border: 1px solid #000; }
+.omni-btn-checkout { background: var(--accent); color: var(--btn-text); }
+.omni-dispatch-note { display:flex; align-items:center; gap:8px; margin-top:12px; padding:9px 12px; background:#f7f4ef; border:1px solid #e6ddcd; border-radius:3px; font-family:'Lato',sans-serif; font-size:11px; line-height:1.45; letter-spacing:.02em; color:#6b5b3e; }
+.omni-dispatch-note svg { flex-shrink:0; color:#c9a96e; }
+
+/* --- PAYMENT ICONS --- */
+.omni-payment-icons { display: flex; justify-content: center; margin-top: 5px; }
+.omni-payment-icons img { max-width: 300px; width: 85%; height: auto; display: block; margin: 0 auto; }
+
+/* --- GIFT OFFER BOX --- */
+.omni-gift { display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 15px 18px; border: 1px solid #e4d4ad; border-radius: 10px; background: linear-gradient(180deg,#fdfaf2,#faf3e4); }
+.omni-gift-ico { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid #ecdcb6; display: flex; align-items: center; justify-content: center; color: #b08d3f; }
+.omni-gift-ico svg { width: 20px; height: 20px; }
+.omni-gift-body { flex: 1; min-width: 0; }
+.omni-gift-eyebrow { font-size: 9px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #b08d3f; margin: 0 0 3px; }
+.omni-gift-title { font-size: 13px; font-weight: 700; color: #2c2620; margin: 0 0 2px; line-height: 1.25; }
+.omni-gift-offer { font-size: 11.5px; line-height: 1.45; color: #6b6459; margin: 0; }
+.omni-gift-cta { flex-shrink: 0; padding: 9px 16px; border-radius: 30px; background: #141414; color: #fff !important; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.omni-gift-cta:hover { background: #333; }
+@media (max-width: 600px){ .omni-gift { flex-wrap: wrap; } .omni-gift-cta { width: 100%; text-align: center; margin-top: 4px; } }
+
+/* --- HIGHLIGHTS CHIPS --- */
+.omni-highlights { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.omni-hl { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px 7px 10px; border: 1px solid #e6e0d5; border-radius: 30px; font-size: 11px; font-weight: 600; letter-spacing: .01em; color: #33302b; background: #faf7f2; white-space: nowrap; line-height: 1; }
+.omni-hl svg { width: 15px; height: 15px; color: #b08d3f; flex-shrink: 0; }
+
+.omni-sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--page-bg); padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; z-index: 9999; transform: translateY(110%); transition: 0.5s; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
+.omni-sticky-bar.visible { transform: translateY(0); }
+@media (min-width: 750px) { .omni-sticky-bar { display: none !important; } }
+
+/* --- MOBILE OPTIMIZATIONS --- */
+@media (max-width: 749px) {
+  .omni-perfect-{{sb_uid}} { padding: 12px 0 20px 0; }
+  .omni-grid { grid-template-columns: 1fr; gap: 0; padding: 0 20px; display: flex; flex-direction: column; }
+  .omni-thumbs-wrap { display: none; }
+  .omni-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .omni-hl { justify-content: center; width: 100%; box-sizing: border-box; padding: 9px 10px; }
+  
+  /* Reordering for Conversion */
+  .omni-header { order: 1; margin-bottom: 20px; }
+  .omni-stage { order: 2; position: relative; margin: 0 -20px 30px -20px; width: 100vw; display: block; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .omni-stage::-webkit-scrollbar { display: none; }
+  .omni-track { width: auto; display: flex; }
+  .omni-slide { width: 100vw; min-width: 100vw; scroll-snap-align: center; }
+  .omni-slide img { max-height: 60vh; padding: 0 10px; }
+  
+  /* Mobile Arrows */
+  .omni-nav-arrow { 
+    display: flex; position: absolute; top: 50%; transform: translateY(-50%); 
+    width: 40px; height: 40px; background: rgba(255,255,255,0.8); border-radius: 50%;
+    align-items: center; justify-content: center; z-index: 10; border: none; cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .omni-arrow-prev { left: 15px; }
+  .omni-arrow-next { right: 15px; }
+
+  .omni-buy-col { order: 3; position: static; gap: 15px; }
+  .omni-variants { order: 1; }
+  .omni-actions { order: 2; margin-top: 10px; }
+  .omni-sub-wrap { order: 3; }
+  .omni-desc-card { order: 4; margin-top: 10px; }
+  .omni-acc-wrap { order: 5; margin-top: 20px; }
+
+  .omni-sub-card { width: 100%; }
+  .omni-title { font-size: 22px; }
+  .omni-btn { padding: 16px; font-size: 12px; }
+}
+</style>
+
+<div class="omni-perfect-{{sb_uid}}" data-product-json='{{ product | json | escape }}'>
+<div class="omni-grid">
+  <!-- GALLERY -->
+    {%- assign _cl = product.metafields.custom.cleanser_upsell.value -%}
+  {%- capture cleanser_box -%}{%- if _cl != blank and _cl.available -%}{%- assign _clv = _cl.selected_or_first_available_variant -%}<div class="pgc-box"><div class="pgc-head"><span class="pgc-eyebrow">Complimenting Cleanser</span><span class="pgc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Start Your Routine</span></div><div class="pgc-body"><a href="{{ _cl.url }}" class="pgc-img">{% if _cl.featured_image %}<img src="{{ _cl.featured_image | image_url: width: 200 }}" alt="{{ _cl.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgc-info"><p class="pgc-role">Cleanse First</p><p class="pgc-vendor">{{ _cl.vendor }}</p><a href="{{ _cl.url }}" class="pgc-title">{{ _cl.title }}</a><p class="pgc-price">{{ _clv.price | money }}</p></div></div><div class="pgc-reason">Cleansing is the first, and most important, step of any good routine, it preps the skin so everything you apply after works harder.</div><div class="pgc-foot"><button type="button" class="pgc-btn" onclick="pgcAdd(this, {{ _clv.id }})">Add Cleanser</button></div></div>{%- endif -%}{%- endcapture -%}
+  <style>
+  .pgc-box{border:1px solid #e6e0d5;border-radius:6px;background:#fff;overflow:hidden;font-family:'Lato',sans-serif;margin-top:16px;}
+  .pgc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid #efe9df;}
+  .pgc-eyebrow{font-size:10px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:#141414;}
+  .pgc-tag{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b08d3f;}.pgc-tag svg{width:13px;height:13px;}
+  .pgc-body{display:flex;gap:14px;align-items:center;padding:18px;}
+  .pgc-img{flex-shrink:0;display:block;}.pgc-img img{width:84px;height:84px;object-fit:cover;border-radius:4px;display:block;background:#faf9f7;}
+  .pgc-info{min-width:0;}.pgc-role{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#a89f8f;margin:0 0 4px;}
+  .pgc-vendor{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8a8478;margin:0 0 3px;}
+  .pgc-title{font-size:13px;line-height:1.35;color:#141414;margin:0 0 5px;text-decoration:none;display:block;}.pgc-title:hover{text-decoration:underline;}
+  .pgc-price{font-size:13px;font-weight:700;color:#141414;margin:0;}
+  .pgc-reason{padding:12px 18px;background:#f9f3ed;border-top:1px solid #efe9df;font-size:11.5px;line-height:1.6;color:#6b6459;}
+  .pgc-foot{padding:16px 18px;border-top:1px solid #efe9df;}
+  .pgc-btn{width:100%;padding:14px 20px;background:#141414;color:#fff;border:none;border-radius:40px;font-family:'Lato',sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}.pgc-btn:hover{background:#333;}.pgc-btn[disabled]{opacity:.6;}
+  .pgc-desk{display:none;}
+  @media (min-width:750px){.pgc-desk{display:block;}}
+  </style>
+  <script>function pgcAdd(b,id){b.disabled=true;var o=b.textContent;b.textContent='Adding…';fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:id,quantity:1}]})}).then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));if(window.openCart)window.openCart();b.textContent='Added';setTimeout(function(){b.disabled=false;b.textContent=o;},1600);}).catch(function(){b.disabled=false;b.textContent=o;alert('Sorry, could not add that.');});}</script>
+  <div class="omni-gallery-col">
+  <div class="omni-stage" id="Stage-{{sb_uid}}">
+    <!-- Mobile Arrows -->
+    <button class="omni-nav-arrow omni-arrow-prev" type="button" aria-label="Previous image" onclick="omniMove(-1)">
+      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true" focusable="false"><path d="M7 1L1 7L7 13" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="omni-nav-arrow omni-arrow-next" type="button" aria-label="Next image" onclick="omniMove(1)">
+      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true" focusable="false"><path d="M1 1L7 7L1 13" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    
+    {%- assign _hero = product.images.first -%}
+    {%- if _hero -%}<link rel="preload" as="image" href="{{ _hero | image_url: width: 1200 }}" imagesrcset="{{ _hero | image_url: width: 600 }} 600w, {{ _hero | image_url: width: 900 }} 900w, {{ _hero | image_url: width: 1200 }} 1200w" imagesizes="(min-width: 750px) 50vw, 100vw">{%- endif -%}
+    {%- assign _img_limit = 4 -%}
+    {%- for _v in product.variants -%}{%- if _v.featured_image and _v.title != 'Default Title' -%}{%- assign _img_limit = 50 -%}{%- break -%}{%- endif -%}{%- endfor -%}
+    <div class="omni-track" id="Track-{{sb_uid}}">
+      {% for image in product.images limit: _img_limit %}
+        <div class="omni-slide">
+          <img
+            src="{{ image | image_url: width: 1200 }}"
+            srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
+            sizes="(min-width: 750px) 50vw, 100vw"
+            alt="{{ image.alt | escape }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            {% if forloop.first %}fetchpriority="high"{% endif %}
+            width="{{ image.width }}"
+            height="{{ image.height }}"
+            data-zoom="{{ image | image_url: width: 2048 }}"
+            onclick="omniZoom({{ forloop.index0 }})"
+            style="cursor: zoom-in;"
+          >
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- THUMBNAIL CAROUSEL (bottom) -->
+  <div class="omni-thumbs-wrap" id="ThumbsWrap-{{sb_uid}}">
+    <button class="omni-thumbs-arrow omni-thumbs-prev" type="button" aria-label="Previous thumbnails" onclick="omniThumbScroll(-1)">
+      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="omni-thumbs-rail" id="ThumbsRail-{{sb_uid}}">
+    {% for image in product.images %}
+      <img src="{{ image | image_url: width: 200 }}" class="omni-thumb {% if forloop.first %}active{% endif %}" onclick="omniZoom({{ forloop.index0 }})" alt="{{ image.alt | escape }}" loading="lazy" width="200" height="250">
+    {% endfor %}
+    </div>
+    <button class="omni-thumbs-arrow omni-thumbs-next" type="button" aria-label="Next thumbnails" onclick="omniThumbScroll(1)">
+      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  {%- if product.vendor == 'La Roche-Posay' -%}<div style="margin-top:18px;">{% render 'cancer-support-banner' %}</div>{%- endif -%}
+
+  {%- comment -%} Perfect Pairing in the gallery column (desktop) — fills space freed by fewer images {%- endcomment -%}
+  {%- assign _pgp = product.metafields.custom.paired_product.value -%}
+  {%- if _pgp != blank and _pgp.available -%}
+    {%- assign _pgpthis = product.selected_or_first_available_variant -%}
+    {%- assign _pgppair = _pgp.selected_or_first_available_variant -%}
+    {%- assign _pgptotal = _pgpthis.price | plus: _pgppair.price -%}
+    {%- assign _pgptag = product.metafields.custom.paired_reason_tag | default: 'Perfectly Paired' -%}
+    {%- assign _pgpdesc = product.metafields.custom.paired_reason_desc -%}
+    <div class="pgp-wrap">
+      <div class="pgp-box">
+        <div class="pgp-head"><span class="pgp-eyebrow">Perfect Pairing</span><span class="pgp-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>{{ _pgptag }}</span></div>
+        <div class="pgp-row">
+          <div class="pgp-item"><a href="{{ product.url }}" class="pgp-img">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgp-info"><p class="pgp-role">This item</p><p class="pgp-vendor">{{ product.vendor }}</p><p class="pgp-title">{{ product.title }}</p><p class="pgp-price">{{ _pgpthis.price | money }}</p></div></div>
+          <div class="pgp-plus">+</div>
+          <div class="pgp-item"><a href="{{ _pgp.url }}" class="pgp-img">{% if _pgp.featured_image %}<img src="{{ _pgp.featured_image | image_url: width: 200 }}" alt="{{ _pgp.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgp-info"><p class="pgp-role">Pairs with</p><p class="pgp-vendor">{{ _pgp.vendor }}</p><a href="{{ _pgp.url }}" class="pgp-title pgp-title-link">{{ _pgp.title }}</a><p class="pgp-price">{{ _pgppair.price | money }}</p></div></div>
+        </div>
+        {%- if _pgpdesc != blank -%}<div class="pgp-reason">{{ _pgpdesc }}</div>{%- endif -%}
+        <div class="pgp-foot"><div class="pgp-total-wrap"><span class="pgp-total-label">Combined total</span><span class="pgp-total">{{ _pgptotal | money }}</span></div><button type="button" class="pgp-btn" onclick="pgpCheckout(this, {{ _pgpthis.id }}, {{ _pgppair.id }})">Checkout Now</button></div>
+      </div>
+    </div>
+    <style>
+      .pgp-wrap { margin: 26px 0 0; font-family: 'Lato', sans-serif; }
+      .pgp-box { border: 1px solid #e6e0d5; border-radius: 6px; background: #fff; overflow: hidden; }
+      .pgp-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px; border-bottom:1px solid #efe9df; }
+      .pgp-eyebrow { font-size:10px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:#141414; }
+      .pgp-tag { display:inline-flex; align-items:center; gap:6px; font-size:9.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#b08d3f; } .pgp-tag svg { width:13px; height:13px; }
+      .pgp-row { display:grid; grid-template-columns:1fr 24px 1fr; align-items:start; gap:6px; padding:20px 18px; }
+      .pgp-item { display:flex; gap:12px; align-items:flex-start; min-width:0; } .pgp-img { flex-shrink:0; display:block; } .pgp-img img { width:84px; height:84px; object-fit:cover; border-radius:4px; display:block; }
+      .pgp-info { min-width:0; } .pgp-role { font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:#a89f8f; margin:0 0 4px; }
+      .pgp-vendor { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8a8478; margin:0 0 3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .pgp-title { font-size:12px; line-height:1.35; color:#141414; margin:0 0 5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-decoration:none; }
+      .pgp-title-link:hover { text-decoration:underline; }
+      .pgp-price { font-size:12.5px; font-weight:700; color:#141414; margin:0; }
+      .pgp-plus { display:flex; align-items:center; justify-content:center; padding-top:28px; color:#b7ae9e; font-size:18px; }
+      .pgp-reason { padding:12px 18px; background:#f9f3ed; border-top:1px solid #efe9df; font-size:11.5px; line-height:1.6; color:#6b6459; }
+      .pgp-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-top:1px solid #efe9df; flex-wrap:wrap; }
+      .pgp-total-label { display:block; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#8a8478; margin-bottom:4px; }
+      .pgp-total { font-family:'Playfair Display', Georgia, serif; font-size:22px; color:#141414; }
+      .pgp-btn { flex:1; min-width:160px; max-width:260px; padding:14px 20px; background:#141414; color:#fff; border:none; border-radius:40px; font-family:'Lato',sans-serif; font-size:11px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; } .pgp-btn:hover { background:#333; } .pgp-btn.pgp-loading { opacity:.6; pointer-events:none; }
+      @media (max-width: 749px){ .pgp-wrap { display:none !important; } }
+    </style>
+    <script>
+      function pgpCheckout(btn,v1,v2){ btn.classList.add('pgp-loading'); btn.textContent='Adding…'; fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:v1,quantity:1},{id:v2,quantity:1}]})}).then(function(r){if(!r.ok)throw new Error('x');window.location.href='/checkout';}).catch(function(){btn.classList.remove('pgp-loading');btn.textContent='Checkout Now';alert('Sorry, something went wrong adding these to your bag.');}); }
+    </script>
+  {%- endif -%}
+  {%- if cleanser_box != blank -%}<div class="pgc-desk">{{ cleanser_box }}</div>{%- endif -%}
+  </div>
+
+  <!-- BUY SIDE -->
+  <div class="omni-buy-col">
+    <div class="omni-header">
+      <p class="omni-brand">{{ product.vendor }}</p>
+      <h1 class="omni-title">{{ product.title }}</h1>
+      <div class="omni-price-row">
+        <span id="Price-{{sb_uid}}">{{ current_variant.price | money }}</span>
+        <span id="WasPrice-{{sb_uid}}" class="omni-was">
+          {% if current_variant.compare_at_price > current_variant.price %}{{ current_variant.compare_at_price | money }}{% endif %}
+        </span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          {%- assign omni_save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+          <span id="SaveBadge-{{sb_uid}}" class="omni-save-badge">Save {{ omni_save_pct }}%</span>
+        {%- else -%}
+          <span id="SaveBadge-{{sb_uid}}" class="omni-save-badge" style="display:none;"></span>
+        {%- endif -%}
+      </div>
+      {%- assign omni_hls = product.metafields.custom.highlights.value -%}
+      {%- if omni_hls -%}
+      <div class="omni-highlights">
+        {%- for h in omni_hls -%}
+          <span class="omni-hl">{% render 'highlight-icon', key: h.i %}<span>{{ h.l }}</span></span>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    <!-- VARIANT PICKER -->
+    {% unless product.has_only_default_variant %}
+      <div class="omni-variants">
+        {% for option in product.options_with_values %}
+          <div class="omni-opt-group" data-index="{{ forloop.index0 }}">
+            <span class="omni-opt-label">{{ option.name }}: <span id="LabelVal-{{sb_uid}}-{{forloop.index0}}">{{ option.selected_value }}</span></span>
+            {%- assign is_color = false -%}
+            {%- if option.name contains 'Color' or option.name contains 'Colour' or option.name contains 'Shade' -%}{%- assign is_color = true -%}{%- endif -%}
+            {%- assign _vals_with_img = 0 -%}
+            {%- for value in option.values -%}{%- capture vname -%}{{ value }}{%- endcapture -%}{%- for variant in product.variants -%}{%- if variant.options contains vname and variant.featured_image -%}{%- assign _vals_with_img = _vals_with_img | plus: 1 -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endfor -%}
+            {%- if _vals_with_img == option.values.size and option.values.size > 1 -%}{%- assign is_color = true -%}{%- endif -%}
+            <div class="omni-opt-grid{% if is_color %} omni-opt-grid--swatch{% endif %}">
+              {% for value in option.values %}
+                {% if is_color %}
+                  {% assign swatch_img = '' %}
+                  {% capture vname %}{{ value }}{% endcapture %}
+                  {% for variant in product.variants %}{% if variant.options contains vname and variant.featured_image %}{% assign swatch_img = variant.featured_image | image_url: width: 120 %}{% break %}{% endif %}{% endfor %}
+                  <button type="button" class="omni-swatch-wrap {% if option.selected_value == value %}active{% endif %}" onclick="omniUpdateVariant(this, '{{ value | escape }}', {{ forloop.parentloop.index0 }})" title="{{ value | escape }}" aria-label="{{ value | escape }}">
+                    <span class="omni-swatch" style="background-image: url({{ swatch_img }});"></span>
+                    <span class="omni-swatch-name">{{ value }}</span>
+                  </button>
+                {% else %}
+                  <button class="omni-pill {% if option.selected_value == value %}active{% endif %}" onclick="omniUpdateVariant(this, '{{ value | escape }}', {{ forloop.parentloop.index0 }})">{{ value }}</button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endunless %}
+
+    <!-- ACTIONS -->
+    <div class="omni-actions" id="Trigger-{{sb_uid}}">
+      <input type="hidden" id="VariantId-{{sb_uid}}" value="{{ current_variant.id }}">
+      <input type="hidden" id="SellingPlan-{{sb_uid}}" value="">
+      <button class="omni-btn omni-btn-bag" id="AddBtn-{{sb_uid}}" onclick="omniAction('bag')">ADD TO BAG</button>
+      <button class="omni-btn omni-btn-checkout" onclick="omniAction('now')">CHECKOUT NOW</button>
+
+      {%- comment -%} Special-order dispatch note — renders only when product has custom.dispatch_note {%- endcomment -%}
+      {%- assign _dispatch_note = product.metafields.custom.dispatch_note.value -%}
+      {%- if _dispatch_note != blank -%}
+        <div class="omni-dispatch-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span>{{ _dispatch_note }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} GIFT OFFER — read LIVE from the Gifts page (single source: Gifts page blocks). Edit gifts, PDP auto-updates. {%- endcomment -%}
+      <div id="omni-gift-mount-{{sb_uid}}" class="omni-gift-mount" data-handle="{{ product.handle }}" data-collections="{% for c in product.collections %}{{ c.handle }}{% unless forloop.last %},{% endunless %}{% endfor %}"></div>
+      <script>
+      (function(){
+        var mount=document.getElementById('omni-gift-mount-{{sb_uid}}'); if(!mount) return;
+        var handle=mount.dataset.handle, cols=(mount.dataset.collections||'').split(',').filter(Boolean);
+        function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+        function match(offers){for(var i=0;i<offers.length;i++){var o=offers[i]; if(o.collection && cols.indexOf(o.collection)>-1) return o; if(o.product && o.product===handle) return o;} return null;}
+        function apply(offers){var o=match(offers||[]); mount.innerHTML = o ? '<div class="omni-gift"><span class="omni-gift-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><div class="omni-gift-body"><p class="omni-gift-eyebrow">Complimentary Gift</p>'+(o.title?'<p class="omni-gift-title">'+esc(o.title)+'</p>':'')+(o.offer?'<p class="omni-gift-offer">'+esc(o.offer)+'</p>':'')+'</div><a href="'+esc(o.url||'/pages/gifts')+'" class="omni-gift-cta">View</a></div>' : '';}
+        try{var c=sessionStorage.getItem('tsbGiftOffers_v2'); if(c) apply(JSON.parse(c));}catch(e){}
+        fetch('/pages/gifts',{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(html){
+          var el=new DOMParser().parseFromString(html,'text/html').getElementById('tsb-gift-offers'); if(!el) return;
+          var offers=JSON.parse(el.textContent||'[]');
+          try{sessionStorage.setItem('tsbGiftOffers_v2',JSON.stringify(offers));}catch(e){}
+          apply(offers);
+        }).catch(function(){});
+      })();
+      </script>
+
+      {% if section.settings.payment_icons != blank %}
+        <div class="omni-payment-icons">
+          <img
+            src="{{ section.settings.payment_icons | image_url: width: 400 }}"
+            srcset="{{ section.settings.payment_icons | image_url: width: 200 }} 200w, {{ section.settings.payment_icons | image_url: width: 400 }} 400w"
+            sizes="(min-width: 750px) 300px, 90vw"
+            alt="Payment methods"
+            loading="lazy"
+          >
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- SUBSCRIPTION SELECTOR -->
+    {% if product.selling_plan_groups.size > 0 %}
+    <div class="omni-sub-wrap">
+      <span class="omni-opt-label">Purchase Options:</span>
+      <div class="omni-sub-card active" onclick="omniUpdateSub(this, '')">
+        <div class="omni-sub-info">
+          <div class="omni-sub-dot"></div>
+          <div class="omni-sub-label">
+            <span class="omni-sub-title">One-time purchase</span>
+            <span class="omni-sub-desc">Standard delivery</span>
+          </div>
+        </div>
+        <span class="omni-sub-price">{{ current_variant.price | money }}</span>
+      </div>
+
+      {% for group in product.selling_plan_groups %}
+        {% for plan in group.selling_plans %}
+          <div class="omni-sub-card" onclick="omniUpdateSub(this, '{{ plan.id }}', '{{ plan.price_adjustments[0].value }}', '{{ plan.price_adjustments[0].value_type }}')">
+            <div class="omni-sub-info">
+              <div class="omni-sub-dot"></div>
+              <div class="omni-sub-label">
+                <span class="omni-sub-title">{{ plan.name }}</span>
+                <span class="omni-sub-desc">Auto-renews, cancel anytime</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+              {% assign _adj = plan.price_adjustments[0].value | plus: 0 %}
+              <span class="omni-sub-badge">{% if _adj <= 0 %}Never run out{% elsif plan.price_adjustments[0].value_type == 'percentage' %}Save {{ plan.price_adjustments[0].value }}%{% else %}Save {{ plan.price_adjustments[0].value | money }}{% endif %}</span>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="omni-desc-card">
+      {{ product.description | split: '<h5>' | first }}
+    </div>
+
+    <!-- ACCORDIONS -->
+    <div class="omni-acc-wrap">
+      {% assign tabs = product.description | split: '<h5>' %}
+      {% for tab in tabs %}
+        {% if forloop.index > 1 %}
+          {% assign h = tab | split: '</h5>' | first %}
+          {% assign c = tab | split: '</h5>' | last %}
+          {% if h != blank %}
+            <div class="omni-acc-item">
+              <button class="omni-acc-trigger" onclick="omniTab(this)">
+                <span>{{ h | strip_html }}</span>
+                <span class="omni-plus">+</span>
+              </button>
+              <div class="omni-acc-content">{{ c }}</div>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- STICKY BAR -->
+<div class="omni-sticky-bar" id="Sticky-{{sb_uid}}">
+  <div class="omni-sticky-info"><p style="font-size:14px; font-weight:700; text-transform:uppercase; margin:0;">{{ product.title | truncate: 30 }}</p></div>
+  <div style="display:flex; align-items:center; gap:20px;">
+    <span style="font-size:20px; font-weight:600;" id="StickyPrice-{{sb_uid}}">{{ current_variant.price | money }}</span>
+    <button class="omni-btn omni-btn-checkout" style="width:auto; padding: 12px 30px; border-radius:4px;" onclick="omniAction('now')">CHECKOUT</button>
+  </div>
+</div>
+
+<script>
+const prodData = JSON.parse(document.querySelector('.omni-perfect-{{sb_uid}}').dataset.productJson);
+let selOptions = [{% for option in product.options_with_values %}'{{ option.selected_value | escape }}',{% endfor %}];
+let subDiscount = { val: 0, type: '' };
+let currentSlide = 0;
+
+function omniUpdateVariant(btn, val, idx) {
+  const group = btn.closest('.omni-opt-group');
+  group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`LabelVal-{{sb_uid}}-${idx}`).innerText = val;
+  selOptions[idx] = val;
+  const variant = prodData.variants.find(v => JSON.stringify(v.options) === JSON.stringify(selOptions));
+  if(variant) {
+    document.getElementById('VariantId-{{sb_uid}}').value = variant.id;
+    omniRefreshPrice(variant);
+    if(variant.featured_image) {
+      const imgIdx = prodData.images.findIndex(img => img.includes(variant.featured_image.src.split('/').pop().split('?')[0]));
+      if(imgIdx !== -1) omniJump(imgIdx);
+    }
+  }
+}
+
+function omniUpdateSub(card, planId, discVal, discType) {
+  document.querySelectorAll('.omni-sub-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  document.getElementById('SellingPlan-{{sb_uid}}').value = planId;
+  subDiscount = { val: parseFloat(discVal || 0), type: discType || '' };
+  const variant = prodData.variants.find(v => v.id == document.getElementById('VariantId-{{sb_uid}}').value);
+  omniRefreshPrice(variant);
+}
+
+function omniRefreshPrice(variant) {
+  let finalPrice = variant.price;
+  if(subDiscount.val > 0) {
+    if(subDiscount.type === 'percentage') finalPrice = finalPrice * (1 - (subDiscount.val / 100));
+    else finalPrice = finalPrice - (subDiscount.val * 100);
+  }
+  const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(finalPrice / 100);
+  document.getElementById('Price-{{sb_uid}}').innerText = fmt;
+  document.getElementById('StickyPrice-{{sb_uid}}').innerText = fmt;
+  var _sb = document.getElementById('SaveBadge-{{sb_uid}}');
+  if (_sb) {
+    var _cap = variant.compare_at_price || 0;
+    if (_cap > finalPrice) { _sb.textContent = 'Save ' + Math.round((_cap - finalPrice) / _cap * 100) + '%'; _sb.style.display = ''; }
+    else { _sb.style.display = 'none'; }
+  }
+}
+
+function omniJump(i) {
+  currentSlide = i;
+  const track = document.getElementById('Track-{{sb_uid}}');
+  const stage = document.getElementById('Stage-{{sb_uid}}');
+  if(window.innerWidth > 768) {
+    const dslide = track.querySelectorAll('.omni-slide')[i];
+    if(dslide) dslide.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    const slide = stage.querySelectorAll('.omni-slide')[i];
+    stage.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.omni-thumb').forEach((t, idx) => { t.classList.toggle('active', idx === i); });
+}
+
+function omniMove(dir) {
+  const count = prodData.images.length;
+  currentSlide = (currentSlide + dir + count) % count;
+  omniJump(currentSlide);
+}
+
+function omniThumbScroll(dir) {
+  const rail = document.getElementById('ThumbsRail-{{sb_uid}}');
+  if(!rail) return;
+  rail.scrollBy({ left: dir * Math.max(220, rail.clientWidth * 0.7), behavior: 'smooth' });
+}
+function omniThumbSync() {
+  const wrap = document.getElementById('ThumbsWrap-{{sb_uid}}');
+  const rail = document.getElementById('ThumbsRail-{{sb_uid}}');
+  if(!wrap || !rail) return;
+  wrap.classList.toggle('is-scrollable', rail.scrollWidth > rail.clientWidth + 2);
+}
+window.addEventListener('load', omniThumbSync);
+window.addEventListener('resize', omniThumbSync);
+setTimeout(omniThumbSync, 400);
+
+function omniTab(btn) {
+  const item = btn.closest('.omni-acc-item');
+  const isActive = item.classList.contains('active');
+  document.querySelectorAll('.omni-acc-item').forEach(el => el.classList.remove('active'));
+  if(!isActive) item.classList.add('active');
+}
+
+window.addEventListener('scroll', () => {
+  const trigger = document.getElementById('Trigger-{{sb_uid}}');
+  const sticky = document.getElementById('Sticky-{{sb_uid}}');
+  if(trigger && sticky) sticky.classList.toggle('visible', trigger.getBoundingClientRect().top < 0);
+});
+
+async function omniAction(type) {
+  const vid = document.getElementById('VariantId-{{sb_uid}}').value;
+  const plan = document.getElementById('SellingPlan-{{sb_uid}}').value;
+  const btn = document.getElementById('AddBtn-{{sb_uid}}');
+
+  if(type === 'bag') {
+    btn.disabled = true; btn.innerText = "ADDING...";
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ items: [{ id: vid, quantity: 1, selling_plan: plan || null }] })
+      });
+      if(res.ok) {
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        btn.innerText = "ADDED!";
+        setTimeout(() => { btn.disabled = false; btn.innerText = "ADD TO BAG"; }, 2000);
+      }
+    } catch (e) { btn.disabled = false; btn.innerText = "ADD TO BAG"; }
+  } else {
+    let url = `/cart/${vid}:1`;
+    if(plan) url += `?selling_plan=${plan}`;
+    window.location.href = url;
+  }
+}
+
+/* ═══ LIGHTBOX / ZOOM VIEWER ═══ */
+(function(){
+  var LB, IMG, STAGE, CT, idx=0, scale=1, tx=0, ty=0, drag=false, sx=0, sy=0, pinchDist=0;
+  var srcs = [];
+  {% for image in product.images %}srcs.push("{{ image | image_url: width: 2048 }}");{% endfor %}
+  function build(){
+    if(LB) return;
+    LB=document.createElement('div'); LB.className='omni-lb';
+    LB.innerHTML='<button class="omni-lb-x" aria-label="Close">&times;</button>'
+      +'<button class="omni-lb-arrow omni-lb-p" aria-label="Previous">&#8249;</button>'
+      +'<div class="omni-lb-stage"><img class="omni-lb-img" draggable="false" alt=""></div>'
+      +'<button class="omni-lb-arrow omni-lb-n" aria-label="Next">&#8250;</button>'
+      +'<div class="omni-lb-ct"></div>'
+      +'<div class="omni-lb-hint">Scroll or double-click to zoom &middot; drag to pan</div>';
+    document.body.appendChild(LB);
+    IMG=LB.querySelector('.omni-lb-img'); STAGE=LB.querySelector('.omni-lb-stage'); CT=LB.querySelector('.omni-lb-ct');
+    LB.querySelector('.omni-lb-x').onclick=close;
+    LB.querySelector('.omni-lb-p').onclick=function(e){e.stopPropagation();nav(-1);};
+    LB.querySelector('.omni-lb-n').onclick=function(e){e.stopPropagation();nav(1);};
+    LB.addEventListener('click',function(e){ if(e.target===LB||e.target===STAGE) close(); });
+    STAGE.addEventListener('wheel',function(e){ e.preventDefault(); zoomAt(e.deltaY<0?1.18:0.85, e.clientX, e.clientY); },{passive:false});
+    STAGE.addEventListener('dblclick',function(e){ if(scale>1){reset();} else { zoomAt(2.6, e.clientX, e.clientY);} });
+    STAGE.addEventListener('mousedown',function(e){ if(scale<=1)return; drag=true; sx=e.clientX-tx; sy=e.clientY-ty; STAGE.style.cursor='grabbing'; });
+    window.addEventListener('mousemove',function(e){ if(!drag)return; tx=e.clientX-sx; ty=e.clientY-sy; apply(); });
+    window.addEventListener('mouseup',function(){ drag=false; if(STAGE) STAGE.style.cursor=scale>1?'grab':'zoom-in'; });
+    STAGE.addEventListener('touchstart',function(e){ if(e.touches.length===2){ pinchDist=dist(e.touches);} else if(scale>1){ drag=true; sx=e.touches[0].clientX-tx; sy=e.touches[0].clientY-ty; } },{passive:true});
+    STAGE.addEventListener('touchmove',function(e){ if(e.touches.length===2){ e.preventDefault(); var d=dist(e.touches); zoomAt(d/pinchDist, (e.touches[0].clientX+e.touches[1].clientX)/2,(e.touches[0].clientY+e.touches[1].clientY)/2); pinchDist=d; } else if(drag){ tx=e.touches[0].clientX-sx; ty=e.touches[0].clientY-sy; apply(); } },{passive:false});
+    STAGE.addEventListener('touchend',function(){ drag=false; });
+    document.addEventListener('keydown',function(e){ if(!LB.classList.contains('open'))return; if(e.key==='Escape')close(); if(e.key==='ArrowLeft')nav(-1); if(e.key==='ArrowRight')nav(1); });
+  }
+  function dist(t){ return Math.hypot(t[0].clientX-t[1].clientX, t[0].clientY-t[1].clientY); }
+  function apply(){ IMG.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')'; }
+  function reset(){ scale=1; tx=0; ty=0; apply(); STAGE.style.cursor='zoom-in'; }
+  function zoomAt(f,cx,cy){ var ns=Math.min(5,Math.max(1,scale*f)); var r=IMG.getBoundingClientRect(); var ox=cx-(r.left+r.width/2); var oy=cy-(r.top+r.height/2); tx=(tx-ox)*(ns/scale)+ox; ty=(ty-oy)*(ns/scale)+oy; scale=ns; if(scale<=1){tx=0;ty=0;} apply(); STAGE.style.cursor=scale>1?'grab':'zoom-in'; }
+  function set(){ IMG.src=srcs[idx]||''; CT.textContent=(idx+1)+' / '+srcs.length; reset(); }
+  function nav(d){ idx=(idx+d+srcs.length)%srcs.length; set(); }
+  function close(){ LB.classList.remove('open'); document.body.style.overflow=''; }
+  window.omniZoom=function(i){ build(); idx=i; set(); LB.classList.add('open'); document.body.style.overflow='hidden'; };
+})();
+</script>
+<style>
+  .omni-lb{position:fixed;inset:0;background:rgba(12,12,12,.95);z-index:100000;display:none;align-items:center;justify-content:center;}
+  .omni-lb.open{display:flex;}
+  .omni-lb-stage{width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:zoom-in;touch-action:none;}
+  .omni-lb-img{max-width:92vw;max-height:92vh;object-fit:contain;transform-origin:center center;user-select:none;-webkit-user-drag:none;will-change:transform;}
+  .omni-lb-x{position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:36px;line-height:1;cursor:pointer;z-index:2;opacity:.8;}
+  .omni-lb-x:hover{opacity:1;}
+  .omni-lb-arrow{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;width:54px;height:54px;border-radius:50%;font-size:30px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+  .omni-lb-arrow:hover{background:rgba(255,255,255,.22);}
+  .omni-lb-p{left:24px;} .omni-lb-n{right:24px;}
+  .omni-lb-ct{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);color:#fff;font-size:12px;letter-spacing:.12em;opacity:.7;}
+  .omni-lb-hint{position:fixed;bottom:22px;right:24px;color:#fff;font-size:10px;letter-spacing:.06em;opacity:.4;}
+  @media(max-width:600px){.omni-lb-arrow{width:42px;height:42px;font-size:24px;}.omni-lb-p{left:12px;}.omni-lb-n{right:12px;}.omni-lb-hint{display:none;}.omni-lb-img{max-width:96vw;}}
+</style>
+
+{% schema %}
+{
+"name": "Omni-Luxe Pro Commerce",
+"settings": [
+  { "type": "color", "id": "page_bg", "label": "Page Background", "default": "#ffffff" },
+  { "type": "color", "id": "box_bg", "label": "Accent Box Color", "default": "#f9f8f6" },
+  { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#000000" },
+  { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1a1a1a" },
+  { "type": "color", "id": "btn_text_color", "label": "Button Text Color", "default": "#ffffff" },
+  { "type": "image_picker", "id": "payment_icons", "label": "Payment Icons Image" }
+],
+"presets": [{ "name": "Omni-Luxe Pro Commerce" }]
+}
+{% endschema %}

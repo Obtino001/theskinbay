@@ -1,0 +1,132 @@
+{%- comment -%} Brand Story, tabbed brand info + brand banner, shown AFTER products. Hidden where empty. {%- endcomment -%}
+{%- liquid
+  assign banner = collection.metafields.custom.branded_banner
+  assign about = collection.metafields.custom.about_the_brand
+  assign founder = collection.metafields.custom.brand_founder_choice
+  assign heritage = collection.metafields.custom.brand_heritage
+  assign has_tabs = false
+  if about != blank or founder != blank or heritage != blank
+    assign has_tabs = true
+  endif
+  assign show_t = false
+  if has_tabs and section.settings.show_tabs
+    assign show_t = true
+  endif
+  assign show_b = false
+  if banner != blank and section.settings.show_banner
+    assign show_b = true
+  endif
+-%}
+{%- if show_t or show_b -%}
+<section class="bstory" data-section-id="{{ section.id }}">
+
+  {%- if show_t -%}
+  <div class="bstory-tabs-wrap">
+    <div class="bstory-inner">
+      <p class="bstory-eyebrow bstory-center">Discover {{ collection.title }}</p>
+      <div class="bstory-tabs" role="tablist">
+        {%- if about != blank -%}<button type="button" class="bstory-tab" data-panel="about">About the Brand</button>{%- endif -%}
+        {%- if founder != blank -%}<button type="button" class="bstory-tab" data-panel="founder">Founder's Pick</button>{%- endif -%}
+        {%- if heritage != blank -%}<button type="button" class="bstory-tab" data-panel="heritage">Heritage</button>{%- endif -%}
+      </div>
+      <div class="bstory-panels">
+        {%- if about != blank -%}
+        <div class="bstory-panel" data-panel="about">
+          <div class="bstory-body">{% render 'phc-richtext', rt: about.value %}</div>
+        </div>
+        {%- endif -%}
+        {%- if founder != blank -%}
+        <div class="bstory-panel bstory-panel-founder" data-panel="founder">
+          <div class="bstory-founder-img"><img src="{{ 'founder-emmalee.webp' | asset_url }}" alt="Emmalee Fitton, Founder" loading="lazy" onerror="this.parentNode.style.display='none'"></div>
+          <div class="bstory-founder-copy">
+            <div class="bstory-founder-body">{% render 'phc-richtext', rt: founder.value %}</div>
+            <p class="bstory-sign">, Emmalee, Founder of The Skin Bay</p>
+          </div>
+        </div>
+        {%- endif -%}
+        {%- if heritage != blank -%}
+        <div class="bstory-panel" data-panel="heritage">
+          <p class="bstory-heritage-body">{{ heritage | newline_to_br }}</p>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if show_b -%}
+  <div class="bstory-banner"><img src="{{ banner.value | image_url: width: 1600 }}" alt="{{ collection.title | escape }}" loading="lazy"></div>
+  {%- endif -%}
+
+</section>
+
+<style>
+  .bstory { font-family: 'Lato', sans-serif; color: #2c2620; }
+  .bstory-inner { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .bstory-center { text-align: center; }
+  .bstory-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: #9a8f7d; margin: 0 0 18px; }
+  .bstory-tabs-wrap { padding: 54px 0 48px; border-top: 1px solid #ece7df; }
+  .bstory-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; }
+  .bstory-tab { padding: 10px 20px; border: 1px solid #ddd6c8; border-radius: 30px; background: #fff; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6b6459; cursor: pointer; transition: all .2s; }
+  .bstory-tab:hover { border-color: #141414; color: #141414; }
+  .bstory-tab.active { background: #141414; border-color: #141414; color: #fff; }
+  .bstory-panel { display: none; animation: bstoryfade .3s ease; }
+  .bstory-panel.active { display: block; }
+  @keyframes bstoryfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .bstory-body { font-size: 16px; line-height: 1.75; color: #4d4840; text-align: center; }
+  .bstory-body p { margin: 0 0 14px; }
+  /* founder panel */
+  .bstory-panel-founder { display: none; align-items: center; gap: 34px; }
+  .bstory-panel-founder.active { display: flex; }
+  .bstory-founder-img img { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; flex-shrink: 0; }
+  .bstory-founder-body { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; line-height: 1.5; color: #2c2620; }
+  .bstory-founder-body p { margin: 0 0 8px; }
+  .bstory-sign { font-size: 12px; letter-spacing: .04em; color: #8a8478; margin: 12px 0 0; }
+  /* heritage */
+  .bstory-heritage-body { font-size: 15.5px; line-height: 1.75; color: #4d4840; text-align: center; margin: 0; }
+  /* banner at end */
+  .bstory-banner { margin-top: 0; }
+  .bstory-banner img { width: 100%; height: auto; display: block; }
+  @media (max-width: 749px) {
+    .bstory-tabs-wrap { padding: 40px 0 36px; }
+    .bstory-tab { padding: 9px 15px; font-size: 10px; }
+    .bstory-panel-founder.active { flex-direction: column; text-align: center; gap: 18px; }
+    .bstory-founder-body { font-size: 18px; }
+  }
+</style>
+
+<script>
+  (function(){
+    document.querySelectorAll('.bstory').forEach(function(bs){
+      var tabs = bs.querySelectorAll('.bstory-tab');
+      var panels = bs.querySelectorAll('.bstory-panel');
+      if(!tabs.length) return;
+      function activate(name){
+        tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.panel===name); });
+        panels.forEach(function(p){ p.classList.toggle('active', p.dataset.panel===name); });
+      }
+      // No tab open by default — brand text stays hidden until a tab is clicked.
+      tabs.forEach(function(t){
+        if (t.dataset.bsBound) return;   // section renders twice on the page; bind each tab once
+        t.dataset.bsBound = '1';
+        t.addEventListener('click', function(){
+          if (t.classList.contains('active')) { activate(null); }
+          else { activate(t.dataset.panel); }
+        });
+      });
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "settings": [
+    { "type": "paragraph", "content": "Tabbed brand info + brand banner, auto-rendered from collection metafields. Use two instances: one at top (tabs on, banner off) and one after the grid (banner on, tabs off). Hidden when empty." },
+    { "type": "checkbox", "id": "show_tabs", "label": "Show brand info tabs", "default": true },
+    { "type": "checkbox", "id": "show_banner", "label": "Show brand banner", "default": true }
+  ],
+  "presets": [{ "name": "Brand Story" }]
+}
+{% endschema %}

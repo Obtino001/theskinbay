@@ -1,0 +1,64 @@
+{%- comment -%} NAD bespoke, product media video (half) + how-to beside it; renders nothing if no video {%- endcomment -%}
+{%- assign vmedia = null -%}
+{%- for m in product.media -%}
+  {%- if m.media_type == 'video' or m.media_type == 'external_video' -%}{%- assign vmedia = m -%}{%- break -%}{%- endif -%}
+{%- endfor -%}
+{%- if vmedia -%}
+{%- assign hu = product.metafields.custom.how_to_use -%}
+<section class="nad-pv{% if hu != blank %} nad-pv--split{% endif %}" style="background:{{ section.settings.bg }};--onbg:{{ section.settings.on_bg | default: '#141414' }};">
+  <div class="nadpv-wrap">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="nadpv-head">
+        {%- if section.settings.eyebrow != blank -%}<span class="nadpv-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="nadpv-h">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="nadpv-cols">
+      <div class="nadpv-media">
+        {%- if vmedia.media_type == 'video' -%}
+          {{ vmedia | video_tag: image_size: '1000x', controls: true, preload: 'none', class: 'nadpv-v' }}
+        {%- else -%}
+          {{ vmedia | external_video_tag: class: 'nadpv-v', loading: 'lazy' }}
+        {%- endif -%}
+      </div>
+      {%- if hu != blank -%}
+        <div class="nadpv-howto">
+          <h3 class="nadpv-howto-h">{{ section.settings.howto_heading }}</h3>
+          <div class="nadpv-howto-body"><div class="nad-exp"><div class="nad-exp-in">{% render 'phc-richtext', rt: hu.value %}</div><button type="button" class="nad-exp-btn" onclick="nadExp(this)"><span>Read more</span> <b>+</b></button></div></div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<style>
+  .nad-pv{padding:44px 20px;}
+  .nadpv-wrap{max-width:1140px;margin:0 auto;text-align:center;}
+  .nadpv-eyebrow{display:block;font-family:'Lato',sans-serif;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--onbg);margin-bottom:10px;}
+  .nadpv-h{font-family:'Playfair Display',serif;font-size:30px;line-height:1.15;color:var(--onbg);margin:0 0 26px;}
+  .nadpv-cols{display:grid;grid-template-columns:1fr;gap:30px;align-items:start;text-align:left;}
+  .nad-pv--split .nadpv-cols{grid-template-columns:auto minmax(260px,400px);justify-content:center;align-items:center;gap:44px;}
+  .nadpv-media{background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:20px;padding:12px;display:inline-flex;justify-content:center;width:fit-content;max-width:100%;margin:0 auto;}
+  .nadpv-v{width:auto;max-width:100%;max-height:420px;display:block;border-radius:12px;background:#000;}
+  .nad-pv--split .nadpv-howto{padding-top:6px;}
+  .nadpv-media iframe.nadpv-v{width:min(520px,72vw);aspect-ratio:16/9;max-height:none;}
+  .nadpv-howto-h{font-family:'Playfair Display',serif;font-size:22px;color:var(--onbg);margin:0 0 14px;}
+  .nadpv-howto-body{font-family:'Lato',sans-serif;font-size:15.5px;line-height:1.7;color:var(--onbg);}
+  .nadpv-howto-body p{margin:0 0 14px;padding-left:16px;border-left:2px solid var(--accent,#F6C21A);}
+  .nadpv-howto-body strong{color:var(--onbg);}
+  @media(max-width:849px){.nad-pv--split .nadpv-cols{grid-template-columns:1fr;}.nadpv-media{order:0;}.nadpv-v{max-height:70vh;}}
+  @media(max-width:749px){.nad-pv{padding:34px 16px;}.nadpv-h{font-size:24px;}}
+</style>
+{%- endif -%}
+{% schema %}
+{
+  "name": "NAD · Product video",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "on_bg", "label": "Text on background", "default": "#141414" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "SEE IT IN ACTION" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How to use it" },
+    { "type": "text", "id": "howto_heading", "label": "How-to heading", "default": "How to use" }
+  ],
+  "presets": [{ "name": "NAD · Product video" }]
+}
+{% endschema %}

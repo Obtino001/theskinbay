@@ -1,0 +1,622 @@
+{% comment %}
+  Skin Bay Vitamin C Education Section (Ultimate Editable Version)
+  - Full Font Size Control (Desktop & Mobile)
+  - Full Padding/Spacing Control
+  - Editorial Layout
+{% endcomment %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  .sb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: 'Lato', sans-serif;
+  }
+
+  /* Section Padding (Outer) */
+  .sb-wrapper {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  /* Internal Spacing helper */
+  .sb-spacer {
+    height: {{ section.settings.internal_spacing }}px;
+  }
+
+  /* Typography - Dynamic Settings */
+  .sb-title {
+    font-size: {{ section.settings.title_size_d }}px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .sb-subtitle {
+    font-size: {{ section.settings.subtitle_size_d }}px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    color: {{ section.settings.accent_color }};
+    display: block;
+  }
+
+  .sb-body {
+    font-size: {{ section.settings.body_size_d }}px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .sb-body p {
+    margin-bottom: 1rem;
+  }
+
+  .sb-heading-2 {
+    font-size: {{ section.settings.h2_size_d }}px;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: {{ section.settings.heading_color }};
+    text-align: center;
+  }
+
+  /* Brand-font header banners (SEO heading kept, visually hidden) */
+  .vc-hbanner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 12px;}
+  .vc-hbanner-left{display:block;width:100%;max-width:440px;height:auto;margin:0 0 12px;}
+  .vc-hvh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* Layout Grids */
+  .sb-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .sb-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  /* Feature Cards */
+  .sb-card {
+    background: {{ section.settings.card_bg }};
+    padding: 2rem;
+    border: 1px solid {{ section.settings.border_color }};
+    text-align: center;
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .sb-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .sb-card h3 {
+    font-size: {{ section.settings.card_title_size }}px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: {{ section.settings.heading_color }};
+  }
+
+  /* Button */
+  .sb-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: {{ section.settings.accent_color }};
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sb-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* Editorial Image styling */
+  .sb-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  .sb-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Usage Section Box */
+  .sb-usage-box {
+    background: {{ section.settings.card_bg }}; 
+    padding: 3rem; 
+    border: 1px solid {{ section.settings.border_color }};
+  }
+
+  /* Mobile Responsive */
+  @media only screen and (max-width: 749px) {
+    .sb-wrapper {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+
+    .sb-spacer {
+      height: {{ section.settings.internal_spacing | divided_by: 2 }}px;
+    }
+    
+    .sb-grid-2, .sb-grid-3 {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    /* Mobile Typography Overrides */
+    .sb-title {
+      font-size: {{ section.settings.title_size_m }}px;
+    }
+    
+    .sb-subtitle {
+      font-size: {{ section.settings.subtitle_size_m }}px;
+    }
+    
+    .sb-heading-2 {
+      font-size: {{ section.settings.h2_size_m }}px;
+    }
+    
+    .sb-body {
+      font-size: {{ section.settings.body_size_m }}px;
+    }
+
+    .sb-image-container {
+      min-height: 300px;
+      order: -1; 
+    }
+    
+    .sb-card {
+      padding: 1.5rem;
+    }
+    
+    .sb-usage-box {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="sb-wrapper">
+  <div class="sb-container">
+    
+    <!-- Hero Section -->
+    <div class="sb-grid-2">
+      <div>
+        {% if section.settings.subtitle != blank %}
+          <span class="sb-subtitle">{{ section.settings.subtitle }}</span>
+        {% endif %}
+        <img class="vc-hbanner-left" src="{{ 'vitc-h-title.png' | asset_url }}" alt="Vitamin C Serum">
+        <h1 class="sb-title vc-hvh">{{ section.settings.title }}</h1>
+        <div class="sb-body">{{ section.settings.intro_text }}</div>
+        {% if section.settings.show_cta %}
+          <a href="{{ section.settings.cta_link }}" class="sb-btn">{{ section.settings.cta_text }}</a>
+        {% endif %}
+      </div>
+      <div class="sb-image-container">
+        {% if section.settings.hero_image %}
+          {{ section.settings.hero_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- What is it Section -->
+    <div>
+      <img class="vc-hbanner" src="{{ 'vitc-h-def.png' | asset_url }}" alt="Why Vitamin C?">
+      <h2 class="sb-heading-2 vc-hvh">{{ section.settings.definition_title }}</h2>
+      <div class="sb-body" style="max-width: 800px; margin: 0 auto; text-align: center;">
+        {{ section.settings.definition_text }}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- Benefits Grid -->
+    <div>
+      <img class="vc-hbanner" src="{{ 'vitc-h-ben.png' | asset_url }}" alt="The Skin Benefits">
+      <h2 class="sb-heading-2 vc-hvh">{{ section.settings.benefits_title }}</h2>
+      <div class="sb-grid-3">
+        {% for block in section.blocks %}
+          <div class="sb-card">
+            <h3>{{ block.settings.benefit_title }}</h3>
+            <p class="sb-body" style="font-size: {{ section.settings.body_size_d | minus: 2 }}px; margin-bottom: 0;">{{ block.settings.benefit_desc }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- Usage & Ritual -->
+    <div class="sb-usage-box">
+      <img class="vc-hbanner" src="{{ 'vitc-h-ritual.png' | asset_url }}" alt="The Ritual">
+      <h2 class="sb-heading-2 vc-hvh" style="margin-top: 0;">{{ section.settings.ritual_title }}</h2>
+      <div class="sb-body" style="text-align: center; max-width: 800px; margin: 0 auto;">
+        {{ section.settings.ritual_text }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Skin Bay Vitamin C",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Typography: Main Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size_d",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_m",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Typography: Subtitle"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_d",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_m",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Typography: Section Headings"
+    },
+    {
+      "type": "range",
+      "id": "h2_size_d",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "h2_size_m",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Typography: Body Text"
+    },
+    {
+      "type": "range",
+      "id": "body_size_d",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "body_size_m",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Typography: Card Titles"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "internal_spacing",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap Between Inner Sections",
+      "default": 80,
+      "info": "Space between Hero, What Is It, Benefits, etc."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent/Button Color",
+      "default": "#E87E04"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card/Box Background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "header",
+      "content": "Content: Hero"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "The Science of Glow"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "Vitamin C Serum"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Paragraph",
+      "default": "<p>Unlock your skin’s potential with the gold standard of antioxidants. While essential for health, the human body does not produce Vitamin C on its own. Topical application is the most effective way to deliver this nutrient directly to your skin for visible radiance.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Shop The Serum"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Content: Definition"
+    },
+    {
+      "type": "text",
+      "id": "definition_title",
+      "label": "Definition Heading",
+      "default": "Why Vitamin C?"
+    },
+    {
+      "type": "richtext",
+      "id": "definition_text",
+      "label": "Definition Text",
+      "default": "<p>Vitamin C is a potent antioxidant that serves as your skin’s daily shield. It works by neutralizing harmful free radicals caused by exposure to UV light and environmental pollution. At The Skin Bay, we formulate our serums to ensure stability and maximum absorption, helping to prevent premature aging at the cellular level.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Content: Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Heading",
+      "default": "The Skin Benefits"
+    },
+    {
+      "type": "header",
+      "content": "Content: Ritual"
+    },
+    {
+      "type": "text",
+      "id": "ritual_title",
+      "label": "Ritual Heading",
+      "default": "The Ritual"
+    },
+    {
+      "type": "richtext",
+      "id": "ritual_text",
+      "label": "Ritual Text",
+      "default": "<p>For maximum protection, apply your Vitamin C serum in the morning after cleansing and toning. It layers perfectly beneath your moisturizer. Always finish with a broad-spectrum sunscreen; Vitamin C and SPF work synergistically to provide superior protection against sun damage.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_title",
+          "label": "Benefit Title",
+          "default": "Sun Defense"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_desc",
+          "label": "Description",
+          "default": "Protects against sun damage and neutralizes free radicals generated by UV exposure."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skin Bay Vitamin C",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Wrinkle Reduction",
+            "benefit_desc": "Stimulates collagen production to improve texture and soften the appearance of fine lines."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Dark Spot Correction",
+            "benefit_desc": "Inhibits melanin production to fade hyperpigmentation and even out skin tone."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Daily Brightening",
+            "benefit_desc": "Provides an immediate glow and long-term radiance for dull or tired-looking skin."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

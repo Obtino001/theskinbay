@@ -1,0 +1,162 @@
+<style>
+  .tsb-rh *.tsb-rh *::before.tsb-rh *::after { box-sizing: border-box; }
+  .tsb-rh a { text-decoration: none; }
+
+  .tsb-rh {
+    position: relative;
+    min-height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    overflow: hidden;
+  }
+  .tsb-rh-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+  .tsb-rh-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.72) 100%);
+  }
+  .tsb-rh-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 64px 24px 56px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .tsb-rh-eyebrow {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    display: block;
+    margin-bottom: 22px;
+  }
+  .tsb-rh-h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(3rem, 7.5vw, 6rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.02;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .tsb-rh-script {
+    font-family: 'Playfair Display', 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 400;
+    color: #EADEB0;
+    display: block;
+    line-height: 1.25;
+    margin-bottom: 36px;
+  }
+  .tsb-rh-rule {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 0 auto 32px;
+  }
+  .tsb-rh-sub {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+    color: rgba(255,255,255,0.58);
+    line-height: 1.85;
+    max-width: 520px;
+    margin: 0 auto 44px;
+    font-weight: 400;
+  }
+  .tsb-rh-ctas {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tsb-rh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 36px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .tsb-rh-btn-primary {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+  .tsb-rh-btn-primary:hover {
+    background: transparent;
+    color: #fff;
+  }
+  .tsb-rh-btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    border-color: rgba(255,255,255,0.3);
+  }
+  .tsb-rh-btn-secondary:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+  @media (max-width: 749px) {
+    .tsb-rh { min-height: 460px; }
+    .tsb-rh-content { padding: 56px 20px 48px; }
+    .tsb-rh-ctas { flex-direction: column; align-items: center; }
+    .tsb-rh-btn { width: 100%; max-width: 280px; }
+  }
+</style>
+
+<section class="tsb-rh">
+  {%- if section.settings.bg_image != blank -%}
+    <div class="tsb-rh-bg" style="background-image:url('{{ section.settings.bg_image | image_url: width: 2000 }}');" aria-hidden="true"></div>
+    <div class="tsb-rh-veil" aria-hidden="true"></div>
+  {%- endif -%}
+  <div class="tsb-rh-content">
+    {%- render 'sb-brand-heading', image: 'rwd-h-hero.png', text: 'TheSkinBay BayPoints', tag: 'h1', max: 460 -%}
+    <div class="tsb-rh-rule" aria-hidden="true"></div>
+    <p class="tsb-rh-sub">{{ section.settings.subheading | default: 'A curated membership for those who take their skincare seriously. Earn recognition, access and rewards with every order.' }}</p>
+    <div class="tsb-rh-ctas">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url | default: '/account/register' }}" class="tsb-rh-btn tsb-rh-btn-primary">{{ section.settings.cta_primary_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url | default: '/account/login' }}" class="tsb-rh-btn tsb-rh-btn-secondary">{{ section.settings.cta_secondary_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rewards, Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image",            "label": "Background image" },
+    { "type": "text",         "id": "eyebrow",             "label": "Eyebrow text",         "default": "Exclusive Membership" },
+    { "type": "text",         "id": "heading",             "label": "Main heading (Playfair Display)","default": "TheSkinBay" },
+    { "type": "text",         "id": "script_line",         "label": "Script accent (Sloop)", "default": "Rewards" },
+    { "type": "textarea",     "id": "subheading",          "label": "Subheading",            "default": "A curated membership for those who take their skincare seriously. Earn recognition, access and rewards with every order." },
+    { "type": "text",         "id": "cta_primary_label",   "label": "Primary button label",  "default": "Join the Club" },
+    { "type": "url",          "id": "cta_primary_url",     "label": "Primary button link" },
+    { "type": "text",         "id": "cta_secondary_label", "label": "Secondary button label","default": "Sign In" },
+    { "type": "url",          "id": "cta_secondary_url",   "label": "Secondary button link" }
+  ],
+  "presets": [{ "name": "Rewards, Hero" }]
+}
+{% endschema %}
+

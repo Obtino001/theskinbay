@@ -1,0 +1,294 @@
+
+<style>
+  .lf-404-wrap { text-align: center; padding: 72px 20px 56px; background: #fff; }
+  .lf-404-code {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(5rem, 14vw, 10rem); font-weight: 400; line-height: 1;
+    color: rgba(0,0,0,0.06); letter-spacing: -0.04em; margin: 0 0 -20px;
+  }
+  .lf-404-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 400;
+    color: #0c0c0c; margin: 0 0 16px;
+  }
+  .lf-404-body {
+    font-family: 'Lato', sans-serif; font-size: 0.9rem;
+    color: rgba(0,0,0,0.5); line-height: 1.6; margin: 0 0 36px;
+    max-width: 420px; display: block; margin-left: auto; margin-right: auto;
+  }
+  .lf-404-cta {
+    display: inline-block; padding: 13px 36px;
+    background: #000; color: #fff; text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    transition: background 0.18s;
+  }
+  .lf-404-cta:hover { background: #333; }
+
+  .lf-404-discover { background: #fafafa; border-top: 1px solid rgba(0,0,0,0.06); padding: 56px 0 72px; }
+  .lf-404-discover__inner { max-width: 1560px; margin: 0 auto; padding: 0 40px; }
+  .lf-404-discover__header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+  .lf-404-discover__eyebrow {
+    font-family: 'Lato', sans-serif; font-size: 0.5rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.35);
+    display: block; margin-bottom: 10px;
+  }
+  .lf-404-discover__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 400; color: #111; margin: 0;
+  }
+  .lf-404-view-all {
+    font-family: 'Lato', sans-serif; font-size: 0.5625rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.45);
+    border-bottom: 1px solid rgba(0,0,0,0.2); padding-bottom: 1px;
+    text-decoration: none; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .lf-404-view-all:hover { color: #000; border-color: #000; }
+
+  .lf-404-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; }
+  .lf-404-card { display: flex; flex-direction: column; }
+  .lf-404-img-wrap {
+    position: relative; width: 100%; aspect-ratio: 1/1;
+    overflow: hidden; background: #f5f5f5; margin-bottom: 10px;
+  }
+  .lf-404-img {
+    width: 100%; height: 100%; object-fit: contain; object-position: center;
+    display: block; padding: 8%; box-sizing: border-box;
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .lf-404-card:hover .lf-404-img { transform: scale(1.04); }
+  .lf-404-vendor {
+    font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.38);
+  }
+  .lf-404-title {
+    font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 400;
+    color: #111; line-height: 1.35; margin: 3px 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    text-decoration: none; transition: color 0.15s;
+  }
+  .lf-404-title:hover { color: rgba(0,0,0,0.55); }
+  .lf-404-price { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 600; color: #000; }
+  .lf-404-compare { font-size: 10px; color: #aaa; text-decoration: line-through; margin-left: 5px; }
+
+  @media (max-width: 1199px) { .lf-404-grid { grid-template-columns: repeat(3, 1fr); gap: 24px 12px; } }
+  @media (max-width: 749px) {
+    .lf-404-grid { grid-template-columns: repeat(2, 1fr); gap: 18px 10px; }
+    .lf-404-discover__inner { padding: 0 20px; }
+    .lf-404-wrap { padding: 56px 20px 40px; }
+  }
+</style>
+
+<div class="lf-404-wrap">
+  <div class="lf-404-code">404</div>
+  <h1 class="lf-404-heading">Page not found</h1>
+  <span class="lf-404-body">The link may be incorrect, or the page may have been removed. Let us help you find something you love.</span>
+  <a href="/collections/all" class="lf-404-cta">Continue Shopping</a>
+</div>
+
+{%- comment -%}── Discover section: 4 cols × 3 rows, price > 0 only ──{%- endcomment -%}
+{%- assign _404_col = collections['best-sellers'] -%}
+{%- if _404_col == blank or _404_col.products_count == 0 -%}
+  {%- assign _404_col = collections.all -%}
+{%- endif -%}
+
+<div class="lf-404-discover">
+  <div class="lf-404-discover__inner">
+    <div class="lf-404-discover__header">
+      <div>
+        <span class="lf-404-discover__eyebrow">Explore TheSkinBay</span>
+        <h2 class="lf-404-discover__title">Discover Something New</h2>
+      </div>
+      <a href="/collections/all" class="lf-404-view-all">View all</a>
+    </div>
+    <div class="lf-404-grid">
+      {%- assign _404_count = 0 -%}
+      {%- for product in _404_col.products limit: 48 -%}
+        {%- if product.price > 0 and _404_count < 12 -%}
+          {%- assign _404_count = _404_count | plus: 1 -%}
+          <div class="lf-404-card">
+            <a href="{{ product.url }}">
+              <div class="lf-404-img-wrap">
+                {%- if product.featured_image != blank -%}
+                  <img src="{{ product.featured_image | image_url: width: 400 }}"
+                       alt="{{ product.featured_image.alt | escape }}"
+                       class="lf-404-img" loading="lazy">
+                {%- endif -%}
+              </div>
+            </a>
+            <div class="lf-404-vendor">{{ product.vendor }}</div>
+            <a href="{{ product.url }}" class="lf-404-title">{{ product.title }}</a>
+            <div>
+              <span class="lf-404-price">{{ product.price | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="lf-404-compare">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.404",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_direction",
+      "label": "t:settings.direction",
+      "options": [
+        {
+          "value": "column",
+          "label": "t:options.vertical"
+        }
+      ],
+      "default": "column",
+      "visible_if": "{{ section.settings.horizontal_alignment_flex_direction_column == 'fake-value' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:settings.height",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.auto"
+        },
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        },
+        {
+          "value": "full-screen",
+          "label": "t:options.full_screen"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment_flex_direction_column",
+      "label": "t:settings.alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment_flex_direction_column",
+      "label": "t:settings.position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.top"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

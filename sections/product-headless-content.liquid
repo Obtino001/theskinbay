@@ -1,0 +1,111 @@
+{%- comment -%} Headless-style PDP content: trust grid + routine/usage + best-for (metafield/tag driven) {%- endcomment -%}
+{%- liquid
+  assign htu = product.metafields.custom.how_to_use
+  assign benefits = product.metafields.custom.benefits
+  assign concern_set = 'Anti-Ageing,Ageing Skin,Fine Lines & Wrinkles,Sensitive,Sensitive Skin,Pigmentation,Dry/Dehydrated Skin,Dehydrated,dehydrated skin,Acne,Blemish,Redness,Rosacea,Dull,brightening,Oily,Menopause,Dry Skin,Normal Skin,mature skins' | split: ','
+-%}
+<section class="phc" data-section-id="{{ section.id }}">
+
+  {%- comment -%} TRUST GRID {%- endcomment -%}
+  <div class="phc-trust">
+    <div class="phc-trust-inner">
+      <div class="phc-tcard"><span class="phc-tico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span class="phc-ttitle">{{ section.settings.c1_title | default: 'Genuine & Authentic' }}</span><span class="phc-tbody">{{ section.settings.c1_body | default: 'Sourced direct, every product is 100% authentic, never grey-market.' }}</span></div>
+      <div class="phc-tcard"><span class="phc-tico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg></span><span class="phc-ttitle">{{ section.settings.c2_title | default: 'Results-Driven' }}</span><span class="phc-tbody">{{ section.settings.c2_body | default: 'Clinically-backed formulas chosen for what actually works on the skin.' }}</span></div>
+      <div class="phc-tcard"><span class="phc-tico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><span class="phc-ttitle">{{ section.settings.c3_title | default: 'Complimentary Gifts' }}</span><span class="phc-tbody">{{ section.settings.c3_body | default: 'Exclusive free gifts with qualifying orders, more value, every time.' }}</span></div>
+      <div class="phc-tcard"><span class="phc-tico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><span class="phc-ttitle">{{ section.settings.c4_title | default: 'Fast UK Dispatch' }}</span><span class="phc-tbody">{{ section.settings.c4_body | default: 'Tracked Royal Mail delivery, dispatched with care from the UK.' }}</span></div>
+    </div>
+  </div>
+
+  {%- comment -%} ROUTINE + USAGE (dark) {%- endcomment -%}
+  {%- if htu != blank -%}
+  <div class="phc-routine">
+    <div class="phc-routine-inner">
+      <p class="phc-eyebrow phc-eyebrow-light">{{ section.settings.routine_eyebrow | default: 'The Ritual' }}</p>
+      <h2 class="phc-h2 phc-h2-light">{{ section.settings.routine_heading | default: 'How to use' }}</h2>
+      <div class="phc-htu">{% render 'phc-richtext', rt: htu.value %}</div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} BEST FOR + BENEFITS {%- endcomment -%}
+  {%- assign has_fit = false -%}
+  {%- for tag in product.tags -%}{%- if concern_set contains tag -%}{%- assign has_fit = true -%}{%- endif -%}{%- endfor -%}
+  {%- if has_fit or benefits != blank -%}
+  <div class="phc-fit">
+    <div class="phc-fit-inner">
+      {%- if has_fit -%}
+      <div class="phc-fit-block">
+        <p class="phc-eyebrow">Skin Fit</p>
+        <h2 class="phc-h2">Best for</h2>
+        <div class="phc-tags">
+          {%- for tag in product.tags -%}{%- if concern_set contains tag -%}<span class="phc-tag">{{ tag }}</span>{%- endif -%}{%- endfor -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if benefits != blank -%}
+      <div class="phc-fit-block">
+        <p class="phc-eyebrow">Why You'll Love It</p>
+        <h2 class="phc-h2">The Benefits</h2>
+        <div class="phc-benefits">{% render 'phc-richtext', rt: benefits.value %}</div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+</section>
+
+<style>
+  .phc{background:#fff;color:#141414;}
+  .phc-eyebrow{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:#8a8377;margin:0 0 10px;}
+  .phc-eyebrow-light{color:#c9bfae;}
+  .phc-h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(24px,3.4vw,36px);line-height:1.08;margin:0 0 20px;}
+  .phc-h2-light{color:#fff;}
+  /* trust grid */
+  .phc-trust{border-top:1px solid #ece7df;border-bottom:1px solid #ece7df;}
+  .phc-trust-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+  .phc-tcard{padding:34px 30px;display:flex;flex-direction:column;gap:10px;border-right:1px solid #ece7df;}
+  .phc-tcard:last-child{border-right:0;}
+  .phc-tico{width:26px;height:26px;color:#141414;}
+  .phc-tico svg{width:100%;height:100%;}
+  .phc-ttitle{font-family:'Lato',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#141414;margin-top:4px;}
+  .phc-tbody{font-family:'Lato',sans-serif;font-size:13px;line-height:1.6;color:#6b6459;}
+  /* routine dark */
+  .phc-routine{background:#141414;color:#fff;padding:64px 24px;}
+  .phc-routine-inner{max-width:760px;margin:0 auto;text-align:center;}
+  .phc-htu{font-family:'Lato',sans-serif;font-size:15px;line-height:1.8;color:rgba(255,255,255,.78);text-align:center;}
+  .phc-htu p{margin:0 0 12px;} .phc-htu ol,.phc-htu ul{text-align:center;list-style-position:inside;padding-left:0;margin:0 0 12px;} .phc-htu li{margin-bottom:8px;}
+  /* fit */
+  .phc-fit{padding:60px 24px;}
+  .phc-fit-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  .phc-tags{display:flex;flex-wrap:wrap;gap:10px;}
+  .phc-tag{font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.06em;padding:8px 16px;border:1px solid #141414;border-radius:999px;color:#141414;}
+  .phc-benefits{font-family:'Lato',sans-serif;font-size:14px;line-height:1.75;color:#4d4840;}
+  .phc-benefits ul{padding-left:18px;margin:0;} .phc-benefits li{margin-bottom:8px;}
+  @media (max-width:899px){
+    .phc-trust-inner{grid-template-columns:repeat(2,1fr);}
+    .phc-tcard:nth-child(2){border-right:0;} .phc-tcard:nth-child(1),.phc-tcard:nth-child(2){border-bottom:1px solid #ece7df;}
+    .phc-fit-inner{grid-template-columns:1fr;gap:36px;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "PDP · Content",
+  "settings": [
+    { "type": "header", "content": "Trust grid (2×2)" },
+    { "type": "text", "id": "c1_title", "label": "Card 1 title", "default": "Genuine & Authentic" },
+    { "type": "text", "id": "c1_body",  "label": "Card 1 text",  "default": "Sourced direct, every product is 100% authentic, never grey-market." },
+    { "type": "text", "id": "c2_title", "label": "Card 2 title", "default": "Results-Driven" },
+    { "type": "text", "id": "c2_body",  "label": "Card 2 text",  "default": "Clinically-backed formulas chosen for what actually works on the skin." },
+    { "type": "text", "id": "c3_title", "label": "Card 3 title", "default": "Complimentary Gifts" },
+    { "type": "text", "id": "c3_body",  "label": "Card 3 text",  "default": "Exclusive free gifts with qualifying orders, more value, every time." },
+    { "type": "text", "id": "c4_title", "label": "Card 4 title", "default": "Fast UK Dispatch" },
+    { "type": "text", "id": "c4_body",  "label": "Card 4 text",  "default": "Tracked Royal Mail delivery, dispatched with care from the UK." },
+    { "type": "header", "content": "Routine / usage" },
+    { "type": "text", "id": "routine_eyebrow", "label": "Eyebrow", "default": "The Ritual" },
+    { "type": "text", "id": "routine_heading", "label": "Heading", "default": "How to use" }
+  ],
+  "presets": [{ "name": "PDP · Content" }]
+}
+{% endschema %}

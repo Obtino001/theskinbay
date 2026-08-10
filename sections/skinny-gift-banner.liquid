@@ -1,0 +1,97 @@
+{%- comment -%}
+  Coded skinny gift banner. Reads a "gift_offer" metaobject by handle.
+  Auto-hides if: gift not found, toggled inactive, past its end date,
+  OR the linked gift product is out of stock.
+  Fully responsive (no image). Managed in Content > Metaobjects > Gift Offer.
+{%- endcomment -%}
+{%- liquid
+  assign g = blank
+  for e in shop.metaobjects.gift_offer.values
+    if e.system.handle == section.settings.gift_handle
+      assign g = e
+    endif
+  endfor
+  assign show = false
+  if g != blank
+    assign is_active = g.active.value
+    assign expired = false
+    if g.end_date.value != blank
+      assign end_ts = g.end_date.value | date: '%s' | plus: 86400
+      assign now_ts = 'now' | date: '%s'
+      if now_ts > end_ts
+        assign expired = true
+      endif
+    endif
+    assign out_of_stock = false
+    assign gp = g.gift_product.value
+    if gp != blank
+      assign tracked = false
+      assign qty = 0
+      for v in gp.variants
+        if v.inventory_management != blank
+          assign tracked = true
+          assign qty = qty | plus: v.inventory_quantity
+        endif
+      endfor
+      if tracked
+        if qty <= 0
+          assign out_of_stock = true
+        endif
+      elsif gp.available == false
+        assign out_of_stock = true
+      endif
+    endif
+    if is_active and expired == false and out_of_stock == false
+      assign show = true
+    endif
+  endif
+-%}
+
+{%- if show -%}
+  {%- assign col = g.collection.value -%}
+  {%- assign href = col.url | default: section.settings.fallback_url | default: '#' -%}
+  <a class="skinny-gift" href="{{ href }}" style="--sg-bg:{{ section.settings.bg_color }};--sg-fg:{{ section.settings.text_color }};">
+    <span class="skinny-gift__inner">
+      {%- if g.eyebrow.value != blank -%}<span class="skinny-gift__eyebrow">{{ g.eyebrow.value }}</span>{%- endif -%}
+      <span class="skinny-gift__main">
+        {%- if g.headline.value != blank -%}<strong class="skinny-gift__headline">{{ g.headline.value }}</strong>{%- endif -%}
+        {%- if g.offer.value != blank -%}<span class="skinny-gift__offer">{{ g.offer.value }}</span>{%- endif -%}
+      </span>
+      <span class="skinny-gift__cta">{{ g.link_text.value | default: 'Shop now' }}&nbsp;&rsaquo;</span>
+    </span>
+  </a>
+{%- endif -%}
+
+{% stylesheet %}
+  .skinny-gift { display:block; text-decoration:none; background:var(--sg-bg,#0b1225); color:var(--sg-fg,#fff);
+    font-family:'Lato',sans-serif; padding:14px 20px; transition:filter .2s ease; }
+  .skinny-gift:hover { filter:brightness(1.08); }
+  .skinny-gift__inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:center;
+    flex-wrap:wrap; gap:6px 16px; text-align:center; }
+  .skinny-gift__eyebrow { font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; opacity:.7; }
+  .skinny-gift__main { display:inline-flex; align-items:baseline; flex-wrap:wrap; justify-content:center; gap:4px 8px; }
+  .skinny-gift__headline { font-size:clamp(.9rem,.82rem+.4vw,1.1rem); font-weight:700; letter-spacing:.02em; text-transform:uppercase; }
+  .skinny-gift__offer { font-size:clamp(.8rem,.76rem+.25vw,.95rem); font-style:italic; opacity:.9; text-transform:none; }
+  .skinny-gift__cta { font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+    border-bottom:1px solid currentColor; padding-bottom:1px; white-space:nowrap; }
+  @media (max-width:600px){
+    .skinny-gift { padding:11px 14px; }
+    .skinny-gift__inner { gap:3px 10px; }
+    .skinny-gift__eyebrow { flex-basis:100%; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Skinny gift banner",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "Enter the handle of a Gift Offer entry (Content > Metaobjects > Gift Offer). The banner shows automatically and hides itself when that gift is toggled off, past its end date, or the linked gift product is out of stock." },
+    { "type": "text", "id": "gift_handle", "label": "Gift offer handle", "info": "e.g. free-avene-tote-bag" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#0b1225" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" },
+    { "type": "url", "id": "fallback_url", "label": "Fallback link (if no collection set on the gift)" }
+  ],
+  "presets": [{ "name": "Skinny gift banner" }]
+}
+{% endschema %}

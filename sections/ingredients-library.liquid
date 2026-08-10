@@ -1,0 +1,341 @@
+{%- comment -%} Ingredients Library, searchable actives encyclopedia (ported from headless) {%- endcomment -%}
+<section class="il" data-section-id="{{ section.id }}">
+  <div class="il-hero">
+    <div class="il-hero-inner">
+      <p class="il-eyebrow il-vh">The Skin Bay</p>
+      <img class="il-banner" src="{{ 'ingredients-h-hero.png' | asset_url }}" alt="The Skin Bay Ingredients Library">
+      <h1 class="il-title il-vh">Ingredients Library</h1>
+      <p class="il-lede">A searchable encyclopedia of skincare actives, what each one does, who it&rsquo;s for, how to use it, and what to pair (or avoid). Tap any ingredient to learn more and shop products formulated with it.</p>
+      <div class="il-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="il-q" placeholder="Search retinol, azelaic acid, ceramides…" autocomplete="off">
+      </div>
+      <div class="il-chips">
+        <button class="il-chip is-active" type="button" data-role="all">All</button>
+        <button class="il-chip" type="button" data-role="retinoid">Retinoid</button>
+        <button class="il-chip" type="button" data-role="antioxidant">Antioxidant</button>
+        <button class="il-chip" type="button" data-role="brightening">Brightening</button>
+        <button class="il-chip" type="button" data-role="exfoliant">Exfoliant</button>
+        <button class="il-chip" type="button" data-role="humectant">Hydration</button>
+        <button class="il-chip" type="button" data-role="occlusive">Barrier</button>
+        <button class="il-chip" type="button" data-role="soothing">Soothing</button>
+        <button class="il-chip" type="button" data-role="peptide">Peptide</button>
+        <button class="il-chip" type="button" data-role="spf">Sun Protection</button>
+      </div>
+    </div>
+  </div>
+  <div class="il-grid" id="il-grid">
+      <details class="il-card" data-role="retinoid" data-search="retinol retinol retinol">
+        <summary class="il-head">
+          <span class="il-role-tag">Retinoid</span>
+          <span class="il-name">Retinol</span>
+          <span class="il-summary">The gold-standard vitamin A derivative. Speeds cell turnover, refines texture and softens fine lines over 12 weeks of consistent evening use.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Binds to retinoid receptors in the skin to accelerate cell turnover, stimulate collagen and normalise pigment production. Visible smoothing, fading and clarity over 8–12 weeks.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Fine lines</span><span class="il-tag ">Uneven texture</span><span class="il-tag ">Pigmentation</span><span class="il-tag ">Dullness</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">PM only, on dry skin. Start 2 nights a week and build up. Always finish with moisturiser and pair with daily SPF 30+.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Peptides</span><span class="il-tag il-tag-good">Ceramides</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Vitamin C (AM)</span><span class="il-tag il-tag-bad">AHAs/BHAs same night</span><span class="il-tag il-tag-bad">Benzoyl Peroxide</span></div></div>
+          <a class="il-shop" href="/collections/retinol">Shop Retinol &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="retinoid" data-search="retinaldehyde retinal retinal retinaldehyde">
+        <summary class="il-head">
+          <span class="il-role-tag">Retinoid</span>
+          <span class="il-name">Retinaldehyde</span>
+          <span class="il-summary">Retinaldehyde, one step closer to retinoic acid than retinol. Faster results with surprisingly gentle tolerance.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Converts to retinoic acid in a single step (vs. two for retinol), making it up to 11× faster while remaining well tolerated. Smooths, evens and firms.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Fine lines</span><span class="il-tag ">Texture</span><span class="il-tag ">Early ageing</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">PM only. Start every third night for 2 weeks, build to nightly. Buffer with moisturiser if sensitive.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Peptides</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Ceramides</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Acids same night</span><span class="il-tag il-tag-bad">Vitamin C same routine</span></div></div>
+          <a class="il-shop" href="/collections/medik8-retinol-collection">Shop Retinaldehyde &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="retinoid" data-search="tretinoin tretinoin tretinoin">
+        <summary class="il-head">
+          <span class="il-role-tag">Retinoid</span>
+          <span class="il-name">Tretinoin</span>
+          <span class="il-summary">Prescription-strength retinoic acid. The most clinically studied anti-ageing and acne active in dermatology.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Acts directly on retinoid receptors without conversion. Resurfaces, fades pigment, clears acne and rebuilds collagen.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Acne</span><span class="il-tag ">Wrinkles</span><span class="il-tag ">Pigmentation</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">Prescription only. Pea-sized dose PM, on dry skin. Daily SPF non-negotiable.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Ceramides</span><span class="il-tag il-tag-good">Hyaluronic Acid</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Acids</span><span class="il-tag il-tag-bad">Vitamin C</span><span class="il-tag il-tag-bad">Benzoyl Peroxide (same routine)</span></div></div>
+          <span class="il-rx">Prescription only, speak to your GP or a prescriber</span>
+        </div>
+      </details>
+      <details class="il-card" data-role="soothing" data-search="niacinamide niacinamide niacinamide">
+        <summary class="il-head">
+          <span class="il-role-tag">Soothing</span>
+          <span class="il-name">Niacinamide</span>
+          <span class="il-summary">Vitamin B3, the everyday multitasker. Calms redness, refines pores, supports the barrier and brightens uneven tone.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Strengthens the skin&#x27;s lipid barrier, regulates sebum, inhibits melanosome transfer and reduces inflammatory markers.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Enlarged pores</span><span class="il-tag ">Redness</span><span class="il-tag ">Uneven tone</span><span class="il-tag ">Oiliness</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and/or PM. Layers under everything. Safe in pregnancy.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Retinol</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Peptides</span><span class="il-tag il-tag-good">Vitamin C</span></div></div>
+          
+          <a class="il-shop" href="/search?q=niacinamide">Shop Niacinamide &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="antioxidant" data-search="l-ascorbic acid l ascorbic acid vitamin c ascorbic">
+        <summary class="il-head">
+          <span class="il-role-tag">Antioxidant</span>
+          <span class="il-name">L-Ascorbic Acid</span>
+          <span class="il-summary">The most studied form of Vitamin C. A potent antioxidant that brightens, defends against pollution and boosts SPF.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Neutralises free radicals, inhibits tyrosinase to fade pigment, and stimulates collagen. Most effective at 10–20% at pH &lt; 3.5.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Dullness</span><span class="il-tag ">Pigmentation</span><span class="il-tag ">Sun damage</span><span class="il-tag ">Uneven tone</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM, on clean skin, before moisturiser and SPF. Store away from light and air.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Vitamin E</span><span class="il-tag il-tag-good">Ferulic Acid</span><span class="il-tag il-tag-good">SPF</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Retinol same routine</span><span class="il-tag il-tag-bad">AHAs same routine</span></div></div>
+          <a class="il-shop" href="/collections/vitamin-c-products">Shop L-Ascorbic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="exfoliant" data-search="glycolic acid glycolic acid glycolic">
+        <summary class="il-head">
+          <span class="il-role-tag">Exfoliant</span>
+          <span class="il-name">Glycolic Acid</span>
+          <span class="il-summary">The smallest AHA molecule, deepest penetration. Resurfaces, smooths and reveals brighter skin underneath.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Dissolves the bonds between dead surface cells, accelerating turnover. Improves texture, tone and clarity.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Rough texture</span><span class="il-tag ">Dullness</span><span class="il-tag ">Pigmentation</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">PM, 2–3 nights a week. Always SPF the next morning. Not for sensitive or compromised skin.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Ceramides</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Retinoids same night</span><span class="il-tag il-tag-bad">Other acids</span></div></div>
+          <a class="il-shop" href="/collections/exfoliators-1">Shop Glycolic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="exfoliant" data-search="lactic acid lactic acid lactic acid">
+        <summary class="il-head">
+          <span class="il-role-tag">Exfoliant</span>
+          <span class="il-name">Lactic Acid</span>
+          <span class="il-summary">A gentler AHA that exfoliates and hydrates at the same time, ideal for dry or first-time acid users.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Exfoliates the surface while drawing water into the skin. Smooths texture without stripping.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Rough texture</span><span class="il-tag ">Dryness</span><span class="il-tag ">Dullness</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">PM, 2–4 nights a week. Follow with moisturiser.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Ceramides</span><span class="il-tag il-tag-good">Niacinamide</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Retinoids same night</span></div></div>
+          <a class="il-shop" href="/collections/exfoliators-1">Shop Lactic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="exfoliant" data-search="salicylic acid salicylic acid salicylic">
+        <summary class="il-head">
+          <span class="il-role-tag">Exfoliant</span>
+          <span class="il-name">Salicylic Acid</span>
+          <span class="il-summary">Oil-soluble BHA that travels into the pore to unclog blackheads, calm breakouts and refine congested skin.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Dissolves sebum and dead cells inside the pore. Anti-inflammatory at low concentrations.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Blackheads</span><span class="il-tag ">Breakouts</span><span class="il-tag ">Congestion</span><span class="il-tag ">Oily skin</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">PM (or as a cleanser AM). Spot-treat or apply all-over 3–5× a week.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Zinc</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">Avoid with</span><div class="il-tags"><span class="il-tag il-tag-bad">Retinoids same night</span></div></div>
+          <a class="il-shop" href="/collections/exfoliators-1">Shop Salicylic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="brightening" data-search="azelaic acid azelaic acid azelaic">
+        <summary class="il-head">
+          <span class="il-role-tag">Brightening</span>
+          <span class="il-name">Azelaic Acid</span>
+          <span class="il-summary">A quiet powerhouse for rosacea, redness, post-acne marks and stubborn pigmentation. Safe in pregnancy.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Antimicrobial, anti-inflammatory and a tyrosinase inhibitor. Calms redness while gently fading pigment.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Rosacea</span><span class="il-tag ">Redness</span><span class="il-tag ">Post-acne marks</span><span class="il-tag ">Melasma</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and/or PM. Apply after serums, before moisturiser. Layers beautifully with everything.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Retinoids (PM)</span></div></div>
+          
+          <a class="il-shop" href="/search?q=azelaic">Shop Azelaic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="humectant" data-search="hyaluronic acid hyaluronic acid hyaluronic sodium hyaluronate">
+        <summary class="il-head">
+          <span class="il-role-tag">Hydration</span>
+          <span class="il-name">Hyaluronic Acid</span>
+          <span class="il-summary">A hydration magnet that holds up to 1000× its weight in water. Plumps, smooths and softens immediately.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">A humectant that draws water into the upper layers of skin. Multi-weight formulas hydrate at different depths.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Dehydration</span><span class="il-tag ">Fine dehydration lines</span><span class="il-tag ">Tightness</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and PM, on damp skin, sealed in with moisturiser.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Everything</span></div></div>
+          
+          <a class="il-shop" href="/collections/hyaluronic-acid">Shop Hyaluronic Acid &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="peptide" data-search="peptides peptides peptide matrixyl copper peptide argireline acetyl hexapeptide palmitoyl tripeptide palmitoyl tetrapeptide palmitoyl pentapeptide copper tripeptide acetyl tetrapeptide acetyl octapeptide hexapeptide tripeptide oligopeptide polypeptide matrixyl 3000">
+        <summary class="il-head">
+          <span class="il-role-tag">Peptide</span>
+          <span class="il-name">Peptides</span>
+          <span class="il-summary">Short chains of amino acids that signal skin to firm, repair and rebuild. The collagen-support active.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Different peptides do different jobs: signal collagen, relax expression lines, support the barrier or boost wound repair.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Loss of firmness</span><span class="il-tag ">Fine lines</span><span class="il-tag ">Barrier repair</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and PM. Excellent layered with retinoids and vitamin C.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Retinol</span><span class="il-tag il-tag-good">Vitamin C</span><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Hyaluronic Acid</span></div></div>
+          
+          <a class="il-shop" href="/collections/peptides">Shop Peptides &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="occlusive" data-search="ceramides ceramides ceramide cerave">
+        <summary class="il-head">
+          <span class="il-role-tag">Barrier</span>
+          <span class="il-name">Ceramides</span>
+          <span class="il-summary">The lipids that make up over 50% of your skin barrier. Restore them and almost every concern improves.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Replenish the skin&#x27;s mortar between cells, reducing water loss and protecting against irritants.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Dryness</span><span class="il-tag ">Sensitivity</span><span class="il-tag ">Compromised barrier</span><span class="il-tag ">Eczema-prone skin</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and PM as moisturiser. Especially useful when starting retinoids or acids.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Everything</span></div></div>
+          
+          <a class="il-shop" href="/search?q=ceramide">Shop Ceramides &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="antioxidant" data-search="vitamin e vitamin e tocopherol vitamin e ferulic">
+        <summary class="il-head">
+          <span class="il-role-tag">Antioxidant</span>
+          <span class="il-name">Vitamin E</span>
+          <span class="il-summary">A lipid-soluble antioxidant that protects cell membranes and amplifies the brightening power of vitamin C.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Neutralises free radicals in the lipid layer of the skin and supports barrier repair.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Dryness</span><span class="il-tag ">Environmental damage</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM, paired with vitamin C and SPF.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Vitamin C</span><span class="il-tag il-tag-good">Ferulic Acid</span><span class="il-tag il-tag-good">SPF</span></div></div>
+          
+          <a class="il-shop" href="/search?q=tocopherol">Shop Vitamin E &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="soothing" data-search="centella asiatica centella centella cica madecassoside">
+        <summary class="il-head">
+          <span class="il-role-tag">Soothing</span>
+          <span class="il-name">Centella Asiatica</span>
+          <span class="il-summary">Cica, the K-beauty soothing hero. Calms redness, accelerates repair and supports a compromised barrier.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Madecassoside and asiaticoside reduce inflammation and stimulate wound healing.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Redness</span><span class="il-tag ">Sensitivity</span><span class="il-tag ">Post-procedure skin</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">AM and PM, especially after retinoids, acids or in-clinic treatments.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Ceramides</span><span class="il-tag il-tag-good">Hyaluronic Acid</span><span class="il-tag il-tag-good">Peptides</span></div></div>
+          
+          <a class="il-shop" href="/search?q=centella">Shop Centella Asiatica &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="spf" data-search="zinc oxide zinc oxide zinc oxide uv defense sunscreen spf">
+        <summary class="il-head">
+          <span class="il-role-tag">Sun Protection</span>
+          <span class="il-name">Zinc Oxide</span>
+          <span class="il-summary">A mineral SPF filter that physically reflects UVA + UVB. Non-irritating and reef-safe.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Sits on the surface of skin scattering and reflecting UV. Broad-spectrum and photo-stable.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Sensitive skin</span><span class="il-tag ">Post-procedure</span><span class="il-tag ">Daily defence</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">Final step AM, generously and re-applied every 2 hours of sun exposure.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Vitamin C</span><span class="il-tag il-tag-good">Niacinamide</span><span class="il-tag il-tag-good">Antioxidants</span></div></div>
+          
+          <a class="il-shop" href="/collections/suncare">Shop Zinc Oxide &#8250;</a>
+        </div>
+      </details>
+      <details class="il-card" data-role="spf" data-search="titanium dioxide titanium dioxide titanium dioxide uv defense sunscreen spf">
+        <summary class="il-head">
+          <span class="il-role-tag">Sun Protection</span>
+          <span class="il-name">Titanium Dioxide</span>
+          <span class="il-summary">A second mineral SPF filter that pairs with zinc oxide for full-spectrum protection.</span>
+        </summary>
+        <div class="il-body">
+          <p class="il-what">Scatters and reflects UV rays. Especially effective against UVB.</p>
+          <div class="il-mb"><span class="il-mlabel">Best for</span><div class="il-tags"><span class="il-tag ">Sensitive skin</span><span class="il-tag ">Children&#x27;s SPF</span></div></div>
+          <div class="il-mb"><span class="il-mlabel">How to use</span><p class="il-how">Final step AM, re-apply every 2 hours.</p></div>
+          <div class="il-mb"><span class="il-mlabel">Pairs with</span><div class="il-tags"><span class="il-tag il-tag-good">Zinc Oxide</span><span class="il-tag il-tag-good">Antioxidants</span></div></div>
+          
+          <a class="il-shop" href="/collections/suncare">Shop Titanium Dioxide &#8250;</a>
+        </div>
+      </details>
+  </div>
+  <p class="il-empty" id="il-empty" hidden>No ingredients match your search.</p>
+</section>
+
+<style>
+  .il{background:#fff;color:#141414;}
+  .il-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 22px;}
+  .il-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  .il-hero{background:#F9F3ED;text-align:center;padding:56px 24px 40px;}
+  .il-hero-inner{max-width:720px;margin:0 auto;}
+  .il-eyebrow{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:12px;color:#8a8377;margin:0 0 10px;}
+  .il-title{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(34px,5vw,54px);line-height:1.05;margin:0 0 14px;}
+  .il-lede{font-family:'Lato',sans-serif;font-size:16px;line-height:1.6;color:#4d4840;max-width:560px;margin:0 auto;}
+  .il-search{position:relative;max-width:460px;margin:26px auto 0;}
+  .il-search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#a49c8d;}
+  .il-search input{width:100%;box-sizing:border-box;padding:15px 20px 15px 46px;border-radius:999px;border:1px solid #e2dbcd;background:#fff;font-family:'Lato',sans-serif;font-size:14px;color:#141414;}
+  .il-search input:focus{outline:none;border-color:#141414;}
+  .il-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px;}
+  .il-chip{font-family:'Lato',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:1px solid #cfc7b7;background:transparent;color:#6b6459;cursor:pointer;transition:all .2s;}
+  .il-chip:hover{border-color:#141414;color:#141414;}
+  .il-chip.is-active{background:#141414;color:#fff;border-color:#141414;}
+  .il-grid{max-width:860px;margin:0 auto;padding:36px 24px 72px;display:flex;flex-direction:column;gap:14px;}
+  .il-card{border:1px solid #ece7df;border-radius:8px;overflow:hidden;background:#fff;}
+  .il-card[open]{border-color:#d8d0c1;box-shadow:0 8px 24px rgba(0,0,0,.05);}
+  .il-head{list-style:none;cursor:pointer;padding:20px 52px 20px 24px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;position:relative;}
+  .il-head::-webkit-details-marker{display:none;}
+  .il-head::after{content:'+';position:absolute;right:22px;top:18px;font-family:'Lato',sans-serif;font-size:22px;color:#a49c8d;}
+  .il-card[open] .il-head::after{content:'\2013';}
+  .il-role-tag{font-family:'Lato',sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8a8377;border:1px solid #e2dbcd;border-radius:999px;padding:4px 10px;}
+  .il-name{font-family:'Playfair Display',Georgia,serif;font-size:21px;color:#141414;}
+  .il-summary{flex:1 1 100%;font-family:'Lato',sans-serif;font-size:13.5px;line-height:1.5;color:#6b6459;margin-top:3px;}
+  .il-body{padding:0 24px 26px;}
+  .il-what{font-family:'Lato',sans-serif;font-size:14.5px;line-height:1.7;color:#413d36;margin:0 0 18px;}
+  .il-mb{margin-bottom:15px;}
+  .il-mlabel{display:block;font-family:'Lato',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#a49c8d;margin-bottom:8px;}
+  .il-how{font-family:'Lato',sans-serif;font-size:13.5px;line-height:1.6;color:#4d4840;margin:0;}
+  .il-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .il-tag{font-family:'Lato',sans-serif;font-size:12px;padding:6px 12px;border-radius:6px;background:#f3efe8;color:#4d4840;}
+  .il-tag-good{background:#edf2ea;color:#41603b;}
+  .il-tag-bad{background:#f6eceb;color:#7c3d3d;}
+  .il-shop{display:inline-block;margin-top:18px;font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:#141414;color:#fff;padding:12px 26px;border-radius:999px;transition:opacity .2s;}
+  .il-shop:hover{opacity:.85;}
+  .il-rx{display:block;margin-top:16px;font-family:'Lato',sans-serif;font-size:12px;font-style:italic;color:#8a8377;}
+  .il-empty{text-align:center;font-family:'Lato',sans-serif;color:#8a8377;padding:10px 24px 60px;}
+  @media (max-width:749px){ .il-name{font-size:18px;} .il-grid{padding:28px 16px 56px;} }
+</style>
+
+<script>
+  (function(){
+    var root=document.querySelector('.il[data-section-id="{{ section.id }}"]');
+    if(!root){return;}
+    var q=root.querySelector('#il-q'), chips=root.querySelectorAll('.il-chip'),
+        cards=root.querySelectorAll('.il-card'), empty=root.querySelector('#il-empty');
+    var role='all', term='';
+    function apply(){
+      var n=0;
+      cards.forEach(function(c){
+        var okR = role==='all' || c.getAttribute('data-role')===role;
+        var okT = !term || (c.getAttribute('data-search')||'').indexOf(term)>-1;
+        var show=okR&&okT; c.hidden=!show; if(show){n++;} else {c.open=false;}
+      });
+      empty.hidden = n>0;
+    }
+    if(q){ q.addEventListener('input',function(e){ term=(e.target.value||'').toLowerCase().trim(); apply(); }); }
+    chips.forEach(function(ch){ ch.addEventListener('click',function(){
+      chips.forEach(function(x){x.classList.remove('is-active');}); ch.classList.add('is-active');
+      role=ch.getAttribute('data-role'); apply();
+    }); });
+  })();
+</script>
+
+{% schema %}
+{ "name": "Ingredients Library", "settings": [], "presets": [{ "name": "Ingredients Library" }] }
+{% endschema %}

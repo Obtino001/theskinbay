@@ -1,0 +1,266 @@
+{%- style -%}
+  #section-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    background-image: url('{{ section.settings.image | image_url: width: 2000 }}');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .banner-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    z-index: 1;
+  }
+
+  .banner-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+    color: {{ section.settings.text_color }};
+    pointer-events: none; /* let clicks pass through to the full-banner link */
+  }
+  .banner-content-wrapper .banner-link { pointer-events: auto; }
+
+  .banner-text-main {
+    margin: 0 30px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .banner-text-sub {
+    font-style: italic;
+    font-family: serif; /* Matches the "selected beauty" style in your image */
+    text-transform: lowercase;
+    opacity: 0.9;
+    margin-left: 10px;
+  }
+
+  .banner-link {
+    color: {{ section.settings.text_color }};
+    text-decoration: underline;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+  }
+
+  .banner-link:hover {
+    opacity: 0.7;
+  }
+
+  .banner-fulllink {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: block;
+    text-indent: -9999px;
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+
+  /* Desktop Settings */
+  @media screen and (min-width: 750px) {
+    #section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 1.1 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 1.1 | round }}px;
+    }
+    .banner-text-main {
+      font-size: {{ section.settings.font_size_desktop }}px;
+    }
+  }
+
+  /* Mobile Settings */
+  @media screen and (max-width: 749px) {
+    #section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile | times: 1.1 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | times: 1.1 | round }}px;
+      {%- if section.settings.image_mobile != blank %}
+      background-image: url('{{ section.settings.image_mobile | image_url: width: 1200 }}');
+      {%- endif %}
+    }
+    .banner-content-wrapper {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .banner-text-main {
+      font-size: {{ section.settings.font_size_mobile }}px;
+      margin: 0;
+    }
+    .banner-text-sub {
+      display: block;
+      margin-left: 0;
+    }
+  }
+{%- endstyle -%}
+
+<section id="section-{{ section.id }}">
+  <div class="banner-overlay"></div>
+  {% if section.settings.link_url != blank %}
+    <a href="{{ section.settings.link_url }}" class="banner-fulllink" aria-label="{{ section.settings.headline | strip_html | default: 'Shop this offer' | escape }}">{{ section.settings.headline | strip_html | default: 'Shop this offer' | escape }}</a>
+  {% endif %}
+  <div class="banner-content-wrapper">
+    
+    <div class="banner-text-main">
+      {{ section.settings.headline }}
+      {% if section.settings.sub_headline != blank %}
+        <span class="banner-text-sub">{{ section.settings.sub_headline }}</span>
+      {% endif %}
+    </div>
+
+    {% if section.settings.link_text != blank %}
+      <a href="{{ section.settings.link_url }}" class="banner-link">
+        {{ section.settings.link_text }}
+      </a>
+    {% endif %}
+    
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Skinny Promo Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Background Image (wide & skinny)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Background Image (optional, falls back to desktop)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 10,
+      "unit": "%",
+      "label": "Darken Background Image",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Main Headline",
+      "default": "FREE SPF 50 Fullsize worth £50 when you buy any serum or moisturiser"
+    },
+    {
+      "type": "text",
+      "id": "sub_headline",
+      "label": "Sub-text (Italicized)",
+      "default": "from Skinceuticals"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text (optional, leave blank; whole banner is already clickable)"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Sizing"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Sizing"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size Mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top Mobile",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom Mobile",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skinny Promo Banner"
+    }
+  ]
+}
+{% endschema %}

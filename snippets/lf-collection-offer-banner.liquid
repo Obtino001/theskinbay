@@ -1,0 +1,58 @@
+{%- liquid
+  assign _col_s    = collection.handle | append: ' ' | append: collection.title | downcase
+  assign _col_brand = nil
+  assign _col_gift  = nil
+  assign _col_min   = nil
+  if _col_s contains 'skinceuticals'
+    assign _col_brand = 'SkinCeuticals'
+    assign _col_gift  = 'a complimentary SkinCeuticals gift'
+    assign _col_min   = '£150'
+  elsif _col_s contains 'medik8' or _col_s contains 'medik 8'
+    assign _col_brand = 'Medik8'
+    assign _col_gift  = 'a complimentary Medik8 gift'
+    assign _col_min   = '£100'
+  elsif _col_s contains 'cliniccare'
+    assign _col_brand = 'Cliniccare'
+    assign _col_gift  = 'a complimentary Cliniccare gift'
+    assign _col_min   = '£100'
+  elsif _col_s contains 'avene' or _col_s contains 'avène'
+    assign _col_brand = 'Avène'
+    assign _col_gift  = 'a complimentary Avène gift'
+    assign _col_min   = '£80'
+  endif
+-%}
+{%- if _col_brand != nil -%}
+<div class="lf-col-offer-banner" role="complementary" aria-label="Gift promotion">
+  <span class="lf-col-offer-icon" aria-hidden="true">✦</span>
+  <span class="lf-col-offer-text">
+    Receive {{ _col_gift }} on orders over <strong>{{ _col_min }}</strong>
+  </span>
+  <span class="lf-col-offer-icon" aria-hidden="true">✦</span>
+</div>
+<style>
+  .lf-col-offer-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 15px 24px;
+    background: #0c0c0c;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #f0ebe0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .lf-col-offer-icon {
+    color: #c5a059;
+    font-size: 8px;
+    opacity: .8;
+  }
+  .lf-col-offer-text strong { color: #c5a059; font-weight: 700; }
+  @media (max-width: 749px) {
+    .lf-col-offer-banner { font-size: 8.5px; letter-spacing: .16em; gap: 10px; padding: 13px 16px; }
+  }
+</style>
+{%- endif -%}

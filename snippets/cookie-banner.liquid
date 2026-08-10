@@ -1,0 +1,38 @@
+{%- comment -%} On-brand cookie consent banner (registers with Shopify Customer Privacy API) {%- endcomment -%}
+<div id="sb-cookie" class="sb-cookie" role="dialog" aria-label="Cookie notice" aria-live="polite" hidden>
+  <div class="sb-cookie__inner">
+    <p class="sb-cookie__title">A note on cookies</p>
+    <p class="sb-cookie__text">We use cookies to give you the best experience and to understand how our store is used. You can accept or decline non-essential cookies at any time. See our <a href="/policies/privacy-policy" class="sb-cookie__link">Privacy Policy</a>.</p>
+    <div class="sb-cookie__actions">
+      <button type="button" class="sb-cookie__btn sb-cookie__btn--accept" data-sb-cookie="accept">Accept</button>
+      <button type="button" class="sb-cookie__btn sb-cookie__btn--decline" data-sb-cookie="decline">Decline</button>
+    </div>
+  </div>
+</div>
+<style>
+  .sb-cookie{position:fixed;left:20px;bottom:20px;z-index:99998;width:360px;max-width:calc(100vw - 32px);background:#fffdf9;border:1px solid #e6ddcd;border-radius:8px;box-shadow:0 10px 34px rgba(0,0,0,.15);font-family:'Lato',sans-serif;overflow:hidden;}
+  .sb-cookie[hidden]{display:none;}
+  .sb-cookie::before{content:'';display:block;height:3px;background:linear-gradient(90deg,#0c0c0c,#b8925a);}
+  .sb-cookie__inner{padding:18px 20px;}
+  .sb-cookie__title{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:500;margin:0 0 6px;color:#0c0c0c;}
+  .sb-cookie__text{font-size:12px;line-height:1.55;color:#4d4840;margin:0 0 14px;}
+  .sb-cookie__link{color:#0c0c0c;text-decoration:underline;}
+  .sb-cookie__actions{display:flex;gap:10px;}
+  .sb-cookie__btn{flex:1;padding:11px 14px;border-radius:30px;font-family:'Lato',sans-serif;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .18s ease,color .18s ease;border:1px solid #0c0c0c;}
+  .sb-cookie__btn--accept{background:#0c0c0c;color:#fff;}
+  .sb-cookie__btn--accept:hover{background:#333;}
+  .sb-cookie__btn--decline{background:transparent;color:#0c0c0c;}
+  .sb-cookie__btn--decline:hover{background:#f2ede4;}
+  @media(max-width:600px){.sb-cookie{left:12px;right:12px;bottom:12px;width:auto;}}
+</style>
+<script>
+(function(){
+  var KEY='sb_cookie_consent';
+  function gc(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?m[1]:'';}
+  function sc(n,v,days){var d=new Date();d.setTime(d.getTime()+days*864e5);document.cookie=n+'='+v+';expires='+d.toUTCString()+';path=/;SameSite=Lax';}
+  var el=document.getElementById('sb-cookie'); if(!el) return;
+  function apply(grant){try{if(window.Shopify&&window.Shopify.customerPrivacy&&window.Shopify.customerPrivacy.setTrackingConsent){window.Shopify.customerPrivacy.setTrackingConsent({analytics:grant,marketing:grant,preferences:grant,sale_of_data:grant},function(){});}}catch(e){}}
+  if(!gc(KEY)){ el.hidden=false; }
+  el.addEventListener('click',function(e){var b=e.target.closest('[data-sb-cookie]'); if(!b) return; var c=b.getAttribute('data-sb-cookie'); sc(KEY,c,180); apply(c==='accept'); el.hidden=true;});
+})();
+</script>

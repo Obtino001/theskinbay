@@ -1,0 +1,1326 @@
+{% comment %}
+  lf-loyalty-page.liquid
+  TheSkinBay Luxury Loyalty Rewards Page
+  All zones: Hero, Stats, How It Works, Ways to Earn, VIP Tiers,
+             Refer a Friend, Testimonials, FAQ, Final CTA
+{% endcomment %}
+
+<style>
+  :root {
+    --lf-lp-gold: #C8A96A;
+    --lf-lp-gold-light: rgba(200, 169, 106, 0.15);
+    --lf-lp-gold-mid: rgba(200, 169, 106, 0.35);
+    --lf-lp-cream: #F6F2EB;
+    --lf-lp-black: #0c0c0c;
+    --lf-lp-white: #ffffff;
+    --lf-lp-dark: #1a1a0a;
+    --lf-lp-text-muted: #666;
+    --lf-lp-border: rgba(0,0,0,0.1);
+    --lf-lp-transition: 0.35s ease;
+  }
+
+  /* ── Reset & base ─────────────────────────────────── */
+  .lf-lp-section {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+  }
+  .lf-lp-section *,
+  .lf-lp-section *::before,
+  .lf-lp-section *::after {
+    box-sizing: border-box;
+  }
+  .lf-lp-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .lf-lp-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lf-lp-gold);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .lf-lp-h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0 0 20px;
+  }
+  .lf-lp-section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .lf-lp-section-header p {
+    font-size: 1rem;
+    color: var(--lf-lp-text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .lf-lp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    transition: background var(--lf-lp-transition), color var(--lf-lp-transition), border-color var(--lf-lp-transition);
+    cursor: pointer;
+    border: 2px solid transparent;
+    line-height: 1;
+  }
+  .lf-lp-btn-gold {
+    background: var(--lf-lp-gold);
+    color: var(--lf-lp-white);
+    border-color: var(--lf-lp-gold);
+  }
+  .lf-lp-btn-gold:hover {
+    background: #b8953a;
+    border-color: #b8953a;
+  }
+  .lf-lp-btn-ghost-white {
+    background: transparent;
+    color: var(--lf-lp-white);
+    border-color: var(--lf-lp-white);
+  }
+  .lf-lp-btn-ghost-white:hover {
+    background: var(--lf-lp-white);
+    color: var(--lf-lp-black);
+  }
+  .lf-lp-btn-ghost-black {
+    background: transparent;
+    color: var(--lf-lp-black);
+    border-color: var(--lf-lp-black);
+  }
+  .lf-lp-btn-ghost-black:hover {
+    background: var(--lf-lp-black);
+    color: var(--lf-lp-white);
+  }
+
+  /* ── Reveal animation ─────────────────────────────── */
+  .lf-lp-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .lf-lp-reveal.lf-lp-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* HERO                                               */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(160deg, var(--lf-lp-black) 0%, var(--lf-lp-dark) 60%, #0f0f00 100%);
+  }
+  .lf-lp-hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.18;
+    z-index: 1;
+  }
+  .lf-lp-hero-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(200,169,106,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(200,169,106,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .lf-lp-hero-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .lf-lp-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 120px 24px 80px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .lf-lp-hero .lf-lp-eyebrow {
+    margin-bottom: 16px;
+    font-size: 0.65rem;
+  }
+  .lf-lp-hero-h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    font-weight: 400;
+    color: var(--lf-lp-white);
+    line-height: 1.08;
+    margin: 0 0 24px;
+  }
+  .lf-lp-hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: rgba(255,255,255,0.72);
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 0 auto 40px;
+  }
+  .lf-lp-hero-ctas {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Floating pill badges */
+  .lf-lp-hero-pills {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .lf-lp-pill {
+    position: absolute;
+    background: rgba(200,169,106,0.12);
+    border: 1px solid rgba(200,169,106,0.4);
+    color: var(--lf-lp-gold);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    border-radius: 100px;
+    backdrop-filter: blur(4px);
+    will-change: transform;
+  }
+  .lf-lp-pill-1 { top: 20%; left: 8%;  animation: lf-lp-float 5s ease-in-out infinite; }
+  .lf-lp-pill-2 { top: 30%; right: 7%; animation: lf-lp-float 6s ease-in-out infinite 1s; }
+  .lf-lp-pill-3 { bottom: 28%; left: 10%; animation: lf-lp-float 4.5s ease-in-out infinite 0.5s; }
+  .lf-lp-pill-4 { bottom: 35%; right: 9%; animation: lf-lp-float 5.5s ease-in-out infinite 1.5s; }
+
+  @keyframes lf-lp-float {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  @media (max-width: 749px) {
+    .lf-lp-pill-1, .lf-lp-pill-3 { left: 3%; }
+    .lf-lp-pill-2, .lf-lp-pill-4 { right: 3%; }
+    .lf-lp-pill { font-size: 0.6rem; padding: 6px 12px; }
+    .lf-lp-hero { min-height: 100svh; }
+    .lf-lp-hero-content { padding: 100px 20px 60px; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* STATS BAR                                          */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-stats {
+    background: var(--lf-lp-cream);
+    border-top: 1px solid var(--lf-lp-border);
+    border-bottom: 1px solid var(--lf-lp-border);
+    padding: 0;
+  }
+  .lf-lp-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lf-lp-stat-item {
+    text-align: center;
+    padding: 44px 24px;
+    position: relative;
+  }
+  .lf-lp-stat-item + .lf-lp-stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background: var(--lf-lp-gold);
+    opacity: 0.4;
+  }
+  .lf-lp-stat-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: var(--lf-lp-black);
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .lf-lp-stat-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lf-lp-text-muted);
+  }
+
+  @media (max-width: 899px) {
+    .lf-lp-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .lf-lp-stat-item:nth-child(3)::before { display: none; }
+    .lf-lp-stat-item:nth-child(3) {
+      border-top: 1px solid rgba(200,169,106,0.3);
+    }
+    .lf-lp-stat-item:nth-child(4) {
+      border-top: 1px solid rgba(200,169,106,0.3);
+    }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-stats-grid { grid-template-columns: 1fr 1fr; }
+    .lf-lp-stat-item { padding: 32px 16px; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* HOW IT WORKS                                       */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-how {
+    background: var(--lf-lp-white);
+    padding: 96px 0;
+  }
+  .lf-lp-how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .lf-lp-how-card {
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 36px 28px 32px;
+    position: relative;
+    transition: transform var(--lf-lp-transition), box-shadow var(--lf-lp-transition);
+  }
+  .lf-lp-how-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+  }
+  .lf-lp-how-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--lf-lp-gold);
+    color: var(--lf-lp-white);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .lf-lp-how-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--lf-lp-black);
+    margin: 0 0 10px;
+  }
+  .lf-lp-how-desc {
+    font-size: 0.9rem;
+    color: var(--lf-lp-text-muted);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  @media (max-width: 899px) {
+    .lf-lp-how-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-how { padding: 64px 0; }
+    .lf-lp-how-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* WAYS TO EARN                                       */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-earn {
+    background: var(--lf-lp-cream);
+    padding: 96px 0;
+  }
+  .lf-lp-earn-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .lf-lp-earn-card {
+    background: var(--lf-lp-white);
+    padding: 36px 28px;
+    position: relative;
+    transition: transform var(--lf-lp-transition), box-shadow var(--lf-lp-transition);
+  }
+  .lf-lp-earn-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.1);
+  }
+  .lf-lp-earn-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+    color: var(--lf-lp-gold);
+  }
+  .lf-lp-earn-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .lf-lp-earn-pts {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: var(--lf-lp-gold-light);
+    border: 1px solid var(--lf-lp-gold-mid);
+    color: var(--lf-lp-gold);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .lf-lp-earn-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--lf-lp-black);
+    margin: 0 0 10px;
+  }
+  .lf-lp-earn-desc {
+    font-size: 0.9rem;
+    color: var(--lf-lp-text-muted);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  @media (max-width: 899px) {
+    .lf-lp-earn-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-earn { padding: 64px 0; }
+    .lf-lp-earn-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* VIP TIERS                                          */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-tiers {
+    background: var(--lf-lp-black);
+    padding: 96px 0;
+  }
+  .lf-lp-tiers .lf-lp-section-header { margin-bottom: 56px; }
+  .lf-lp-tiers .lf-lp-h2 { color: var(--lf-lp-white); }
+  .lf-lp-tiers .lf-lp-section-header p { color: rgba(255,255,255,0.55); }
+  .lf-lp-tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .lf-lp-tier-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 44px 32px 40px;
+    position: relative;
+    transition: border-color var(--lf-lp-transition), transform var(--lf-lp-transition);
+  }
+  .lf-lp-tier-card:hover {
+    border-color: rgba(200,169,106,0.4);
+    transform: translateY(-3px);
+  }
+  .lf-lp-tier-card.lf-lp-tier-featured {
+    border: 2px solid var(--lf-lp-gold);
+    background: rgba(200,169,106,0.06);
+    transform: translateY(-8px);
+  }
+  .lf-lp-tier-card.lf-lp-tier-featured:hover { transform: translateY(-12px); }
+  .lf-lp-tier-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lf-lp-gold);
+    color: var(--lf-lp-white);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    white-space: nowrap;
+  }
+  .lf-lp-tier-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: block;
+    line-height: 1;
+  }
+  .lf-lp-tier-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--lf-lp-white);
+    margin: 0 0 6px;
+  }
+  .lf-lp-tier-range {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lf-lp-gold);
+    display: block;
+    margin-bottom: 20px;
+  }
+  .lf-lp-tier-spend {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .lf-lp-tier-perks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+  }
+  .lf-lp-tier-perks li {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-left: 20px;
+    position: relative;
+  }
+  .lf-lp-tier-perks li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--lf-lp-gold);
+    font-size: 0.5rem;
+    top: 12px;
+  }
+  .lf-lp-tier-perks li:last-child { border-bottom: none; }
+
+  @media (max-width: 899px) {
+    .lf-lp-tiers-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .lf-lp-tier-card.lf-lp-tier-featured { transform: none; }
+    .lf-lp-tier-card.lf-lp-tier-featured:hover { transform: translateY(-3px); }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-tiers { padding: 64px 0; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* REFER A FRIEND                                     */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-refer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+  }
+  .lf-lp-refer-left {
+    background: var(--lf-lp-black);
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .lf-lp-refer-left .lf-lp-h2 { color: var(--lf-lp-white); margin-bottom: 20px; }
+  .lf-lp-refer-left p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    margin: 0 0 36px;
+    max-width: 400px;
+  }
+  .lf-lp-refer-right {
+    background: var(--lf-lp-cream);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lf-lp-refer-deco {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(8rem, 18vw, 16rem);
+    font-weight: 400;
+    color: var(--lf-lp-gold);
+    opacity: 0.14;
+    position: absolute;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+  }
+  .lf-lp-refer-visual {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+  }
+  .lf-lp-refer-card {
+    background: var(--lf-lp-white);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 32px 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  }
+  .lf-lp-refer-card-amount {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.5rem;
+    color: var(--lf-lp-gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .lf-lp-refer-card-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lf-lp-text-muted);
+  }
+  .lf-lp-refer-card-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--lf-lp-gold);
+    margin: 16px auto;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 899px) {
+    .lf-lp-refer { grid-template-columns: 1fr; }
+    .lf-lp-refer-left { padding: 60px 32px; }
+    .lf-lp-refer-right { min-height: 320px; }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-refer-left { padding: 56px 24px; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* TESTIMONIALS                                       */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-reviews {
+    background: var(--lf-lp-white);
+    padding: 96px 0;
+  }
+  .lf-lp-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .lf-lp-review-card {
+    border: 1px solid rgba(0,0,0,0.07);
+    padding: 36px 32px;
+    position: relative;
+  }
+  .lf-lp-review-quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 4rem;
+    color: var(--lf-lp-gold);
+    line-height: 0.5;
+    opacity: 0.5;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .lf-lp-review-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 16px;
+    color: var(--lf-lp-gold);
+  }
+  .lf-lp-review-stars svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+  .lf-lp-review-text {
+    font-size: 0.925rem;
+    color: #333;
+    line-height: 1.75;
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  .lf-lp-review-author {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lf-lp-black);
+    margin-bottom: 6px;
+  }
+  .lf-lp-review-tier-badge {
+    display: inline-block;
+    background: var(--lf-lp-gold-light);
+    border: 1px solid var(--lf-lp-gold-mid);
+    color: var(--lf-lp-gold);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  @media (max-width: 899px) {
+    .lf-lp-reviews-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+  }
+  @media (max-width: 749px) {
+    .lf-lp-reviews { padding: 64px 0; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* FAQ                                                */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-faq {
+    background: var(--lf-lp-cream);
+    padding: 96px 0;
+  }
+  .lf-lp-faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .lf-lp-faq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .lf-lp-faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.1); }
+  .lf-lp-faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--lf-lp-black);
+    transition: color var(--lf-lp-transition);
+  }
+  .lf-lp-faq-question:hover { color: var(--lf-lp-gold); }
+  .lf-lp-faq-item.lf-lp-faq-open .lf-lp-faq-question {
+    color: var(--lf-lp-gold);
+    border-bottom: 1px solid var(--lf-lp-gold);
+    margin-bottom: -1px;
+  }
+  .lf-lp-faq-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform var(--lf-lp-transition);
+  }
+  .lf-lp-faq-item.lf-lp-faq-open .lf-lp-faq-icon { transform: rotate(45deg); }
+  .lf-lp-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+  .lf-lp-faq-item.lf-lp-faq-open .lf-lp-faq-answer { max-height: 240px; }
+  .lf-lp-faq-answer p {
+    padding: 4px 0 28px;
+    font-size: 0.9rem;
+    color: var(--lf-lp-text-muted);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  @media (max-width: 749px) {
+    .lf-lp-faq { padding: 64px 0; }
+    .lf-lp-faq-question { font-size: 0.8rem; }
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* FINAL CTA                                          */
+  /* ─────────────────────────────────────────────────── */
+  .lf-lp-final-cta {
+    background: var(--lf-lp-black);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .lf-lp-final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(200,169,106,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .lf-lp-final-cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .lf-lp-final-cta .lf-lp-h2 {
+    color: var(--lf-lp-white);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    margin-bottom: 20px;
+  }
+  .lf-lp-final-cta p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    margin: 0 0 40px;
+  }
+  .lf-lp-final-cta .lf-lp-hero-ctas { margin-top: 0; }
+
+  @media (max-width: 749px) {
+    .lf-lp-final-cta { padding: 80px 0; }
+  }
+
+  /* ── Joy app wrapper ──────────────────────────────── */
+  .lf-joy-wrapper,
+  .shopify-section:has([class*="joy"]) {
+    background: var(--lf-lp-cream);
+    padding: 48px 0;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* ── Stagger reveals ─────────────────────────────── */
+  .lf-lp-how-card:nth-child(1) { transition-delay: 0s; }
+  .lf-lp-how-card:nth-child(2) { transition-delay: 0.08s; }
+  .lf-lp-how-card:nth-child(3) { transition-delay: 0.16s; }
+  .lf-lp-how-card:nth-child(4) { transition-delay: 0.24s; }
+  .lf-lp-earn-card:nth-child(1) { transition-delay: 0s; }
+  .lf-lp-earn-card:nth-child(2) { transition-delay: 0.07s; }
+  .lf-lp-earn-card:nth-child(3) { transition-delay: 0.14s; }
+  .lf-lp-earn-card:nth-child(4) { transition-delay: 0.21s; }
+  .lf-lp-earn-card:nth-child(5) { transition-delay: 0.28s; }
+  .lf-lp-earn-card:nth-child(6) { transition-delay: 0.35s; }
+  .lf-lp-tier-card:nth-child(1) { transition-delay: 0s; }
+  .lf-lp-tier-card:nth-child(2) { transition-delay: 0.1s; }
+  .lf-lp-tier-card:nth-child(3) { transition-delay: 0.2s; }
+  .lf-lp-review-card:nth-child(1) { transition-delay: 0s; }
+  .lf-lp-review-card:nth-child(2) { transition-delay: 0.1s; }
+  .lf-lp-review-card:nth-child(3) { transition-delay: 0.2s; }
+</style>
+
+<div class="lf-lp-section">
+
+  {%- comment -%} ══ HERO ══ {%- endcomment -%}
+  <section class="lf-lp-hero" aria-label="Loyalty programme hero">
+    {%- if section.settings.hero_image != blank -%}
+      <div class="lf-lp-hero-bg-image" style="background-image: url('{{ section.settings.hero_image | img_url: '2000x' }}'); opacity: {{ section.settings.hero_overlay_opacity | default: 50 | divided_by: 100.0 }};"></div>
+    {%- endif -%}
+    <div class="lf-lp-hero-grain" aria-hidden="true"></div>
+
+    <div class="lf-lp-hero-pills" aria-hidden="true">
+      <span class="lf-lp-pill lf-lp-pill-1">+50 pts</span>
+      <span class="lf-lp-pill lf-lp-pill-2">£5 OFF</span>
+      <span class="lf-lp-pill lf-lp-pill-3">VIP ACCESS</span>
+      <span class="lf-lp-pill lf-lp-pill-4">+100 pts</span>
+    </div>
+
+    <div class="lf-lp-hero-content">
+      <span class="lf-lp-eyebrow">Exclusive Membership</span>
+      <h1 class="lf-lp-hero-h1">TheSkinBay<br>Rewards Club</h1>
+      <p class="lf-lp-hero-sub">Earn points with every purchase. Unlock exclusive rewards, VIP access, birthday gifts and early product launches.</p>
+      <div class="lf-lp-hero-ctas">
+        <a href="/account/register" class="lf-lp-btn lf-lp-btn-gold">Join Rewards</a>
+        <a href="/account/login" class="lf-lp-btn lf-lp-btn-ghost-white">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ STATS BAR ══ {%- endcomment -%}
+  <section class="lf-lp-stats lf-lp-section" aria-label="Key statistics">
+    <div class="lf-lp-stats-grid">
+      <div class="lf-lp-stat-item lf-lp-reveal">
+        <span class="lf-lp-stat-number">2,000+</span>
+        <span class="lf-lp-stat-label">Members</span>
+      </div>
+      <div class="lf-lp-stat-item lf-lp-reveal">
+        <span class="lf-lp-stat-number">1pt</span>
+        <span class="lf-lp-stat-label">Per £2 Spent</span>
+      </div>
+      <div class="lf-lp-stat-item lf-lp-reveal">
+        <span class="lf-lp-stat-number">£5</span>
+        <span class="lf-lp-stat-label">Every 100 Points</span>
+      </div>
+      <div class="lf-lp-stat-item lf-lp-reveal">
+        <span class="lf-lp-stat-number">Free</span>
+        <span class="lf-lp-stat-label">To Join</span>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ HOW IT WORKS ══ {%- endcomment -%}
+  <section class="lf-lp-how lf-lp-section" aria-label="How the rewards programme works">
+    <div class="lf-lp-inner">
+      <div class="lf-lp-section-header lf-lp-reveal">
+        <span class="lf-lp-eyebrow">Simple &amp; Rewarding</span>
+        <h2 class="lf-lp-h2">How It Works</h2>
+      </div>
+      <div class="lf-lp-how-grid">
+        <div class="lf-lp-how-card lf-lp-reveal">
+          <div class="lf-lp-how-number">1</div>
+          <h3 class="lf-lp-how-title">Shop</h3>
+          <p class="lf-lp-how-desc">Browse our curated range of professional skincare brands, carefully selected for results.</p>
+        </div>
+        <div class="lf-lp-how-card lf-lp-reveal">
+          <div class="lf-lp-how-number">2</div>
+          <h3 class="lf-lp-how-title">Earn Points</h3>
+          <p class="lf-lp-how-desc">1 point for every £2 spent, credited automatically to your account after each order.</p>
+        </div>
+        <div class="lf-lp-how-card lf-lp-reveal">
+          <div class="lf-lp-how-number">3</div>
+          <h3 class="lf-lp-how-title">Collect</h3>
+          <p class="lf-lp-how-desc">Watch your points grow with every order. Log in anytime to track your balance and tier.</p>
+        </div>
+        <div class="lf-lp-how-card lf-lp-reveal">
+          <div class="lf-lp-how-number">4</div>
+          <h3 class="lf-lp-how-title">Redeem</h3>
+          <p class="lf-lp-how-desc">Claim a £5 voucher for every 100 points and apply it directly at checkout.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ WAYS TO EARN ══ {%- endcomment -%}
+  <section class="lf-lp-earn lf-lp-section" aria-label="Ways to earn points">
+    <div class="lf-lp-inner">
+      <div class="lf-lp-section-header lf-lp-reveal">
+        <span class="lf-lp-eyebrow">Earn More</span>
+        <h2 class="lf-lp-h2">Ways to Earn Points</h2>
+      </div>
+      <div class="lf-lp-earn-grid">
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">1 pt / £2</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="14" width="36" height="26" rx="2" stroke="currentColor" stroke-width="2"/>
+              <path d="M6 22h36" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 8l-4 6M32 8l4 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Place an Order</h3>
+          <p class="lf-lp-earn-desc">Earn 1 point for every £2 you spend on any product in our store.</p>
+        </div>
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">50 pts</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="8" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Create an Account</h3>
+          <p class="lf-lp-earn-desc">Get 50 bonus points simply for joining. Free, instant and rewarding from day one.</p>
+        </div>
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">Bonus pts</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 6l2.8 8.6H36l-7.4 5.4 2.8 8.6L24 23.2l-7.4 5.4 2.8-8.6L12 14.6h9.2L24 6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M24 32v10M18 38h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Birthday Reward</h3>
+          <p class="lf-lp-earn-desc">A surprise points gift delivered to you on your birthday. Our way of celebrating you.</p>
+        </div>
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">100 pts</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="20" r="7" stroke="currentColor" stroke-width="2"/>
+              <circle cx="32" cy="20" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M4 40c0-6.627 5.373-12 12-12M32 28c6.627 0 12 5.373 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M22 28c0-4 2-6 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Refer a Friend</h3>
+          <p class="lf-lp-earn-desc">Earn 100 points for every friend you successfully refer to TheSkinBay.</p>
+        </div>
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">25 pts</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="36" height="36" rx="8" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="24" r="7" stroke="currentColor" stroke-width="2"/>
+              <circle cx="35" cy="13" r="2.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Follow on Instagram</h3>
+          <p class="lf-lp-earn-desc">Follow us at @theskinbay.co.uk and earn 25 bonus points for staying connected.</p>
+        </div>
+
+        <div class="lf-lp-earn-card lf-lp-reveal">
+          <span class="lf-lp-earn-pts">15 pts</span>
+          <div class="lf-lp-earn-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 10h32v24H8z" stroke="currentColor" stroke-width="2" rx="2"/>
+              <path d="M16 38h16M24 34v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M16 20l5 5 11-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="lf-lp-earn-title">Write a Review</h3>
+          <p class="lf-lp-earn-desc">Share your experience. Earn 15 points for every verified product review you submit.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ VIP TIERS ══ {%- endcomment -%}
+  <section class="lf-lp-tiers lf-lp-section" aria-label="Membership tiers">
+    <div class="lf-lp-inner">
+      <div class="lf-lp-section-header lf-lp-reveal">
+        <span class="lf-lp-eyebrow">Exclusive Status</span>
+        <h2 class="lf-lp-h2">Your Rewards Journey</h2>
+      </div>
+      <div class="lf-lp-tiers-grid">
+
+        <div class="lf-lp-tier-card lf-lp-reveal">
+          <span class="lf-lp-tier-icon">✦</span>
+          <h3 class="lf-lp-tier-name">Insider</h3>
+          <span class="lf-lp-tier-range">0 – 249 Points</span>
+          <span class="lf-lp-tier-spend">Just start shopping</span>
+          <ul class="lf-lp-tier-perks">
+            <li>Access to members-only discounts</li>
+            <li>Birthday reward points gift</li>
+            <li>Newsletter exclusives &amp; first looks</li>
+            <li>Points on every purchase</li>
+          </ul>
+          <a href="/account/register" class="lf-lp-btn lf-lp-btn-ghost-white" style="width:100%;justify-content:center;">Start Earning</a>
+        </div>
+
+        <div class="lf-lp-tier-card lf-lp-tier-featured lf-lp-reveal">
+          <span class="lf-lp-tier-badge">Most Popular</span>
+          <span class="lf-lp-tier-icon">✦✦</span>
+          <h3 class="lf-lp-tier-name">Elite</h3>
+          <span class="lf-lp-tier-range">250 – 999 Points</span>
+          <span class="lf-lp-tier-spend">From £500 spend</span>
+          <ul class="lf-lp-tier-perks">
+            <li>All Insider benefits</li>
+            <li>Double points event access</li>
+            <li>Early sale &amp; launch access</li>
+            <li>Exclusive VIP gifts</li>
+          </ul>
+          <a href="/account/register" class="lf-lp-btn lf-lp-btn-gold" style="width:100%;justify-content:center;">Start Earning</a>
+        </div>
+
+        <div class="lf-lp-tier-card lf-lp-reveal">
+          <span class="lf-lp-tier-icon">✦✦✦</span>
+          <h3 class="lf-lp-tier-name">Platinum</h3>
+          <span class="lf-lp-tier-range">1,000+ Points</span>
+          <span class="lf-lp-tier-spend">From £2,000 spend</span>
+          <ul class="lf-lp-tier-perks">
+            <li>All Elite benefits</li>
+            <li>Complimentary consultations</li>
+            <li>Exclusive product launches</li>
+            <li>Personal skincare adviser</li>
+          </ul>
+          <a href="/account/register" class="lf-lp-btn lf-lp-btn-ghost-white" style="width:100%;justify-content:center;">Start Earning</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ REFER A FRIEND ══ {%- endcomment -%}
+  <section class="lf-lp-refer lf-lp-section" aria-label="Refer a friend programme">
+    <div class="lf-lp-refer-left lf-lp-reveal">
+      <span class="lf-lp-eyebrow">Share The Love</span>
+      <h2 class="lf-lp-h2">Give £5, Get £5</h2>
+      <p>Refer a friend to TheSkinBay and you both earn rewards. They receive £5 off their first order and you earn 100 points credited instantly.</p>
+      <a href="/account" class="lf-lp-btn lf-lp-btn-gold">Get Your Referral Link</a>
+    </div>
+    <div class="lf-lp-refer-right lf-lp-reveal">
+      <div class="lf-lp-refer-deco" aria-hidden="true">£5</div>
+      <div class="lf-lp-refer-visual">
+        <div class="lf-lp-refer-card">
+          <span class="lf-lp-refer-card-amount">£5</span>
+          <div class="lf-lp-refer-card-divider"></div>
+          <span class="lf-lp-refer-card-label">Your friend saves</span>
+          <div class="lf-lp-refer-card-divider"></div>
+          <span class="lf-lp-refer-card-amount" style="font-size:2rem;margin-top:8px;display:block;">100 pts</span>
+          <span class="lf-lp-refer-card-label">You earn</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ TESTIMONIALS ══ {%- endcomment -%}
+  <section class="lf-lp-reviews lf-lp-section" aria-label="Member testimonials">
+    <div class="lf-lp-inner">
+      <div class="lf-lp-section-header lf-lp-reveal">
+        <span class="lf-lp-eyebrow">Member Stories</span>
+        <h2 class="lf-lp-h2">What Our Members Say</h2>
+      </div>
+      <div class="lf-lp-reviews-grid">
+
+        <div class="lf-lp-review-card lf-lp-reveal">
+          <span class="lf-lp-review-quote" aria-hidden="true">"</span>
+          <div class="lf-lp-review-stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          </div>
+          <p class="lf-lp-review-text">I earned enough points for a free product within my first month. The rewards actually add up fast!</p>
+          <div class="lf-lp-review-author">Sarah M.</div>
+          <span class="lf-lp-review-tier-badge">Elite Member</span>
+        </div>
+
+        <div class="lf-lp-review-card lf-lp-reveal">
+          <span class="lf-lp-review-quote" aria-hidden="true">"</span>
+          <div class="lf-lp-review-stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          </div>
+          <p class="lf-lp-review-text">The birthday reward was a lovely surprise. TheSkinBay really makes you feel like a valued customer.</p>
+          <div class="lf-lp-review-author">Emma L.</div>
+          <span class="lf-lp-review-tier-badge">Platinum Member</span>
+        </div>
+
+        <div class="lf-lp-review-card lf-lp-reveal">
+          <span class="lf-lp-review-quote" aria-hidden="true">"</span>
+          <div class="lf-lp-review-stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          </div>
+          <p class="lf-lp-review-text">Referring my sister got us both a discount instantly. Such a simple and generous loyalty scheme.</p>
+          <div class="lf-lp-review-author">Kate W.</div>
+          <span class="lf-lp-review-tier-badge">Insider Member</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ FAQ ══ {%- endcomment -%}
+  <section class="lf-lp-faq lf-lp-section" aria-label="Frequently asked questions">
+    <div class="lf-lp-inner">
+      <div class="lf-lp-section-header lf-lp-reveal">
+        <span class="lf-lp-eyebrow">Got Questions?</span>
+        <h2 class="lf-lp-h2">Frequently Asked</h2>
+      </div>
+      <div class="lf-lp-faq-list lf-lp-reveal">
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            How do I start earning points?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>Simply create a free account and place your first order. Points are credited to your account automatically after every purchase.</p>
+          </div>
+        </div>
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            When do points expire?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>Points are valid for 12 months from the date they were earned. We recommend redeeming regularly to make the most of your balance.</p>
+          </div>
+        </div>
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            How do I redeem my points?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>Log in to your account, navigate to rewards, and select your voucher. The discount code is applied directly at checkout.</p>
+          </div>
+        </div>
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            Can I earn points on sale items?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>Yes, you earn points on all purchases including sale and bundle items. Points are based on the amount you spend.</p>
+          </div>
+        </div>
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            Is there a minimum redemption amount?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>You need a minimum of 100 points to redeem a £5 voucher. Points can be saved and accumulated over multiple orders.</p>
+          </div>
+        </div>
+
+        <div class="lf-lp-faq-item">
+          <button class="lf-lp-faq-question" aria-expanded="false">
+            Can I refer multiple friends?
+            <span class="lf-lp-faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="lf-lp-faq-answer" role="region">
+            <p>Yes, there is no limit on referrals. Every successful referral earns you 100 points, credited once your friend completes their first order.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ══ FINAL CTA ══ {%- endcomment -%}
+  <section class="lf-lp-final-cta lf-lp-section" aria-label="Join TheSkinBay Rewards">
+    <div class="lf-lp-final-cta-content lf-lp-reveal">
+      <span class="lf-lp-eyebrow">Begin Your Journey</span>
+      <h2 class="lf-lp-h2">Join TheSkinBay<br>Rewards Today</h2>
+      <p>Start earning points with your very next order. Membership is free, instant and exclusive to TheSkinBay customers.</p>
+      <div class="lf-lp-hero-ctas">
+        <a href="/account/register" class="lf-lp-btn lf-lp-btn-gold">Create Account</a>
+        <a href="/account/login" class="lf-lp-btn lf-lp-btn-ghost-white">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Scroll reveal ────────────────────────────────────
+  var reveals = document.querySelectorAll('.lf-lp-reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('lf-lp-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  } else {
+    // Fallback: show all immediately
+    reveals.forEach(function (el) {
+      el.classList.add('lf-lp-visible');
+    });
+  }
+
+  // ── FAQ accordion ────────────────────────────────────
+  var faqItems = document.querySelectorAll('.lf-lp-faq-item');
+  faqItems.forEach(function (item) {
+    var btn = item.querySelector('.lf-lp-faq-question');
+    var answer = item.querySelector('.lf-lp-faq-answer');
+    if (!btn || !answer) return;
+
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('lf-lp-faq-open');
+
+      // Close all open items
+      faqItems.forEach(function (other) {
+        if (other !== item) {
+          other.classList.remove('lf-lp-faq-open');
+          var otherBtn = other.querySelector('.lf-lp-faq-question');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Toggle current
+      if (isOpen) {
+        item.classList.remove('lf-lp-faq-open');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        item.classList.add('lf-lp-faq-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "LF Loyalty Page",
+  "tag": "section",
+  "class": "lf-loyalty-page-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero background image (optional overlay)"
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Hero image opacity",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "LF Loyalty Page"
+    }
+  ]
+}
+{% endschema %}

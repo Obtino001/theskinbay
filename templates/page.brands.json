@@ -1,0 +1,324 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "collection_list_Vy38D3": {
+      "type": "collection-list",
+      "blocks": {
+        "group_maLtD8": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_AQADwi": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h5>Shop By Brand: </h5><h5>Highlighting superior beauty brands, TheSkinBay sets the standard in the industry. Shop now for the best in Skincare, Make-up & Supplements.</h5>",
+                "width": "fit-content",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_AQADwi"
+          ]
+        },
+        "static-collection-card": {
+          "type": "collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "collection": "{{ closest.collection }}",
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection_title_i973dm": {
+              "type": "collection-title",
+              "name": "t:names.collection_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": true,
+                "background_color": "#ffffffa1",
+                "corner_radius": 19,
+                "padding-block-start": 4,
+                "padding-block-end": 4,
+                "padding-inline-start": 8,
+                "padding-inline-end": 8
+              },
+              "blocks": {}
+            },
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "portrait",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_i973dm"
+          ]
+        }
+      },
+      "block_order": [
+        "group_maLtD8"
+      ],
+      "name": "t:names.collections_grid",
+      "settings": {
+        "collection_list": [
+          "amalian",
+          "cebelia",
+          "cerave",
+          "jane-iredale",
+          "nad-home",
+          "olaplex",
+          "skinade",
+          "skinceuticals",
+          "vita-liberata",
+          "voya",
+          "you-want-my-lips"
+        ],
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "columns": 6,
+        "mobile_columns": "2",
+        "columns_gap": 8,
+        "bento_gap": 8,
+        "rows_gap": 8,
+        "max_collections": 4,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "17501346039c5f5b51": {
+      "type": "_blocks",
+      "blocks": {
+        "joy_loyalty_program_joy_in_line_kzfyR9": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-in-line/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-in-line-background-color": "",
+            "joy-inline-banner-height": "fit-content",
+            "joy-in-line-content-alignment": "center",
+            "joy-in-line-title-before": "",
+            "joy-in-line-title-after": "Hi {customer_name}, you have {balance_points} {loyalty_points}",
+            "joy-inline-heading-tag": "h2",
+            "joy-in-line-font-size-heading": "2.4rem",
+            "joy-in-line-subheading": "Receive exclusive rewards every time you shop.",
+            "joy-inline-subheading-tag": "p",
+            "joy-in-line-heading-color": "#000000",
+            "joy-in-line-subheading-color": "#000000",
+            "joy-in-line-primary-button-label": "Sign in now",
+            "joy-in-line-primary-button-label-loggedIn": "Earn more points",
+            "joy-in-line-primary-button-link": "/account/login",
+            "joy-in-line-primary-button-link-loggedIn": "/collections/all",
+            "joy-in-line-secondary-button-label": "Sign up",
+            "joy-in-line-secondary-button-link": "/account/login",
+            "joy-in-line-corner-radius": 8,
+            "joy-in-line-primary-button-backgroundcolor": "var(--joy-lp-primary-button-color)",
+            "joy-in-line-primary-button-color": "var(--joy-lp-primary-button-text-color)",
+            "joy-in-line-secondary-button-backgroundcolor": "var(--joy-lp-secondary-button-color)",
+            "joy-in-line-secondary-button-color": "var(--joy-lp-secondary-button-text-color)",
+            "joy-in-line-button-backgroundcolor-hover": "#000000",
+            "joy-in-line-button-color-hover": "#ffffff",
+            "joy-inline-max-width": 100
+          }
+        }
+      },
+      "block_order": [
+        "joy_loyalty_program_joy_in_line_kzfyR9"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "17501348016257a9ef": {
+      "type": "_blocks",
+      "blocks": {
+        "joy_loyalty_program_customer_account_nCyRjL": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/customer-account/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-customer-account-available-point": "Available points:",
+            "joy-customer-account-expiration-point": "Expired on:",
+            "joy-customer-account-pending-point": "Pending points:",
+            "joy-customer-account-coupon-list": "My coupons",
+            "joy-customer-account-earn-point-list": "Points history",
+            "joy-customer-account-coupon-code": "Coupon code",
+            "joy-customer-account-discount-value": "Discount value",
+            "joy-customer-account-discount-program": "Discount program",
+            "joy-customer-account-action": "Action",
+            "joy-customer-account-view-reward": "Apply",
+            "joy-customer-account-empty-message": "No data found",
+            "joy-customer-account-bg-color": "#ffffff",
+            "joy-customer-account-primary-text-color": "#000000",
+            "joy-customer-account-secondary-text-color": "#707070",
+            "joy-customer-account-button-text-color": "#000000",
+            "joy-customer-account-divider-color": "#dedede"
+          }
+        }
+      },
+      "block_order": [
+        "joy_loyalty_program_customer_account_nCyRjL"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_list_Vy38D3",
+    "17501346039c5f5b51",
+    "17501348016257a9ef"
+  ]
+}

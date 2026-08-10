@@ -1,0 +1,171 @@
+{%- liquid
+  assign product = closest.product
+  assign desc = product.description
+  assign h5_parts = desc | split: '<h5>'
+  assign intro_content = h5_parts | first
+  assign has_h5 = false
+  if h5_parts.size > 1
+    assign has_h5 = true
+  endif
+
+  assign all_mf_keys   = 'description,how_to_use,ingredients,pro_tip' | split: ','
+  assign all_mf_labels = 'Description,How To Use,Ingredients,Pro Tip'  | split: ','
+
+  # claimed_keys tracks which metafield keys were already handled by an H5 section.
+  # Delimiter-wrapped (",key,") prevents partial-string false matches.
+  assign claimed_keys = ','
+-%}
+
+<div class="pdp-description-accordions" {{ block.shopify_attributes }}>
+
+  {%- comment -%}── Intro text (content before first <h5>) ──{%- endcomment -%}
+  {%- if intro_content != blank -%}
+    <div class="pdp-desc-intro rte">{{ intro_content }}</div>
+  {%- endif -%}
+
+  {%- comment -%}── H5 sections: metafield takes priority, H5 body is fallback ──{%- endcomment -%}
+  {%- if has_h5 -%}
+    {%- for part in h5_parts -%}
+      {%- if forloop.index > 1 -%}
+        {%- assign heading_text = part | split: '</h5>' | first | strip_html | strip -%}
+        {%- assign h5_body      = part | split: '</h5>' | last -%}
+
+        {%- if heading_text != blank -%}
+          {%- assign heading_lower = heading_text | downcase | replace: '-', ' ' | strip -%}
+
+          {%- assign mf_key = nil -%}
+          {%- if heading_lower == 'description' or heading_lower == 'about' or heading_lower == 'about this product' -%}
+            {%- assign mf_key = 'description' -%}
+          {%- elsif heading_lower == 'how to use' or heading_lower == 'directions' or heading_lower == 'how to apply' or heading_lower == 'usage' or heading_lower == 'application' -%}
+            {%- assign mf_key = 'how_to_use' -%}
+          {%- elsif heading_lower == 'ingredients' or heading_lower == 'ingredient list' or heading_lower == 'full ingredients' or heading_lower == 'inci' -%}
+            {%- assign mf_key = 'ingredients' -%}
+          {%- elsif heading_lower == 'pro tip' or heading_lower == 'pro tips' or heading_lower == 'tips' or heading_lower == 'expert tip' or heading_lower == 'expert tips' -%}
+            {%- assign mf_key = 'pro_tip' -%}
+          {%- endif -%}
+
+          {%- assign use_metafield = false -%}
+          {%- assign mf_override = nil -%}
+          {%- if mf_key != nil -%}
+            {%- assign mf_override = product.metafields.custom[mf_key] -%}
+            {%- if mf_override != blank -%}
+              {%- assign use_metafield = true -%}
+              {%- assign claimed_keys = claimed_keys | append: mf_key | append: ',' -%}
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- capture acc_html -%}
+            <details class="details" data-testid="accordion-details">
+              <summary class="details__header">
+                {{ heading_text }}
+                <span class="svg-wrapper icon-caret icon-animated">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+                <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+              </summary>
+              <div class="details-content rte">
+                {%- if use_metafield -%}
+                  {{ mf_override | metafield_tag }}
+                {%- else -%}
+                  {{ h5_body }}
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endcapture -%}
+          {%- render 'accordion-custom-component', children: acc_html, class: 'product-desc-acc' -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- comment -%}── Unclaimed metafields: render any with content not already shown above ──{%- endcomment -%}
+  {%- for mf_key in all_mf_keys -%}
+    {%- assign search_key = ',' | append: mf_key | append: ',' -%}
+    {%- unless claimed_keys contains search_key -%}
+      {%- assign mf_value = product.metafields.custom[mf_key] -%}
+      {%- if mf_value != blank -%}
+        {%- assign mf_label = all_mf_labels[forloop.index0] -%}
+        {%- capture acc_html -%}
+          <details class="details" data-testid="accordion-details">
+            <summary class="details__header">
+              {{ mf_label }}
+              <span class="svg-wrapper icon-caret icon-animated">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+              <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+            </summary>
+            <div class="details-content rte">{{ mf_value | metafield_tag }}</div>
+          </details>
+        {%- endcapture -%}
+        {%- render 'accordion-custom-component', children: acc_html, class: 'product-desc-acc' -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+
+</div>
+
+{% stylesheet %}
+  .pdp-description-accordions {
+    width: 100%;
+  }
+
+  .pdp-desc-intro {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-foreground);
+  }
+
+  .pdp-desc-intro p:first-child { margin-block-start: 0; }
+  .pdp-desc-intro p:last-child  { margin-block-end: 0; }
+
+  accordion-custom.product-desc-acc .details {
+    border-block-start: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+  }
+
+  accordion-custom.product-desc-acc:last-of-type .details {
+    border-block-end: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+  }
+
+  /* Hide native browser <summary> disclosure triangle, all browsers */
+  accordion-custom.product-desc-acc .details__header {
+    list-style: none;
+  }
+  accordion-custom.product-desc-acc .details__header::marker { display: none; }
+  accordion-custom.product-desc-acc .details__header::-webkit-details-marker { display: none; }
+
+  accordion-custom.product-desc-acc .details__header {
+    font-size: 0.6875rem;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  /* Show only + icon, hide animated caret */
+  accordion-custom.product-desc-acc .icon-caret { display: none; }
+  accordion-custom.product-desc-acc .icon-plus  { display: flex; }
+
+  /* Rotate + to × when open */
+  accordion-custom.product-desc-acc .details[open] .icon-plus {
+    transform: rotate(45deg);
+  }
+
+  accordion-custom.product-desc-acc .icon-plus svg {
+    transition: transform 0.25s ease;
+  }
+
+  accordion-custom.product-desc-acc .details-content {
+    padding-block-end: var(--padding-sm, 12px);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Description Accordions",
+  "tag": null,
+  "presets": [
+    {
+      "name": "Description Accordions"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,132 @@
+<style>
+  .lf-hp *, .lf-hp *::before, .lf-hp *::after { box-sizing:border-box; }
+  .lf-hp a { text-decoration:none; }
+  .lf-section-eyebrow { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,0,0,.35); display:block; }
+  .lf-section-title   { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; letter-spacing:-.015em; color:#111; margin:0; line-height:1.1; }
+  .lf-view-all        { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5625rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.45); border-bottom:1px solid rgba(0,0,0,.2); padding-bottom:1px; transition:color .15s; white-space:nowrap; }
+  .lf-view-all:hover  { color:#000; border-color:#000; }
+
+  .lf-sbc-section { background:#fff; border-top:1px solid rgba(0,0,0,.06); }
+  .lf-sbc-head { padding:36px 40px 20px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; }
+  .lf-sbc-carousel { background:#0a0a0a; overflow:hidden; user-select:none; }
+  .lf-sbc-viewport { overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; cursor:grab; scrollbar-width:none; }
+  .lf-sbc-viewport::-webkit-scrollbar { display:none; }
+  .lf-sbc-viewport:active { cursor:grabbing; }
+  .lf-sbc-strip { display:flex; gap:2px; }
+  .lf-sbc-card { flex:0 0 calc(100vw/6 - 2px); min-width:140px; position:relative; display:block; overflow:hidden; aspect-ratio:1/1; scroll-snap-align:start; text-decoration:none; }
+  .lf-sbc-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .5s ease; }
+  .lf-sbc-card:hover .lf-sbc-img { transform:scale(1.05); filter:brightness(1.08); }
+  .lf-sbc-overlay { position:absolute; inset:0; background:rgba(0,0,0,.52); transition:background .4s ease; }
+  .lf-sbc-card:hover .lf-sbc-overlay { background:rgba(0,0,0,.36); }
+  .lf-sbc-ph { position:absolute; inset:0; }
+  .lf-sbc-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px; pointer-events:none; }
+  .lf-sbc-name { font-family:'Lato',var(--font-body--family),sans-serif; font-size:clamp(.5rem,1.1vw,.85rem); font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:#fff; text-align:center; text-shadow:0 2px 16px rgba(0,0,0,.6); transition:letter-spacing .3s; }
+  .lf-sbc-card:hover .lf-sbc-name { letter-spacing:.28em; }
+  .lf-sbc-explore { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.375rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,0); transition:color .3s; }
+  .lf-sbc-card:hover .lf-sbc-explore { color:rgba(255,255,255,.65); }
+  @media (max-width:749px) { .lf-sbc-card { flex:0 0 calc(50vw - 1px); } .lf-sbc-head { padding:24px 20px 16px; align-items:center; } }
+</style>
+
+<div class="lf-hp">
+  {%- assign _col_blocks = section.blocks | where: 'type', 'collection_card' -%}
+  <section class="lf-sbc-section">
+    <div class="lf-sbc-head">
+      <div>
+        <span class="lf-section-eyebrow">{{ section.settings.eyebrow | default: 'Curated for you' }}</span>
+        <h2 class="lf-section-title">{{ section.settings.heading | default: 'Shop by Collection' }}</h2>
+      </div>
+      <a href="{{ section.settings.view_all_link | default: '/collections/all' }}" class="lf-view-all">{{ section.settings.view_all_label | default: 'View all' }}</a>
+    </div>
+    <div class="lf-sbc-carousel">
+      <div class="lf-sbc-viewport" id="lf-sbc-vp-{{ section.id }}">
+        <div class="lf-sbc-strip">
+          {%- if _col_blocks.size > 0 -%}
+            {%- for block in _col_blocks -%}
+              {%- assign _c = collections[block.settings.collection] -%}
+              {%- assign _label = block.settings.label -%}
+              {%- if _label == blank and _c != blank -%}{%- assign _label = _c.title -%}{%- endif -%}
+              {%- if _label == blank -%}{%- assign _label = 'Collection' -%}{%- endif -%}
+              {%- assign _href = block.settings.link -%}
+              {%- if _href == blank and _c != blank -%}{%- assign _href = _c.url -%}{%- endif -%}
+              {%- if _href == blank -%}{%- assign _href = '/collections/all' -%}{%- endif -%}
+              <a href="{{ _href }}" class="lf-sbc-card" {{ block.shopify_attributes }}>
+                {%- if _c.image != blank -%}
+                  <img src="{{ _c.image | image_url: width: 700 }}" alt="{{ _label | escape }}" class="lf-sbc-img" loading="lazy">
+                {%- elsif _c.products.first.featured_image != blank -%}
+                  <img src="{{ _c.products.first.featured_image | image_url: width: 700 }}" alt="{{ _label | escape }}" class="lf-sbc-img" loading="lazy">
+                {%- else -%}
+                  <div class="lf-sbc-ph" style="background:linear-gradient(160deg,#1c1c1c,#2a2a2a);"></div>
+                {%- endif -%}
+                <div class="lf-sbc-overlay"></div>
+                <div class="lf-sbc-content">
+                  <span class="lf-sbc-name">{{ _label }}</span>
+                  <span class="lf-sbc-explore">Shop &rarr;</span>
+                </div>
+              </a>
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign _sbc_data = 'facial-cleansers-toner|Cleansers + Toner,facial-serums|Serums,facial-moisturisers|Moisturisers,facial-masks|Masks,facial-exfoliators|Exfoliators,facial-eye-care|Eye Care' | split: ',' -%}
+            {%- for sbc_entry in _sbc_data -%}
+              {%- assign sbc_parts = sbc_entry | split: '|' -%}
+              {%- assign sbc_handle = sbc_parts[0] -%}
+              {%- assign sbc_label  = sbc_parts[1] -%}
+              {%- assign sbc_col    = collections[sbc_handle] -%}
+              <a href="/collections/{{ sbc_handle }}" class="lf-sbc-card">
+                {%- if sbc_col.image != blank -%}
+                  <img src="{{ sbc_col.image | image_url: width: 700 }}" alt="{{ sbc_label | escape }}" class="lf-sbc-img" loading="lazy">
+                {%- elsif sbc_col.products.first.featured_image != blank -%}
+                  <img src="{{ sbc_col.products.first.featured_image | image_url: width: 700 }}" alt="{{ sbc_label | escape }}" class="lf-sbc-img" loading="lazy">
+                {%- else -%}
+                  <div class="lf-sbc-ph" style="background:linear-gradient(160deg,#1c1c1c,#2a2a2a);"></div>
+                {%- endif -%}
+                <div class="lf-sbc-overlay"></div>
+                <div class="lf-sbc-content">
+                  <span class="lf-sbc-name">{{ sbc_label }}</span>
+                  <span class="lf-sbc-explore">Shop &rarr;</span>
+                </div>
+              </a>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var vp=document.getElementById('lf-sbc-vp-{{ section.id }}');
+  if(!vp) return;
+  var down=false,sx=0,sl=0;
+  vp.addEventListener('mousedown',function(e){down=true;sx=e.pageX-vp.offsetLeft;sl=vp.scrollLeft;});
+  vp.addEventListener('mouseleave',function(){down=false;});
+  vp.addEventListener('mouseup',function(){down=false;});
+  vp.addEventListener('mousemove',function(e){if(!down)return;e.preventDefault();vp.scrollLeft=sl-(e.pageX-vp.offsetLeft-sx)*1.4;});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Collection",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow",        "label": "Pre-heading",    "default": "Curated for you" },
+    { "type": "text", "id": "heading",         "label": "Heading",        "default": "Shop by Collection" },
+    { "type": "text", "id": "view_all_label",  "label": "View all label", "default": "View all" },
+    { "type": "url",  "id": "view_all_link",   "label": "View all link" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text",       "id": "label",      "label": "Label override (optional)" },
+        { "type": "url",        "id": "link",       "label": "Link override (optional)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Shop by Collection" }]
+}
+{% endschema %}

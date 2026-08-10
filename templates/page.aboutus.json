@@ -1,0 +1,285 @@
+{
+  "sections": {
+    "lf_hero": {
+      "type": "lf-page-hero",
+      "settings": {
+        "bg_color": "#0b1225",
+        "eyebrow": "Our Story",
+        "heading": "Professional skincare, <em>honestly prescribed.</em>",
+        "body": "The Skin Bay is a curated home for prestigious, professional-grade skincare \u2014 backed by clinical training, generous extras and real advice from real specialists.",
+        "cta1_label": "Meet the Founder",
+        "cta1_link": "shopify://pages/theskinbay-founder",
+        "cta2_label": "Book a Consultation",
+        "cta2_link": "shopify://pages/free-personal-skincare-consultation",
+        "header_image": "about-h-hero.png"
+      }
+    },
+    "lf_intro": {
+      "type": "lf-editorial-dark",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "What we do",
+        "heading": "We curate the best. <em>Then we prescribe it.</em>",
+        "body": "TheSkinBay isn't a warehouse. Every product is hand-picked by Emmalee \u2014 a clinically trained specialist who has used, tested, and recommended each one personally. If it doesn't deliver results, it doesn't make the cut.",
+        "cta_label": "Meet the Founder",
+        "cta_link": "shopify://pages/theskinbay-founder",
+        "header_image": "about-h-intro.png"
+      }
+    },
+    "lf_why_us": {
+      "type": "lf-pillars",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "gift",
+            "show_number": false,
+            "title": "More with every order",
+            "body": "Exclusive gifts from the brands you love \u2014 more value, every time you shop, whilst stocks last."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "tag",
+            "show_number": false,
+            "title": "Deals you won't find elsewhere",
+            "body": "Bundle offers and exclusive discounts \u2014 available only here, never on brand sites."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chat",
+            "show_number": false,
+            "title": "Expert advice on demand",
+            "body": "Book a 1:1 consultation with Emmalee. A clinically trained specialist who picks every product herself."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "BayPoints Rewards",
+            "body": "Earn 1 point for every \u00a32 you spend. Collect 100 points for a \u00a35 off voucher \u2014 join BayPoints and start earning every time you shop.",
+            "link": "/pages/skinbay-loyalty-rewards"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "eyebrow": "Why TheSkinBay",
+        "heading": "We thrive on offering <em>more.</em>",
+        "bg_color": "#ffffff",
+        "card_bg": "#faf8f5",
+        "accent_color": "#0b1225",
+        "header_image": "about-h-why.png"
+      }
+    },
+    "lf_tools": {
+      "type": "lf-pillars",
+      "blocks": {
+        "t1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "show_number": false,
+            "title": "AI Skin Chat",
+            "body": "Instant answers to your skincare questions. Available 24/7, no booking required."
+          }
+        },
+        "t2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "beaker",
+            "show_number": false,
+            "title": "Ingredients Library",
+            "body": "Every active, every claim \u2014 explained in plain English. Built for curious skin people."
+          }
+        },
+        "t3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "list",
+            "show_number": false,
+            "title": "Skin Quiz",
+            "body": "Two minutes. One starter routine. Tailored to your skin type and top concern."
+          }
+        },
+        "t4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "calendar",
+            "show_number": false,
+            "title": "1:1 Consultation",
+            "body": "\u00a320 fully redeemable. 45 minutes with Emmalee. A routine built around your skin \u2014 not a shelf."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Tools & Resources",
+        "heading": "Beyond a shopping cart.",
+        "bg_color": "#faf8f5",
+        "card_bg": "#ffffff",
+        "accent_color": "#0b1225",
+        "header_image": "about-h-tools.png"
+      }
+    },
+    "lf_brand_logos": {
+      "type": "lf-brands-logos",
+      "blocks": {
+        "b1": {
+          "type": "brand",
+          "settings": {
+            "name": "SkinCeuticals",
+            "link": "shopify://collections/skinceuticals"
+          }
+        },
+        "b2": {
+          "type": "brand",
+          "settings": {
+            "name": "Av\u00e8ne",
+            "link": "shopify://collections/avene"
+          }
+        },
+        "b3": {
+          "type": "brand",
+          "settings": {
+            "name": "ClinicCare",
+            "link": "shopify://collections/cliniccare"
+          }
+        },
+        "b4": {
+          "type": "brand",
+          "settings": {
+            "name": "Vita Liberata",
+            "link": "shopify://collections/vita-liberata"
+          }
+        },
+        "b5": {
+          "type": "brand",
+          "settings": {
+            "name": "VOYA",
+            "link": "shopify://collections/voya"
+          }
+        },
+        "b6": {
+          "type": "brand",
+          "settings": {
+            "name": "CeraVe",
+            "link": "shopify://collections/cerave"
+          }
+        },
+        "b7": {
+          "type": "brand",
+          "settings": {
+            "name": "Cebelia",
+            "link": "shopify://collections/cebelia"
+          }
+        },
+        "b8": {
+          "type": "brand",
+          "settings": {
+            "name": "Heliocare",
+            "link": "shopify://collections/heliocare"
+          }
+        },
+        "b9": {
+          "type": "brand",
+          "settings": {
+            "name": "Medik8",
+            "link": "shopify://collections/medik8"
+          }
+        },
+        "b10": {
+          "type": "brand",
+          "settings": {
+            "name": "NeoStrata",
+            "link": "shopify://collections/neostrata"
+          }
+        },
+        "b11": {
+          "type": "brand",
+          "settings": {
+            "name": "Exuviance",
+            "link": "shopify://collections/exuviance"
+          }
+        },
+        "b12": {
+          "type": "brand",
+          "settings": {
+            "name": "ZO Skin Health",
+            "link": "shopify://collections/zo-skin-health"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12"
+      ],
+      "disabled": true,
+      "settings": {
+        "bg_color": "#faf8f5",
+        "eyebrow": "Our Brands",
+        "heading": "Exclusive, professional & <em>prestigious.</em>",
+        "body": "A tight, intentional roster of medical-grade and dermatologist-loved brands.",
+        "header_image": "about-h-brands.png"
+      }
+    },
+    "lf_founder": {
+      "type": "lf-editorial-dark",
+      "settings": {
+        "eyebrow": "The founder",
+        "heading": "Meet Emmalee. <em>The specialist behind every recommendation.</em>",
+        "body": "A SkinCeuticals European Master Physician with over a decade on the clinic floor and 2,000+ personal consultations. She picks every product, writes every routine, and answers every consultation personally.",
+        "cta_label": "Read her story",
+        "cta_link": "shopify://pages/theskinbay-founder",
+        "image": "shopify://shop_images/EmmaLee_Fitton_TheSkinBay_Founder.jpg",
+        "header_image": "about-h-founder.png"
+      }
+    },
+    "lf_consult": {
+      "type": "lf-consult-cta",
+      "settings": {
+        "eyebrow": "Personalised skincare",
+        "heading": "Not sure where to start?",
+        "body": "Our expert skincare consultation service matches you with the right products for your unique skin concerns and goals.",
+        "cta_label": "Book a Consultation",
+        "cta_link": "shopify://pages/free-personal-skincare-consultation",
+        "header_image": "about-h-consult.png"
+      }
+    }
+  },
+  "order": [
+    "lf_hero",
+    "lf_intro",
+    "lf_why_us",
+    "lf_tools",
+    "lf_brand_logos",
+    "lf_founder",
+    "lf_consult"
+  ]
+}

@@ -1,0 +1,156 @@
+<style>
+  .lf-usp { background: {{ section.settings.bg_color }}; border-top: 1px solid rgba(0,0,0,.06); border-bottom: 1px solid rgba(0,0,0,.06); padding: 28px 0; }
+  .lf-usp__inner { max-width: 1560px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: center; align-items: stretch; gap: 0; }
+  .lf-usp__item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 12px 24px; position: relative; }
+  .lf-usp__item + .lf-usp__item::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 1px; background: rgba(0,0,0,.1); }
+  .lf-usp__icon { width: 36px; height: 36px; margin-bottom: 10px; color: {{ section.settings.icon_color }}; }
+  .lf-usp__icon svg { width: 100%; height: 100%; display: block; }
+  .lf-usp__label { font-family: 'Lato', var(--font-body--family), sans-serif; font-size: .5625rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: {{ section.settings.heading_color }}; margin-bottom: 4px; line-height: 1.3; }
+  .lf-usp__sub { font-family: 'Lato', var(--font-body--family), sans-serif; font-size: .5rem; font-weight: 400; color: {{ section.settings.sub_color }}; line-height: 1.5; }
+  @media (max-width: 749px) {
+    .lf-usp__inner { flex-wrap: wrap; padding: 0 16px; gap: 0; }
+    .lf-usp__item { flex: 0 0 50%; padding: 16px 12px; }
+    .lf-usp__item:nth-child(3)::before { display: none; }
+    .lf-usp__item:nth-child(3), .lf-usp__item:nth-child(4) { border-top: 1px solid rgba(0,0,0,.08); }
+    .lf-usp__sub { display: none; }
+  }
+</style>
+
+<div class="lf-usp">
+  <div class="lf-usp__inner">
+
+    <div class="lf-usp__item">
+      <div class="lf-usp__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <span class="lf-usp__label">{{ section.settings.usp1_label | default: 'Free UK Delivery' }}</span>
+      <span class="lf-usp__sub">{{ section.settings.usp1_sub | default: 'On all orders over £400' }}</span>
+    </div>
+
+    <div class="lf-usp__item">
+      <div class="lf-usp__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      </div>
+      <span class="lf-usp__label">{{ section.settings.usp2_label | default: '100% Authentic' }}</span>
+      <span class="lf-usp__sub">{{ section.settings.usp2_sub | default: 'Genuine products, direct from brands' }}</span>
+    </div>
+
+    <div class="lf-usp__item">
+      <div class="lf-usp__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M18 8.5s1 .5 1 1.5-1 1.5-1 1.5"/></svg>
+      </div>
+      <span class="lf-usp__label">{{ section.settings.usp3_label | default: 'Expert Skincare Advice' }}</span>
+      <span class="lf-usp__sub">{{ section.settings.usp3_sub | default: 'Free personal consultation service' }}</span>
+    </div>
+
+    <div class="lf-usp__item">
+      <div class="lf-usp__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+      </div>
+      <span class="lf-usp__label">{{ section.settings.usp4_label | default: 'Easy Returns' }}</span>
+      <span class="lf-usp__sub">{{ section.settings.usp4_sub | default: '30-day hassle-free returns' }}</span>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "USP Strip",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#faf8f5"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Colour",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Label Colour",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "sub_color",
+      "label": "Sub-text Colour",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "USP 1"
+    },
+    {
+      "type": "text",
+      "id": "usp1_label",
+      "label": "Label",
+      "default": "Free UK Delivery"
+    },
+    {
+      "type": "text",
+      "id": "usp1_sub",
+      "label": "Sub-text",
+      "default": "On all orders over £400"
+    },
+    {
+      "type": "header",
+      "content": "USP 2"
+    },
+    {
+      "type": "text",
+      "id": "usp2_label",
+      "label": "Label",
+      "default": "100% Authentic"
+    },
+    {
+      "type": "text",
+      "id": "usp2_sub",
+      "label": "Sub-text",
+      "default": "Genuine products, direct from brands"
+    },
+    {
+      "type": "header",
+      "content": "USP 3"
+    },
+    {
+      "type": "text",
+      "id": "usp3_label",
+      "label": "Label",
+      "default": "Expert Skincare Advice"
+    },
+    {
+      "type": "text",
+      "id": "usp3_sub",
+      "label": "Sub-text",
+      "default": "Free personal consultation service"
+    },
+    {
+      "type": "header",
+      "content": "USP 4"
+    },
+    {
+      "type": "text",
+      "id": "usp4_label",
+      "label": "Label",
+      "default": "Easy Returns"
+    },
+    {
+      "type": "text",
+      "id": "usp4_sub",
+      "label": "Sub-text",
+      "default": "30-day hassle-free returns"
+    }
+  ],
+  "presets": [
+    {
+      "name": "USP Strip"
+    }
+  ]
+}
+{% endschema %}

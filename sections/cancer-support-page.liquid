@@ -1,0 +1,188 @@
+{%- comment -%} Cancer Support page, SkinBay style, La Roche-Posay oncology skincare {%- endcomment -%}
+<section class="cs" data-section-id="{{ section.id }}">
+
+  {%- comment -%} HERO {%- endcomment -%}
+  <div class="cs-hero">
+    <div class="cs-hero-media">
+      {%- if section.settings.hero_image -%}
+        <img src="{{ section.settings.hero_image | image_url: width: 1600 }}" alt="{{ section.settings.heading | escape }}" loading="eager">
+      {%- else -%}
+        <div class="cs-hero-ph">Add hero image in the editor</div>
+      {%- endif -%}
+    </div>
+    <div class="cs-hero-copy">
+      {%- if section.settings.header_image != blank -%}
+        <img class="cs-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | default: 'Cancer Support' | strip_html | escape }}">
+        <h1 class="cs-h1 cs-vh">{{ section.settings.heading | default: 'Cancer Support' }}</h1>
+      {%- else -%}
+        <p class="cs-eyebrow">{{ section.settings.eyebrow | default: 'La Roche-Posay · Dermatological Care' }}</p>
+        <h1 class="cs-h1">{{ section.settings.heading | default: 'Cancer Support' }}</h1>
+      {%- endif -%}
+      <p class="cs-lede">{{ section.settings.subheading | default: 'Gentle, dermatologist-developed skincare to help your skin feel more comfortable during and after cancer treatment.' }}</p>
+      {%- if section.settings.hero_cta_text != blank -%}<a href="{{ section.settings.hero_cta_link | default: '/collections/la-roche-posay' }}" class="cs-btn">{{ section.settings.hero_cta_text }}</a>{%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} LRP BRAND BANNER {%- endcomment -%}
+  {%- if section.settings.show_brand_banner -%}
+  <a href="{{ section.settings.brand_banner_link | default: '/collections/la-roche-posay' }}" class="cs-brand-banner"><img src="{{ 'lrp-brand-banner.webp' | asset_url }}" alt="La Roche-Posay, Life-Changing Skincare Prescribed by Dermatologists" loading="lazy" width="1500" height="500"></a>
+  {%- endif -%}
+
+  {%- comment -%} INTRO {%- endcomment -%}
+  {%- if section.settings.intro != blank -%}
+  <div class="cs-intro"><div class="cs-intro-inner">{{ section.settings.intro }}</div></div>
+  {%- endif -%}
+
+  {%- comment -%} SKIN CONCERNS GRID {%- endcomment -%}
+  <div class="cs-band">
+    <div class="cs-wrap">
+      <p class="cs-eyebrow cs-center">During Treatment</p>
+      <img class="cs-ibanner" src="{{ 'cancer-h-affect.png' | asset_url }}" alt="How treatment can affect your skin">
+      <h2 class="cs-h2 cs-center cs-vh">How treatment can affect your skin</h2>
+      <div class="cs-grid cs-grid-4">
+        <div class="cs-concern"><span class="cs-cico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></span><h3>Dryness & Tightness</h3><p>Skin can become dehydrated, flaky and uncomfortable as treatment affects the skin barrier.</p></div>
+        <div class="cs-concern"><span class="cs-cico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 1-3 1 2 2 2 2 2 0-3-1-5 2-9z"/></svg></span><h3>Redness & Irritation</h3><p>Radiotherapy and some therapies may leave areas red, warm or sore and in need of soothing.</p></div>
+        <div class="cs-concern"><span class="cs-cico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-5 5-9 16-9 0 8-5 16-9 16z"/></svg></span><h3>Heightened Sensitivity</h3><p>Skin can react more easily, so simple, fragrance-free formulas are kindest.</p></div>
+        <div class="cs-concern"><span class="cs-cico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M6 6L4.5 4.5M19.5 19.5L18 18M18 6l1.5-1.5M4.5 19.5L6 18"/><circle cx="12" cy="12" r="4"/></svg></span><h3>Sun Sensitivity</h3><p>Skin may be more vulnerable to UV, making daily broad-spectrum protection important.</p></div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} RECOMMENDED CARE (blocks) {%- endcomment -%}
+  <div class="cs-wrap">
+    <p class="cs-eyebrow cs-center">A Gentle Routine</p>
+    <img class="cs-ibanner" src="{{ 'cancer-h-care.png' | asset_url }}" alt="Recommended care">
+    <h2 class="cs-h2 cs-center cs-vh">Recommended care</h2>
+    <div class="cs-grid cs-grid-4 cs-care">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'care' -%}
+        <a class="cs-card" href="{{ block.settings.link | default: '/collections/la-roche-posay' }}" {{ block.shopify_attributes }}>
+          <div class="cs-card-img">{% if block.settings.image %}<img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.title | escape }}" loading="lazy">{% elsif block.settings.image_url != blank %}<img src="{{ block.settings.image_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">{% endif %}</div>
+          <p class="cs-card-title">{{ block.settings.title }}</p>
+          <p class="cs-card-desc">{{ block.settings.description }}</p>
+          <span class="cs-card-cta">Shop →</span>
+        </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} REASSURANCE {%- endcomment -%}
+  <div class="cs-reassure">
+    <div class="cs-wrap cs-reassure-grid">
+      <div class="cs-re"><span class="cs-re-n">01</span><p>Developed with dermatologists and oncology healthcare professionals</p></div>
+      <div class="cs-re"><span class="cs-re-n">02</span><p>Fragrance-free, minimal-ingredient formulas designed for sensitised skin</p></div>
+      <div class="cs-re"><span class="cs-re-n">03</span><p>Tested for tolerance, gentle enough for compromised, reactive skin</p></div>
+    </div>
+  </div>
+
+  {%- comment -%} SUPPORT NOTE + DISCLAIMER {%- endcomment -%}
+  <div class="cs-wrap cs-note">
+    <p class="cs-note-title">{{ section.settings.note_title | default: 'You are not alone' }}</p>
+    <div class="cs-note-body">{{ section.settings.note_body }}</div>
+    <p class="cs-disclaimer">{{ section.settings.disclaimer | default: 'This information is intended to support skin comfort and is not medical advice. Always follow the guidance of your oncology and healthcare team regarding skincare during treatment.' }}</p>
+    <a href="{{ section.settings.footer_cta_link | default: '/collections/la-roche-posay' }}" class="cs-btn cs-btn-dark">{{ section.settings.footer_cta_text | default: 'Shop La Roche-Posay' }}</a>
+  </div>
+
+</section>
+
+<style>
+  .cs { font-family: 'Lato', sans-serif; color: #2c2620; }
+  .cs-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .cs-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: #9a8f7d; margin: 0 0 12px; }
+  .cs-center { text-align: center; }
+  .cs-h1 { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: clamp(34px,5vw,56px); line-height: 1.05; margin: 0 0 18px; }
+  .cs-banner { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 0 18px; }
+  .cs-vh { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .cs-ibanner { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto 34px; }
+  .cs-h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: clamp(26px,3.6vw,38px); line-height: 1.1; margin: 0 0 34px; }
+  .cs-lede { font-size: 17px; line-height: 1.65; color: #5a5348; margin: 0 0 24px; max-width: 480px; }
+  .cs-btn { display: inline-block; padding: 15px 34px; background: #141414; color: #fff !important; border-radius: 40px; font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+  .cs-btn:hover { background: #333; }
+  .cs-btn-dark { background: #141414; } .cs-btn-dark:hover { background: #333; }
+  /* brand banner */
+  .cs-brand-banner { display: block; }
+  .cs-brand-banner img { width: 100%; height: auto; display: block; }
+  /* hero */
+  .cs-hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 0; background: #f4f1ea; }
+  .cs-hero-media img, .cs-hero-ph { width: 100%; height: 100%; min-height: 460px; object-fit: cover; display: block; }
+  .cs-hero-ph { display: flex; align-items: center; justify-content: center; background: #e7e2d7; color: #a99; font-size: 13px; }
+  .cs-hero-copy { padding: 60px 64px; }
+  /* intro */
+  .cs-intro { padding: 64px 24px; } .cs-intro-inner { max-width: 760px; margin: 0 auto; text-align: center; font-size: 18px; line-height: 1.75; color: #4d4840; }
+  .cs-intro-inner p { margin: 0 0 16px; }
+  /* band */
+  .cs-band { background: #faf7f1; padding: 68px 0; }
+  .cs-grid { display: grid; gap: 24px; }
+  .cs-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .cs-concern { text-align: center; padding: 0 8px; }
+  .cs-cico { display: inline-flex; width: 46px; height: 46px; align-items: center; justify-content: center; border-radius: 50%; background: #fff; border: 1px solid #e6ded0; color: #6a7f6f; margin-bottom: 16px; }
+  .cs-cico svg { width: 22px; height: 22px; }
+  .cs-concern h3 { font-size: 14px; font-weight: 700; margin: 0 0 8px; letter-spacing: .01em; }
+  .cs-concern p { font-size: 13px; line-height: 1.6; color: #6b6459; margin: 0; }
+  /* care cards */
+  .cs-care { margin-top: 8px; padding-bottom: 8px; }
+  .cs-card { display: block; text-decoration: none; color: inherit; text-align: center; }
+  .cs-card-img { aspect-ratio: 1/1; background: #f6f3ed; border: 1px solid #eee7da; border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+  .cs-card-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cs-card-title { font-size: 14px; font-weight: 700; margin: 0 0 6px; }
+  .cs-card-desc { font-size: 12.5px; line-height: 1.55; color: #6b6459; margin: 0 0 8px; }
+  .cs-card-cta { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #6a7f6f; }
+  /* reassure */
+  .cs-reassure { background: #3f4a3d; color: #fff; padding: 56px 0; margin-top: 68px; }
+  .cs-reassure-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+  .cs-re { display: flex; gap: 14px; align-items: flex-start; }
+  .cs-re-n { font-family: 'Playfair Display', serif; font-size: 24px; color: #c9a04e; line-height: 1; }
+  .cs-re p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.85); margin: 0; }
+  /* note */
+  .cs-note { text-align: center; padding: 68px 24px; max-width: 720px; }
+  .cs-note-title { font-family: 'Playfair Display', serif; font-size: 26px; margin: 0 0 16px; }
+  .cs-note-body { font-size: 15px; line-height: 1.7; color: #4d4840; margin: 0 0 20px; }
+  .cs-disclaimer { font-size: 12px; line-height: 1.6; color: #948b7c; font-style: italic; margin: 0 0 28px; }
+  @media (max-width: 900px) {
+    .cs-hero { grid-template-columns: 1fr; }
+    .cs-hero-copy { padding: 40px 28px; order: 2; }
+    .cs-hero-media { order: 1; } .cs-hero-media img, .cs-hero-ph { min-height: 300px; }
+    .cs-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 28px 18px; }
+    .cs-reassure-grid { grid-template-columns: 1fr; gap: 22px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Cancer Support Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "header_image", "label": "Header banner asset (brand-font PNG)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "La Roche-Posay · Dermatological Care" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Cancer Support" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Gentle, dermatologist-developed skincare to help your skin feel more comfortable during and after cancer treatment." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_cta_text", "label": "Hero button text", "default": "Explore the Range" },
+    { "type": "url", "id": "hero_cta_link", "label": "Hero button link" },
+    { "type": "header", "content": "Brand banner (LRP)" },
+    { "type": "checkbox", "id": "show_brand_banner", "label": "Show brand banner", "default": true },
+    { "type": "url", "id": "brand_banner_link", "label": "Brand banner link" },
+    { "type": "header", "content": "Intro" },
+    { "type": "richtext", "id": "intro", "label": "Intro text", "default": "<p>Cancer treatments such as chemotherapy, radiotherapy and targeted therapies can leave skin feeling dry, tight, sensitive and reactive. La Roche-Posay, developed alongside dermatologists and oncology healthcare professionals, offers simple, well-tolerated skincare to help restore comfort, so caring for your skin can be one less thing to worry about.</p>" },
+    { "type": "header", "content": "Support note" },
+    { "type": "text", "id": "note_title", "label": "Note title", "default": "You are not alone" },
+    { "type": "richtext", "id": "note_body", "label": "Note body", "default": "<p>Looking after your skin can bring a small sense of comfort and routine during a difficult time. Our team is here to help you choose gentle products that feel right for you.</p>" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer" },
+    { "type": "text", "id": "footer_cta_text", "label": "Footer button text", "default": "Shop La Roche-Posay" },
+    { "type": "url", "id": "footer_cta_link", "label": "Footer button link" }
+  ],
+  "blocks": [
+    { "type": "care", "name": "Care product", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "image_url", "label": "Image URL (fallback)" },
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "textarea", "id": "description", "label": "Description" },
+      { "type": "url", "id": "link", "label": "Link" }
+    ]}
+  ],
+  "presets": [{ "name": "Cancer Support Page", "blocks": [
+    { "type": "care" }, { "type": "care" }, { "type": "care" }, { "type": "care" }
+  ]}]
+}
+{% endschema %}

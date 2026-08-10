@@ -1,0 +1,15 @@
+{%- doc -%}
+  Renders a related-article card for the Bay Blog.
+  @param {object} ra - the article object
+{%- enddoc -%}
+<a class="bayblog-rc" href="{{ ra.url }}">
+  <span class="bayblog-rc__img">
+    {%- if ra.image -%}
+      <img src="{{ ra.image | image_url: width: 600 }}" alt="{{ ra.image.alt | default: ra.title | escape }}"
+        width="600" height="400" loading="lazy">
+    {%- endif -%}
+  </span>
+  {%- assign rcat = ra.metafields.custom.category -%}
+  {%- if rcat != blank -%}<span class="bayblog-rc__cat">{{ rcat }}</span>{%- endif -%}
+  <span class="bayblog-rc__name">{{ ra.title }}</span>
+</a>

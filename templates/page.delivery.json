@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "lf_delivery": {
+      "type": "lf-delivery-page",
+      "settings": {
+        "header_image": "delivery-h-hero.png",
+        "eyebrow": "Delivery & Returns",
+        "heading": "Getting it to you, your way.",
+        "hero_body": "Every order is dispatched from the UK with Royal Mail. Choose your speed, have it left somewhere safe, or collect it whenever suits you — with free delivery when you spend more.",
+        "free_threshold": 40000,
+        "free_threshold_note": "Applied automatically at checkout. UK mainland only.",
+        "s1_name": "Royal Mail 48",
+        "s1_time": "2–3 business days",
+        "s1_price": "£5.99",
+        "s1_desc": "Tracked and insured. Last collection 4pm Monday–Friday — please allow for bank holidays.",
+        "s2_name": "Royal Mail 24",
+        "s2_time": "1–2 business days",
+        "s2_price": "£8.00",
+        "s2_desc": "Tracked and insured. Last collection 4pm Monday–Friday — please allow for bank holidays.",
+        "s3_name": "Special Delivery",
+        "s3_time": "Guaranteed next working day by 7pm",
+        "s3_price": "£12.00",
+        "s3_desc": "Guaranteed next-day parcel delivery with full online tracking, signature on delivery, and SMS\/email notifications. The only fully guaranteed next-working-day service.",
+        "cutoff_text": "Last collection 4pm Monday–Friday. Orders must be placed in time to be dispatched the same day. Please allow for bank holidays.",
+        "tracking_text": "Royal Mail 24 and Special Delivery orders include full tracking. You'll receive a tracking number by email once your order is dispatched.",
+        "cta_body": "Professional-grade skincare, dispatched from the UK. Every order is carefully packed and sent with care.",
+        "cta_label": "Shop Now"
+      }
+    }
+  },
+  "order": [
+    "lf_delivery"
+  ]
+}

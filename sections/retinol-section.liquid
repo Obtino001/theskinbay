@@ -1,0 +1,640 @@
+{% comment %}
+  Skin Bay Retinol Education Section (Ultimate Editable Version)
+  - Based on Cleveland Clinic Medical Data / Adapted for The Skin Bay
+  - Full Font Size Control (Desktop & Mobile)
+  - Full Padding/Spacing Control
+  - Editorial Layout
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  .sb-retinol-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: 'Lato', sans-serif;
+  }
+
+  /* Section Padding (Outer) */
+  .sb-retinol-wrapper {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  /* Internal Spacing helper */
+  .sb-spacer {
+    height: {{ section.settings.internal_spacing }}px;
+  }
+
+  /* Typography - Dynamic Settings */
+  .sb-title {
+    font-size: {{ section.settings.title_size_d }}px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .sb-subtitle {
+    font-size: {{ section.settings.subtitle_size_d }}px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    color: {{ section.settings.accent_color }};
+    display: block;
+  }
+
+  .sb-body {
+    font-size: {{ section.settings.body_size_d }}px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .sb-body p {
+    margin-bottom: 1rem;
+  }
+
+  .sb-heading-2 {
+    font-size: {{ section.settings.h2_size_d }}px;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: {{ section.settings.heading_color }};
+    text-align: center;
+  }
+
+  /* Brand-font header banners (SEO heading kept, visually hidden) */
+  .rt-hbanner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 12px;}
+  .rt-hbanner-left{display:block;width:100%;max-width:440px;height:auto;margin:0 0 12px;}
+  .rt-hvh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* Layout Grids */
+  .sb-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .sb-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  /* Feature Cards */
+  .sb-card {
+    background: {{ section.settings.card_bg }};
+    padding: 2rem;
+    border: 1px solid {{ section.settings.border_color }};
+    text-align: center;
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .sb-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .sb-card h3 {
+    font-size: {{ section.settings.card_title_size }}px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: {{ section.settings.heading_color }};
+  }
+
+  /* Button */
+  .sb-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: {{ section.settings.accent_color }};
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sb-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* Editorial Image styling */
+  .sb-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  .sb-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Usage Section Box */
+  .sb-usage-box {
+    background: {{ section.settings.card_bg }}; 
+    padding: 3rem; 
+    border: 1px solid {{ section.settings.border_color }};
+  }
+  
+  /* Retinol specific alert text inside usage box */
+  .sb-alert-text {
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    display: block;
+    color: {{ section.settings.accent_color }};
+  }
+
+  /* Mobile Responsive */
+  @media only screen and (max-width: 749px) {
+    .sb-retinol-wrapper {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+
+    .sb-spacer {
+      height: {{ section.settings.internal_spacing | divided_by: 2 }}px;
+    }
+    
+    .sb-grid-2, .sb-grid-3 {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    /* Mobile Typography Overrides */
+    .sb-title {
+      font-size: {{ section.settings.title_size_m }}px;
+    }
+    
+    .sb-subtitle {
+      font-size: {{ section.settings.subtitle_size_m }}px;
+    }
+    
+    .sb-heading-2 {
+      font-size: {{ section.settings.h2_size_m }}px;
+    }
+    
+    .sb-body {
+      font-size: {{ section.settings.body_size_m }}px;
+    }
+
+    .sb-image-container {
+      min-height: 300px;
+      order: -1; 
+    }
+    
+    .sb-card {
+      padding: 1.5rem;
+    }
+    
+    .sb-usage-box {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="sb-retinol-wrapper">
+  <div class="sb-retinol-container">
+    
+    <!-- Hero Section -->
+    <div class="sb-grid-2">
+      <div>
+        {% if section.settings.subtitle != blank %}
+          <span class="sb-subtitle">{{ section.settings.subtitle }}</span>
+        {% endif %}
+        <img class="rt-hbanner-left" src="{{ 'ret-h-title.png' | asset_url }}" alt="Retinol Complex">
+        <h1 class="sb-title rt-hvh">{{ section.settings.title }}</h1>
+        <div class="sb-body">{{ section.settings.intro_text }}</div>
+        {% if section.settings.show_cta %}
+          <a href="{{ section.settings.cta_link }}" class="sb-btn">{{ section.settings.cta_text }}</a>
+        {% endif %}
+      </div>
+      <div class="sb-image-container">
+        {% if section.settings.hero_image %}
+          {{ section.settings.hero_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- What is it Section -->
+    <div>
+      <img class="rt-hbanner" src="{{ 'ret-h-def.png' | asset_url }}" alt="What Is Retinol?">
+      <h2 class="sb-heading-2 rt-hvh">{{ section.settings.definition_title }}</h2>
+      <div class="sb-body" style="max-width: 800px; margin: 0 auto; text-align: center;">
+        {{ section.settings.definition_text }}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- Benefits Grid -->
+    <div>
+      <img class="rt-hbanner" src="{{ 'ret-h-ben.png' | asset_url }}" alt="Visible Results">
+      <h2 class="sb-heading-2 rt-hvh">{{ section.settings.benefits_title }}</h2>
+      <div class="sb-grid-3">
+        {% for block in section.blocks %}
+          <div class="sb-card">
+            <h3>{{ block.settings.benefit_title }}</h3>
+            <p class="sb-body" style="font-size: {{ section.settings.body_size_d | minus: 2 }}px; margin-bottom: 0;">{{ block.settings.benefit_desc }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <!-- Usage & Ritual -->
+    <div class="sb-usage-box">
+      <img class="rt-hbanner" src="{{ 'ret-h-ritual.png' | asset_url }}" alt="Usage Protocol">
+      <h2 class="sb-heading-2 rt-hvh" style="margin-top: 0;">{{ section.settings.ritual_title }}</h2>
+      <div class="sb-body" style="text-align: center; max-width: 800px; margin: 0 auto;">
+        {{ section.settings.ritual_text }}
+        {% if section.settings.alert_text != blank %}
+          <span class="sb-alert-text">{{ section.settings.alert_text }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Skin Bay Retinol",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Typography: Main Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size_d",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_m",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Typography: Subtitle"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_d",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_m",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Typography: Section Headings"
+    },
+    {
+      "type": "range",
+      "id": "h2_size_d",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "h2_size_m",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Typography: Body Text"
+    },
+    {
+      "type": "range",
+      "id": "body_size_d",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "body_size_m",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Typography: Card Titles"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "internal_spacing",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap Between Inner Sections",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent/Button Color",
+      "default": "#3F2A56"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card/Box Background",
+      "default": "#f9f8fa"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#eee"
+    },
+    {
+      "type": "header",
+      "content": "Content: Hero"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "The Age-Defying Standard"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "Retinol Complex"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Paragraph",
+      "default": "<p>Experience the transformative power of the industry’s most researched ingredient. Designed to accelerate cellular turnover, Retinol reveals a smoother, more youthful complexion beneath the surface.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Shop Retinol Series"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Content: Definition"
+    },
+    {
+      "type": "text",
+      "id": "definition_title",
+      "label": "Definition Heading",
+      "default": "What Is Retinol?"
+    },
+    {
+      "type": "richtext",
+      "id": "definition_text",
+      "label": "Definition Text",
+      "default": "<p>Retinol is a form of Vitamin A, a nutrient essential for skin health. Unlike exfoliants that work on the surface, Retinol operates at a cellular level. It penetrates deep into the dermis to neutralize free radicals and boost the production of elastin and collagen, creating a 'plumping' effect that reduces the appearance of fine lines, wrinkles, and enlarged pores.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Content: Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Heading",
+      "default": "Visible Results"
+    },
+    {
+      "type": "header",
+      "content": "Content: Ritual"
+    },
+    {
+      "type": "text",
+      "id": "ritual_title",
+      "label": "Ritual Heading",
+      "default": "Usage Protocol"
+    },
+    {
+      "type": "richtext",
+      "id": "ritual_text",
+      "label": "Ritual Text",
+      "default": "<p>Apply a pea-sized amount to clean, dry skin only at night. If you are new to Retinol, start by using it twice a week to allow your skin to adjust, then gradually increase frequency. It is vital to use a broad-spectrum sunscreen every morning, as Retinol can increase skin sensitivity to the sun.</p>"
+    },
+    {
+      "type": "text",
+      "id": "alert_text",
+      "label": "Alert/Warning Text",
+      "default": "Note: Do not use simultaneously with Vitamin C or AHAs."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_title",
+          "label": "Benefit Title",
+          "default": "Benefit Name"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_desc",
+          "label": "Description",
+          "default": "Description of the benefit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skin Bay Retinol",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Cellular Renewal",
+            "benefit_desc": "Accelerates the skin's natural turnover process to shed dead cells and reveal fresher skin."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Collagen Boost",
+            "benefit_desc": "Stimulates collagen synthesis to thicken the skin and reduce the depth of wrinkles."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Clearer Pores",
+            "benefit_desc": "Helps unclog pores and regulate oil production, reducing acne breakouts and texture."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

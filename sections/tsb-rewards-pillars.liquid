@@ -1,0 +1,182 @@
+<style>
+  .tsb-rpl *, .tsb-rpl *::before, .tsb-rpl *::after { box-sizing: border-box; }
+
+  .tsb-rpl-section {
+    background: #F9F3ED;
+    padding: 80px 0;
+  }
+  .tsb-rpl-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .tsb-rpl-header {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .tsb-rpl-eyebrow {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .tsb-rpl-h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .tsb-rpl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid rgba(0,0,0,0.1);
+    gap: 0;
+  }
+  .tsb-rpl-pillar {
+    background: #F9F3ED;
+    padding: 48px 36px;
+    text-align: center;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    transition: background 0.3s ease;
+  }
+  .tsb-rpl-pillar:nth-child(3n) { border-right: none; }
+  .tsb-rpl-pillar:nth-child(n+4) { border-bottom: none; }
+  .tsb-rpl-pillar:hover { background: #fff; }
+  .tsb-rpl-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 20px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tsb-rpl-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .tsb-rpl-name {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #000;
+    margin: 0 0 10px;
+    display: block;
+  }
+  .tsb-rpl-desc {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.52);
+    line-height: 1.75;
+    margin: 0;
+  }
+  @media (max-width: 899px) {
+    .tsb-rpl-grid { grid-template-columns: repeat(2, 1fr); }
+    .tsb-rpl-pillar:nth-child(3n) { border-right: 1px solid rgba(0,0,0,0.1); }
+    .tsb-rpl-pillar:nth-child(2n) { border-right: none; }
+    .tsb-rpl-pillar:nth-child(n+5) { border-bottom: none; }
+  }
+  @media (max-width: 599px) {
+    .tsb-rpl-section { padding: 56px 0; }
+    .tsb-rpl-inner { padding: 0 20px; }
+    .tsb-rpl-pillar { padding: 36px 24px; }
+  }
+</style>
+
+{%- assign _icons = 'curation,access,gift,personal,offer,loyalty' | split: ',' -%}
+
+<section class="tsb-rpl-section">
+  <div class="tsb-rpl-inner">
+    <div class="tsb-rpl-header">
+      {%- render 'sb-brand-heading', image: 'rwd-h-pillars.png', text: 'The Privileges of Membership', tag: 'h2', max: 500 -%}
+    </div>
+    <div class="tsb-rpl-grid">
+
+      <div class="tsb-rpl-pillar">
+        <div class="tsb-rpl-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><circle cx="14" cy="14" r="7"/><path d="M19 19l5 5"/></svg>
+        </div>
+        <span class="tsb-rpl-name">{{ section.settings.p1_title | default: 'Expert Curation' }}</span>
+        <p class="tsb-rpl-desc">{{ section.settings.p1_desc | default: 'Every product is professionally selected. Only results-driven, clinic-grade formulas reach our shelves.' }}</p>
+      </div>
+
+      <div class="tsb-rpl-pillar">
+        <div class="tsb-rpl-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M16 3l2 6h6l-5 4 2 6-5-3.5L11 19l2-6-5-4h6z"/></svg>
+        </div>
+        <span class="tsb-rpl-name">{{ section.settings.p2_title | default: 'Priority Access' }}</span>
+        <p class="tsb-rpl-desc">{{ section.settings.p2_desc | default: 'Members receive early access to new launches, limited editions and exclusive brand collaborations.' }}</p>
+      </div>
+
+      <div class="tsb-rpl-pillar">
+        <div class="tsb-rpl-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect x="4" y="12" width="24" height="17" rx="1"/><path d="M11 12V9a5 5 0 0110 0v3"/><path d="M4 16h24"/><path d="M16 12v17"/></svg>
+        </div>
+        <span class="tsb-rpl-name">{{ section.settings.p3_title | default: 'Complimentary Gifting' }}</span>
+        <p class="tsb-rpl-desc">{{ section.settings.p3_desc | default: 'Beautifully presented complimentary gifts with qualifying orders. A small token of our appreciation.' }}</p>
+      </div>
+
+      <div class="tsb-rpl-pillar">
+        <div class="tsb-rpl-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="5"/><path d="M6 28c0-5.523 4.477-10 10-10s10 4.477 10 10"/></svg>
+        </div>
+        <span class="tsb-rpl-name">{{ section.settings.p4_title | default: 'Personalised Service' }}</span>
+        <p class="tsb-rpl-desc">{{ section.settings.p4_desc | default: 'Access to our skincare advisers for personalised recommendations tailored to your skin goals.' }}</p>
+      </div>
+
+      <div class="tsb-rpl-pillar">
+        <div class="tsb-rpl-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><circle cx="11" cy="11" r="4"/><circle cx="21" cy="21" r="4"/><path d="M22 10L10 22"/></svg>
+        </div>
+        <span class="tsb-rpl-name">{{ section.settings.p5_title | default: 'Exclusive Offers' }}</span>
+        <p class="tsb-rpl-desc">{{ section.settings.p5_desc | default: 'Members-only pricing, private sale events and curated bundles available only to those on the inside.' }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rewards, Pillars",
+  "tag": "div",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",  "label": "Eyebrow", "default": "Membership Benefits" },
+    { "type": "text",     "id": "heading",  "label": "Heading",  "default": "The Privileges of Membership" },
+    { "type": "header",   "content": "Pillar 1" },
+    { "type": "text",     "id": "p1_title", "label": "Title",       "default": "Expert Curation" },
+    { "type": "textarea", "id": "p1_desc",  "label": "Description", "default": "Every product is professionally selected. Only results-driven, clinic-grade formulas reach our shelves." },
+    { "type": "header",   "content": "Pillar 2" },
+    { "type": "text",     "id": "p2_title", "label": "Title",       "default": "Priority Access" },
+    { "type": "textarea", "id": "p2_desc",  "label": "Description", "default": "Members receive early access to new launches, limited editions and exclusive brand collaborations." },
+    { "type": "header",   "content": "Pillar 3" },
+    { "type": "text",     "id": "p3_title", "label": "Title",       "default": "Complimentary Gifting" },
+    { "type": "textarea", "id": "p3_desc",  "label": "Description", "default": "Beautifully presented complimentary gifts with qualifying orders. A small token of our appreciation." },
+    { "type": "header",   "content": "Pillar 4" },
+    { "type": "text",     "id": "p4_title", "label": "Title",       "default": "Personalised Service" },
+    { "type": "textarea", "id": "p4_desc",  "label": "Description", "default": "Access to our skincare advisers for personalised recommendations tailored to your skin goals." },
+    { "type": "header",   "content": "Pillar 5" },
+    { "type": "text",     "id": "p5_title", "label": "Title",       "default": "Exclusive Offers" },
+    { "type": "textarea", "id": "p5_desc",  "label": "Description", "default": "Members-only pricing, private sale events and curated bundles available only to those on the inside." },
+    { "type": "header",   "content": "Pillar 6" },
+    { "type": "text",     "id": "p6_title", "label": "Title",       "default": "Loyalty Recognition" },
+    { "type": "textarea", "id": "p6_desc",  "label": "Description", "default": "Your spending is recognised and rewarded. Points accumulate automatically and never go unnoticed." }
+  ],
+  "presets": [{ "name": "Rewards, Pillars" }]
+}
+{% endschema %}

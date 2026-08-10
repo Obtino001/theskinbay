@@ -1,0 +1,243 @@
+{%- comment -%} ── DEPARTMENT (category_filter blocks) ──────────────────────── {%- endcomment -%}
+{%- assign cat_blocks = section.blocks | where: 'type', 'category_filter' -%}
+{%- if cat_blocks.size > 0 -%}
+  <details class="lcg-fgroup" open>
+    <summary class="lcg-fgroup-head">
+      <span>Category</span>
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1L5 5L9 1"/></svg>
+    </summary>
+    <div class="lcg-fgroup-body">
+      {%- for block in cat_blocks -%}
+        {%- assign dept_col = collections[block.settings.collection_link] -%}
+        {%- assign dept_active = false -%}
+        {%- if dept_col.handle == collection.handle -%}{%- assign dept_active = true -%}{%- endif -%}
+        <a href="{{ dept_col.url | default: '#' }}"
+           class="lcg-fcheck{% if dept_active %} is-active{% endif %}"
+           aria-current="{% if dept_active %}page{% else %}false{% endif %}">
+          <span class="lcg-fcheck-box{% if dept_active %} checked{% endif %}"></span>
+          <span class="lcg-fname">{{ block.settings.title }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </details>
+{%- endif -%}
+
+{%- comment -%} ── BRAND FILTER ────────────────────────────────────────────────── {%- endcomment -%}
+{%- assign lcg_vendor_filter = nil -%}
+{%- for filter in collection.filters -%}
+  {%- assign filter_label_lower = filter.label | downcase -%}
+  {%- if filter_label_lower == 'brand' or filter_label_lower == 'vendor' or filter_label_lower == 'brands' -%}
+    {%- assign lcg_vendor_filter = filter -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<details class="lcg-fgroup" open>
+  <summary class="lcg-fgroup-head">
+    <span>Brand</span>
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1L5 5L9 1"/></svg>
+  </summary>
+  <div class="lcg-fgroup-body">
+    <div class="lcg-brand-search-wrap">
+      <svg class="lcg-brand-search-icon" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <circle cx="4.5" cy="4.5" r="3.5"/><line x1="7.5" y1="7.5" x2="10" y2="10"/>
+      </svg>
+      <input type="search" class="lcg-brand-search" id="lcg-brand-search-{{ section.id }}"
+             placeholder="Search brands…" aria-label="Search brands" autocomplete="off">
+    </div>
+
+    <div class="lcg-brand-list" id="lcg-brand-list-{{ section.id }}"
+         data-collection="{{ collection.handle }}"
+         data-section="{{ section.id }}"
+         data-use-native="{% if lcg_vendor_filter != nil %}true{% else %}false{% endif %}">
+
+      {%- if lcg_vendor_filter != nil -%}
+        {%- comment -%} Native Search & Discovery vendor filter — has counts + active state {%- endcomment -%}
+        {%- for value in lcg_vendor_filter.values -%}
+          <a href="{{ value.url_to_toggle }}"
+             class="lcg-fcheck{% if value.active %} is-active{% endif %} lcg-brand-item"
+             data-brand="{{ value.label | downcase | escape }}">
+            <span class="lcg-fcheck-box{% if value.active %} checked{% endif %}"></span>
+            <span class="lcg-fname">{{ value.label }}<span class="lcg-fcount"> ({{ value.count }})</span></span>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Fallback: seed with current-page vendors; JS will fetch the rest {%- endcomment -%}
+        {%- assign _seen = '' -%}
+        {%- for product in collection.products -%}
+          {%- unless _seen contains product.vendor -%}
+            {%- assign _seen = _seen | append: product.vendor | append: '||' -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- assign _vendor_seed = _seen | split: '||' | sort -%}
+        {%- for v in _vendor_seed -%}
+          {%- if v != '' -%}
+            <a href="{{ collection.url }}?filter.v.vendor={{ v | url_encode }}"
+               class="lcg-fcheck lcg-brand-item"
+               data-brand="{{ v | downcase | escape }}">
+              <span class="lcg-fcheck-box"></span>
+              <span class="lcg-fname">{{ v }}</span>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+        <p class="lcg-brand-loading" id="lcg-brand-loading-{{ section.id }}">Loading all brands…</p>
+      {%- endif -%}
+    </div>
+    <p class="lcg-brand-empty" id="lcg-brand-empty-{{ section.id }}" style="display:none;">No brands found</p>
+  </div>
+</details>
+
+{%- comment -%} ── OTHER NATIVE FILTERS (availability, price — skip vendor handled above) ─ {%- endcomment -%}
+{%- for filter in collection.filters -%}
+  {%- assign filter_label_lower = filter.label | downcase -%}
+  {%- if filter_label_lower == 'brand' or filter_label_lower == 'vendor' or filter_label_lower == 'brands' -%}
+    {%- continue -%}
+  {%- endif -%}
+  {%- if filter_label_lower == 'department' -%}
+    {%- continue -%}
+  {%- endif -%}
+  <details class="lcg-fgroup" {% if forloop.index <= 2 %}open{% endif %}>
+    <summary class="lcg-fgroup-head">
+      <span>{{ filter.label }}</span>
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1L5 5L9 1"/></svg>
+    </summary>
+    <div class="lcg-fgroup-body">
+      {%- if filter.type == 'price_range' -%}
+        <form onsubmit="lcgPriceFilter(event,this)">
+          <div class="lcg-price-inputs">
+            <input type="number" name="{{ filter.min_value.param_name }}" class="lcg-price-input" placeholder="Min £"
+              value="{% if filter.min_value.value %}{{ filter.min_value.value | divided_by: 100.0 | round }}{% endif %}"
+              min="0" step="1">
+            <input type="number" name="{{ filter.max_value.param_name }}" class="lcg-price-input" placeholder="Max £"
+              value="{% if filter.max_value.value %}{{ filter.max_value.value | divided_by: 100.0 | round }}{% endif %}"
+              min="0" step="1">
+          </div>
+          <button type="submit" class="lcg-price-btn">Apply Price</button>
+        </form>
+      {%- else -%}
+        {%- for value in filter.values -%}
+          <a href="{{ value.url_to_toggle }}"
+             class="lcg-fcheck{% if value.active %} is-active{% endif %}"
+             role="checkbox" aria-checked="{{ value.active }}">
+            <span class="lcg-fcheck-box{% if value.active %} checked{% endif %}"></span>
+            <span class="lcg-fname{% if value.count == 0 and value.active == false %} inactive{% endif %}">
+              {{- value.label -}}<span class="lcg-fcount"> ({{ value.count }})</span>
+            </span>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </details>
+{%- endfor -%}
+
+{%- if collection.filters.size == 0 and cat_blocks.size == 0 -%}
+  <p class="lcg-no-filters">Configure filters in<br>Shopify Admin → Apps →<br>Search &amp; Discovery → Filters.</p>
+{%- endif -%}
+
+<style>
+  .lcg-brand-search-wrap {
+    position: relative; margin-bottom: 10px;
+  }
+  .lcg-brand-search-icon {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: rgba(0,0,0,.35); pointer-events: none;
+  }
+  .lcg-brand-search {
+    width: 100%; height: 34px;
+    border: 1px solid rgba(0,0,0,.14); background: #fff;
+    padding: 0 10px 0 28px;
+    font-family: 'Lato', inherit; font-size: 9px;
+    letter-spacing: .06em; color: #0c0c0c;
+    outline: none; transition: border-color .15s;
+    -webkit-appearance: none;
+  }
+  .lcg-brand-search:focus { border-color: #0c0c0c; }
+  .lcg-brand-search::-webkit-search-cancel-button { display: none; }
+  .lcg-brand-list { max-height: 220px; overflow-y: auto; scrollbar-width: thin; }
+  .lcg-brand-list::-webkit-scrollbar { width: 3px; }
+  .lcg-brand-list::-webkit-scrollbar-thumb { background: #ddd; }
+  .lcg-brand-loading {
+    font-family: 'Lato', inherit; font-size: 8.5px;
+    color: rgba(0,0,0,.35); letter-spacing: .08em; padding: 6px 0;
+  }
+  .lcg-brand-empty {
+    font-family: 'Lato', inherit; font-size: 8.5px;
+    color: rgba(0,0,0,.35); letter-spacing: .08em; padding: 4px 0;
+  }
+</style>
+
+<script>
+(function() {
+  var listEl = document.getElementById('lcg-brand-list-{{ section.id }}');
+  if (!listEl) return;
+
+  var useNative = listEl.dataset.useNative === 'true';
+  var searchInput = document.getElementById('lcg-brand-search-{{ section.id }}');
+  var emptyEl = document.getElementById('lcg-brand-empty-{{ section.id }}');
+
+  // Brand search filter
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      var items = listEl.querySelectorAll('.lcg-brand-item');
+      var anyVisible = false;
+      items.forEach(function(item) {
+        var name = item.dataset.brand || '';
+        var show = !q || name.includes(q);
+        item.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
+      });
+      if (emptyEl) emptyEl.style.display = anyVisible ? 'none' : '';
+    });
+  }
+
+  // AJAX brand fetch (fallback only — when no native vendor filter)
+  if (!useNative) {
+    var handle = listEl.dataset.collection;
+    var loadingEl = document.getElementById('lcg-brand-loading-{{ section.id }}');
+    var activeVendors = new URLSearchParams(location.search).getAll('filter.v.vendor');
+    var seen = new Set();
+
+    // Seed from already-rendered items
+    listEl.querySelectorAll('.lcg-brand-item').forEach(function(el) {
+      var name = el.querySelector('.lcg-fname') && el.querySelector('.lcg-fname').childNodes[0];
+      if (name) seen.add(name.textContent.trim());
+    });
+
+    function fetchPage(page) {
+      fetch('/collections/' + handle + '/products.json?limit=250&page=' + page)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var products = data.products || [];
+          products.forEach(function(p) { seen.add(p.vendor); });
+          if (products.length === 250) {
+            fetchPage(page + 1);
+          } else {
+            renderBrands();
+          }
+        })
+        .catch(function() { if (loadingEl) loadingEl.remove(); });
+    }
+
+    function renderBrands() {
+      if (loadingEl) loadingEl.remove();
+      var sorted = Array.from(seen).filter(Boolean).sort(function(a, b) { return a.localeCompare(b); });
+      // Clear existing items
+      listEl.querySelectorAll('.lcg-brand-item').forEach(function(el) { el.remove(); });
+      sorted.forEach(function(vendor) {
+        var isActive = activeVendors.includes(vendor);
+        var url = '/collections/' + handle + '?filter.v.vendor=' + encodeURIComponent(vendor);
+        var a = document.createElement('a');
+        a.href = url;
+        a.className = 'lcg-fcheck lcg-brand-item' + (isActive ? ' is-active' : '');
+        a.dataset.brand = vendor.toLowerCase();
+        a.innerHTML = '<span class="lcg-fcheck-box' + (isActive ? ' checked' : '') + '"></span>' +
+                      '<span class="lcg-fname">' + vendor + '</span>';
+        listEl.appendChild(a);
+      });
+    }
+
+    fetchPage(1);
+  }
+})();
+</script>

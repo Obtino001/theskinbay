@@ -1,0 +1,35 @@
+{%- comment -%} NAD bespoke, founder quote (Emmalee) with mailer headshot {%- endcomment -%}
+<section class="nad-founder" style="background:{{ section.settings.bg }};">
+  <div class="nadfd-card">
+    {%- if section.settings.show_photo -%}
+      <img class="nadfd-photo" src="{{ 'email-founder-emmalee.jpg' | asset_url }}" alt="Emmalee Fitton, founder of theskinbay" width="96" height="96" loading="lazy">
+    {%- endif -%}
+    <div class="nadfd-badge">Founder's favourite</div>
+    <blockquote class="nadfd-quote">{{ section.settings.quote }}</blockquote>
+    <div class="nadfd-sign">{{ section.settings.signature }}</div>
+    {%- if section.settings.role != blank -%}<div class="nadfd-role">{{ section.settings.role }}</div>{%- endif -%}
+  </div>
+</section>
+<style>
+  .nad-founder{padding:20px 20px 10px;}
+  .nadfd-card{max-width:900px;margin:0 auto;background:var(--card,#10233B);color:#f4f0e6;border-radius:22px;padding:44px 46px;text-align:center;}
+  .nadfd-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;border:2px solid var(--accent2,#F6C21A);margin:0 auto 18px;display:block;}
+  .nadfd-badge{display:inline-block;font-family:'Lato',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--card,#10233B);background:var(--accent2,#F6C21A);padding:6px 14px;border-radius:20px;margin-bottom:18px;}
+  .nadfd-quote{font-family:'Playfair Display',serif;font-size:24px;line-height:1.5;margin:0 auto;max-width:640px;}
+  .nadfd-sign{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:var(--accent2,#F6C21A);margin-top:20px;}
+  .nadfd-role{font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#b9c2cf;margin-top:4px;}
+  @media(max-width:749px){.nadfd-card{padding:32px 24px;}.nadfd-quote{font-size:20px;}}
+</style>
+{% schema %}
+{
+  "name": "NAD · Founder",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#F6C21A" },
+    { "type": "checkbox", "id": "show_photo", "label": "Show founder photo", "default": true },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "Energy, brightness, clarity, and if I have a drink, I don't get hangovers anymore. Genuinely one of my favourite things we stock." },
+    { "type": "text", "id": "signature", "label": "Signature", "default": "Emmalee x" },
+    { "type": "text", "id": "role", "label": "Role", "default": "Founder, theskinbay" }
+  ],
+  "presets": [{ "name": "NAD · Founder" }]
+}
+{% endschema %}

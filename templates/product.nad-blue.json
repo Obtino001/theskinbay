@@ -1,0 +1,397 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-hero-blue.png",
+        "tagline": "The at-home, self-injectable glutathione kit for brighter, more even skin and whole-body detox. Your master antioxidant, replenished on your own schedule.",
+        "cta_text": "Add to bag",
+        "trust_line": "Pharmaceutical-grade glutathione \u00b7 Certified labs \u00b7 Discreet, tracked UK dispatch",
+        "on_bg": "#FFFFFF"
+      },
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "icon": "sparkle",
+            "label": "Brighter skin"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "icon": "drop",
+            "label": "Detox"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "icon": "shield",
+            "label": "Antioxidant"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "icon": "bolt",
+            "label": "Immunity"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "nad_trust": {
+      "type": "nad-trust",
+      "settings": {
+        "bg": "#2BA6B5"
+      },
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "lab",
+            "title": "Certified labs",
+            "sub": "ISO-certified, batch-tested"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "drop",
+            "title": "High bioavailability",
+            "sub": "Bypasses digestion"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Certificate of Analysis",
+            "sub": "Purity on request"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Discreet UK dispatch",
+            "sub": "Tracked delivery"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-benefits-blue.png",
+        "intro": "Glutathione is the body's master antioxidant, made in every cell. Levels fall with age, stress and sun, so replenishing it supports how your skin looks and how you feel.",
+        "on_bg": "#FFFFFF"
+      },
+      "blocks": {
+        "b1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Brighter, even skin",
+            "text": "Helps soften dullness and even skin tone by targeting excess melanin production."
+          }
+        },
+        "b2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "drop",
+            "title": "Whole-body detox",
+            "text": "Binds to toxins and supports the liver's natural detoxification pathways."
+          }
+        },
+        "b3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "Master antioxidant",
+            "text": "The body's most powerful antioxidant, defending cells against oxidative stress."
+          }
+        },
+        "b4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "bolt",
+            "title": "Immune support",
+            "text": "Supports immune resilience and healthy, energised cellular function."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    "nad_if2": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#2BA6B5",
+        "image_index": 3,
+        "layout": "left",
+        "eyebrow": "THE RITUAL",
+        "heading": "A few quiet minutes, on your schedule",
+        "body": "<p>No clinic, no appointments. Each kit comes with everything you need for a hygienic at-home routine, plus a step-by-step guide. Refrigerate on arrival, rotate sites, and let your skin and body do the rest.</p>",
+        "on_bg": "#FFFFFF"
+      }
+    },
+    "nad_science": {
+      "type": "nad-science",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-science-blue.png",
+        "body": "<p><strong>Glutathione</strong> is a tripeptide made from three amino acids and is the body's master antioxidant, found in every living cell. Levels fall with age, stress, sun exposure and modern life, which can show up as dullness, uneven tone and low energy.</p><p>Replenishing glutathione supports brighter, clearer skin, natural detoxification and immune defence. Delivered subcutaneously, it bypasses the digestive system for high bioavailability, so your cells can put it to work quickly.</p>",
+        "insight": "Glutathione neutralises free radicals and recycles other antioxidants such as vitamins C and E. It also helps regulate tyrosinase, the enzyme behind melanin production, which is why it is prized for a brighter, more even complexion."
+      }
+    },
+    "nad_if3": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#2BA6B5",
+        "image_index": 6,
+        "layout": "right",
+        "eyebrow": "WHY SUBCUTANEOUS",
+        "heading": "High bioavailability, visible results",
+        "body": "<p>Oral glutathione is largely broken down in digestion. Delivered subcutaneously, it reaches your system directly, so more of the active goes to work on brightness, detox and antioxidant defence.</p>",
+        "on_bg": "#FFFFFF"
+      }
+    },
+    "nad_howto": {
+      "type": "nad-howto",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-howto-blue.png",
+        "kit_heading": "What's inside the kit",
+        "note": "For adult use only. Consult your practitioner before beginning glutathione therapy, particularly if pregnant, breastfeeding or managing a health condition."
+      },
+      "blocks": {
+        "k1": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Vial of pharmaceutical-grade L-Glutathione"
+          }
+        },
+        "k2": {
+          "type": "kititem",
+          "settings": {
+            "qty": "20 \u00d7",
+            "item": "Micro syringes"
+          }
+        },
+        "k3": {
+          "type": "kititem",
+          "settings": {
+            "qty": "20 \u00d7",
+            "item": "Antibacterial wipes"
+          }
+        },
+        "k4": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Sharps bin for safe disposal"
+          }
+        },
+        "k5": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Step-by-step instruction guide"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4",
+        "k5"
+      ]
+    },
+    "nad_tutorial": {
+      "type": "nad-tutorial",
+      "settings": {
+        "bg": "#2BA6B5",
+        "video_id": "QA7y6spItFo",
+        "eyebrow": "NEED A HAND?",
+        "heading": "How to inject, step by step",
+        "sub": "A calm, straightforward walkthrough so your first time feels easy. Watch whenever you need it.",
+        "note": "Always follow the printed guide included in your kit.",
+        "on_bg": "#FFFFFF"
+      }
+    },
+    "nad_founder": {
+      "type": "nad-founder",
+      "settings": {
+        "bg": "#2BA6B5",
+        "quote": "My skin looks brighter and more even, and I feel less sluggish. It has quietly become one of my non-negotiables.",
+        "signature": "Emmalee x",
+        "role": "Founder, theskinbay"
+      }
+    },
+    "nad_crosssell": {
+      "type": "nad-crosssell",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-pair-blue.png",
+        "collection": "nad-home",
+        "more_heading": "More at-home wellness",
+        "max_products": 4,
+        "view_all_url": "/collections/nad-home",
+        "view_all_text": "Shop all NAD+ At Home"
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "settings": {
+        "bg": "#2BA6B5",
+        "header_image": "nad-h-faq-blue.png"
+      },
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What does glutathione do?",
+            "a": "<p>Glutathione is the body's master antioxidant. It supports brighter, more even skin, natural detoxification and immune defence by neutralising free radicals and helping regulate melanin production.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How soon will I see results?",
+            "a": "<p>Many people notice a brighter, fresher complexion and more energy within a few weeks. Glutathione works best taken consistently across the full protocol.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How often should I use it?",
+            "a": "<p>Follow the protocol in your kit, typically a small subcutaneous dose two to three times a week. Each vial provides multiple doses.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Why injection instead of a capsule?",
+            "a": "<p>Oral glutathione is largely broken down in digestion. Subcutaneous delivery bypasses the gut for much higher bioavailability, so more of the active reaches your cells.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "Will the injection hurt?",
+            "a": "<p>It can sting slightly and small bruises are not unusual. Take the vial out of the fridge about 30 minutes beforehand, insert at a 45 degree angle just under the skin, and rotate sites each time.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "q": "Where is best to inject?",
+            "a": "<p>Subcutaneously, just under the skin into fatty tissue. The stomach, hips or buttocks work well. Rotate the site with each dose.</p>"
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "q": "Who is glutathione not suitable for?",
+            "a": "<p>Not suitable for anyone under 18, or with an allergy to glutathione or sterile solutions. Please speak to your doctor first if you are pregnant or breastfeeding, or have a serious health condition.</p>"
+          }
+        },
+        "q8": {
+          "type": "qa",
+          "settings": {
+            "q": "Are there any side effects?",
+            "a": "<p>Most people notice none. Occasionally there can be mild sensitivity at the injection site. If that happens, choose a different site next time, and stop if anything feels unusual.</p>"
+          }
+        },
+        "q9": {
+          "type": "qa",
+          "settings": {
+            "q": "How should I store it?",
+            "a": "<p>Refrigerate the vial for optimal freshness. It also stays stable at room temperature for a short period, so a day in transit is no problem.</p>"
+          }
+        },
+        "q10": {
+          "type": "qa",
+          "settings": {
+            "q": "How is it delivered?",
+            "a": "<p>Discreetly and tracked across the UK, packed with a cool pack to keep it in perfect condition. A Certificate of Analysis is available on request.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9",
+        "q10"
+      ]
+    },
+    "nad_breaker": {
+      "type": "nad-breaker",
+      "settings": {
+        "bg": "#2BA6B5",
+        "colour": "white"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_trust",
+    "nad_benefits",
+    "nad_if2",
+    "nad_science",
+    "nad_if3",
+    "nad_howto",
+    "nad_tutorial",
+    "nad_breaker",
+    "nad_founder",
+    "nad_crosssell",
+    "nad_faq"
+  ]
+}

@@ -1,0 +1,545 @@
+
+{% liquid
+  assign block_settings = block.settings
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign variant = closest.product.selected_or_first_available_variant
+  assign inventory_quantity = variant.inventory_quantity
+  assign inventory_policy = variant.inventory_policy
+
+  if variant.inventory_management == 'shopify'
+    assign inventory_managed = true
+  endif
+
+  assign can_add_to_cart = false
+  assign add_to_cart_text = 'products.product.unavailable' | t
+
+  if variant
+    if variant.quantity_rule.min > variant.inventory_quantity and inventory_managed and inventory_policy == 'deny'
+      assign quantity_rule_soldout = true
+    endif
+
+    if variant.available
+      assign can_add_to_cart = true
+      assign add_to_cart_text = 'products.product.add_to_cart' | t
+    elsif inventory_managed and inventory_quantity <= 0 and inventory_policy == 'deny' or quantity_rule_soldout
+      assign can_add_to_cart = false
+      assign add_to_cart_text = 'products.product.sold_out' | t
+    else
+      assign can_add_to_cart = false
+      assign add_to_cart_text = 'products.product.unavailable' | t
+    endif
+  endif
+%}
+
+<span
+  class="buy-buttons-block buy-buttons-block--{{ block.id }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if product != blank -%}
+    {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
+    <product-form-component
+      data-section-id="{{ section.id }}"
+      data-product-id="{{ product.id }}"
+      data-product-url="{{ product.url }}"
+      on:submit="/handleSubmit"
+      data-quantity-default="{% if product.selected_or_first_available_variant.quantity_rule.min %}{{ product.selected_or_first_available_variant.quantity_rule.min }}{% else %}1{% endif %}"
+      data-quantity-error-max="{{ 'products.product.quantity_error_max' | t }}"
+    >
+      <div
+        class="visually-hidden"
+        aria-live="assertive"
+        role="status"
+        aria-atomic="true"
+        ref="liveRegion"
+      ></div>
+      {%- form 'product', product, id: product_form_id, data-type: 'add-to-cart-form' -%}
+        <input
+          type="hidden"
+          name="id"
+          ref="variantId"
+          value="{{ product.selected_or_first_available_variant.id }}"
+        >
+        {%- if block_settings.gift_card_form and product.gift_card? -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
+          <span class="buy-buttons-block__bar">
+        {%- endif -%}
+        <div
+          class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% endif %}"
+          style="{% render 'spacing-style', settings: block_settings %}"
+          ref="productFormButtons"
+        >
+          {%- unless block_settings.gift_card_form and product.gift_card? -%}
+            <span
+              class="product-form-text__error hidden"
+              ref="addToCartTextError"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+            </span>
+          {%- endunless -%}
+
+          {%- liquid
+            assign has_quantity_rules = false
+            if variant.quantity_rule.min > 1 or variant.quantity_rule.increment > 1 or variant.quantity_rule.max != null
+              assign has_quantity_rules = true
+            endif
+          -%}
+
+          {%- if has_quantity_rules -%}
+            {%- assign cart_quantity = cart | item_count_for_variant: variant.id -%}
+            <div
+              class="quantity-label"
+              ref="quantityLabel"
+            >
+              {{ 'products.product.quantity' | t }}
+              <span
+                class="quantity-label__cart-count{% if cart_quantity == 0 %} hidden{% endif %}"
+                ref="quantityLabelCartCount"
+                >({{ cart_quantity }}
+                {{ 'products.product.in_cart' | t }})</span
+              >
+            </div>
+          {%- endif -%}
+
+          {% content_for 'block', type: 'quantity', id: 'quantity' %}
+
+          {%- if has_quantity_rules -%}
+            <div
+              class="quantity-rules"
+              ref="quantityRules"
+            >
+              {%- if variant.quantity_rule.increment > 1 -%}
+                <span class="quantity-rules__item">
+                  {{ 'products.product.quantity_increments' | t: increment: variant.quantity_rule.increment }}
+                </span>
+              {%- endif -%}
+              {%- if variant.quantity_rule.min > 1 -%}
+                <span class="quantity-rules__item">
+                  {{ 'products.product.quantity_minimum' | t: minimum: variant.quantity_rule.min }}
+                </span>
+              {%- endif -%}
+              {%- if variant.quantity_rule.max != null -%}
+                <span class="quantity-rules__item">
+                  {{ 'products.product.quantity_maximum' | t: maximum: variant.quantity_rule.max }}
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if product.quantity_price_breaks_configured? and variant.quantity_price_breaks.size > 0 -%}
+            {%- liquid
+              assign use_currency = settings.currency_code_enabled_product_pages
+            -%}
+            <volume-pricing
+              class="volume-pricing"
+              data-section-id="{{ section.id }}"
+              ref="volumePricing"
+            >
+              <span class="volume-pricing__title">{{ 'content.volume_pricing' | t }}</span>
+              <div class="volume-pricing__table">
+                <div class="volume-pricing__row volume-pricing__row--even">
+                  <span>{{ variant.quantity_rule.min }}+</span>
+                  <span>
+                    {%- if use_currency -%}
+                      {{- variant.price | money_with_currency | strip -}}
+                    {%- else -%}
+                      {{- variant.price | money | strip -}}
+                    {%- endif -%}
+                    /{{ 'content.each_abbreviation' | t -}}
+                  </span>
+                </div>
+                {%- for price_break in variant.quantity_price_breaks limit: 2 -%}
+                  {%- liquid
+                    assign row_index = forloop.index
+                    if row_index == 1
+                      assign row_class = 'volume-pricing__row volume-pricing__row--odd'
+                    else
+                      assign row_class = 'volume-pricing__row volume-pricing__row--even'
+                    endif
+                  -%}
+                  <div class="{{ row_class }}">
+                    <span>{{ price_break.minimum_quantity }}+</span>
+                    <span>
+                      {%- if use_currency -%}
+                        {{- price_break.price | money_with_currency | strip -}}
+                      {%- else -%}
+                        {{- price_break.price | money | strip -}}
+                      {%- endif -%}
+                      /{{ 'content.each_abbreviation' | t -}}
+                    </span>
+                  </div>
+                {%- endfor -%}
+
+                {%- if variant.quantity_price_breaks.size > 2 -%}
+                  <div class="volume-pricing__collapsible-wrapper">
+                    {%- for price_break in variant.quantity_price_breaks offset: 2 -%}
+                      {%- liquid
+                        assign collapsed_index = forloop.index
+                        assign total_index = collapsed_index | plus: 2
+                        assign modulo_result = total_index | modulo: 2
+                        if modulo_result == 1
+                          assign row_class = 'volume-pricing__row volume-pricing__row--odd'
+                        else
+                          assign row_class = 'volume-pricing__row volume-pricing__row--even'
+                        endif
+                      -%}
+                      <div class="{{ row_class }}">
+                        <span>{{ price_break.minimum_quantity }}+</span>
+                        <span>
+                          {%- if use_currency -%}
+                            {{- price_break.price | money_with_currency | strip -}}
+                          {%- else -%}
+                            {{- price_break.price | money | strip -}}
+                          {%- endif -%}
+                          /{{ 'content.each_abbreviation' | t -}}
+                        </span>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+
+                  <button
+                    type="button"
+                    class="volume-pricing__toggle button-unstyled"
+                    ref="volumePricingToggle"
+                    on:click="/toggleExpanded"
+                  >
+                    <span class="volume-pricing__toggle-text">
+                      <span class="volume-pricing__show-more">+ {{ 'actions.show_more' | t }}</span>
+                      <span class="volume-pricing__show-less">- {{ 'actions.show_less' | t }}</span>
+                    </span>
+                  </button>
+                {%- endif -%}
+              </div>
+            </volume-pricing>
+          {%- endif -%}
+          {% content_for 'block',
+            type: 'add-to-cart',
+            id: 'add-to-cart',
+            can_add_to_cart: can_add_to_cart,
+            add_to_cart_text: add_to_cart_text
+          %}
+
+          {% content_for 'block',
+            type: 'accelerated-checkout',
+            id: 'accelerated-checkout',
+            can_add_to_cart: can_add_to_cart,
+            form_obj: form
+          %}
+        </div>
+        {%- if block_settings.gift_card_form and product.gift_card? -%}
+          </span>
+        {%- endif -%}
+      {%- endform -%}
+    </product-form-component>
+  {%- else -%}
+    <div class="product-form-buttons">
+      <button
+        type="submit"
+        name="add"
+        class="button"
+        disabled
+      >
+        {{ 'blocks.sold_out' | t }}
+      </button>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} SB PDP reassurance, Klarna pay-in-3 + BayPoints + delivery trust {%- endcomment -%}
+  {%- assign _sbprice = product.selected_or_first_available_variant.price | default: product.price -%}
+  {%- assign _sbpts = _sbprice | times: 0.005 | round -%}
+  {%- assign _sbrew = _sbpts | times: 5 -%}
+  {%- if _sbprice > 0 and product.available -%}
+    <button type="button" class="lf-wish" aria-pressed="false"
+      data-handle="{{ product.handle }}" data-url="{{ product.url }}"
+      data-title="{{ product.title | escape }}" data-vendor="{{ product.vendor | escape }}"
+      data-img="{{ product.featured_image | image_url: width: 400 | escape }}"
+      data-price="{{ product.price }}" data-cprice="{{ product.compare_at_price | default: 0 }}">
+      <svg class="lf-wish__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      <span class="lf-wish__t">Save for later</span>
+    </button>
+    <script>
+    (function(){
+      var b=document.currentScript.previousElementSibling; if(!b||!b.classList.contains('lf-wish')) b=document.querySelector('.lf-wish');
+      if(!b) return; var KEY='sb_wishlist';
+      function read(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+      function saved(){ return read().some(function(p){return p.handle===b.dataset.handle;}); }
+      function paint(){ var s=saved(); b.classList.toggle('is-saved',s); b.setAttribute('aria-pressed',s); b.querySelector('.lf-wish__t').textContent=s?'Saved to wishlist':'Save for later'; }
+      b.addEventListener('click',function(){ var l=read(); if(saved()){ l=l.filter(function(p){return p.handle!==b.dataset.handle;}); } else { l.unshift({handle:b.dataset.handle,url:b.dataset.url,title:b.dataset.title,vendor:b.dataset.vendor,img:b.dataset.img,price:parseInt(b.dataset.price,10),cprice:parseInt(b.dataset.cprice,10)}); l=l.slice(0,60);} try{localStorage.setItem(KEY,JSON.stringify(l));}catch(e){} if(window.sbUpdateWishCount)window.sbUpdateWishCount(); paint(); });
+      paint();
+    })();
+    </script>
+    <div class="lf-reassure">
+      <div class="lf-reassure__pay3">
+        <span class="lf-kl">Klarna</span><span class="lf-cp">Clearpay</span>
+        <span>3 interest-free payments of <strong>{{ _sbprice | divided_by: 3 | money }}</strong></span>
+      </div>
+      {%- if _sbpts > 0 -%}
+      <div class="lf-reassure__row lf-reassure__pts">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 21 12 17.5 6.2 21l1.3-7.35L3 9.27l6.1-1.01z"/></svg>
+        <span>Earn <strong>{{ _sbpts }} BayPoints</strong> · worth <strong>{{ _sbrew | money }}</strong> off your next order</span>
+      </div>
+      {%- endif -%}
+      <div class="lf-reassure__row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="6" width="14" height="10" rx="1"/><path d="M15 9h4l3 3v4h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg>
+        <span>Dispatched from the UK, Royal Mail <strong>tracked &amp; insured</strong></span>
+      </div>
+      <div class="lf-reassure__row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>Order by <strong>4pm Mon–Fri</strong> for same-day dispatch · guaranteed next-day available</span>
+      </div>
+    </div>
+    <style>
+      
+      .lf-wish{ display:inline-flex; align-items:center; gap:8px; background:none; border:none; padding:0 0 12px; margin-bottom:2px; cursor:pointer; font-family:'Lato',var(--font-body--family),sans-serif; font-size:11px; letter-spacing:.06em; color:#4a4a4a; }
+      .lf-wish__i{ width:16px; height:16px; color:#8a8478; transition:all .2s ease; }
+      .lf-wish.is-saved .lf-wish__i{ color:#b3122b; fill:#b3122b; stroke:#b3122b; }
+      .lf-wish:hover .lf-wish__i{ color:#b3122b; }
+      .lf-wish__t{ text-transform:uppercase; }
+      .lf-reassure{ margin-top:6px; font-family:'Lato',var(--font-body--family),sans-serif; }
+      .lf-reassure__pay3{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; font-size:11.5px; color:#4a4a4a; padding-bottom:11px; margin-bottom:10px; border-bottom:1px solid #ece5d8; }
+      .lf-reassure__pay3 strong{ color:#0c0c0c; font-weight:600; }
+      .lf-kl.lf-cp{ font-weight:800; font-size:10px; padding:3px 8px; border-radius:5px; letter-spacing:.01em; color:#0c0c0c; }
+      .lf-kl{ background:#FFB3C7; } .lf-cp{ background:#B2FCE4; margin-left:-3px; }
+      .lf-reassure__row{ display:flex; align-items:center; gap:9px; font-size:11px; color:#5a5a5a; line-height:1.5; padding:3px 0; }
+      .lf-reassure__row strong{ color:#0c0c0c; font-weight:600; }
+      .lf-reassure__row svg{ flex-shrink:0; width:15px; height:15px; color:#c9a96e; }
+      .lf-reassure__pts svg{ color:#c9a96e; }
+    </style>
+  {%- endif -%}
+
+  {%- comment -%} Special-order dispatch note, renders only when the product has a custom.dispatch_note metafield value {%- endcomment -%}
+  {%- assign _dispatch_note = product.metafields.custom.dispatch_note.value -%}
+  {%- if _dispatch_note != blank -%}
+    <div class="lf-dispatch-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span>{{ _dispatch_note }}</span>
+    </div>
+    <style>
+      .lf-dispatch-note { display:flex; align-items:center; gap:8px; margin-top:12px; padding:9px 12px; background:#f7f4ef; border:1px solid #e6ddcd; border-radius:3px; font-family:'Lato',var(--font-body--family),sans-serif; font-size:11px; line-height:1.45; letter-spacing:.02em; color:#6b5b3e; }
+      .lf-dispatch-note svg { flex-shrink:0; color:#c9a96e; }
+    </style>
+  {%- endif -%}
+</span>
+
+{% if block_settings.show_pickup_availability %}
+  <script
+    src="{{ 'local-pickup.js' | asset_url }}"
+    type="module"
+  ></script>
+
+  {%- assign pick_up_availabilities = closest.product.selected_or_first_available_variant.store_availabilities
+    | where: 'pick_up_enabled', true
+  -%}
+
+  <local-pickup
+    class="spacing-style product__pickup-availabilities"
+    {% if pick_up_availabilities.size == 0 %}
+      hidden
+    {% endif %}
+    data-section-id="{{ section.id }}"
+    data-product-url="{{ closest.product.url }}"
+    data-variant-id="{{ closest.product.selected_or_first_available_variant.id }}"
+    style="{% render 'spacing-style', settings: block_settings %}"
+    ref="localPickupButton"
+  >
+    {% if can_add_to_cart %}
+      <dialog-component>
+        <div class="pickup-availability__row">
+          <div class="pickup-availability__column">
+            <span class="svg-wrapper">
+              {% if pick_up_availabilities.first.available %}
+                {{- 'icon-available.svg' | inline_asset_content -}}
+              {% else %}
+                {{- 'icon-unavailable.svg' | inline_asset_content -}}
+              {% endif %}
+            </span>
+          </div>
+          <div class="pickup-availability__column">
+            {% if pick_up_availabilities.first.available %}
+              <p class="pickup-location__text-sm">
+                {{ 'content.pickup_available_at_html' | t: location: pick_up_availabilities.first.location.name }}
+              </p>
+              <p class="pickup-location__text-xs">
+                {{ 'content.pickup_ready_in' | t: pickup_time: pick_up_availabilities.first.pick_up_time }}
+              </p>
+            {% else %}
+              <p class="pickup-location__text-sm">
+                {{ 'content.pickup_not_available' | t }}
+              </p>
+            {% endif %}
+            <button
+              on:click="/showDialog"
+              class="button-unstyled pickup-location__button"
+            >
+              {{ 'actions.view_store_information' | t }}
+            </button>
+          </div>
+        </div>
+        <dialog
+          ref="dialog"
+          class="dialog-modal dialog-drawer pickup-location__dialog color-{{ settings.drawer_color_scheme }}"
+          scroll-lock
+          aria-labelledby="pickup-dialog-heading"
+          data-testid="pickup-location-dialog"
+        >
+          <h2
+            id="pickup-dialog-heading"
+            class="visually-hidden"
+          >
+            {{ 'actions.view_store_information' | t }}
+          </h2>
+          <div class="pickup-availability__dialog-row pickup-availability__header-container">
+            <div class="pickup-availability__column">
+              <h4 class="pickup-location__h4">{{ closest.product.title }}</h4>
+              {% unless closest.product.has_only_default_variant %}
+                <p class="pickup-location__text-sm">
+                  {{ closest.product.selected_or_first_available_variant.title }}
+                </p>
+              {% endunless %}
+            </div>
+            <button
+              ref="closeButton"
+              on:click="/closeDialog"
+              class="button button-unstyled close-button pickup-location__close-button"
+              aria-label="{{ 'actions.close_dialog' | t }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </span>
+            </button>
+          </div>
+          {% for pick_up_availability in pick_up_availabilities %}
+            <div class="pickup-location__wrapper">
+              <p class="pickup-location__text-bold">{{ pick_up_availability.location.name }}</p>
+              <div class="pickup-location__address-wrapper">
+                <span class="pickup-location__availability-wrapper">
+                  {% if pick_up_availability.available %}
+                    {{- 'icon-available.svg' | inline_asset_content -}}
+                    {% assign pickup_time = pick_up_availability.pick_up_time | downcase %}
+                    {{ 'content.pickup_available_in' | t: pickup_time: pickup_time }}
+                  {% else %}
+                    {{- 'icon-unavailable.svg' | inline_asset_content -}}
+                    {{ 'content.pickup_not_available' | t }}
+                  {% endif %}
+                </span>
+                <address class="pickup-location__address">
+                  {{ pick_up_availability.location.address | format_address }}
+                  {{ pick_up_availability.location.address.phone }}
+                </address>
+              </div>
+            </div>
+          {% endfor %}
+        </dialog>
+      </dialog-component>
+    {% endif %}
+  </local-pickup>
+{% endif %}
+
+{% render 'buy-buttons-styles' %}
+
+{% schema %}
+{
+  "name": "t:names.product_buy_buttons",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product"
+    },
+    {
+      "type": "checkbox",
+      "id": "stacking",
+      "label": "t:settings.always_stack_buttons",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pickup_availability",
+      "label": "t:settings.show_pickup_availability",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "gift_card_form",
+      "label": "t:settings.gift_card_form",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "t:content.gift_card_form_description"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_buy_buttons",
+      "category": "t:categories.product",
+      "blocks": {
+        "quantity": {
+          "type": "quantity",
+          "static": true
+        },
+        "add-to-cart": {
+          "type": "add-to-cart",
+          "static": true,
+          "settings": {
+            "style_class": "button-secondary"
+          }
+        },
+        "accelerated-checkout": {
+          "type": "accelerated-checkout",
+          "static": true
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

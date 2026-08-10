@@ -1,0 +1,344 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "settings": {
+        "bg": "#472B18",
+        "on_bg": "#FFFFFF",
+        "header_image": "nad-h-hero-white.png",
+        "tagline": "The at-home NAD+ capsules everyone's talking about. Pharmaceutical-grade, liposomal NAD+ that supports energy, clarity and healthy ageing, in one simple daily capsule.",
+        "cta_text": "Add to bag",
+        "trust_line": "Liposomal for absorption \u00b7 Certified labs \u00b7 Discreet, tracked UK dispatch"
+      },
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "icon": "bolt",
+            "label": "Energy"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "icon": "sparkle",
+            "label": "Skin renewal"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "icon": "brain",
+            "label": "Clarity"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "icon": "clock",
+            "label": "Longevity"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "nad_trust": {
+      "type": "nad-trust",
+      "settings": {
+        "bg": "#472B18"
+      },
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "drop",
+            "title": "Liposomal delivery",
+            "sub": "Protected through digestion"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "lab",
+            "title": "Certified labs",
+            "sub": "ISO-certified, batch-tested"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Certificate of Analysis",
+            "sub": "Purity on request"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Discreet UK dispatch",
+            "sub": "Tracked delivery"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "settings": {
+        "bg": "#472B18",
+        "on_bg": "#FFFFFF",
+        "header_image": "nad-h-benefits-blue.png",
+        "intro": "NAD+ is the coenzyme every cell uses to make energy and repair itself. Levels fall as we age, so topping them up supports how you feel, think and look."
+      },
+      "blocks": {
+        "b1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "bolt",
+            "title": "Boost energy",
+            "text": "Fuels mitochondrial energy production for sustained, all-day vitality."
+          }
+        },
+        "b2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Skin renewal",
+            "text": "Supports cellular turnover for smoother, more radiant-looking skin."
+          }
+        },
+        "b3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "brain",
+            "title": "Mental clarity",
+            "text": "Helps sharpen focus, memory and cognitive performance."
+          }
+        },
+        "b4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "Age from within",
+            "text": "Powers DNA repair and healthy cellular ageing at the source."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    "nad_if2": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#472B18",
+        "on_bg": "#FFFFFF",
+        "image_index": 2,
+        "layout": "left",
+        "eyebrow": "THE RITUAL",
+        "heading": "One simple capsule a day",
+        "body": "<p>No needles, no fuss. Take your NAD+ capsule daily with water as part of your morning routine. Consistency is what turns it into real, lasting results.</p>"
+      }
+    },
+    "nad_science": {
+      "type": "nad-science",
+      "settings": {
+        "bg": "#472B18",
+        "header_image": "nad-h-science-blue.png",
+        "body": "<p><strong>Nicotinamide Adenine Dinucleotide (NAD+)</strong> is a vital coenzyme found in every living cell, driving energy metabolism, DNA repair and cellular communication. As we age, NAD+ levels naturally decline, which can show up as fatigue, slower recovery and visible signs of ageing.</p><p>These liposomal capsules wrap NAD+ in a protective lipid layer, so more of it survives digestion and reaches your cells, an easy daily way to top up your levels.</p>",
+        "insight": "NAD+ powers the sirtuin and PARP enzymes that regulate cellular repair, inflammation and gene expression. Raising NAD+ availability has been shown to mimic the effects of caloric restriction, extending cellular lifespan and improving metabolic resilience."
+      }
+    },
+    "nad_if3": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#472B18",
+        "on_bg": "#FFFFFF",
+        "image_index": 4,
+        "layout": "right",
+        "eyebrow": "WHY LIPOSOMAL",
+        "heading": "Absorption you can rely on",
+        "body": "<p>Standard NAD+ is largely broken down in the gut. Liposomal encapsulation shields it through digestion, so more of every dose is actually absorbed and put to work.</p>"
+      }
+    },
+    "nad_howto": {
+      "type": "nad-howto",
+      "settings": {
+        "bg": "#472B18",
+        "header_image": "nad-h-howto-blue.png",
+        "kit_heading": "What's inside",
+        "note": "For adult use only. Take as directed. Consult your practitioner before starting if you are pregnant, breastfeeding or managing a health condition."
+      },
+      "blocks": {
+        "k1": {
+          "type": "kititem",
+          "settings": {
+            "qty": "30 \u00d7",
+            "item": "Liposomal NAD+ capsules"
+          }
+        },
+        "k2": {
+          "type": "kititem",
+          "settings": {
+            "qty": "1 \u00d7",
+            "item": "Simple daily-use guide"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2"
+      ]
+    },
+    "nad_breaker": {
+      "type": "nad-breaker",
+      "settings": {
+        "bg": "#472B18",
+        "colour": "white"
+      }
+    },
+    "nad_founder": {
+      "type": "nad-founder",
+      "settings": {
+        "bg": "#472B18",
+        "quote": "Energy, brightness, clarity, and if I have a drink, I don't get hangovers anymore. Genuinely one of my favourite things we stock.",
+        "signature": "Emmalee x",
+        "role": "Founder, theskinbay"
+      }
+    },
+    "nad_crosssell": {
+      "type": "nad-crosssell",
+      "settings": {
+        "bg": "#472B18",
+        "header_image": "nad-h-pair-blue.png",
+        "collection": "l-gluthatione",
+        "more_heading": "You may also love",
+        "max_products": 4,
+        "view_all_url": "/collections/l-gluthatione",
+        "view_all_text": "Shop all L-Glutathione"
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "settings": {
+        "bg": "#472B18",
+        "header_image": "nad-h-faq-blue.png"
+      },
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is NAD+?",
+            "a": "<p>NAD+ (nicotinamide adenine dinucleotide) is a coenzyme found in every cell, essential for turning food into cellular energy, repairing DNA and supporting healthy ageing. Levels fall as we get older.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How soon will I feel a difference?",
+            "a": "<p>Many people notice more energy and clarity within the first couple of weeks. NAD+ works best taken consistently every day.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How many capsules should I take?",
+            "a": "<p>One capsule daily with water, ideally in the morning. Take consistently for best results.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Why liposomal?",
+            "a": "<p>Liposomal encapsulation wraps NAD+ in a protective lipid layer so more survives digestion and is absorbed, compared with standard oral supplements.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I take them?",
+            "a": "<p>Simply swallow one capsule with water. No food is required, though many people prefer to take it with breakfast.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "q": "How should I store them?",
+            "a": "<p>Keep them somewhere cool and dry, out of direct sunlight, with the lid closed.</p>"
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "q": "Who is NAD+ not suitable for?",
+            "a": "<p>Not suitable for anyone under 18, or with an allergy to any ingredient. Please speak to your doctor first if you are pregnant or breastfeeding, or have a serious health condition.</p>"
+          }
+        },
+        "q8": {
+          "type": "qa",
+          "settings": {
+            "q": "How is it delivered?",
+            "a": "<p>Discreetly and tracked across the UK. A Certificate of Analysis is available on request.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_trust",
+    "nad_benefits",
+    "nad_if2",
+    "nad_science",
+    "nad_if3",
+    "nad_howto",
+    "nad_breaker",
+    "nad_founder",
+    "nad_crosssell",
+    "nad_faq"
+  ]
+}

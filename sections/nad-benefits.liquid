@@ -1,0 +1,84 @@
+{%- comment -%} NAD bespoke, benefits pillars (universal) {%- endcomment -%}
+{%- assign bl = product.metafields.custom.benefits -%}
+{%- assign hide_b = false -%}{%- if section.settings.hide_if_no_metafield and bl == blank -%}{%- assign hide_b = true -%}{%- endif -%}
+{%- unless hide_b -%}
+<section class="nad-benefits" style="background:{{ section.settings.bg }};--onbg:{{ section.settings.on_bg | default: '#141414' }};">
+  <div class="nadbf-wrap">
+    <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;margin:-1px;border:0;">The benefits of NAD+</h2>
+    <img class="nad-header-img" src="{{ section.settings.header_image | default: 'nad-h-benefits.png' | asset_url }}" alt="The benefits" loading="lazy" width="1500" height="340">
+    {%- unless section.settings.hide_pillars -%}
+    {%- if section.settings.intro != blank -%}<p class="nadbf-intro">{{ section.settings.intro }}</p>{%- endif -%}
+    <div class="nadbf-grid">
+      {%- for block in section.blocks -%}
+        <div class="nadbf-card" {{ block.shopify_attributes }}>
+          <span class="nadbf-ic">
+            {%- case block.settings.icon -%}
+              {%- when 'bolt' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+              {%- when 'sparkle' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></svg>
+              {%- when 'brain' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9.5 12 4l6 5.5-6 10.5z"/><path d="M6 9.5h12"/></svg>
+              {%- when 'clock' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              {%- when 'drop' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>
+              {%- when 'shield' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+              {%- else -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12l4 4 10-10"/></svg>
+            {%- endcase -%}
+          </span>
+          <h3 class="nadbf-t">{{ block.settings.title }}</h3>
+          <p class="nadbf-d">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- endunless -%}
+    {%- if bl != blank -%}
+      <div class="nadbf-list">{% render 'phc-richtext', rt: bl.value %}</div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endunless -%}
+<style>
+  .nad-header-img{display:block;width:100%;max-width:560px;height:auto;margin:0 auto 8px;}
+  .nad-benefits{padding:56px 20px;}
+  .nadbf-wrap{max-width:1180px;margin:0 auto;text-align:center;}
+  .nadbf-intro{font-family:'Lato',sans-serif;max-width:620px;margin:2px auto 34px;color:var(--onbg);font-size:16px;line-height:1.6;}
+  .nadbf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .nadbf-card{background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:20px;padding:34px 22px;text-align:center;transition:transform .18s ease;}
+  .nadbf-card:hover{transform:translateY(-3px);}
+  .nadbf-ic{width:64px;height:64px;margin:0 auto 16px;color:#141414;display:flex;align-items:center;justify-content:center;border:1px solid rgba(20,20,20,.16);border-radius:50%;}
+  .nadbf-ic svg{width:30px;height:30px;stroke-width:1.15;}
+  .nadbf-t{font-family:'Playfair Display',serif;font-size:19px;color:#141414;margin:0 0 8px;}
+  .nadbf-d{font-family:'Lato',sans-serif;font-size:14px;line-height:1.55;color:#4a463f;margin:0;}
+  .nadbf-list{max-width:760px;margin:34px auto 0;text-align:left;font-family:'Lato',sans-serif;color:#141414;line-height:1.55;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:20px;padding:8px 30px;}
+  .nadbf-list ul{list-style:none;padding:0;margin:0;}
+  .nadbf-list li,.nadbf-list p{position:relative;margin:0;padding:13px 0 13px 34px;border-bottom:1px solid var(--boxline,#ECE3CE);}
+  .nadbf-list li:before,.nadbf-list p:before{content:"";position:absolute;left:2px;top:15px;width:16px;height:16px;border-radius:50%;background:var(--accent,#F6C21A);}
+  .nadbf-list li:after,.nadbf-list p:after{content:"";position:absolute;left:7px;top:19px;width:5px;height:8px;border-right:2px solid var(--tickcheck,var(--card,#10233B));border-bottom:2px solid var(--tickcheck,var(--card,#10233B));transform:rotate(40deg);}
+  @media(max-width:989px){.nadbf-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:749px){.nad-benefits{padding:38px 16px;}.nadbf-grid{gap:12px;}.nadbf-card{padding:22px 14px;}}
+</style>
+{% schema %}
+{
+  "name": "NAD · Benefits",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#FBF8F2" },
+    { "type": "color", "id": "on_bg", "label": "Text on background", "default": "#141414" },
+    { "type": "text", "id": "header_image", "label": "Header image file (blank = default)" },
+    { "type": "checkbox", "id": "hide_pillars", "label": "Hide the pillar cards", "default": false },
+    { "type": "checkbox", "id": "hide_if_no_metafield", "label": "Hide section if no benefits metafield", "default": false },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "NAD+ is the coenzyme every cell uses to make energy and repair itself. Levels fall as we age, replenishing it supports how you feel, think and look." }
+  ],
+  "blocks": [
+    { "type": "pillar", "name": "Pillar", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "default": "bolt",
+        "options": [{"value":"bolt","label":"Energy"},{"value":"sparkle","label":"Skin"},{"value":"brain","label":"Clarity"},{"value":"clock","label":"Longevity"},{"value":"check","label":"Check"}] },
+      { "type": "text", "id": "title", "label": "Title", "default": "Boost energy" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Fuels mitochondrial energy production for sustained, all-day vitality." }
+    ]}
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "NAD · Benefits", "blocks": [
+    { "type": "pillar", "settings": { "icon": "bolt", "title": "Boost energy", "text": "Fuels mitochondrial energy production for sustained, all-day vitality." } },
+    { "type": "pillar", "settings": { "icon": "sparkle", "title": "Skin renewal", "text": "Supports cellular turnover for smoother, more radiant-looking skin." } },
+    { "type": "pillar", "settings": { "icon": "brain", "title": "Mental clarity", "text": "Helps sharpen focus, memory and cognitive performance." } },
+    { "type": "pillar", "settings": { "icon": "clock", "title": "Age from within", "text": "Powers DNA repair and healthy cellular ageing at the source." } }
+  ]}]
+}
+{% endschema %}

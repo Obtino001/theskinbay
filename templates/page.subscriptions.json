@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "lf_subscriptions": {
+      "type": "lf-subscriptions-page",
+      "settings": {
+        "header_image": "subscriptions-h-hero.png"
+      }
+    }
+  },
+  "order": [
+    "lf_subscriptions"
+  ]
+}

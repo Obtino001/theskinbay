@@ -1,0 +1,17 @@
+{%- comment -%} Cancer Support banner — shows on LRP collection + product pages {%- endcomment -%}
+<a href="/pages/cancer-support" class="lrp-cancer">
+  <span class="lrp-cancer-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 13.5L6 21l3-1.8L11 22l2.2-6.5"/><path d="M14.5 13.5L18 21l-3-1.8"/><circle cx="12" cy="8" r="6"/></svg></span>
+  <span class="lrp-cancer-txt"><strong>Cancer Support</strong><em>Gentle, dermatologist-developed skincare for skin during treatment</em></span>
+  <span class="lrp-cancer-cta">Learn more &rarr;</span>
+</a>
+<style>
+  .lrp-cancer { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1px solid #cdd6cb; border-radius: 10px; background: linear-gradient(180deg,#f4f7f2,#eaf0e8); text-decoration: none; color: #2f3a2e; transition: background .2s; }
+  .lrp-cancer:hover { background: #e4ebe1; }
+  .lrp-cancer-ico { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid #cdd6cb; display: flex; align-items: center; justify-content: center; color: #6a7f6f; }
+  .lrp-cancer-ico svg { width: 20px; height: 20px; }
+  .lrp-cancer-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-family: 'Lato', sans-serif; }
+  .lrp-cancer-txt strong { font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  .lrp-cancer-txt em { font-size: 12px; font-style: normal; color: #5f685c; line-height: 1.4; }
+  .lrp-cancer-cta { flex-shrink: 0; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #6a7f6f; white-space: nowrap; }
+  @media (max-width: 600px){ .lrp-cancer-cta { display: none; } }
+</style>

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "directory": {
+      "type": "collections-directory",
+      "settings": {}
+    }
+  },
+  "order": [
+    "directory"
+  ]
+}

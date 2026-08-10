@@ -1,0 +1,129 @@
+{%- comment -%} Social hub, follow CTAs + featured YouTube + manual TikTok/Instagram embeds {%- endcomment -%}
+<section class="sh" data-section-id="{{ section.id }}">
+  <div class="sh-inner">
+
+    <header class="sh-hero">
+      <p class="sh-eyebrow sh-vh">Stay Connected</p>
+      <img class="sh-banner" src="{{ 'social-h-hero.png' | asset_url }}" alt="Follow Us">
+      <h1 class="sh-title sh-vh">Follow Us</h1>
+      <p class="sh-lede">Don&rsquo;t miss exclusives, new launches and expert skin tips. Follow along and stay part of The Skin Bay community.</p>
+      <div class="sh-icons">
+        <a class="sh-icon" href="https://www.tiktok.com/@theskinbay.co.uk" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2 1.5 3.6 3.5 4v2.6c-1.3 0-2.6-.4-3.6-1v6.3a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v2.7a3.2 3.2 0 1 0 2.3 3V3h2.8z"/></svg>
+        </a>
+        <a class="sh-icon" href="https://www.instagram.com/theskinbay.co.uk/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="sh-icon" href="https://www.facebook.com/theskinbay.co.uk/" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5.5h-3c-2.2 0-3.5 1.6-3.5 3.8V11H8v3.5h2.5V22H14v-7.5h2.6l.4-3.5H14V9.6c0-.4.3-.6.7-.6z"/></svg>
+        </a>
+        <a class="sh-icon" href="https://www.youtube.com/@TheSkinBay" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12s0-3-.4-4.4a2.5 2.5 0 0 0-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 9 2 12 2 12s0 3 .4 4.4a2.5 2.5 0 0 0 1.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8C22 15 22 12 22 12zM10 15V9l5.2 3L10 15z"/></svg>
+        </a>
+      </div>
+    </header>
+
+    {%- comment -%} ---- FEATURED: AS SEEN ON ---- {%- endcomment -%}
+    {%- if section.settings.feature_youtube != blank -%}
+      <div class="sh-feature">
+        <div class="sh-feature-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/{{ section.settings.feature_youtube }}" title="{{ section.settings.feature_heading | escape }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="sh-feature-text">
+          {%- if section.settings.feature_image != blank -%}
+            <img class="sh-feature-cover" src="{{ section.settings.feature_image | asset_url }}" alt="{{ section.settings.feature_heading | escape }}" width="90" height="90" loading="lazy">
+          {%- endif -%}
+          <p class="sh-kicker">{{ section.settings.feature_eyebrow | default: 'As Seen On' }}</p>
+          <h2 class="sh-h2">{{ section.settings.feature_heading }}</h2>
+          {%- if section.settings.feature_body != blank -%}<p class="sh-feature-body">{{ section.settings.feature_body }}</p>{%- endif -%}
+          <a class="sh-watch" href="https://www.youtube.com/watch?v={{ section.settings.feature_youtube }}" target="_blank" rel="noopener">Watch on YouTube &#8250;</a>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign tt = section.blocks | where: 'type', 'tiktok' -%}
+    {%- assign ig = section.blocks | where: 'type', 'instagram' -%}
+
+    {%- if tt.size > 0 -%}
+      <div class="sh-group">
+        <div class="sh-group-head"><span class="sh-kicker">Latest on</span><h2 class="sh-h2">TikTok</h2><a class="sh-follow" href="https://www.tiktok.com/@theskinbay.co.uk" target="_blank" rel="noopener">Follow &#8250;</a></div>
+        <div class="sh-feed">
+          {%- for block in tt -%}
+            {%- assign vid = block.settings.url | split: '?' | first | split: '/' | last -%}
+            <blockquote class="tiktok-embed sh-embed" cite="{{ block.settings.url }}" data-video-id="{{ vid }}" {{ block.shopify_attributes }}><section></section></blockquote>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if ig.size > 0 -%}
+      <div class="sh-group">
+        <div class="sh-group-head"><span class="sh-kicker">Latest on</span><h2 class="sh-h2">Instagram</h2><a class="sh-follow" href="https://www.instagram.com/theskinbay.co.uk/?hl=en" target="_blank" rel="noopener">Follow &#8250;</a></div>
+        <div class="sh-feed">
+          {%- for block in ig -%}
+            <blockquote class="instagram-media sh-embed" data-instgrm-permalink="{{ block.settings.url }}" data-instgrm-version="14" {{ block.shopify_attributes }}></blockquote>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{%- if tt.size > 0 -%}<script async src="https://www.tiktok.com/embed.js"></script>{%- endif -%}
+{%- if ig.size > 0 -%}<script async src="//www.instagram.com/embed.js"></script>{%- endif -%}
+
+<style>
+  .sh{background:#fff;color:#141414;}
+  .sh-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 22px;}
+  .sh-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  .sh-inner{max-width:1100px;margin:0 auto;padding:56px 24px 72px;}
+  .sh-hero{text-align:center;margin-bottom:48px;}
+  .sh-eyebrow{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:12px;color:#8a8377;margin:0 0 10px;}
+  .sh-title{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(34px,5vw,54px);line-height:1.05;margin:0 0 14px;}
+  .sh-lede{font-family:'Lato',sans-serif;font-size:16px;line-height:1.6;color:#5c574e;max-width:600px;margin:0 auto 28px;}
+  .sh-icons{display:flex;justify-content:center;gap:16px;}
+  .sh-icon{width:54px;height:54px;border-radius:50%;border:1px solid #141414;display:flex;align-items:center;justify-content:center;color:#141414;transition:all .25s ease;}
+  .sh-icon svg{width:24px;height:24px;}
+  .sh-icon:hover{background:#141414;color:#fff;}
+  /* featured */
+  .sh-feature{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;align-items:center;background:#F9F3ED;border-radius:12px;padding:32px;margin-bottom:56px;}
+  .sh-feature-video{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#000;}
+  .sh-feature-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .sh-feature-cover{width:90px;height:90px;border-radius:10px;object-fit:cover;display:block;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.12);}
+  .sh-feature-text .sh-kicker{display:block;margin-bottom:6px;}
+  .sh-feature-body{font-family:'Lato',sans-serif;font-size:15px;line-height:1.65;color:#4d4840;margin:12px 0 18px;}
+  .sh-watch{display:inline-block;font-family:'Lato',sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#fff;background:#141414;padding:12px 26px;border-radius:999px;transition:opacity .2s;}
+  .sh-watch:hover{opacity:.82;}
+  .sh-group{margin-top:52px;}
+  .sh-group-head{display:flex;align-items:baseline;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid #ece7df;}
+  .sh-kicker{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:#a49c8d;}
+  .sh-h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(24px,3vw,32px);margin:0;line-height:1;}
+  .sh-follow{margin-left:auto;font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:#141414;border-bottom:1px solid #141414;padding-bottom:2px;}
+  .sh-feed{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
+  .sh-embed{flex:0 0 auto;margin:0!important;max-width:325px;}
+  @media (max-width:749px){ .sh-inner{padding:40px 16px 56px;} .sh-follow{display:none;} .sh-feature{grid-template-columns:1fr;padding:22px;gap:22px;} }
+</style>
+
+{% schema %}
+{
+  "name": "Social Hub",
+  "settings": [
+    { "type": "header", "content": "Featured video (As Seen On)" },
+    { "type": "text", "id": "feature_youtube", "label": "YouTube video ID" },
+    { "type": "text", "id": "feature_eyebrow", "label": "Eyebrow", "default": "As Seen On" },
+    { "type": "text", "id": "feature_heading", "label": "Heading", "default": "The Therapy Crouch" },
+    { "type": "textarea", "id": "feature_body", "label": "Body" },
+    { "type": "text", "id": "feature_image", "label": "Cover image asset filename" }
+  ],
+  "blocks": [
+    { "type": "tiktok", "name": "TikTok post", "settings": [
+      { "type": "text", "id": "url", "label": "TikTok video URL" }
+    ]},
+    { "type": "instagram", "name": "Instagram post", "settings": [
+      { "type": "text", "id": "url", "label": "Instagram post / reel URL" }
+    ]}
+  ],
+  "presets": [{ "name": "Social Hub" }]
+}
+{% endschema %}

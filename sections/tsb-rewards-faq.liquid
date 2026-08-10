@@ -1,0 +1,173 @@
+<style>
+  .tsb-rfaq *.tsb-rfaq *::before.tsb-rfaq *::after { box-sizing: border-box; }
+
+  .tsb-rfaq-section {
+    background: #F9F3ED;
+    padding: 88px 0;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .tsb-rfaq-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .tsb-rfaq-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .tsb-rfaq-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .tsb-rfaq-h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .tsb-rfaq-h2 em { font-style: italic; }
+  .tsb-rfaq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .tsb-rfaq-item:first-of-type { border-top: 1px solid rgba(0,0,0,0.1); }
+  .tsb-rfaq-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 22px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #000;
+    transition: color 0.2s;
+  }
+  .tsb-rfaq-btn:hover { color: rgba(0,0,0,0.55); }
+  .tsb-rfaq-item.is-open .tsb-rfaq-btn { color: rgba(0,0,0,0.55); }
+  .tsb-rfaq-icon {
+    width: 22px;
+    height: 22px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s, border-color 0.2s;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1;
+    font-family: 'Lato', sans-serif;
+  }
+  .tsb-rfaq-item.is-open .tsb-rfaq-icon { transform: rotate(45deg); }
+  .tsb-rfaq-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.38s ease;
+  }
+  .tsb-rfaq-item.is-open .tsb-rfaq-body { max-height: 300px; }
+  .tsb-rfaq-body p {
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.9rem;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.8;
+    margin: 0;
+    padding: 4px 0 24px;
+  }
+  @media (max-width: 599px) {
+    .tsb-rfaq-section { padding: 60px 0; }
+    .tsb-rfaq-inner { padding: 0 20px; }
+    .tsb-rfaq-btn { font-size: 0.75rem; }
+  }
+</style>
+
+<section class="tsb-rfaq-section">
+  <div class="tsb-rfaq-inner">
+    <div class="tsb-rfaq-header">
+      {%- render 'sb-brand-heading', image: 'rwd-h-faq.png', text: 'Frequently Asked Questions', tag: 'h2', max: 460 -%}
+    </div>
+
+    <div class="tsb-rfaq-list">
+      {%- for block in section.blocks -%}
+        <div class="tsb-rfaq-item" {{ block.shopify_attributes }}>
+          <button class="tsb-rfaq-btn" aria-expanded="false">
+            {{ block.settings.question }}
+            <span class="tsb-rfaq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="tsb-rfaq-body" role="region">
+            <p>{{ block.settings.answer }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  document.querySelectorAll('.tsb-rfaq-list .tsb-rfaq-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = this.closest('.tsb-rfaq-item');
+      var isOpen = item.classList.contains('is-open');
+      document.querySelectorAll('.tsb-rfaq-item').forEach(function(el){
+        el.classList.remove('is-open');
+        el.querySelector('.tsb-rfaq-btn').setAttribute('aria-expanded','false');
+      });
+      if(!isOpen){
+        item.classList.add('is-open');
+        this.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Rewards, FAQ",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Questions & Answers" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Frequently Asked" }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "How do I start earning points?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "Create a free account and place your first order. Points are credited automatically after every purchase." }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Rewards, FAQ",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "How do I start earning points?", "answer": "Simply create a free account and place your first order. Points are credited automatically once your order is confirmed." } },
+        { "type": "faq_item", "settings": { "question": "When do my points expire?", "answer": "Points are valid for 12 months from the date they were earned. We recommend redeeming regularly to make the most of your balance." } },
+        { "type": "faq_item", "settings": { "question": "How do I redeem my points?", "answer": "Log in to your account, visit the rewards section and select your voucher. The discount code is generated instantly and applied at checkout." } },
+        { "type": "faq_item", "settings": { "question": "Can I earn points on sale items?", "answer": "Yes. Points are earned on the total amount paid across all orders, including sale and bundle purchases." } },
+        { "type": "faq_item", "settings": { "question": "How do membership tiers work?", "answer": "Your tier is determined by your total annual spend. As you shop, you progress automatically through The Edit, The Collection, The Reserve and The Concierge." } },
+        { "type": "faq_item", "settings": { "question": "Can I refer friends?", "answer": "Yes. Each successful referral earns you 100 points, credited once your friend completes their first order. There is no limit on referrals." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

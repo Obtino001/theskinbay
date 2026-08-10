@@ -1,0 +1,212 @@
+<style>
+  .lf-pil *, .lf-pil *::before, .lf-pil *::after { box-sizing: border-box; }
+  .lf-pil a { text-decoration: none; }
+  .lf-pil-inner { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+
+  .lf-pil-section { padding: 80px 0; background: {{ section.settings.bg_color }}; border-top: 1px solid rgba(0,0,0,.06); }
+  .lf-pil-header { text-align: center; margin-bottom: 52px; }
+  .lf-pil-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .lf-pil-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 400;
+    color: #111;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .lf-pil-heading em { font-style: italic; }
+  .lf-pil-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 6px;}.lf-pil-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  .lf-pil-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,.07);
+    border: 1px solid rgba(0,0,0,.07);
+  }
+  .lf-pil-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .lf-pil-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .lf-pil-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .lf-pil-cols-5 { grid-template-columns: repeat(5, 1fr); }
+  .lf-pil-cols-6 { grid-template-columns: repeat(3, 1fr); }
+  .lf-pil-card {
+    padding: 40px 32px;
+    background: {{ section.settings.card_bg }};
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .lf-pil-card--link { text-decoration: none; color: inherit; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+  .lf-pil-card--link:hover { background: #f2ede6; }
+  .lf-pil-marker {
+    width: 44px;
+    height: 44px;
+    color: {{ section.settings.accent_color }};
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+  }
+  .lf-pil-marker svg { width: 100%; height: 100%; display: block; }
+  .lf-pil-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    color: {{ section.settings.accent_color }};
+    line-height: 1;
+    display: block;
+  }
+  .lf-pil-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #111;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .lf-pil-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1.7;
+    margin: 0;
+  }
+  @media (max-width: 1023px) {
+    .lf-pil-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .lf-pil-cols-3 .lf-pil-card:nth-child(3) { grid-column: 1 / -1; }
+  }
+  @media (max-width: 749px) {
+    .lf-pil-section { padding: 52px 0; }
+    .lf-pil-inner { padding: 0 20px; }
+    .lf-pil-grid { grid-template-columns: repeat(2, 1fr); }
+    .lf-pil-card { padding: 28px 20px; gap: 10px; }
+    .lf-pil-body { font-size: 0.85rem; }
+  }
+</style>
+
+<div class="lf-pil">
+  <section class="lf-pil-section">
+    <div class="lf-pil-inner">
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+        <div class="lf-pil-header">
+          {%- if section.settings.header_image != blank -%}
+            <img class="lf-pil-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}">
+            {%- if section.settings.heading != blank -%}
+              <h2 class="lf-pil-heading lf-pil-vh">{{ section.settings.heading }}</h2>
+            {%- endif -%}
+          {%- else -%}
+            {%- if section.settings.eyebrow != blank -%}
+              <span class="lf-pil-eyebrow">{{ section.settings.eyebrow }}</span>
+            {%- endif -%}
+            {%- if section.settings.heading != blank -%}
+              <h2 class="lf-pil-heading">{{ section.settings.heading }}</h2>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="lf-pil-grid lf-pil-cols-{{ section.blocks.size }}">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.link != blank -%}<a class="lf-pil-card lf-pil-card--link" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{%- else -%}<div class="lf-pil-card" {{ block.shopify_attributes }}>{%- endif -%}
+              <div class="lf-pil-marker">
+                {%- if block.settings.show_number -%}
+                  <span class="lf-pil-num">{{ forloop.index }}</span>
+                {%- else -%}
+                  {%- case block.settings.icon -%}
+                    {%- when 'gift' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                    {%- when 'tag' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    {%- when 'chat' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    {%- when 'book' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    {%- when 'sparkle' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg>
+                    {%- when 'beaker' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M12 3v7l6.5 11H5.5L12 10"/><path d="M6.5 17h11"/></svg>
+                    {%- when 'list' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+                    {%- when 'calendar' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {%- endcase -%}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.title != blank -%}
+                <p class="lf-pil-title">{{ block.settings.title }}</p>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="lf-pil-body">{{ block.settings.body }}</p>
+              {%- endif -%}
+            {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Pillars Grid",
+  "tag": "div",
+  "settings": [
+    { "type": "text",  "id": "eyebrow",      "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+    { "type": "text", "id": "header_image", "label": "Header banner asset (brand-font PNG)" },
+    { "type": "color", "id": "bg_color",     "label": "Section background", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg",      "label": "Card background",    "default": "#faf8f5" },
+    { "type": "color", "id": "accent_color", "label": "Icon / number colour","default": "#0b1225" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "gift",     "label": "Gift" },
+            { "value": "tag",      "label": "Tag / Deals" },
+            { "value": "chat",     "label": "Chat / Advice" },
+            { "value": "book",     "label": "Book / Knowledge" },
+            { "value": "sparkle",  "label": "Sparkle / AI" },
+            { "value": "beaker",   "label": "Beaker / Lab" },
+            { "value": "list",     "label": "Checklist / Quiz" },
+            { "value": "calendar", "label": "Calendar / Booking" },
+            { "value": "check",    "label": "Checkmark" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_number",
+          "label": "Show step number instead of icon",
+          "default": false
+        },
+        { "type": "text",     "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "body",  "label": "Body text" },
+        { "type": "url",      "id": "link",  "label": "Link (optional)" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Pillars Grid" }]
+}
+{% endschema %}

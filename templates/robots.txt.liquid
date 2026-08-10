@@ -1,0 +1,43 @@
+{%- comment -%}
+  # Caution!
+  Please read https://help.shopify.com/en/manual/promoting-marketing/seo/editing-robots-txt before making changes.
+{%- endcomment -%}
+
+# Shopify default rules
+{% for group in robots.default_groups %}
+{{- group.user_agent -}}
+{% for rule in group.rules %}
+{{- rule -}}
+{% endfor %}
+{%- if group.sitemap != blank -%}
+{{ group.sitemap }}
+{%- endif -%}
+{% endfor %}
+
+# ================== CUSTOM RULES ==================
+# Authentication and internal pages
+Disallow: /services/
+Disallow: /customer_authentication/
+Disallow: /account/
+Disallow: /login
+Disallow: /checkouts/
+Disallow: /orders/
+
+# Block tracking/session/internal query strings — NOT pagination or filters
+# (filter pages handled via noindex HTML meta; product pages indexed via sitemap)
+Disallow: /*?*ref=*
+Disallow: /*?*list_view=*
+Disallow: /*?*target_origin=*
+Disallow: /*?*api_key=*
+Disallow: /*?*flow=*
+Disallow: /*?*discount=*
+Disallow: /*?*save_discount_at=*
+
+# Block dead/404 collection handles
+Disallow: /search
+Disallow: /collections/sunscreen*
+Disallow: /collections/you-want-my-lips*
+Disallow: /collections/vita-liberata-new*
+Disallow: /collections/gifts-for-her*
+Disallow: /collections/skincare-for-anti-aging-skin*
+Disallow: /products/*free-gift*

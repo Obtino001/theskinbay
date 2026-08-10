@@ -1,0 +1,160 @@
+<style>
+  .lf-ph *, .lf-ph *::before, .lf-ph *::after { box-sizing: border-box; }
+  .lf-ph a { text-decoration: none; }
+
+  .lf-ph-section {
+    background: {{ section.settings.bg_color }};
+    padding: 88px 0 80px;
+  }
+  .lf-ph-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .lf-ph-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    display: block;
+    margin-bottom: 18px;
+  }
+  .lf-ph-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 5.5vw, 4rem);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .lf-ph-heading em { font-style: italic; }
+  .lf-ph-banner {
+    display: block;
+    width: 100%;
+    max-width: 680px;
+    height: auto;
+    margin: 0 auto 22px;
+  }
+  .lf-ph-vh {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+  .lf-ph-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 580px;
+    margin: 0 0 40px;
+  }
+  .lf-ph-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+  }
+  .lf-ph-btn {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 14px 32px;
+    display: inline-block;
+    transition: background 0.18s, border-color 0.18s;
+    white-space: nowrap;
+  }
+  .lf-ph-btn:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.8);
+  }
+  .lf-ph-link {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 2px;
+    display: inline-block;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .lf-ph-link:hover {
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.5);
+  }
+  @media (max-width: 749px) {
+    .lf-ph-section { padding: 60px 0 52px; }
+    .lf-ph-inner { padding: 0 24px; }
+    .lf-ph-heading { letter-spacing: -0.015em; }
+  }
+</style>
+
+<div class="lf-ph">
+  <section class="lf-ph-section">
+    <div class="lf-ph-inner">
+      {%- if section.settings.header_image != blank -%}
+        <img class="lf-ph-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="lf-ph-heading lf-ph-vh">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+      {%- else -%}
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="lf-ph-eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="lf-ph-heading">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="lf-ph-body">{{ section.settings.body }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta1_label != blank or section.settings.cta2_label != blank -%}
+        <div class="lf-ph-ctas">
+          {%- if section.settings.cta1_label != blank -%}
+            <a href="{{ section.settings.cta1_link | default: '#' }}" class="lf-ph-btn">{{ section.settings.cta1_label }}</a>
+          {%- endif -%}
+          {%- if section.settings.cta2_label != blank -%}
+            <a href="{{ section.settings.cta2_link | default: '#' }}" class="lf-ph-link">{{ section.settings.cta2_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Page Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "color",    "id": "bg_color",   "label": "Background colour", "default": "#0b1225" },
+    { "type": "text",     "id": "header_image", "label": "Header banner asset (brand-font PNG, overrides text heading)" },
+    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "body",       "label": "Body text" },
+    { "type": "text",     "id": "cta1_label", "label": "CTA 1 label" },
+    { "type": "url",      "id": "cta1_link",  "label": "CTA 1 link" },
+    { "type": "text",     "id": "cta2_label", "label": "CTA 2 label" },
+    { "type": "url",      "id": "cta2_link",  "label": "CTA 2 link" }
+  ],
+  "presets": [{ "name": "Page Hero" }]
+}
+{% endschema %}

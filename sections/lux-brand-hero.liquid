@@ -1,0 +1,333 @@
+{% schema %}
+{
+  "name": "Lux Hero V5 (Gradients)",
+  "class": "section-lux-hero-gradient",
+  "settings": [
+    { "type": "header", "content": "Gradient Fallback" },
+    { "type": "paragraph", "content": "Used when no hero_image metafield is set on the collection." },
+    { "type": "range", "id": "desktop_height", "min": 100, "max": 500, "step": 10, "unit": "px", "label": "Banner Height", "default": 220 },
+    { "type": "color", "id": "default_text_color", "label": "Default Text Color", "default": "#000000" },
+    { "type": "color_background", "id": "default_gradient", "label": "Default Background/Gradient", "default": "linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)" },
+    { "type": "text", "id": "default_sub", "label": "Default Subtitle", "default": "Collection" },
+    { "type": "header", "content": "Image Hero" },
+    { "type": "paragraph", "content": "Set hero_image and hero_image_mobile on collection metafields (namespace: custom) to enable image mode." },
+    { "type": "range", "id": "image_height_desktop", "min": 300, "max": 700, "step": 10, "unit": "px", "label": "Image Hero Height (desktop)", "default": 480 },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "label": "Overlay Opacity %", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "brand_theme",
+      "name": "Brand Color Theme",
+      "settings": [
+        { "type": "collection_list", "id": "target_collections", "label": "Apply to Collections", "info": "Select ALL collections that should share this gradient." },
+        { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" },
+        { "type": "color_background", "id": "bg_gradient", "label": "Background Gradient", "default": "linear-gradient(120deg, #f6d365 0%, #fda085 100%)" },
+        { "type": "text", "id": "custom_sub", "label": "Subtitle Override", "info": "Leave blank to use the default subtitle." }
+      ]
+    },
+    {
+      "type": "feature_tag",
+      "name": "Feature Tag",
+      "settings": [
+        { "type": "text", "id": "tag_text", "label": "Tag Label", "default": "Clinically Proven" },
+        { "type": "collection_list", "id": "apply_to_collections", "label": "Show on Collections", "info": "Leave empty to show on all collections." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Lux Hero V5 (Gradients)" }]
+}
+{% endschema %}
+
+{% liquid
+  assign final_text_color = section.settings.default_text_color
+  assign final_bg          = section.settings.default_gradient
+  assign final_sub         = section.settings.default_sub
+  assign is_matched        = false
+
+  for block in section.blocks
+    if block.type == 'brand_theme' and block.settings.target_collections != blank
+      for target_collection in block.settings.target_collections
+        if target_collection.handle == collection.handle
+          assign final_text_color = block.settings.text_color
+          assign final_bg         = block.settings.bg_gradient
+          if block.settings.custom_sub != blank
+            assign final_sub = block.settings.custom_sub
+          endif
+          assign is_matched = true
+          break
+        endif
+      endfor
+    endif
+    if is_matched
+      break
+    endif
+  endfor
+
+  assign hero_image        = collection.metafields.custom.hero_image
+  assign hero_image_mobile = collection.metafields.custom.hero_image_mobile
+  assign has_image         = false
+  if hero_image != blank
+    assign has_image = true
+  endif
+
+  assign tag_blocks = section.blocks | where: 'type', 'feature_tag'
+%}
+
+{%- assign overlay_dec = section.settings.overlay_opacity | divided_by: 100.0 -%}
+
+{% if has_image %}
+
+  <div class="lhv6-hero lhv6-hero--image" style="--img-h:{{ section.settings.image_height_desktop }}px;">
+    <picture class="lhv6-picture">
+      {%- if hero_image_mobile != blank -%}
+        <source media="(max-width:749px)" srcset="{{ hero_image_mobile | image_url: width: 750 }}">
+      {%- endif -%}
+      <img
+        src="{{ hero_image | image_url: width: 1800 }}"
+        srcset="{{ hero_image | image_url: width: 750 }} 750w, {{ hero_image | image_url: width: 1200 }} 1200w, {{ hero_image | image_url: width: 1800 }} 1800w, {{ hero_image | image_url: width: 2400 }} 2400w"
+        sizes="100vw"
+        alt="{{ collection.title | escape }}"
+        class="lhv6-bg-img"
+        loading="eager"
+        fetchpriority="high"
+        width="1800" height="{{ section.settings.image_height_desktop }}"
+      >
+    </picture>
+    <div class="lhv6-overlay" style="opacity:{{ overlay_dec }};"></div>
+    <div class="lhv6-content lhv6-content--image">
+      <div class="lhv6-inner">
+        <p class="lhv6-eyebrow" style="color:rgba(255,255,255,.75);">{{ final_sub }}</p>
+        <h1 class="lhv6-title" style="color:#fff;">{{ collection.title }}</h1>
+        {%- if collection.description != blank -%}
+          {%- assign clean_desc = collection.description | strip_html | truncatewords: 20 -%}
+          <p class="lhv6-desc lhv6-desc--light">{{ clean_desc }}</p>
+        {%- endif -%}
+        {%- if tag_blocks.size > 0 -%}
+          <div class="lhv6-tags">
+            {%- for tb in tag_blocks -%}
+              {%- if tb.settings.tag_text != blank -%}
+                {%- assign show_tag = true -%}
+                {%- if tb.settings.apply_to_collections != blank -%}
+                  {%- assign show_tag = false -%}
+                  {%- for tc in tb.settings.apply_to_collections -%}
+                    {%- if tc.handle == collection.handle -%}{%- assign show_tag = true -%}{%- break -%}{%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if show_tag -%}
+                  <span class="lhv6-tag lhv6-tag--light" {{ tb.shopify_attributes }}>{{ tb.settings.tag_text }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{% else %}
+
+  <div class="lhv6-hero lhv6-hero--gradient" style="--banner-h:{{ section.settings.desktop_height }}px; --text-color:{{ final_text_color }}; background:{{ final_bg }};">
+    <div class="lhv6-content">
+      <div class="lhv6-inner">
+        <div class="lhv6-line"></div>
+        <p class="lhv6-eyebrow">{{ final_sub }}</p>
+        <h1 class="lhv6-title">{{ collection.title }}</h1>
+        <div class="lhv6-line"></div>
+        {%- if tag_blocks.size > 0 -%}
+          <div class="lhv6-tags lhv6-tags--centered">
+            {%- for tb in tag_blocks -%}
+              {%- if tb.settings.tag_text != blank -%}
+                {%- assign show_tag = true -%}
+                {%- if tb.settings.apply_to_collections != blank -%}
+                  {%- assign show_tag = false -%}
+                  {%- for tc in tb.settings.apply_to_collections -%}
+                    {%- if tc.handle == collection.handle -%}{%- assign show_tag = true -%}{%- break -%}{%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if show_tag -%}
+                  <span class="lhv6-tag" {{ tb.shopify_attributes }}>{{ tb.settings.tag_text }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+<style>
+  /* ── Foundation ──────────────────────────────────────── */
+  .lhv6-hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+  }
+
+  /* ── Gradient mode ───────────────────────────────────── */
+  .lhv6-hero--gradient {
+    height: var(--banner-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lhv6-hero--gradient .lhv6-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 24px;
+    width: 100%;
+  }
+  .lhv6-hero--gradient .lhv6-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: lhv6Fade 1s cubic-bezier(.19,1,.22,1) both;
+  }
+  .lhv6-line {
+    width: 36px;
+    height: 1px;
+    background: var(--text-color);
+    opacity: .18;
+  }
+  .lhv6-hero--gradient .lhv6-eyebrow {
+    margin: 0;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .48em;
+    font-weight: 700;
+    color: var(--text-color);
+    opacity: .6;
+    padding-left: .48em;
+  }
+  .lhv6-hero--gradient .lhv6-title {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 500;
+    text-transform: none;
+    color: var(--text-color);
+    letter-spacing: -.01em;
+    line-height: 1.06;
+  }
+
+  /* ── Image mode ──────────────────────────────────────── */
+  .lhv6-hero--image {
+    height: var(--img-h);
+    display: flex;
+    align-items: flex-end;
+  }
+  .lhv6-picture {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .lhv6-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+  .lhv6-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,.85) 0%,
+      rgba(0,0,0,.4) 45%,
+      rgba(0,0,0,.1) 100%
+    );
+    pointer-events: none;
+  }
+  .lhv6-content--image {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 64px 56px;
+  }
+  .lhv6-hero--image .lhv6-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 680px;
+    animation: lhv6Fade 1s cubic-bezier(.19,1,.22,1) both;
+  }
+  .lhv6-hero--image .lhv6-eyebrow {
+    margin: 0;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .44em;
+    font-weight: 700;
+    padding-left: .44em;
+  }
+  .lhv6-hero--image .lhv6-title {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.9rem, 4.5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -.02em;
+  }
+  .lhv6-desc {
+    margin: 0;
+    font-size: .8rem;
+    line-height: 1.65;
+    max-width: 480px;
+  }
+  .lhv6-desc--light { color: rgba(255,255,255,.72); }
+
+  /* ── Feature tags ────────────────────────────────────── */
+  .lhv6-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .lhv6-tags--centered { justify-content: center; }
+  .lhv6-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid currentColor;
+    line-height: 1;
+    gap: 5px;
+  }
+  .lhv6-hero--gradient .lhv6-tag {
+    color: var(--text-color);
+    opacity: .65;
+  }
+  .lhv6-tag--light {
+    color: rgba(255,255,255,.82);
+    border-color: rgba(255,255,255,.45);
+  }
+
+  @keyframes lhv6Fade {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ──────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .lhv6-content--image { padding: 0 40px 40px; }
+  }
+  @media (max-width: 749px) {
+    .lhv6-hero--gradient { height: 180px; }
+    .lhv6-hero--gradient .lhv6-title { letter-spacing: -.01em; padding-left: 0; font-size: clamp(1.4rem, 6vw, 2rem); }
+    .lhv6-hero--gradient .lhv6-eyebrow { letter-spacing: .3em; }
+    .lhv6-line { width: 28px; }
+    .lhv6-hero--image { height: 320px; }
+    .lhv6-content--image { padding: 0 24px 32px; }
+    .lhv6-hero--image .lhv6-title { font-size: clamp(1.5rem, 6vw, 2.2rem); }
+    .lhv6-hero--image .lhv6-eyebrow { font-size: 8px; letter-spacing: .3em; padding-left: .3em; }
+    .lhv6-desc { display: none; }
+  }
+</style>

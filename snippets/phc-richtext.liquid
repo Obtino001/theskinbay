@@ -1,0 +1,24 @@
+{%- comment -%} Renders a rich_text_field .value (passed as `rt`) into clean HTML {%- endcomment -%}
+{%- for node in rt.children -%}
+  {%- case node.type -%}
+    {%- when 'paragraph' -%}
+      <p>{%- for c in node.children -%}
+        {%- if c.type == 'link' -%}<a href="{{ c.url }}"{% if c.target %} target="{{ c.target }}"{% endif %}>{%- for cc in c.children -%}{{ cc.value }}{%- endfor -%}</a>
+        {%- elsif c.bold and c.italic -%}<strong><em>{{ c.value }}</em></strong>
+        {%- elsif c.bold -%}<strong>{{ c.value }}</strong>
+        {%- elsif c.italic -%}<em>{{ c.value }}</em>
+        {%- else -%}{{ c.value }}{%- endif -%}
+      {%- endfor -%}</p>
+    {%- when 'heading' -%}
+      {%- assign hl = node.level | default: 3 -%}<h{{ hl }}>{%- for c in node.children -%}{%- if c.bold -%}<strong>{{ c.value }}</strong>{%- else -%}{{ c.value }}{%- endif -%}{%- endfor -%}</h{{ hl }}>
+    {%- when 'list' -%}
+      {%- if node.listType == 'ordered' -%}<ol>{%- else -%}<ul>{%- endif -%}
+      {%- for li in node.children -%}<li>{%- for c in li.children -%}
+        {%- if c.type == 'link' -%}<a href="{{ c.url }}">{%- for cc in c.children -%}{{ cc.value }}{%- endfor -%}</a>
+        {%- elsif c.bold -%}<strong>{{ c.value }}</strong>
+        {%- elsif c.italic -%}<em>{{ c.value }}</em>
+        {%- else -%}{{ c.value }}{%- endif -%}
+      {%- endfor -%}</li>{%- endfor -%}
+      {%- if node.listType == 'ordered' -%}</ol>{%- else -%}</ul>{%- endif -%}
+  {%- endcase -%}
+{%- endfor -%}

@@ -1,0 +1,125 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_UfcDyT": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>{{ closest.page.title }}</p>{{ closest.page.content }}",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_UfcDyT"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "abbey_clany_section_hQwTAt": {
+      "type": "abbey-clany-section",
+      "blocks": {
+        "video_PC73Cb": {
+          "type": "video",
+          "settings": {
+            "embed_code": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/06eHbHE2hww?si=UCKYFxzyN6iYt8W6&amp;controls=0\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+          }
+        },
+        "mask_ELm9Vn": {
+          "type": "mask",
+          "settings": {
+            "mask_image": "shopify://shop_images/logo-05_fc206951-994f-4da5-9f26-5bc140eeae65.jpg",
+            "mask_title": "EGF Glow Mask",
+            "mask_desc": "Targeted pigmentation reduction and combating the signs of ageing.",
+            "btn_text": "Shop Now",
+            "btn_link": "shopify://products/cliniccare-egf-glow-mask-18"
+          }
+        },
+        "mask_97dRUC": {
+          "type": "mask",
+          "settings": {
+            "mask_image": "shopify://shop_images/logo-05-17.jpg",
+            "mask_title": "EGF Pure Mask",
+            "mask_desc": "to soothe, rejuvenate, and deeply hydrate troubled or sensitive skin.",
+            "btn_text": "Shop Now",
+            "btn_link": "shopify://products/cliniccare-egf-pure-mask-19"
+          }
+        },
+        "mask_QiP8ED": {
+          "type": "mask",
+          "settings": {
+            "mask_image": "shopify://shop_images/logo-05-16.jpg",
+            "mask_title": "EGF Refresh Mask",
+            "mask_desc": "designed to provide immediate cooling, anti-aging, and lifting effect.",
+            "btn_text": "Shop Now",
+            "btn_link": "shopify://products/cliniccare-egf-refresh-tight-mask-20"
+          }
+        }
+      },
+      "block_order": [
+        "video_PC73Cb",
+        "mask_ELm9Vn",
+        "mask_97dRUC",
+        "mask_QiP8ED"
+      ],
+      "name": "Skin Bay x Abbey Clancy",
+      "settings": {
+        "bg_color": "#efebe3",
+        "text_color": "#222222",
+        "brand_text": "The Skin Bay Club",
+        "heading": "WE ALL KNOW ABOUT ABBEY CLANCY'S GLOW",
+        "subheading": "and we know the secret... As featured on The Therapy Crouch",
+        "hero_image": "shopify://shop_images/51BDB30C-BC6F-49F0-BF57-3F02354EF62E.png",
+        "quote_headline": "They're the best face masks... I'm going to wear a sheet mask every single day now.",
+        "quote_text_1": "\"They're so wet you can put them back in the packet. I sleep in mine! I take it off in the middle of the night when it's bone dry.\"",
+        "quote_text_2": "\"You wake up five years younger, you do feel good. I found them on a website called The Skin Bay.\"",
+        "quote_author": "ABBEY CLANCY",
+        "masks_heading": "SHOP THE SECRET",
+        "video_heading": "SEE IT IN ACTION",
+        "bottom_img_2": "shopify://shop_images/Screenshot_2569-03-15_at_12.36.44.png",
+        "bottom_img_3": "shopify://shop_images/Screenshot_2569-03-15_at_12.36.56.png",
+        "collection_heading": "DISCOVER MORE FROM CLINICCARE",
+        "featured_collection": "cliniccare-bundles"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "abbey_clany_section_hQwTAt"
+  ]
+}

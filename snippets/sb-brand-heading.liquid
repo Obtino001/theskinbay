@@ -1,0 +1,14 @@
+{%- comment -%}
+  Branded banner heading — visible Recoleta/Sloop banner graphic + visually-hidden real heading for SEO.
+  Matches the product-page pattern (hidden <h#> with clip + <img> banner).
+  Params:
+    image  : asset filename of the banner png (required)
+    text   : real heading text kept for SEO (required)
+    tag    : 'h1' or 'h2' (default 'h2')
+    max    : banner max-width in px (default 560)
+    align  : 'center' (default) or 'left'
+{%- endcomment -%}
+{%- assign _tag = tag | default: 'h2' -%}
+{%- if align == 'left' -%}{%- assign _mx = '0' -%}{%- else -%}{%- assign _mx = 'auto' -%}{%- endif -%}
+<{{ _tag }} style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;margin:-1px;border:0;">{{ text }}</{{ _tag }}>
+<img class="sb-brand-heading-img" src="{{ image | asset_url }}" alt="{{ text | escape }}" loading="lazy" width="1500" height="340" style="display:block;width:100%;max-width:{{ max | default: 560 }}px;height:auto;margin:0 {{ _mx }} 8px;">

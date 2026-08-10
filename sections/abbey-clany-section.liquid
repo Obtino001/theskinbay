@@ -1,0 +1,662 @@
+{% comment %}
+  The Skin Bay - Abbey Clancy ClinicCare Promo Section (With Unlimited Videos)
+{% endcomment %}
+
+{{ 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap' | stylesheet_tag }}
+
+<style>
+  .ab-hbanner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 12px;}
+  .ab-hvh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  .skinbay-abbey-section {
+    font-family: 'Lato', sans-serif;
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 60px 20px;
+    overflow: hidden;
+  }
+  
+  .skinbay-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .skinbay-header {
+    margin-bottom: 40px;
+  }
+
+  .skinbay-header h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  .skinbay-header h2 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .skinbay-header p {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* Hero Section */
+  .skinbay-hero-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .skinbay-hero-media {
+    flex: 1 1 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+
+  .skinbay-hero-media img, .skinbay-hero-media video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .skinbay-quote-box {
+    flex: 1 1 400px;
+    text-align: left;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  }
+
+  .skinbay-quote-box h3 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .skinbay-quote-box p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-weight: 300;
+    color: #444;
+  }
+
+  .skinbay-quote-author {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    display: block;
+    color: #111;
+  }
+
+  /* Masks Grid - Forced to 3 Columns */
+  .skinbay-masks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+  }
+
+  .skinbay-mask-card {
+    background: #ffffff;
+    padding: 40px 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+  }
+
+  .skinbay-mask-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .skinbay-mask-card img {
+    max-width: 200px;
+    height: auto;
+    margin: 0 auto 20px;
+    display: block;
+  }
+
+  .skinbay-mask-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .skinbay-mask-card p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    color: #666;
+    min-height: 60px;
+  }
+
+  /* Buttons */
+  .skinbay-btn {
+    display: inline-block;
+    background-color: #222;
+    color: #fff;
+    padding: 14px 28px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .skinbay-btn:hover {
+    background-color: #444;
+  }
+
+  /* Videos Area */
+  .skinbay-video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+    justify-content: center;
+    align-items: start;
+  }
+
+  .skinbay-video-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .skinbay-video-card video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .skinbay-embed-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  /* Forces Instagram/YouTube embeds to scale nicer inside the grid */
+  .skinbay-embed-wrapper iframe, .skinbay-embed-wrapper blockquote {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 8px;
+  }
+
+  /* 3 Bottom Images Grid */
+  .skinbay-bottom-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 80px;
+  }
+
+  .skinbay-bottom-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 1 / 1; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+
+  /* Featured Collection Grid */
+  .skinbay-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+  }
+
+  .skinbay-product-card {
+    text-align: center;
+    background: #fff;
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease;
+  }
+
+  .skinbay-product-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .skinbay-product-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .skinbay-product-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .skinbay-product-card h5 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .skinbay-product-card p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin: 0;
+  }
+
+  /* Media Queries for Tablet & Mobile Formatting */
+  @media (max-width: 900px) {
+    .skinbay-masks-grid { gap: 15px; }
+    .skinbay-mask-card { padding: 30px 15px; }
+    .skinbay-bottom-images { gap: 15px; }
+  }
+
+  @media (max-width: 749px) {
+    .skinbay-header h2 { font-size: 28px; }
+    .skinbay-hero-content { flex-direction: column; }
+    .skinbay-quote-box { text-align: center; }
+  }
+
+  @media (max-width: 749px) {
+    /* Stack them fully on Mobile Phones */
+    .skinbay-masks-grid { grid-template-columns: 1fr; }
+    .skinbay-bottom-images { grid-template-columns: 1fr; }
+    .skinbay-video-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="skinbay-abbey-section">
+  <div class="skinbay-container">
+    
+    <!-- Top Header -->
+    <div class="skinbay-header">
+      <h4>{{ section.settings.brand_text }}</h4>
+      <img class="ab-hbanner" src="{{ 'abbey-h-hero.png' | asset_url }}" alt="We all know about Abbey Clancy's glow">
+      <h2 class="ab-hvh">{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+
+    <!-- Hero Area (Image & Quote) -->
+    <div class="skinbay-hero-content">
+      <div class="skinbay-hero-media">
+        {% if section.settings.hero_image != blank %}
+          {{
+            section.settings.hero_image
+            | image_url: width: 800
+            | image_tag:
+              widths: '400, 600, 800, 1200',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              alt: 'Abbey Clancy Glow',
+              loading: 'eager'
+          }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+      
+      <div class="skinbay-quote-box">
+        <h3>"{{ section.settings.quote_headline }}"</h3>
+        <p>{{ section.settings.quote_text_1 }}</p>
+        <p>{{ section.settings.quote_text_2 }}</p>
+        <span class="skinbay-quote-author">- {{ section.settings.quote_author }}</span>
+      </div>
+    </div>
+
+    <!-- Shop Masks Header -->
+    <div class="skinbay-header" style="margin-top: 60px; margin-bottom: 20px;">
+      <img class="ab-hbanner" src="{{ 'abbey-h-masks.png' | asset_url }}" alt="Shop the secret">
+      <h2 class="ab-hvh">{{ section.settings.masks_heading }}</h2>
+    </div>
+
+    <!-- Masks Blocks Loop -->
+    <div class="skinbay-masks-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'mask' %}
+          <div class="skinbay-mask-card" {{ block.shopify_attributes }}>
+            {% if block.settings.mask_image != blank %}
+              {{
+                block.settings.mask_image
+                | image_url: width: 400
+                | image_tag:
+                  widths: '200, 400, 600',
+                  sizes: '(min-width: 750px) calc(33vw - 30px), calc(50vw - 20px)',
+                  alt: block.settings.mask_title,
+                  loading: 'lazy'
+              }}
+            {% else %}
+               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+            
+            <h4>{{ block.settings.mask_title }}</h4>
+            <p>{{ block.settings.mask_desc }}</p>
+            
+            {% if block.settings.btn_link != blank %}
+              <a href="{{ block.settings.btn_link }}" class="skinbay-btn">{{ block.settings.btn_text }}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Video Area Loop -->
+    {% assign has_videos = false %}
+    {% for block in section.blocks %}
+      {% if block.type == 'video' %}{% assign has_videos = true %}{% endif %}
+    {% endfor %}
+
+    {% if has_videos %}
+      <div class="skinbay-header" style="margin-top: 60px; margin-bottom: 20px;">
+        <img class="ab-hbanner" src="{{ 'abbey-h-video.png' | asset_url }}" alt="See it in action">
+        <h2 class="ab-hvh">{{ section.settings.video_heading }}</h2>
+      </div>
+
+      <div class="skinbay-video-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'video' %}
+            <div class="skinbay-video-card" {{ block.shopify_attributes }}>
+              
+              {% if block.settings.shopify_video != blank %}
+                {{ block.settings.shopify_video | video_tag: controls: true, autoplay: false, loop: true }}
+              {% elsif block.settings.embed_code != blank %}
+                <div class="skinbay-embed-wrapper">
+                  {{ block.settings.embed_code }}
+                </div>
+              {% else %}
+                <div style="padding: 60px 20px; text-align: center; color: #888;">
+                  Please add a Shopify Video or Embed Code
+                </div>
+              {% endif %}
+              
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- 3 Bottom Images -->
+    {% if section.settings.bottom_img_1 != blank or section.settings.bottom_img_2 != blank or section.settings.bottom_img_3 != blank %}
+      <div class="skinbay-bottom-images">
+        {% if section.settings.bottom_img_1 != blank %}
+          <div class="skinbay-bottom-img">
+            {{
+              section.settings.bottom_img_1
+              | image_url: width: 600
+              | image_tag:
+                widths: '300, 500, 600, 900',
+                sizes: '(min-width: 750px) calc(33vw - 30px), 90vw',
+                alt: 'Lifestyle 1',
+                loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+        {% if section.settings.bottom_img_2 != blank %}
+          <div class="skinbay-bottom-img">
+            {{
+              section.settings.bottom_img_2
+              | image_url: width: 600
+              | image_tag:
+                widths: '300, 500, 600, 900',
+                sizes: '(min-width: 750px) calc(33vw - 30px), 90vw',
+                alt: 'Lifestyle 2',
+                loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+        {% if section.settings.bottom_img_3 != blank %}
+          <div class="skinbay-bottom-img">
+            {{
+              section.settings.bottom_img_3
+              | image_url: width: 600
+              | image_tag:
+                widths: '300, 500, 600, 900',
+                sizes: '(min-width: 750px) calc(33vw - 30px), 90vw',
+                alt: 'Lifestyle 3',
+                loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Featured Collection -->
+    {% if section.settings.featured_collection != blank %}
+      <div class="skinbay-header">
+        <img class="ab-hbanner" src="{{ 'abbey-h-collection.png' | asset_url }}" alt="Discover more from CliniCare">
+        <h2 class="ab-hvh">{{ section.settings.collection_heading }}</h2>
+      </div>
+      
+      <div class="skinbay-collection-grid">
+        {% assign collection = collections[section.settings.featured_collection] %}
+        {% for product in collection.products limit: 4 %}
+          <div class="skinbay-product-card">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | image_url: width: 500 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="500">
+              <h5>{{ product.title }}</h5>
+              <p>{{ product.price | money }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div style="text-align: center; margin-top: 40px;">
+         <a href="{{ collection.url }}" class="skinbay-btn">Shop The Full Range</a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Skin Bay x Abbey Clancy",
+  "settings":[
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#EFEBE3"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#222222"
+    },
+    {
+      "type": "header",
+      "content": "Top Area Content"
+    },
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Small Top Text",
+      "default": "The Skin Bay Club"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "WE ALL KNOW ABOUT ABBEY CLANCY'S GLOW"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "and we know the secret... As featured on The Therapy Crouch"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Abbey Clancy)"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_headline",
+      "label": "Quote Headline",
+      "default": "They're the best face masks... I'm going to wear a sheet mask every single day now."
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text_1",
+      "label": "Quote Paragraph 1",
+      "default": "\"They're so wet you can put them back in the packet. I sleep in mine! I take it off in the middle of the night when it's bone dry.\""
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text_2",
+      "label": "Quote Paragraph 2",
+      "default": "\"You wake up five years younger, you do feel good. I found them on a website called The Skin Bay.\""
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "ABBEY CLANCY"
+    },
+    {
+      "type": "header",
+      "content": "Masks Grid Area"
+    },
+    {
+      "type": "text",
+      "id": "masks_heading",
+      "label": "Masks Heading",
+      "default": "SHOP THE SECRET"
+    },
+    {
+      "type": "header",
+      "content": "Video Area Settings"
+    },
+    {
+      "type": "text",
+      "id": "video_heading",
+      "label": "Video Heading",
+      "default": "SEE IT IN ACTION"
+    },
+    {
+      "type": "header",
+      "content": "3 Bottom Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_img_1",
+      "label": "Bottom Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_img_2",
+      "label": "Bottom Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_img_3",
+      "label": "Bottom Image 3"
+    },
+    {
+      "type": "header",
+      "content": "Featured Collection Settings"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "Collection Heading",
+      "default": "DISCOVER MORE FROM CLINICCARE"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Select a Collection"
+    }
+  ],
+  "blocks":[
+    {
+      "type": "mask",
+      "name": "ClinicCare Mask",
+      "settings":[
+        {
+          "type": "image_picker",
+          "id": "mask_image",
+          "label": "Mask Image"
+        },
+        {
+          "type": "text",
+          "id": "mask_title",
+          "label": "Mask Title",
+          "default": "EGF Glow Mask"
+        },
+        {
+          "type": "textarea",
+          "id": "mask_desc",
+          "label": "Mask Description",
+          "default": "Targeted pigmentation reduction and combating the signs of ageing."
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Video",
+      "settings":[
+        {
+          "type": "video",
+          "id": "shopify_video",
+          "label": "Upload MP4 directly to Shopify",
+          "info": "Best for high-quality, auto-playing video files."
+        },
+        {
+          "type": "html",
+          "id": "embed_code",
+          "label": "OR Paste Embed Code",
+          "info": "Paste the HTML embed code from an Instagram Reel, TikTok, or YouTube here."
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name": "Skin Bay x Abbey Clancy",
+      "blocks":[
+        { "type": "mask" },
+        { "type": "mask" },
+        { "type": "mask" }
+      ]
+    }
+  ]
+}
+{% endschema %}

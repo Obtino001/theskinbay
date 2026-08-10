@@ -1,0 +1,30 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header_section": {
+      "type": "header",
+      "custom_css": [],
+      "settings": {
+        "logo_image": "shopify://shop_images/Main_Logo_Black.jpg",
+        "logo_width": 220,
+        "logo_width_mobile": 130,
+        "promo_bg": "#000000",
+        "promo_text_color": "#ffffff",
+        "promo_text": "Buy Any Skinceuticals Serum Or Moisturiser + Get A FREE SPF50 - Excluding bundles.",
+        "promo_link": "shopify://collections/skinceuticals",
+        "menu_linklist": "main-menu-preview-copy",
+        "nav_font_size": 12,
+        "mega_title_font_size": 11,
+        "nav_font_size_mobile": 13,
+        "search_rec_collection": "bundle-deals",
+        "search_rec_title": "You might also like...",
+        "announcement_font_size": 10,
+        "announcement_font_size_mobile": 9
+      }
+    }
+  },
+  "order": [
+    "header_section"
+  ]
+}

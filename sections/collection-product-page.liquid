@@ -1,0 +1,425 @@
+{% comment %}
+  Exclusive Bundles Carousel
+  - Montserrat Font Integration
+  - CSS Scroll-Snap Carousel
+  - Manual Collection Selection
+  - AJAX ADD TO BAG (No page reload)
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    font-family: 'Lato', sans-serif;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .eb-container {
+    max-width: {{ section.settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .eb-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size | times: 0.8 }}px;
+    line-height: 1.2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .eb-heading {
+      font-size: {{ section.settings.heading_size }}px;
+    }
+  }
+
+  .eb-carousel-wrapper {
+    position: relative;
+    opacity: 1;
+  }
+
+  .eb-carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 10px 0 20px 0;
+    scrollbar-width: none;
+  }
+
+  .eb-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .eb-card {
+    flex: 0 0 calc(85% - 10px);
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: inherit;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 750px) {
+    .eb-card {
+      flex: 0 0 calc(33.333% - 14px);
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .eb-card {
+      flex: 0 0 calc(25% - 15px);
+    }
+  }
+
+  .eb-card-image-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f9f9f9;
+    margin-bottom: 15px;
+  }
+
+  .eb-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+
+  .eb-card:hover .eb-card-image {
+    transform: scale(1.05);
+  }
+
+  .eb-card-info {
+    padding: 5px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .eb-card-vendor {
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #777;
+    margin-bottom: 8px;
+    display: block;
+    font-size: {{ section.settings.meta_size | times: 0.9 }}px;
+  }
+
+  .eb-card-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    font-size: {{ section.settings.title_size | times: 0.9 }}px;
+  }
+
+  .eb-card-price {
+    font-weight: 400;
+    margin-bottom: 15px;
+    display: block;
+    font-size: {{ section.settings.meta_size | times: 0.9 }}px;
+  }
+
+  /* ADD TO BAG BUTTON */
+  .eb-add-button {
+    width: 100%;
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    padding: 12px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .eb-add-button:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  .eb-add-button.is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .eb-card-vendor { font-size: {{ section.settings.meta_size }}px; }
+    .eb-card-title { font-size: {{ section.settings.title_size }}px; }
+    .eb-card-price { font-size: {{ section.settings.meta_size }}px; }
+  }
+
+  /* NAVIGATION */
+  .eb-nav-btn {
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .eb-nav-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .eb-prev { left: -22px; }
+  .eb-next { right: -22px; }
+
+  @media screen and (max-width: 749px) { .eb-nav-btn { display: none; } }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="eb-container">
+    {% if section.settings.heading != blank %}
+      <h2 class="eb-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="eb-carousel-wrapper">
+      <button class="eb-nav-btn eb-prev" type="button" aria-label="Previous products" onclick="scrollEB('{{ section.id }}', -1)">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <div class="eb-carousel-track" id="Track-{{ section.id }}">
+        {%- assign collection = section.settings.collection -%}
+        {%- if collection != blank -%}
+          {%- for product in collection.products limit: section.settings.products_to_show -%}
+            <div class="eb-card">
+              <a href="{{ product.url }}" class="eb-card-image-wrapper">
+                <img class="eb-card-image" 
+                     src="{{ product.featured_image | image_url: width: 600 }}" 
+                     alt="{{ product.title }}" 
+                     loading="lazy"
+                     width="600"
+                     height="600">
+              </a>
+              <div class="eb-card-info">
+                <span class="eb-card-vendor">{{ product.vendor }}</span>
+                <a href="{{ product.url }}" style="text-decoration:none; color:inherit;">
+                   <h3 class="eb-card-title">{{ product.title }}</h3>
+                </a>
+                <span class="eb-card-price">{{ product.price | money }}</span>
+                
+                <button type="button" 
+                  class="eb-add-button" 
+                  onclick="addBundleToCart('{{ product.first_available_variant.id }}', this)"
+                  {% unless product.available %}disabled{% endunless %}>
+                  {% if product.available %}Add to Bag{% else %}Sold Out{% endif %}
+                </button>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="eb-card">
+              <div class="eb-card-image-wrapper">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
+              <div class="eb-card-info">
+                <span class="eb-card-vendor">Vendor Name</span>
+                <h3 class="eb-card-title">Example Product Bundle</h3>
+                <span class="eb-card-price">$99.00</span>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      <button class="eb-nav-btn eb-next" type="button" aria-label="Next products" onclick="scrollEB('{{ section.id }}', 1)">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollEB(id, direction) {
+  const track = document.getElementById(`Track-${id}`);
+  const scrollAmount = track.offsetWidth * 0.8;
+  track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+
+function addBundleToCart(variantId, btn) {
+    btn.classList.add('is-loading');
+    btn.innerText = "Adding...";
+
+    let formData = { 'items': [{ 'id': variantId, 'quantity': 1 }] };
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      btn.innerText = "Added!";
+      btn.classList.remove('is-loading');
+      
+      // Trigger Cart Refresh & Open Drawer
+      document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      
+      // Dawn Theme specific drawer trigger
+      if (document.querySelector('cart-drawer')) {
+          const drawer = document.querySelector('cart-drawer');
+          fetch(`${window.Shopify.routes.root}?sections=cart-drawer,cart-icon-bubble`)
+          .then(res => res.json())
+          .then(json => {
+              const html = new DOMParser().parseFromString(json['cart-drawer'], 'text/html');
+              const innerDrawer = drawer.querySelector('#CartDrawer');
+              if(innerDrawer) innerDrawer.innerHTML = html.querySelector('#CartDrawer').innerHTML;
+              drawer.classList.add('active');
+              if (document.querySelector('#cart-icon-bubble')) document.querySelector('#cart-icon-bubble').click();
+          });
+      }
+
+      setTimeout(() => { btn.innerText = "Add to Bag"; }, 2000);
+    })
+    .catch((error) => {
+      btn.innerText = "Error";
+      btn.classList.remove('is-loading');
+    });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Exclusive Bundle Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "EXCLUSIVE BUNDLES WITH THESKINBAY"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Bundle Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "header",
+      "content": "Text Sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "meta_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Vendor/Price Size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "default": 1200,
+      "label": "Page Width"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "label": "Top Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "label": "Bottom Padding"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Exclusive Bundle Carousel"
+    }
+  ]
+}
+{% endschema %}

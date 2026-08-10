@@ -1,0 +1,41 @@
+{%- comment -%} NAD bespoke, full-width brand banner (renders only if an image is set) {%- endcomment -%}
+{%- assign img = section.settings.image -%}
+{%- assign af = section.settings.asset_file -%}
+{%- assign url = section.settings.image_url -%}
+{%- if img != blank or af != blank or url != blank -%}
+<section class="nad-bb" style="background:{{ section.settings.bg }};">
+  <div class="nad-bb-wrap">
+    {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}" class="nad-bb-a">{%- endif -%}
+    {%- if img != blank -%}
+      <img class="nad-bb-img" src="{{ img | image_url: width: 2200 }}" srcset="{{ img | image_url: width: 800 }} 800w, {{ img | image_url: width: 1400 }} 1400w, {{ img | image_url: width: 2200 }} 2200w" sizes="100vw" alt="{{ section.settings.alt | escape }}" loading="lazy" width="{{ img.width }}" height="{{ img.height }}">
+    {%- elsif af != blank -%}
+      <img class="nad-bb-img" src="{{ af | asset_url }}" alt="{{ section.settings.alt | escape }}" loading="lazy">
+    {%- else -%}
+      <img class="nad-bb-img" src="{{ url }}" alt="{{ section.settings.alt | escape }}" loading="lazy">
+    {%- endif -%}
+    {%- if section.settings.link != blank -%}</a>{%- endif -%}
+  </div>
+</section>
+<style>
+  .nad-bb{padding:20px 0 0;}
+  .nad-bb-wrap{max-width:{{ section.settings.max_width }}px;margin:0 auto;}
+  .nad-bb-a{display:block;}
+  .nad-bb-img{display:block;width:100%;height:auto;{% if section.settings.rounded %}border-radius:20px;overflow:hidden;{% endif %}}
+</style>
+{%- endif -%}
+{% schema %}
+{
+  "name": "NAD · Brand banner",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "image_picker", "id": "image", "label": "Banner image" },
+    { "type": "text", "id": "asset_file", "label": "Or theme asset filename" },
+    { "type": "text", "id": "image_url", "label": "Or image URL (fallback)" },
+    { "type": "text", "id": "alt", "label": "Alt text", "default": "ClinicCare" },
+    { "type": "url", "id": "link", "label": "Link (optional)" },
+    { "type": "range", "id": "max_width", "min": 800, "max": 2200, "step": 100, "unit": "px", "label": "Max width", "default": 1600 },
+    { "type": "checkbox", "id": "rounded", "label": "Rounded corners", "default": false }
+  ],
+  "presets": [{ "name": "NAD · Brand banner" }]
+}
+{% endschema %}

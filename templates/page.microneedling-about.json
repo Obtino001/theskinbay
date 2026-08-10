@@ -1,0 +1,143 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_UfcDyT": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>{{ closest.page.title }}</p>{{ closest.page.content }}",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_UfcDyT"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "microneedling_section_byytFY": {
+      "type": "microneedling-section",
+      "blocks": {
+        "benefit_z6hT3E": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Acne Scars",
+            "benefit_desc": "Effective for treating varied types of acne scarring for a smoother surface."
+          }
+        },
+        "benefit_icdV8Y": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Fine Lines",
+            "benefit_desc": "Softens the appearance of fine lines and wrinkles by boosting elasticity."
+          }
+        },
+        "benefit_8tyJbQ": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Uneven Tone",
+            "benefit_desc": "Helps reduce hyperpigmentation and sun damage for a unified complexion."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_z6hT3E",
+        "benefit_icdV8Y",
+        "benefit_8tyJbQ"
+      ],
+      "name": "Skin Bay Microneedling",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#333333",
+        "heading_color": "#000000",
+        "accent_color": "#D4Af37",
+        "card_bg": "#fafafa",
+        "border_color": "#e5e5e5",
+        "subtitle": "The Skin Bay Treatments",
+        "title": "Microneedling",
+        "intro_text": "<p>Experience the ultimate in skin rejuvenation. Microneedling, also known as collagen induction therapy, is a minimally invasive cosmetic procedure designed to treat skin concerns by stimulating natural collagen production.</p>",
+        "hero_image": "shopify://shop_images/cropped_no_pen.jpg",
+        "show_cta": true,
+        "cta_text": "Book Consultation",
+        "cta_link": "",
+        "definition_title": "What is Microneedling?",
+        "definition_text": "<p>We use microneedling to help you achieve a smoother, firmer, and more toned complexion. By using sterilized, fine needles to create micro-punctures in the skin, we trigger the body's natural healing response. This process increases the production of collagen and elastin, the essential proteins that keep your skin looking youthful and radiant.</p>",
+        "benefits_title": "Skin Concerns Microneedling Treats",
+        "recovery_title": "Recovery & Aftercare",
+        "recovery_text": "<p>Recovery time is minimal. Most clients experience minor redness and irritation similar to a mild sunburn for a few days. You may notice your skin feeling tighter and looking more radiant as it heals. Full results typically develop over a few weeks as your collagen levels increase. Always wear sunscreen and keep your skin hydrated post-treatment.</p>",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_m": 40,
+        "padding_bottom_m": 40
+      }
+    },
+    "sliding_feature_xBE7AN": {
+      "type": "sliding-feature",
+      "name": "Collection Banner Slider",
+      "settings": {
+        "collection": "microneedling",
+        "product_limit": 8,
+        "desktop_height": 450,
+        "banner_width": 33,
+        "mobile_banner_height": 350,
+        "banner_image": "shopify://shop_images/Microneedling.jpg",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "banner_text_color": "#ffffff",
+        "banner_heading": "Microneedling",
+        "heading_size": 26,
+        "banner_text": "Shop the at home kit here!",
+        "desc_size": 14,
+        "btn_text": "SHOP NOW",
+        "btn_size": 14,
+        "btn_link": "shopify://collections/microneedling",
+        "bg_color": "#ffffff",
+        "pt_desk": 36,
+        "pb_desk": 36,
+        "pt_mob": 4,
+        "pb_mob": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "microneedling_section_byytFY",
+    "sliding_feature_xBE7AN"
+  ]
+}

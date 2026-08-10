@@ -1,0 +1,213 @@
+{%- liquid
+  assign pub = article.published_at | default: article.created_at
+  assign cat = article.metafields.custom.category
+  assign rt = article.metafields.custom.reading_time
+-%}
+
+<div class="section color-{{ section.settings.color_scheme | default: 'scheme-1' }} bayblog-section">
+  <div class="bayblog">
+
+    <nav class="bayblog__crumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      <span aria-hidden="true">/</span>
+      <span class="bayblog__crumb-current">{{ article.title }}</span>
+    </nav>
+
+    {%- if article.image -%}
+      <div class="bayblog__hero{% if article.metafields.custom.hero_square %} bayblog__hero--square{% endif %}">
+        <img class="bayblog__hero-img"
+          src="{{ article.image | image_url: width: 1600 }}"
+          srcset="{{ article.image | image_url: width: 800 }} 800w, {{ article.image | image_url: width: 1600 }} 1600w"
+          sizes="100vw"
+          alt="{{ article.image.alt | default: article.title | escape }}"
+          width="1600" height="720" fetchpriority="high">
+        <span class="bayblog__hero-veil" aria-hidden="true"></span>
+      </div>
+    {%- endif -%}
+
+    <header class="bayblog__header">
+      {%- if cat != blank -%}<div class="bayblog__eyebrow">{{ cat }}</div>{%- endif -%}
+      <h1 class="bayblog__title">{{ article.title }}</h1>
+      {%- if article.excerpt != blank -%}
+        <p class="bayblog__excerpt">{{ article.excerpt | strip_html }}</p>
+      {%- endif -%}
+      <div class="bayblog__meta">
+        <span class="bayblog__author">{{ article.author }}</span>
+        {%- if rt != blank -%}<span class="bayblog__sep" aria-hidden="true"></span><span>{{ rt }} min read</span>{%- endif -%}
+        <span class="bayblog__sep" aria-hidden="true"></span>
+        <time datetime="{{ pub | date: '%Y-%m-%d' }}">{{ pub | date: '%-d %B %Y' }}</time>
+      </div>
+    </header>
+
+    <div class="bayblog__body rte">
+      {%- assign chunks = article.content | split: '<!--BAYCOL:' -%}
+      {%- for chunk in chunks -%}
+        {%- if forloop.first -%}
+          {{ chunk }}
+        {%- else -%}
+          {%- assign mparts = chunk | split: '-->' -%}
+          {%- assign meta = mparts | first -%}
+          {%- assign rest = chunk | remove_first: meta | remove_first: '-->' -%}
+          {%- assign hl = meta | split: '|' -%}
+          {%- assign chandle = hl[0] | strip -%}
+          {%- assign clabel = hl[1] | strip -%}
+          {%- render 'bayblog-carousel', col: collections[chandle], label: clabel -%}
+          {{ rest }}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- assign related = article.metafields.custom.related_handles.value -%}
+    {%- if related != blank -%}
+      {%- assign rel_cards = '' -%}
+      {%- for h in related -%}
+        {%- assign ra = blog.articles | where: 'handle', h | first -%}
+        {%- if ra -%}{%- assign rel_cards = rel_cards | append: ra.id | append: ',' -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- assign pool = blog.articles -%}
+    {%- assign shown = 0 -%}
+    <section class="bayblog-related">
+      <div class="bayblog-related__eyebrow">Keep reading</div>
+      <h2 class="bayblog-related__title">More from {{ blog.title }}</h2>
+      <div class="bayblog-related__grid">
+        {%- if related != blank -%}
+          {%- for h in related -%}
+            {%- assign ra = pool | where: 'handle', h | first -%}
+            {%- if ra and shown < 3 -%}
+              {%- render 'bayblog-related-card', ra: ra -%}
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if shown < 3 -%}
+          {%- for ra in pool -%}
+            {%- unless ra.handle == article.handle -%}
+              {%- if shown < 3 -%}
+                {%- render 'bayblog-related-card', ra: ra -%}
+                {%- assign shown = shown | plus: 1 -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      <a class="bayblog-related__back" href="{{ blog.url }}">All articles&nbsp;&rsaquo;</a>
+    </section>
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bayblog-section .bayblog { --bay-fg: var(--color-foreground); --bay-fg-rgb: var(--color-foreground-rgb); }
+  .bayblog { max-width: var(--page-width, 1400px); margin-inline: auto; padding-inline: var(--padding-inline, 5vw); }
+  .bayblog__crumb { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; font-size:.72rem; letter-spacing:.04em;
+    padding-block: 1rem; opacity:.7; }
+  .bayblog__crumb a { color: inherit; text-decoration: none; }
+  .bayblog__crumb a:hover { text-decoration: underline; }
+  .bayblog__crumb-current { opacity:.7; max-width: 46vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  .bayblog__hero { position:relative; width:100%; aspect-ratio: 16/7; max-height: 460px; overflow:hidden;
+    border-radius: var(--border-radius, 0); background: rgb(var(--bay-fg-rgb) / .05); }
+  .bayblog__hero-img { width:100%; height:100%; object-fit: cover; object-position: center 30%; display:block; }
+  .bayblog__hero-veil { position:absolute; inset:0; background: linear-gradient(to top, rgb(var(--bay-fg-rgb) / .45), rgb(var(--bay-fg-rgb) / .06) 45%, transparent); }
+  /* square hero for product/lifestyle shots — fills fully, no crop, no veil */
+  .bayblog__hero--square { aspect-ratio: 1 / 1; max-width: 520px; margin-inline: auto; max-height: none; }
+  .bayblog__hero--square .bayblog__hero-veil { display: none; }
+
+  .bayblog__header { max-width: 760px; margin-inline:auto; text-align:center; padding-block: 2.4rem 1.6rem; }
+  .bayblog__eyebrow { font-size:.7rem; letter-spacing:.24em; text-transform:uppercase; font-weight:700; opacity:.6; margin-bottom:.9rem; }
+  .bayblog__title { font-family: 'Playfair Display', Georgia, serif; line-height:1.08;
+    font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); margin:0; letter-spacing:-.01em; }
+  .bayblog__excerpt { font-style:italic; opacity:.82; margin:1.1rem auto 0; max-width: 60ch;
+    font-size: clamp(1rem, .96rem + .3vw, 1.15rem); line-height:1.5; }
+  .bayblog__meta { display:flex; flex-wrap:wrap; gap:.8rem; align-items:center; justify-content:center;
+    margin-top:1.5rem; padding-top:1.3rem; border-top:1px solid rgb(var(--bay-fg-rgb) / .14);
+    font-size:.8rem; opacity:.72; }
+  .bayblog__author { font-weight:700; opacity:1; }
+  .bayblog__sep { width:4px; height:4px; border-radius:50%; background: currentColor; opacity:.4; }
+
+  .bayblog__body { max-width: var(--normal-content-width, 720px); margin-inline:auto; padding-block: 2.4rem 1rem; }
+
+  /* ── callouts ── */
+  .bayblog__body .bayblog-callout { border-inline-start:3px solid var(--bay-fg);
+    background: rgb(var(--bay-fg-rgb) / .04); padding:1.15rem 1.3rem; margin-block:1.9rem; border-radius: var(--border-radius,0); }
+  .bayblog__body .bayblog-callout--warning { border-inline-start-width:4px; }
+  .bayblog__body .bayblog-callout__label { display:block; font-family: 'Lato', sans-serif;
+    font-weight:700; font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; opacity:.6; margin-bottom:.5rem; }
+  .bayblog__body .bayblog-callout p { margin:0; }
+
+  /* ── figures / divider ── */
+  .bayblog__body .bayblog-figure { margin-block:2.1rem; }
+  .bayblog__body .bayblog-figure img { width:100%; height:auto; display:block; border-radius: var(--border-radius,0); }
+  .bayblog__body .bayblog-figure figcaption { margin-top:.6rem; font-size:.82rem; text-align:center; font-style:italic; opacity:.6; }
+  .bayblog__body .bayblog-divider { border:0; height:1px; background: rgb(var(--bay-fg-rgb) / .15); margin-block:2.8rem; }
+
+  /* ── FAQ ── */
+  .bayblog__body .bayblog-faq { margin-block-start:3.2rem; }
+  .bayblog__body .bayblog-faq > h2 { margin-bottom:.6rem; }
+  .bayblog__body .bayblog-faq__item { border-block-end:1px solid rgb(var(--bay-fg-rgb) / .13); }
+  .bayblog__body .bayblog-faq__item summary { cursor:pointer; padding:1.05rem 0; font-weight:600; list-style:none;
+    display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+  .bayblog__body .bayblog-faq__item summary::-webkit-details-marker { display:none; }
+  .bayblog__body .bayblog-faq__item summary::after { content:"+"; font-size:1.35rem; font-weight:400; opacity:.5; flex:none; }
+  .bayblog__body .bayblog-faq__item[open] summary::after { content:"\2013"; }
+  .bayblog__body .bayblog-faq__a { padding:0 0 1.15rem; opacity:.85; }
+  .bayblog__body .bayblog-faq__a p { margin:0; }
+
+  /* ── shop carousel ── */
+  .bayblog-shop { margin-block:2.4rem; padding:1.5rem; border:1px solid rgb(var(--bay-fg-rgb) / .14); border-radius: var(--border-radius,0);
+    background: rgb(var(--bay-fg-rgb) / .02); }
+  .bayblog-shop__head { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.1rem; }
+  .bayblog-shop__label { font-size:.64rem; letter-spacing:.24em; text-transform:uppercase; font-weight:700; opacity:.55; }
+  .bayblog-shop__title { font-family: 'Playfair Display', Georgia, serif; font-size:1.3rem; line-height:1.15; margin-top:.3rem; }
+  .bayblog-shop__all { flex:none; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    text-decoration:none; color:inherit; opacity:.7; white-space:nowrap; }
+  .bayblog-shop__all:hover { opacity:1; }
+  .bayblog-shop__track { display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding-bottom:.4rem; margin:0 -.25rem; padding-inline:.25rem;
+    scrollbar-width: thin; }
+  .bayblog-pc { flex:0 0 220px; scroll-snap-align:start; text-decoration:none; color:inherit; display:block; }
+  .bayblog-pc__imgwrap { display:block; aspect-ratio:1; background:#fff; border:1px solid rgb(var(--bay-fg-rgb) / .08);
+    border-radius: var(--border-radius,0); overflow:hidden; }
+  .bayblog-pc__img { width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; transition: transform .4s ease; }
+  .bayblog-pc:hover .bayblog-pc__img { transform: scale(1.04); }
+  .bayblog-pc__brand { font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; opacity:.55; font-weight:700; margin-top:.7rem; }
+  .bayblog-pc__name { font-size:.86rem; line-height:1.3; margin-top:.2rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .bayblog-pc__price { font-size:.86rem; font-weight:700; margin-top:.35rem; }
+  .bayblog-pc__was { opacity:.5; font-weight:400; margin-inline-start:.35rem; }
+  .bayblog-pc__now { color: var(--bay-fg); }
+
+  /* ── related ── */
+  .bayblog-related { max-width: var(--page-width, 1400px); margin: 3.2rem auto 0; padding-top: 2.4rem;
+    border-top:1px solid rgb(var(--bay-fg-rgb) / .14); text-align:center; }
+  .bayblog-related__eyebrow { font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; font-weight:700; opacity:.55; }
+  .bayblog-related__title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.5rem,1.2rem+1vw,2.1rem); margin:.5rem 0 1.8rem; }
+  .bayblog-related__grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1.5rem; text-align:left; }
+  .bayblog-rc { text-decoration:none; color:inherit; display:block; }
+  .bayblog-rc__img { aspect-ratio: 3/2; overflow:hidden; background: rgb(var(--bay-fg-rgb) / .05); border-radius: var(--border-radius,0); }
+  .bayblog-rc__img img { width:100%; height:100%; object-fit:cover; transition: transform .5s ease; }
+  .bayblog-rc:hover .bayblog-rc__img img { transform: scale(1.05); }
+  .bayblog-rc__cat { font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; font-weight:700; opacity:.55; margin-top:.8rem; }
+  .bayblog-rc__name { font-family: 'Playfair Display', Georgia, serif; font-size:1.05rem; line-height:1.25; margin-top:.35rem; }
+  .bayblog-related__back { display:inline-block; margin-top:2rem; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:700; text-decoration:none; color:inherit; border-bottom:1px solid currentColor; padding-bottom:2px; }
+
+  @media (max-width: 749px) {
+    .bayblog-related__grid { grid-template-columns: 1fr; gap:1.6rem; }
+    .bayblog__hero { aspect-ratio: 3/2; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Bay Blog article",
+  "tag": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" }
+  ],
+  "presets": [{ "name": "Bay Blog article" }]
+}
+{% endschema %}

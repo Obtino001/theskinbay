@@ -1,0 +1,70 @@
+{% schema %}
+{
+  "name": "Search Collections",
+  "settings": [
+    { "type": "text",  "id": "eyebrow", "label": "Eyebrow", "default": "Explore" },
+    { "type": "text",  "id": "heading", "label": "Heading", "default": "Shop by Brand" },
+    { "type": "textarea", "id": "collection_handles", "label": "Collection handles (comma-separated)", "default": "cerave,la-roche-posay,skinceuticals,medik8,vichy,avene,cliniccare,olaplex,cebelia,sale" },
+    { "type": "color", "id": "bg_color",   "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text",       "default": "#0c0c0c" }
+  ],
+  "presets": [{ "name": "Search Collections" }]
+}
+{% endschema %}
+
+{%- assign handles = section.settings.collection_handles | split: "," -%}
+{%- if handles.size > 0 -%}
+<style>
+  .lf-sc-wrap { background: {{ section.settings.bg_color }}; border-bottom: 1px solid rgba(0,0,0,.07); padding: 40px 0 34px; overflow: hidden; }
+  .lf-sc-inner { max-width: 1560px; margin: 0 auto; padding: 0 40px; }
+  .lf-sc-head { margin-bottom: 24px; }
+  .lf-sc-eyebrow { font-family: 'Lato', var(--font-body--family), sans-serif; font-size: 0.5625rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(0,0,0,.32); margin: 0 0 6px; }
+  .lf-sc-title { font-family: var(--font-heading--family), 'Recoleta', serif; font-size: 1.55rem; font-weight: 400; letter-spacing: .01em; color: {{ section.settings.text_color }}; margin: 0; }
+  .lf-sc-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 4px 0 14px; }
+  .lf-sc-track::-webkit-scrollbar { display: none; }
+  .lf-sc-item { flex: 0 0 auto; width: clamp(120px, 11vw, 158px); text-decoration: none; scroll-snap-align: start; display: flex; flex-direction: column; color: {{ section.settings.text_color }}; }
+  .lf-sc-tile { position: relative; width: 100%; aspect-ratio: 1 / 1; background: #f8f7f5; overflow: hidden; outline: 1px solid transparent; transition: outline-color .22s ease; }
+  .lf-sc-item:hover .lf-sc-tile { outline-color: #0c0c0c; }
+  .lf-sc-img { width: 100%; height: 100%; object-fit: contain; padding: 14%; display: block; transition: transform .55s cubic-bezier(.25,.46,.45,.94); }
+  .lf-sc-item:hover .lf-sc-img { transform: scale(1.06); }
+  .lf-sc-initial { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 1.5rem; font-weight: 300; color: #bbb; letter-spacing: .05em; }
+  .lf-sc-name { margin-top: 11px; padding: 0 2px; font-family: 'Lato', var(--font-body--family), sans-serif; font-size: 8.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: {{ section.settings.text_color }}; text-align: center; line-height: 1.4; transition: letter-spacing .25s ease; }
+  .lf-sc-item:hover .lf-sc-name { letter-spacing: .2em; }
+  @media (max-width: 749px) {
+    .lf-sc-inner { padding: 0 20px; }
+    .lf-sc-wrap { padding: 28px 0 26px; }
+    .lf-sc-head { margin-bottom: 18px; }
+    .lf-sc-title { font-size: 1.25rem; }
+    .lf-sc-item { width: clamp(96px, 28vw, 120px); }
+    .lf-sc-name { font-size: 7.5px; letter-spacing: .12em; }
+  }
+</style>
+
+<div class="lf-sc-wrap">
+  <div class="lf-sc-inner">
+    <div class="lf-sc-head">
+      {%- if section.settings.eyebrow != blank -%}<p class="lf-sc-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lf-sc-title">{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+    <div class="lf-sc-track" role="list">
+      {%- for h in handles -%}
+        {%- assign hh = h | strip -%}
+        {%- assign c = collections[hh] -%}
+        {%- if c != blank and c.id -%}
+          <a href="{{ c.url }}" class="lf-sc-item" role="listitem" aria-label="{{ c.title }}">
+            <div class="lf-sc-tile">
+              {%- assign cimg = c.image | default: c.products.first.featured_image -%}
+              {%- if cimg != blank -%}
+                {{ cimg | image_url: width: 320 | image_tag: loading: 'lazy', class: 'lf-sc-img', alt: c.title, width: 160, height: 160 }}
+              {%- else -%}
+                <span class="lf-sc-initial">{{ c.title | slice: 0, 1 | upcase }}</span>
+              {%- endif -%}
+            </div>
+            <span class="lf-sc-name">{{ c.title }}</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}

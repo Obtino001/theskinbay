@@ -1,0 +1,329 @@
+{%- comment -%} NAD bespoke, compact above-the-fold hero: swipe gallery + custom buy + subscriptions {%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- assign hero_img = product.featured_image -%}
+{%- assign rv = product.metafields.reviews.rating.value.rating | default: 0.0 -%}
+{%- assign rc = product.metafields.reviews.rating_count | default: 0 -%}
+{%- assign rv_round = rv | round -%}
+{%- assign gid = 'nadg-' | append: section.id -%}
+<style>:root{--box:{{ section.settings.box_bg | default: '#FBF6EA' }};--boxline:{{ section.settings.box_border | default: '#ECE3CE' }};--accent:{{ section.settings.accent | default: '#F6C21A' }};--acctext:{{ section.settings.acctext | default: '#141414' }};--accent2:{{ section.settings.accent2 | default: '#F6C21A' }};--card:{{ section.settings.card | default: '#10233B' }};--tickcheck:{{ section.settings.tickcheck | default: '#10233B' }};}</style>
+<section class="nad-hero" style="background:{{ section.settings.bg }};--onbg:{{ section.settings.on_bg | default: '#141414' }};">
+  <div class="nadh-wrap">
+    <figure class="nadh-media">
+      <div class="nadh-imgwrap">
+      <div class="nadh-gallery" id="{{ gid }}">
+        {%- for image in product.images -%}
+          <div class="nadh-slide"><img src="{{ image | image_url: width: 1000 }}" srcset="{{ image | image_url: width: 500 }} 500w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1000 }} 1000w" sizes="(min-width:850px) 46vw, 92vw" alt="{{ image.alt | default: product.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" {% if forloop.first %}fetchpriority="high"{% endif %} width="{{ image.width }}" height="{{ image.height }}"></div>
+        {%- endfor -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <button type="button" class="nadh-gnav prev" aria-label="Previous image" onclick="nadStep('{{ gid }}',-1)">‹</button>
+        <button type="button" class="nadh-gnav next" aria-label="Next image" onclick="nadStep('{{ gid }}',1)">›</button>
+        <div class="nadh-dots" id="{{ gid }}-dots">
+          {%- for image in product.images -%}<button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Go to image {{ forloop.index }}" onclick="nadGo('{{ gid }}',{{ forloop.index0 }})"></button>{%- endfor -%}
+        </div>
+      {%- endif -%}
+      {%- if v.compare_at_price > v.price -%}
+        {%- assign save = v.compare_at_price | minus: v.price -%}
+        <span class="nadh-badge">Save {{ save | money_without_trailing_zeros }}</span>
+      {%- endif -%}
+      </div>
+      {%- assign nad_desc = product.description | strip_html | strip -%}
+      {%- if nad_desc != blank -%}<div class="nadh-desc">{{ nad_desc | truncatewords: 55 }}</div>{%- endif -%}
+    </figure>
+
+    <div class="nadh-head">
+      {%- if section.settings.headline_style == 'title' -%}
+        {%- if product.vendor != blank -%}<span class="nadh-eyebrow">{{ product.vendor }}</span>{%- endif -%}
+        <h1 class="nadh-title nadh-title--lg">{{ product.title }}</h1>
+      {%- else -%}
+        <img class="nadh-banner" src="{{ section.settings.header_image | default: 'nad-h-hero.png' | asset_url }}" alt="{{ product.title | escape }}" width="1500" height="340">
+        <h1 class="nadh-title">{{ product.title }}</h1>
+      {%- endif -%}
+      {%- assign nad_tag = section.settings.tagline -%}
+      {%- if nad_tag == blank -%}
+        {%- assign _desc_txt = product.description | strip_html | strip -%}
+        {%- if _desc_txt != blank -%}
+          {%- assign _sent = _desc_txt | split: '. ' -%}
+          {%- assign nad_tag = _sent | first -%}
+          {%- if _sent.size > 1 -%}{%- assign nad_tag = nad_tag | append: '.' -%}{%- endif -%}
+        {%- else -%}
+          {%- assign nad_tag = product.metafields.global.description_tag -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if nad_tag != blank -%}<p class="nadh-tag">{{ nad_tag | strip_html | truncatewords: 30 }}</p>{%- endif -%}
+    </div>
+
+    <div class="nadh-chips">
+      {%- assign hl = product.metafields.custom.highlights.value -%}
+      {%- if section.settings.chips_from_highlights and hl != blank -%}
+        {%- for h in hl -%}
+          <span class="nadh-chip">{% render 'nad-chip-icon', icon: h.i %}{{ h.l }}</span>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <span class="nadh-chip" {{ block.shopify_attributes }}>{% render 'nad-chip-icon', icon: block.settings.icon %}{{ block.settings.label }}</span>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="nadh-buy">
+      {%- if section.settings.show_gift -%}<div class="nadh-gift-mount" id="nadgift-{{ section.id }}" data-handle="{{ product.handle }}" data-collections="{% for c in product.collections %}{{ c.handle }}{% unless forloop.last %},{% endunless %}{% endfor %}"></div>{%- endif -%}
+      {%- unless product.has_only_default_variant -%}
+        <script type="application/json" id="nadvdata-{{ section.id }}">{{ product.variants | json }}</script>
+        <div class="nadh-variants" id="nadv-{{ section.id }}">
+          {%- for opt in product.options_with_values -%}
+            <div class="nadh-optrow">
+              <span class="nadh-optlabel">{{ opt.name }}</span>
+              <div class="nadh-optvals">
+                {%- for val in opt.values -%}
+                  <button type="button" class="nadh-optval{% if opt.selected_value == val %} on{% endif %}" data-val="{{ val | escape }}" onclick="nadPick('{{ section.id }}',this)">{{ val }}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+      {%- if product.selling_plan_groups.size > 0 -%}
+        <div class="nadh-plans" role="radiogroup" aria-label="Purchase options">
+          {%- unless product.requires_selling_plan -%}
+          <label class="nadh-plan"><input type="radio" name="nadplan-{{ section.id }}" value="" checked><span class="nadh-plan-t">One-time purchase</span></label>
+          {%- endunless -%}
+          {%- assign _nad_fp = true -%}
+          {%- for g in product.selling_plan_groups -%}{%- for p in g.selling_plans -%}
+            <label class="nadh-plan"><input type="radio" name="nadplan-{{ section.id }}" value="{{ p.id }}"{% if product.requires_selling_plan and _nad_fp %} checked{% endif %}><span class="nadh-plan-t">{% if product.requires_selling_plan %}{{ p.name | strip }}{% else %}Subscribe · {{ p.name | strip }} <em>Never run out</em>{% endif %}</span></label>
+            {%- assign _nad_fp = false -%}
+          {%- endfor -%}{%- endfor -%}
+        </div>
+      {%- endif -%}
+      <div class="nadh-price">
+        <span class="nadh-now" id="nadprice-{{ section.id }}">{{ v.price | money }}</span>
+        <span class="nadh-was" id="nadwas-{{ section.id }}"{% unless v.compare_at_price > v.price %} style="display:none"{% endunless %}>{{ v.compare_at_price | money }}</span>
+      </div>
+      {%- if rc > 0 -%}
+        <div class="nadh-rating" aria-label="{{ rv }} out of 5 stars">
+          {%- for i in (1..5) -%}<svg viewBox="0 0 24 24" class="{% if i <= rv_round %}on{% endif %}"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.1 1.2 6L12 16.9 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>{%- endfor -%}
+          <span>{{ rv }} · {{ rc }} reviews</span>
+        </div>
+      {%- endif -%}
+      {%- if product.metafields.custom.dispatch_note != blank -%}<p class="nadh-dispatch"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="12" height="9" rx="1"/><path d="M14.5 10h4l2.5 3v3h-6.5z"/><circle cx="6.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg><span>{{ product.metafields.custom.dispatch_note }}</span></p>{%- endif -%}
+      <button type="button" class="nadh-cta" id="nadcta-{{ section.id }}" data-vid="{{ v.id }}" data-label="{{ section.settings.cta_text | escape }}" onclick="nadAdd(this,{{ v.id }},'{{ section.id }}')" {% unless v.available %}disabled{% endunless %}>
+        {%- if v.available -%}{{ section.settings.cta_text }}{%- else -%}Sold out{%- endif -%}
+      </button>
+      <p class="nadh-trust">{{ section.settings.trust_line }}</p>
+      {%- if product.requires_selling_plan and customer == blank -%}
+        <div class="nadh-viplogin"><span>Already a VIP?</span><a href="/account/login?return_url={{ product.url | url_encode }}">Log in for your free shipping &rarr;</a></div>
+      {%- endif -%}
+      {%- unless product.requires_selling_plan -%}
+        {%- if customer and customer.tags contains 'VIP' -%}
+          <div class="nadh-vipup nadh-vipmem">
+            <span class="nadh-vipup-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7.5l4.2 3.2L12 4l4.8 6.7L21 7.5V18H3z"/></svg></span>
+            <span class="nadh-vipup-txt"><b>You're a VIP{% if customer.first_name != blank %}, {{ customer.first_name }}{% endif %} &mdash; shipping is FREE</b>Free delivery on this order, and every order for the rest of your VIP year.</span>
+          </div>
+        {%- else -%}
+          <a class="nadh-vipup" href="/products/theskinbay-vip-club-exclusive-premium-gift-set">
+            <span class="nadh-vipup-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7.5l4.2 3.2L12 4l4.8 6.7L21 7.5V18H3z"/></svg></span>
+            <span class="nadh-vipup-txt"><b>A whole year of free shipping</b>Become a VIP for unlimited free delivery, plus an exclusive SkinCeuticals welcome gift.</span>
+            <span class="nadh-vipup-cta">Upgrade &rarr;</span>
+          </a>
+        {%- endif -%}
+      {%- endunless -%}
+      {%- if product.vendor == 'La Roche-Posay' -%}<div class="nadh-cancer">{% render 'cancer-support-banner' %}</div>{%- endif -%}
+      {%- comment -%} Above-the-fold quick reference: how to use + INCI (legal) {%- endcomment -%}
+      {%- assign nad_htu = product.metafields.custom.how_to_use -%}
+      {%- assign nad_inci = product.metafields.custom.ingredients_inci -%}
+      {%- if nad_inci == blank -%}{%- assign nad_inci = product.metafields.custom.ingredients -%}{%- endif -%}
+      {%- if nad_inci == blank -%}{%- assign nad_inci = product.metafields.custom.inci -%}{%- endif -%}
+      {%- if nad_htu != blank or nad_inci != blank -%}
+        <div class="nadh-acc">
+          {%- if nad_htu != blank -%}
+            <details class="nadh-acc-i"><summary>How to use<span class="nadh-acc-x" aria-hidden="true"></span></summary><div class="nadh-acc-b">{% render 'phc-richtext', rt: nad_htu.value %}</div></details>
+          {%- endif -%}
+          {%- if nad_inci != blank -%}
+            <details class="nadh-acc-i"><summary>Ingredients (INCI)<span class="nadh-acc-x" aria-hidden="true"></span></summary><div class="nadh-acc-b nadh-acc-b--inci">{%- if nad_inci.type == 'rich_text_field' -%}{% render 'phc-richtext', rt: nad_inci.value %}{%- else -%}{{ nad_inci.value }}{%- endif -%}</div></details>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<script type="application/ld+json">
+{"@context":"https://schema.org/","@type":"Product","name":{{ product.title | json }},"image":[{{ hero_img | image_url: width: 1200 | prepend: 'https:' | json }}],"description":{{ product.description | strip_html | truncatewords: 50 | json }},"brand":{"@type":"Brand","name":{{ product.vendor | json }}},"sku":{{ v.sku | json }},{% if rc > 0 %}"aggregateRating":{"@type":"AggregateRating","ratingValue":"{{ rv }}","reviewCount":"{{ rc }}"},{% endif %}"offers":{"@type":"Offer","priceCurrency":{{ cart.currency.iso_code | json }},"price":"{{ v.price | divided_by: 100.0 }}","availability":"https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}","url":"{{ shop.url }}{{ product.url }}"}}
+</script>
+<script>
+  function nadStep(gid,d){var g=document.getElementById(gid);if(!g)return;g.scrollBy({left:d*g.clientWidth,behavior:'smooth'});}
+  function nadGo(gid,i){var g=document.getElementById(gid);if(!g)return;g.scrollTo({left:i*g.clientWidth,behavior:'smooth'});}
+  (function(){var g=document.getElementById('{{ gid }}');if(!g)return;var dots=document.getElementById('{{ gid }}-dots');if(!dots)return;var bs=dots.querySelectorAll('button');var t;g.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){var i=Math.round(g.scrollLeft/g.clientWidth);bs.forEach(function(b,x){b.classList.toggle('on',x===i);});},60);});})();
+  function nadMoney(c){return '£'+(c/100).toFixed(2);}
+  function nadPick(sid,btn){var row=btn.parentNode;var sib=row.querySelectorAll('.nadh-optval');for(var i=0;i<sib.length;i++)sib[i].classList.remove('on');btn.classList.add('on');
+    var wrap=document.getElementById('nadv-'+sid);var rows=wrap.querySelectorAll('.nadh-optrow');var chosen=[];for(var j=0;j<rows.length;j++){var a=rows[j].querySelector('.nadh-optval.on');chosen.push(a?a.getAttribute('data-val'):null);}
+    var vs=JSON.parse(document.getElementById('nadvdata-'+sid).textContent);
+    var m=vs.filter(function(v){return (chosen[0]==null||v.option1===chosen[0])&&(chosen[1]==null||v.option2===chosen[1])&&(chosen[2]==null||v.option3===chosen[2]);})[0];
+    if(!m)return;
+    var now=document.getElementById('nadprice-'+sid);if(now)now.textContent=nadMoney(m.price);
+    var was=document.getElementById('nadwas-'+sid);if(was){if(m.compare_at_price&&m.compare_at_price>m.price){was.textContent=nadMoney(m.compare_at_price);was.style.display='';}else{was.style.display='none';}}
+    var cta=document.getElementById('nadcta-'+sid);if(cta){cta.setAttribute('data-vid',m.id);if(m.available){cta.disabled=false;if(cta.textContent.trim()==='Sold out')cta.textContent=cta.getAttribute('data-label')||'Add to bag';}else{cta.disabled=true;cta.textContent='Sold out';}}
+    if(m.featured_image&&m.featured_image.position){var g=document.getElementById('nadg-'+sid);if(g)g.scrollTo({left:(m.featured_image.position-1)*g.clientWidth,behavior:'smooth'});}
+  }
+  function nadAdd(b,id,grp){var o=b.textContent;var vid=b.getAttribute('data-vid')||id;var item={id:parseInt(vid,10),quantity:1};
+    if(grp){var r=document.querySelector('input[name="nadplan-'+grp+'"]:checked');if(r&&r.value){item.selling_plan=parseInt(r.value.replace(/\D/g,''),10);}}
+    b.disabled=true;b.textContent='Adding…';
+    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[item]})})
+    .then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));if(window.openCart)window.openCart();b.textContent='Added ✓';setTimeout(function(){b.disabled=false;b.textContent=o;},1600);})
+    .catch(function(){b.disabled=false;b.textContent=o;window.location.href='/cart';});}
+  function nadExp(b){var w=b.parentNode;w.classList.toggle('open');var s=b.querySelector('span'),i=b.querySelector('b');if(w.classList.contains('open')){s.textContent='Show less';i.textContent='−';}else{s.textContent='Read more';i.textContent='+';w.scrollIntoView({block:'nearest'});}}
+  (function(){function ini(){var xs=document.querySelectorAll('.nad-exp');for(var k=0;k<xs.length;k++){var w=xs[k];w.classList.add('clamp');var inr=w.querySelector('.nad-exp-in');if(inr&&inr.scrollHeight<=inr.clientHeight+2)w.classList.remove('clamp');}}
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ini);else ini();})();
+  {%- if section.settings.show_gift -%}
+  (function(){var mount=document.getElementById('nadgift-{{ section.id }}');if(!mount)return;
+    var handle=mount.dataset.handle,cols=(mount.dataset.collections||'').split(',').filter(Boolean);
+    function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function match(offers){for(var i=0;i<offers.length;i++){var o=offers[i];if(o.collection&&cols.indexOf(o.collection)>-1)return o;if(o.product&&o.product===handle)return o;}return null;}
+    function apply(offers){var o=match(offers||[]);mount.innerHTML=o?'<div class="nadh-gift"><span class="nadh-gift-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><div class="nadh-gift-body"><p class="nadh-gift-eyebrow">Complimentary gift</p>'+(o.title?'<p class="nadh-gift-title">'+esc(o.title)+'</p>':'')+(o.offer?'<p class="nadh-gift-offer">'+esc(o.offer)+'</p>':'')+'</div><a href="'+esc(o.url||'/pages/gifts')+'" class="nadh-gift-cta">View</a></div>':'';}
+    try{var cch=sessionStorage.getItem('tsbGiftOffers');if(cch)apply(JSON.parse(cch));}catch(e){}
+    fetch('/pages/gifts',{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(html){var el=new DOMParser().parseFromString(html,'text/html').getElementById('tsb-gift-offers');if(!el)return;var offers=JSON.parse(el.textContent||'[]');try{sessionStorage.setItem('tsbGiftOffers',JSON.stringify(offers));}catch(e){}apply(offers);}).catch(function(){});
+  })();
+  {%- endif -%}
+</script>
+<style>
+  .nad-hero{padding:24px 20px 34px;}
+  .nadh-wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(18px,3vw,44px);align-items:center;
+    grid-template-columns:1.02fr 1fr;grid-template-areas:"media head" "media chips" "media buy";}
+  .nadh-media{grid-area:media;margin:0;position:relative;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:26px;padding:16px;overflow:hidden;}
+  .nadh-imgwrap{position:relative;}
+  .nadh-desc{margin:16px 4px 4px;font-family:'Lato',sans-serif;font-size:14px;line-height:1.65;color:var(--onbg);opacity:.82;}
+  .nadh-gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:14px;}
+  .nadh-gallery::-webkit-scrollbar{display:none;}
+  .nadh-slide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:1/1;}
+  .nadh-slide img{width:100%;height:100%;object-fit:contain;display:block;border-radius:14px;background:#fff;}
+  .nadh-gnav{position:absolute;top:calc(50% - 16px);transform:translateY(-50%);width:38px;height:38px;border:1px solid var(--boxline,#ECE3CE);background:rgba(255,255,255,.92);color:#141414;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+  .nadh-gnav:hover{background:#fff;}
+  .nadh-gnav.prev{left:24px;}.nadh-gnav.next{right:24px;}
+  .nadh-dots{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:7px;}
+  .nadh-dots button{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:rgba(20,20,20,.28);cursor:pointer;transition:transform .15s,background .15s;}
+  .nadh-dots button.on{background:#141414;transform:scale(1.4);}
+  .nadh-badge{position:absolute;top:26px;left:26px;background:#141414;color:#fff;font-family:'Lato',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:30px;z-index:2;}
+  .nadh-head{grid-area:head;}
+  .nadh-rating{display:flex;align-items:center;gap:3px;margin-bottom:10px;}
+  .nadh-rating svg{width:17px;height:17px;fill:#d9cdae;}
+  .nadh-rating svg.on{fill:var(--onbg);}
+  .nadh-rating span{font-family:'Lato',sans-serif;font-size:12px;color:var(--onbg);margin-left:8px;letter-spacing:.02em;}
+  .nadh-banner{width:100%;max-width:520px;height:auto;display:block;margin:0 0 6px -2px;}
+  .nadh-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--onbg);margin:4px 0 6px;line-height:1.25;}
+  .nadh-eyebrow{display:block;font-family:'Lato',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 10px;}
+  .nadh-title--lg{font-size:clamp(22px,2.5vw,32px);font-weight:700;line-height:1.16;margin:0 0 12px;}
+  .nadh-tag{font-family:'Lato',sans-serif;font-size:16px;line-height:1.55;color:var(--onbg);margin:6px 0 0;max-width:460px;}
+  .nadh-chips{grid-area:chips;display:flex;flex-wrap:wrap;gap:9px;}
+  .nadh-chip{display:inline-flex;align-items:center;gap:7px;font-family:'Lato',sans-serif;font-size:13px;font-weight:600;color:#141414;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:30px;padding:8px 14px;}
+  .nadh-chip svg{width:16px;height:16px;fill:none;stroke:#141414;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .nadh-buy{grid-area:buy;display:flex;flex-direction:column;gap:12px;}
+  .nadh-gift{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--boxline,#ECE3CE);border-radius:14px;background:var(--box,#FBF6EA);margin-bottom:14px;}
+  .nadh-gift-ico{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--boxline,#ECE3CE);display:flex;align-items:center;justify-content:center;color:var(--onbg);}
+  .nadh-gift-ico svg{width:18px;height:18px;}
+  .nadh-gift-body{flex:1;min-width:0;}
+  .nadh-gift-eyebrow{font-family:'Lato',sans-serif;font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 2px;}
+  .nadh-gift-title{font-family:'Lato',sans-serif;font-size:13px;font-weight:700;color:var(--onbg);margin:0 0 1px;line-height:1.25;}
+  .nadh-gift-offer{font-family:'Lato',sans-serif;font-size:11.5px;line-height:1.4;color:var(--onbg);opacity:.75;margin:0;}
+  .nadh-gift-cta{flex:0 0 auto;padding:8px 14px;border-radius:30px;background:#141414;color:#fff!important;font-family:'Lato',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+  @media(max-width:600px){.nadh-gift{flex-wrap:wrap;}.nadh-gift-cta{width:100%;text-align:center;margin-top:4px;}}
+  .nad-exp-in{transition:max-height .25s ease;}
+  .nad-exp.clamp .nad-exp-in{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}
+  .nad-exp.clamp.open .nad-exp-in{display:block;overflow:visible;}
+  .nad-exp-btn{margin-top:12px;display:none;align-items:center;gap:7px;background:none;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--onbg,#141414);padding:0;}
+  .nad-exp.clamp .nad-exp-btn{display:inline-flex;}
+  .nad-exp-btn b{font-size:17px;line-height:1;}
+  .nadh-variants{display:flex;flex-direction:column;gap:12px;margin-bottom:2px;}
+  .nadh-optrow{display:flex;flex-direction:column;gap:8px;}
+  .nadh-optlabel{font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--onbg);opacity:.65;}
+  .nadh-optvals{display:flex;flex-wrap:wrap;gap:8px;}
+  .nadh-optval{cursor:pointer;font-family:'Lato',sans-serif;font-size:13px;font-weight:600;color:var(--onbg);background:var(--box,#FBF6EA);border:1.5px solid var(--boxline,#ECE3CE);border-radius:30px;padding:9px 16px;transition:border-color .15s ease,background .15s ease;}
+  .nadh-optval:hover{border-color:var(--onbg);}
+  .nadh-optval.on{border-color:var(--onbg);background:#fff;font-weight:700;}
+  .nadh-plans{display:flex;flex-direction:column;gap:8px;}
+  .nadh-plan{display:flex;align-items:center;gap:10px;font-family:'Lato',sans-serif;font-size:14px;color:#141414;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:12px;padding:12px 15px;cursor:pointer;transition:border-color .15s,background .15s;}
+  .nadh-plan:has(input:checked){border-color:#141414;background:#fff;}
+  .nadh-plan input{accent-color:#141414;width:16px;height:16px;}
+  .nadh-plan-t em{font-style:normal;color:var(--acctext,#141414);background:var(--accent,#F6C21A);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-left:6px;white-space:nowrap;}
+  .nadh-price{display:flex;align-items:baseline;gap:12px;}
+  .nadh-now{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--onbg);line-height:1;}
+  .nadh-was{font-family:'Lato',sans-serif;font-size:18px;color:var(--onbg);opacity:.55;text-decoration:line-through;}
+  .nadh-cta{appearance:none;border:none;cursor:pointer;background:#141414;color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:18px 26px;border-radius:40px;transition:transform .15s ease,background .2s ease;}
+  .nadh-cta:hover{background:#000;transform:translateY(-1px);}
+  .nadh-cta:disabled{opacity:.5;cursor:default;transform:none;}
+  .nadh-trust{font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.02em;color:var(--onbg);opacity:.8;margin:2px 0 0;}
+  .nadh-viplogin{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:4px;padding:12px 15px;border:1px solid var(--boxline,#ECE3CE);border-radius:12px;background:var(--box,#FBF6EA);font-family:'Lato',sans-serif;font-size:13px;}
+  .nadh-viplogin span{font-weight:700;color:var(--onbg);}
+  .nadh-viplogin a{color:var(--onbg);font-weight:800;text-decoration:underline;white-space:nowrap;}
+  .nadh-vipup{display:flex;align-items:center;gap:12px;margin-top:6px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#0b1c3e,#050e1f);border:1px solid #d4af37;text-decoration:none;transition:transform .15s ease,box-shadow .2s ease;}
+  .nadh-vipup:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(11,28,62,.35);}
+  .nadh-vipup-ico{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:rgba(212,175,55,.16);display:flex;align-items:center;justify-content:center;color:#d4af37;}
+  .nadh-vipup-ico svg{width:19px;height:19px;}
+  .nadh-vipup-txt{flex:1;min-width:0;font-family:'Lato',sans-serif;font-size:11.5px;line-height:1.42;color:rgba(255,255,255,.82);}
+  .nadh-vipup-txt b{display:block;font-size:13px;color:#fff;font-weight:800;margin-bottom:1px;}
+  .nadh-vipup-cta{flex:0 0 auto;font-family:'Lato',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#d4af37;white-space:nowrap;}
+  .nadh-vipmem{background:linear-gradient(135deg,#fbf3d9,#f3e4b6);border:1px solid #d4af37;cursor:default;}
+  .nadh-vipmem:hover{transform:none;box-shadow:none;}
+  .nadh-vipmem .nadh-vipup-ico{background:#d4af37;color:#0b1c3e;}
+  .nadh-vipmem .nadh-vipup-txt{color:#6b5820;}
+  .nadh-vipmem .nadh-vipup-txt b{color:#0b1c3e;}
+  .nadh-dispatch{display:flex;align-items:center;gap:9px;font-family:'Lato',sans-serif;font-size:12.5px;line-height:1.4;font-weight:600;color:var(--onbg);background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:12px;padding:11px 14px;margin:0;}
+  .nadh-dispatch svg{flex:0 0 15px;}
+  .nadh-cancer{margin-top:8px;}
+  .nadh-acc{display:flex;flex-direction:column;border-top:1px solid var(--boxline,#ECE3CE);margin-top:6px;}
+  .nadh-acc-i{border-bottom:1px solid var(--boxline,#ECE3CE);}
+  .nadh-acc-i summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 2px;font-family:'Lato',sans-serif;font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--onbg);}
+  .nadh-acc-i summary::-webkit-details-marker{display:none;}
+  .nadh-acc-x{position:relative;width:13px;height:13px;flex:0 0 13px;}
+  .nadh-acc-x::before,.nadh-acc-x::after{content:'';position:absolute;background:var(--onbg);transition:transform .2s ease;}
+  .nadh-acc-x::before{top:5.5px;left:0;width:13px;height:2px;}
+  .nadh-acc-x::after{left:5.5px;top:0;width:2px;height:13px;}
+  .nadh-acc-i[open] .nadh-acc-x::after{transform:scaleY(0);}
+  .nadh-acc-b{padding:0 2px 16px;font-family:'Lato',sans-serif;font-size:14px;line-height:1.6;color:var(--onbg);opacity:.9;}
+  .nadh-acc-b p{margin:0 0 8px;}.nadh-acc-b p:last-child{margin-bottom:0;}
+  .nadh-acc-b ul,.nadh-acc-b ol{margin:0 0 8px;padding-left:18px;}
+  .nadh-acc-b--inci{font-size:12.5px;line-height:1.7;word-break:break-word;opacity:.78;}
+  @media(max-width:849px){
+    .nadh-wrap{grid-template-columns:1fr;grid-template-areas:"head" "media" "chips" "buy";gap:18px;}
+    .nadh-media{padding:12px;border-radius:20px;}
+    .nadh-banner{max-width:440px;margin-left:0;}
+    .nadh-now{font-size:30px;}
+    .nadh-cta{width:100%;}
+    .nadh-gnav{display:none;}
+  }
+</style>
+{% schema %}
+{
+  "name": "NAD · Hero",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#F6C21A" },
+    { "type": "color", "id": "on_bg", "label": "Text on background", "default": "#141414" },
+    { "type": "color", "id": "box_bg", "label": "Box background", "default": "#FBF6EA" },
+    { "type": "color", "id": "box_border", "label": "Box border", "default": "#ECE3CE" },
+    { "type": "color", "id": "accent", "label": "Accent", "default": "#F6C21A" },
+    { "type": "color", "id": "acctext", "label": "Accent text", "default": "#141414" },
+    { "type": "color", "id": "accent2", "label": "Accent on dark cards", "default": "#F6C21A" },
+    { "type": "color", "id": "card", "label": "Dark card background", "default": "#10233B" },
+    { "type": "color", "id": "tickcheck", "label": "Tick check", "default": "#10233B" },
+    { "type": "checkbox", "id": "show_gift", "label": "Show gift box (from Gifts page)", "default": false },
+    { "type": "checkbox", "id": "chips_from_highlights", "label": "Chips from product highlights", "default": false },
+    { "type": "select", "id": "headline_style", "label": "Headline style", "default": "banner", "options": [{"value":"banner","label":"Banner image"},{"value":"title","label":"Product title text"}] },
+    { "type": "text", "id": "header_image", "label": "Header image file (blank = default)" },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Look younger, feel stronger, live better. Pharmaceutical-grade NAD+ replenished at home." },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "Add to bag" },
+    { "type": "text", "id": "trust_line", "label": "Trust line", "default": "ISO-certified labs · ~100% bioavailability · Discreet, tracked UK dispatch" }
+  ],
+  "blocks": [
+    { "type": "chip", "name": "Benefit chip", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "default": "bolt",
+        "options": [{"value":"bolt","label":"Energy"},{"value":"sparkle","label":"Skin"},{"value":"brain","label":"Clarity"},{"value":"clock","label":"Longevity"}] },
+      { "type": "text", "id": "label", "label": "Label", "default": "Energy" }
+    ]}
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "NAD · Hero", "blocks": [
+    { "type": "chip", "settings": { "icon": "bolt", "label": "Energy" } },
+    { "type": "chip", "settings": { "icon": "sparkle", "label": "Skin renewal" } },
+    { "type": "chip", "settings": { "icon": "brain", "label": "Clarity" } },
+    { "type": "chip", "settings": { "icon": "clock", "label": "Longevity" } }
+  ]}]
+}
+{% endschema %}

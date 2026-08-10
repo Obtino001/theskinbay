@@ -1,0 +1,138 @@
+{%- comment -%} Perfect Pairing, buy this product together with a matched product {%- endcomment -%}
+{%- liquid
+  assign paired = product.metafields.custom.paired_product.value
+  assign reason_tag = product.metafields.custom.paired_reason_tag | default: 'Perfectly Paired'
+  assign reason_desc = product.metafields.custom.paired_reason_desc
+  assign cleanser = product.metafields.custom.cleanser_upsell.value
+-%}
+{%- if paired != blank and paired.available or cleanser != blank and cleanser.available -%}
+  {%- assign this_var = product.selected_or_first_available_variant -%}
+  {%- assign pair_var = paired.selected_or_first_available_variant -%}
+  {%- assign total = this_var.price | plus: pair_var.price -%}
+  {%- assign this_save = 0 -%}{%- if this_var.compare_at_price > this_var.price -%}{%- assign this_save = this_var.compare_at_price | minus: this_var.price -%}{%- endif -%}
+  {%- assign pair_save = 0 -%}{%- if pair_var.compare_at_price > pair_var.price -%}{%- assign pair_save = pair_var.compare_at_price | minus: pair_var.price -%}{%- endif -%}
+  {%- assign total_save = this_save | plus: pair_save -%}
+  {%- assign orig_total = total | plus: total_save -%}
+
+<section class="pp-wrap" data-section-id="{{ section.id }}">
+  {%- if paired != blank and paired.available -%}
+  <div class="pp-box">
+
+    <div class="pp-head">
+      <span class="pp-eyebrow">Perfect Pairing</span>
+      <span class="pp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {{ reason_tag }}
+      </span>
+    </div>
+
+    <div class="pp-row">
+      {%- comment -%} THIS ITEM {%- endcomment -%}
+      <div class="pp-item">
+        <a href="{{ product.url }}" class="pp-img">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" width="88" height="88" loading="lazy">{% endif %}</a>
+        <div class="pp-info">
+          <p class="pp-role">This item</p>
+          <p class="pp-vendor">{{ product.vendor }}</p>
+          <p class="pp-title">{{ product.title }}</p>
+          <p class="pp-price">{{ this_var.price | money }}</p>
+        </div>
+      </div>
+
+      <div class="pp-plus">+</div>
+
+      {%- comment -%} PAIRED ITEM {%- endcomment -%}
+      <div class="pp-item">
+        <a href="{{ paired.url }}" class="pp-img">{% if paired.featured_image %}<img src="{{ paired.featured_image | image_url: width: 200 }}" alt="{{ paired.title | escape }}" width="88" height="88" loading="lazy">{% endif %}</a>
+        <div class="pp-info">
+          <p class="pp-role">Pairs with</p>
+          <p class="pp-vendor">{{ paired.vendor }}</p>
+          <a href="{{ paired.url }}" class="pp-title pp-title-link">{{ paired.title }}</a>
+          <p class="pp-price">{{ pair_var.price | money }}</p>
+        </div>
+      </div>
+    </div>
+
+    {%- if reason_desc != blank -%}
+    <div class="pp-reason">{{ reason_desc }}</div>
+    {%- endif -%}
+
+    <div class="pp-foot">
+      <div class="pp-total-wrap">
+        <span class="pp-total-label">Combined total</span>
+        <span class="pp-total-nums">
+          {%- if total_save > 0 -%}<span class="pp-was">{{ orig_total | money }}</span>{%- endif -%}
+          <span class="pp-total">{{ total | money }}</span>
+          {%- if total_save > 0 -%}<span class="pp-save">Save {{ total_save | money }}</span>{%- endif -%}
+        </span>
+      </div>
+      <button type="button" class="pp-btn" onclick="ppCheckout(this, {{ this_var.id }}, {{ pair_var.id }})">Checkout Now</button>
+    </div>
+
+  {%- endif -%}
+  {%- if cleanser != blank and cleanser.available -%}{%- assign clv = cleanser.selected_or_first_available_variant -%}
+  <div class="pp-box" style="margin-top:20px;">
+    <div class="pp-head"><span class="pp-eyebrow">Complimenting Cleanser</span><span class="pp-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Start Your Routine</span></div>
+    <div class="pgc-body2"><a href="{{ cleanser.url }}" class="pgc-img2">{% if cleanser.featured_image %}<img src="{{ cleanser.featured_image | image_url: width: 200 }}" width="84" height="84" loading="lazy" alt="{{ cleanser.title | escape }}">{% endif %}</a><div class="pp-info"><p class="pp-role">Cleanse First</p><p class="pp-vendor">{{ cleanser.vendor }}</p><a href="{{ cleanser.url }}" class="pp-title pp-title-link">{{ cleanser.title }}</a><p class="pp-price">{{ clv.price | money }}</p></div></div>
+    <div class="pp-reason">Cleansing is the first, and most important, step of any good routine, it preps the skin so everything you apply after works harder.</div>
+    <div class="pp-foot"><button type="button" class="pp-btn" onclick="pgcAdd(this, {{ clv.id }})">Add Cleanser</button></div>
+  </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .pp-wrap { max-width: 1100px; margin: 44px auto; padding: 0 24px; }
+  .pp-box { border: 1px solid #e6e0d5; border-radius: 6px; background: #fff; overflow: hidden; font-family: 'Lato', sans-serif; }
+  .pp-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid #efe9df; }
+  .pp-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .26em; text-transform: uppercase; color: #141414; }
+  .pp-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #b08d3f; }
+  .pp-tag svg { width: 13px; height: 13px; }
+  .pp-row { display: grid; grid-template-columns: 1fr 24px 1fr; align-items: start; gap: 6px; padding: 20px 18px; }
+  .pp-item { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
+  .pp-img { flex-shrink: 0; display: block; }
+  .pp-img img { width: 84px; height: 84px; object-fit: cover; background: #fff; border-radius: 4px; display: block; }
+  .pp-info { min-width: 0; }
+  .pp-role { font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #a89f8f; margin: 0 0 4px; }
+  .pp-vendor { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #8a8478; margin: 0 0 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pp-title { font-size: 12px; line-height: 1.35; color: #141414; margin: 0 0 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pp-title-link { text-decoration: none; } .pp-title-link:hover { text-decoration: underline; }
+  .pp-price { font-size: 12.5px; font-weight: 700; color: #141414; margin: 0; }
+  .pp-plus { display: flex; align-items: center; justify-content: center; padding-top: 28px; color: #b7ae9e; font-size: 18px; font-weight: 300; }
+  .pp-reason { padding: 12px 18px; background: #f9f3ed; border-top: 1px solid #efe9df; font-size: 11.5px; line-height: 1.6; color: #6b6459; }
+  .pp-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border-top: 1px solid #efe9df; flex-wrap: wrap; }
+  .pp-total-label { display: block; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #8a8478; margin-bottom: 4px; }
+  .pp-total-nums { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+  .pp-was { font-size: 12px; text-decoration: line-through; color: #b7ae9e; }
+  .pp-total { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; color: #141414; }
+  .pp-save { font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #b08d3f; }
+  .pp-btn { flex: 1; min-width: 180px; max-width: 280px; padding: 15px 22px; background: #141414; color: #fff; border: none; border-radius: 40px; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+  .pp-btn:hover { background: #333; }
+  .pp-btn.pp-loading { opacity: .6; pointer-events: none; }
+  @media (max-width: 600px) {
+    .pp-wrap { padding: 0 16px; }
+    .pp-row { padding: 16px 12px; grid-template-columns: 1fr 16px 1fr; gap: 4px; }
+    .pp-item { flex-direction: column; gap: 8px; }
+    .pp-img img { width: 100%; height: auto; aspect-ratio: 1/1; }
+    .pp-plus { padding-top: 40px; }
+    .pp-foot { flex-direction: column; align-items: stretch; gap: 12px; }
+    .pp-btn { max-width: none; width: 100%; }
+  }
+  .pgc-body2{display:flex;gap:12px;align-items:center;padding:20px 18px;}
+  .pgc-img2{flex-shrink:0;}.pgc-img2 img{width:84px;height:84px;object-fit:cover;border-radius:4px;display:block;background:#faf9f7;}
+  @media (min-width: 750px){ .pp-wrap { display: none !important; } }
+</style>
+
+<script>
+  function ppCheckout(btn, v1, v2) {
+    btn.classList.add('pp-loading'); btn.textContent = 'Adding…';
+    fetch('/cart/add.js', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ items:[{id:v1,quantity:1},{id:v2,quantity:1}] }) })
+      .then(function(r){ if(!r.ok) throw new Error('add failed'); window.location.href='/checkout'; })
+      .catch(function(){ btn.classList.remove('pp-loading'); btn.textContent='Checkout Now'; alert('Sorry, something went wrong adding these to your bag.'); });
+  }
+  function pgcAdd(b,id){b.classList.add('pp-loading');b.textContent='Adding…';fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:id,quantity:1}]})}).then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));if(window.openCart)window.openCart();b.textContent='Added';setTimeout(function(){b.classList.remove('pp-loading');b.textContent='Add Cleanser';},1600);}).catch(function(){b.classList.remove('pp-loading');b.textContent='Add Cleanser';alert('Sorry, could not add that.');});}
+</script>
+{%- endif -%}
+
+{% schema %}
+{ "name": "PDP · Perfect Pairing", "settings": [], "presets": [{ "name": "PDP · Perfect Pairing" }] }
+{% endschema %}

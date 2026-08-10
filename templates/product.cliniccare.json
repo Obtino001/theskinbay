@@ -1,0 +1,349 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "icon": "shield",
+            "label": "SPF50+"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "icon": "sparkle",
+            "label": "Corrective"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "icon": "drop",
+            "label": "Hydrating"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "icon": "clock",
+            "label": "Daily use"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "box_bg": "#F3F3F1",
+        "box_border": "#E5E5E2",
+        "accent": "#141414",
+        "acctext": "#FFFFFF",
+        "accent2": "#FFFFFF",
+        "card": "#141414",
+        "tickcheck": "#FFFFFF",
+        "show_gift": true,
+        "chips_from_highlights": true,
+        "header_image": "nad-h-hero-cc.png",
+        "tagline": "Professional, EGF-powered skincare, formulated for visible results and simple to use at home.",
+        "cta_text": "Add to bag",
+        "trust_line": "EGF technology \u00b7 Dermatologically developed \u00b7 Discreet, tracked UK dispatch"
+      }
+    },
+    "nad_trust": {
+      "type": "nad-trust",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "lab",
+            "title": "Dermatologist-developed",
+            "sub": "Professional-grade"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "EGF technology",
+            "sub": "Growth-factor science"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "drop",
+            "title": "Hydration-first",
+            "sub": "Kind to skin"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Discreet UK dispatch",
+            "sub": "Tracked delivery"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "bg": "#ffffff"
+      }
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "blocks": {
+        "b1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "EGF-powered",
+            "text": "Growth-factor technology that supports real skin renewal."
+          }
+        },
+        "b2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Visible results",
+            "text": "Formulated to improve tone, texture and radiance over time."
+          }
+        },
+        "b3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "drop",
+            "title": "Hydrates & protects",
+            "text": "Comfortable, skin-loving formulas that respect your barrier."
+          }
+        },
+        "b4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clock",
+            "title": "For every day",
+            "text": "Designed to slot easily into your morning or evening routine."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "intro": "ClinicCare pairs clinical, growth-factor science with elegant, easy-to-use formulas. Professional results, at home."
+      }
+    },
+    "nad_video": {
+      "type": "nad-productvideo",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "eyebrow": "SEE IT IN ACTION",
+        "heading": "Watch how it works"
+      }
+    },
+    "nad_science": {
+      "type": "nad-science",
+      "settings": {
+        "bg": "#ffffff",
+        "use_metafield": true,
+        "body": "<p>Professional, growth-factor skincare designed to deliver visible, lasting results.</p>",
+        "insight": ""
+      }
+    },
+    "nad_howto": {
+      "type": "nad-howto",
+      "settings": {
+        "bg": "#ffffff",
+        "hide_if_video": true,
+        "kit_heading": "",
+        "note": "Patch test before first use. For external use only, avoid the direct eye area. Always follow with SPF in the morning."
+      }
+    },
+    "nad_breaker": {
+      "type": "nad-breaker",
+      "settings": {
+        "bg": "#ffffff",
+        "colour": "black"
+      }
+    },
+    "nad_founder": {
+      "type": "nad-founder",
+      "settings": {
+        "bg": "#ffffff",
+        "quote": "ClinicCare is the professional line I reach for daily. Real, growth-factor science that genuinely shows on your skin.",
+        "signature": "Emmalee x",
+        "role": "Founder, theskinbay"
+      }
+    },
+    "nad_crosssell": {
+      "type": "nad-crosssell",
+      "settings": {
+        "bg": "#ffffff",
+        "collection": "cliniccare",
+        "cross_category": false,
+        "more_heading": "Pairs well with",
+        "max_products": 4,
+        "view_all_url": "/collections/cliniccare",
+        "view_all_text": "Shop all ClinicCare"
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is EGF?",
+            "a": "<p>EGF (Epidermal Growth Factor) is a protein that signals skin cells to renew and repair. ClinicCare uses it to support firmer, smoother, healthier-looking skin.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Is it suitable for my skin type?",
+            "a": "<p>ClinicCare is formulated for a range of skin types. Check the product description for specifics, and patch test before first use.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How soon will I see results?",
+            "a": "<p>Skincare rewards consistency. Many people notice improvements in tone and texture within 4 to 6 weeks of regular use.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I use it?",
+            "a": "<p>See the how-to-use section above. As a rule, apply to clean skin as part of your morning or evening routine.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I use it with other products?",
+            "a": "<p>Yes. Layer thinnest to thickest, and always finish with SPF in the morning.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "q": "How should I store it?",
+            "a": "<p>Keep it somewhere cool and dry, out of direct sunlight, with the lid closed.</p>"
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "q": "How is it delivered?",
+            "a": "<p>Discreetly and tracked across the UK.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7"
+      ],
+      "settings": {
+        "bg": "#ffffff"
+      }
+    },
+    "nad_if_a": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#ffffff",
+        "image_index": 2,
+        "layout": "left",
+        "eyebrow": "IN YOUR ROUTINE",
+        "heading": "Made for real, everyday use",
+        "body": "<p>Elegant textures and simple steps, designed to fit effortlessly into your morning and evening routine.</p>"
+      }
+    },
+    "nad_if_b": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#ffffff",
+        "image_index": 4,
+        "layout": "right",
+        "eyebrow": "THE DETAIL",
+        "heading": "Considered, clinical formulation",
+        "body": "<p>Every ClinicCare formula is developed to professional standards, then made simple enough to fit your everyday routine.</p>"
+      }
+    },
+    "nad_bundle": {
+      "type": "nad-bundle",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "heading": "Bundle includes"
+      }
+    },
+    "nad_brand_banner": {
+      "type": "nad-brand-banner",
+      "settings": {
+        "bg": "#ffffff",
+        "asset_file": "cc-brand-banner.jpg",
+        "alt": "ClinicCare",
+        "max_width": 1600
+      }
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_bundle",
+    "nad_trust",
+    "nad_benefits",
+    "nad_if_a",
+    "nad_video",
+    "nad_science",
+    "nad_if_b",
+    "nad_howto",
+    "nad_breaker",
+    "nad_founder",
+    "nad_crosssell",
+    "nad_faq",
+    "nad_brand_banner"
+  ]
+}

@@ -1,0 +1,520 @@
+<style>
+  .lf-cp *, .lf-cp *::before, .lf-cp *::after { box-sizing: border-box; }
+  .lf-cp a { text-decoration: none; }
+
+  /* ── Hero ───────────────────────────────────────────── */
+  .lf-cp-hero {
+    background: #0b1225;
+    padding: 88px 40px 80px;
+    text-align: center;
+  }
+  .lf-cp-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    display: block;
+    margin-bottom: 18px;
+  }
+  .lf-cp-hero-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 18px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .lf-cp-hero-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .lf-cp-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 22px;}
+  .lf-cp-ibanner{display:block;width:100%;max-width:680px;height:auto;margin:0 0 20px;}
+  .lf-cp-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* ── Contact method cards ───────────────────────────── */
+  .lf-cp-methods {
+    background: #faf8f5;
+    border-top: 1px solid rgba(0,0,0,.06);
+    padding: 72px 40px;
+  }
+  .lf-cp-methods-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .lf-cp-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,.07);
+    border: 1px solid rgba(0,0,0,.07);
+  }
+  .lf-cp-card {
+    background: #fff;
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    transition: background 0.18s;
+    color: #111;
+  }
+  a.lf-cp-card:hover { background: #faf8f5; }
+  .lf-cp-card-icon {
+    width: 36px;
+    height: 36px;
+    color: #0b1225;
+    flex-shrink: 0;
+  }
+  .lf-cp-card-icon svg { width: 100%; height: 100%; display: block; }
+  .lf-cp-card-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+  }
+  .lf-cp-card-desc {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+  .lf-cp-card-action {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0b1225;
+    border-bottom: 1px solid #0b1225;
+    padding-bottom: 2px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  /* ── Info strip ─────────────────────────────────────── */
+  .lf-cp-info {
+    background: #0b1225;
+    padding: 40px;
+  }
+  .lf-cp-info-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .lf-cp-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .lf-cp-info-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  .lf-cp-info-value {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+  .lf-cp-info-value a {
+    color: rgba(255,255,255,0.75);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
+  }
+  .lf-cp-info-value a:hover { color: #fff; border-color: #fff; }
+
+  /* ── Form + side ────────────────────────────────────── */
+  .lf-cp-body {
+    background: #fff;
+    padding: 80px 40px;
+    border-top: 1px solid rgba(0,0,0,.06);
+  }
+  .lf-cp-body-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 80px;
+    align-items: start;
+  }
+  .lf-cp-section-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .lf-cp-section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 400;
+    color: #111;
+    margin: 0 0 36px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .lf-cp-section-heading em { font-style: italic; }
+
+  /* Form fields */
+  .lf-cp-field { margin-bottom: 16px; }
+  .lf-cp-input,
+  .lf-cp-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e0e0e0;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #111;
+    background: #faf8f5;
+    outline: none;
+    border-radius: 0;
+    transition: border-color 0.18s, background 0.18s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .lf-cp-input:focus,
+  .lf-cp-textarea:focus {
+    border-color: #0b1225;
+    background: #fff;
+  }
+  .lf-cp-input::placeholder,
+  .lf-cp-textarea::placeholder { color: rgba(0,0,0,0.35); }
+  .lf-cp-textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+  .lf-cp-success {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: #2a7a4b;
+    background: #f0faf4;
+    border: 1px solid #b6dfc8;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .lf-cp-error {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: #b00020;
+    background: #fff5f5;
+    border: 1px solid #f5c0c0;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .lf-cp-submit {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: #0b1225;
+    color: #fff;
+    border: 1px solid #0b1225;
+    padding: 16px 40px;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    margin-top: 8px;
+  }
+  .lf-cp-submit:hover {
+    background: transparent;
+    color: #0b1225;
+  }
+
+  /* Side column */
+  .lf-cp-side { display: flex; flex-direction: column; gap: 48px; }
+  .lf-cp-sms-box {
+    background: #faf8f5;
+    border: 1px solid rgba(0,0,0,.08);
+    padding: 32px;
+  }
+  .lf-cp-sms-intro {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.7;
+    margin: 0 0 20px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 1023px) {
+    .lf-cp-cards { grid-template-columns: repeat(2, 1fr); }
+    .lf-cp-body-inner { grid-template-columns: 1fr; gap: 52px; }
+  }
+  @media (max-width: 749px) {
+    .lf-cp-hero { padding: 60px 24px 52px; }
+    .lf-cp-methods { padding: 52px 20px; }
+    .lf-cp-cards { grid-template-columns: 1fr 1fr; }
+    .lf-cp-info { padding: 32px 20px; }
+    .lf-cp-info-inner { gap: 24px; }
+    .lf-cp-body { padding: 52px 20px; }
+  }
+  @media (max-width: 479px) {
+    .lf-cp-cards { grid-template-columns: 1fr; }
+  }
+  .lf-cp-founder{background:#F9F3ED;padding:26px 22px;}
+  .lf-cp-founder-inner{max-width:880px;margin:0 auto;display:flex;gap:22px;align-items:center;}
+  .lf-cp-founder-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;flex:0 0 auto;box-shadow:0 4px 16px rgba(0,0,0,.1);}
+  .lf-cp-founder-kicker{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:#8a8377;margin:0 0 8px;}
+  .lf-cp-founder-quote{font-family:'Lato',sans-serif;font-style:italic;font-size:15.5px;line-height:1.62;color:#413d36;margin:0 0 10px;max-width:640px;}
+  .lf-cp-founder-name{font-family:'Playfair Display',cursive;font-weight:700;font-size:20px;color:#141414;margin:0 0 8px;}
+  .lf-cp-founder-social{font-family:'Lato',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#141414;border-bottom:1px solid #141414;padding-bottom:2px;}
+  .lf-cp-founder-social:hover{color:#8a8377;border-color:#8a8377;}
+  @media (max-width:749px){ .lf-cp-founder-inner{flex-direction:column;text-align:center;gap:18px;} .lf-cp-founder-photo{width:104px;height:104px;} }
+</style>
+
+<div class="lf-cp">
+
+  {%- comment -%}── Hero ────────────────────────────────────────{%- endcomment -%}
+  <section class="lf-cp-hero">
+    {%- if section.settings.header_image != blank -%}
+      <img class="lf-cp-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="lf-cp-hero-heading lf-cp-vh">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+    {%- else -%}
+      <span class="lf-cp-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="lf-cp-hero-heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    <p class="lf-cp-hero-body">{{ section.settings.hero_body }}</p>
+  </section>
+
+  {%- comment -%}── Founder note ────────────────────────────────{%- endcomment -%}
+  <section class="lf-cp-founder">
+    <div class="lf-cp-founder-inner">
+      <img class="lf-cp-founder-photo" src="{{ 'email-founder-emmalee.jpg' | asset_url }}" alt="Emmalee Fitton, Founder of The Skin Bay" width="120" height="120" loading="lazy">
+      <div class="lf-cp-founder-text">
+        <p class="lf-cp-founder-kicker">A Note From Our Founder</p>
+        <p class="lf-cp-founder-quote">Worried about your order? Contact the shop and speak to our staff. Want dedicated skincare advice? Book a consultation. Any other questions? Don&rsquo;t hesitate to email us, we&rsquo;re always happy to help.</p>
+        <p class="lf-cp-founder-name">Emmalee</p>
+        <a class="lf-cp-founder-social" href="/pages/social">More from our socials &#8250;</a>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}── Contact method cards ────────────────────────{%- endcomment -%}
+  <section class="lf-cp-methods">
+    <div class="lf-cp-methods-inner">
+      <div class="lf-cp-cards">
+
+        <a href="{{ section.settings.consult_link }}" class="lf-cp-card">
+          <div class="lf-cp-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <p class="lf-cp-card-title">Book a Consultation</p>
+          <p class="lf-cp-card-desc">45 minutes with Emmalee, £20 fully redeemable. Expert skincare advice, not guesswork.</p>
+          <span class="lf-cp-card-action">Book Now</span>
+        </a>
+
+        <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="lf-cp-card">
+          <div class="lf-cp-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.13 12.6 19.79 19.79 0 0 1 1.06 4a2 2 0 0 1 1.99-2h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <p class="lf-cp-card-title">Call Us</p>
+          <p class="lf-cp-card-desc">Speak directly to the team. {{ section.settings.hours_short }}</p>
+          <span class="lf-cp-card-action">{{ section.settings.phone }}</span>
+        </a>
+
+        <div class="lf-cp-card">
+          <div class="lf-cp-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <p class="lf-cp-card-title">Live Chat</p>
+          <p class="lf-cp-card-desc">The fastest way to reach us. We use Shopify Inbox, look for the chat icon bottom right.</p>
+          <span class="lf-cp-card-action" style="cursor:default;">Shopify Inbox</span>
+        </div>
+
+        <a href="mailto:{{ section.settings.email }}" class="lf-cp-card">
+          <div class="lf-cp-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <p class="lf-cp-card-title">Email</p>
+          <p class="lf-cp-card-desc">For non-urgent queries. We aim to respond within one business day.</p>
+          <span class="lf-cp-card-action">{{ section.settings.email }}</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}── Info strip ──────────────────────────────────{%- endcomment -%}
+  <div class="lf-cp-info">
+    <div class="lf-cp-info-inner">
+      <div class="lf-cp-info-item">
+        <span class="lf-cp-info-label">Hours</span>
+        <span class="lf-cp-info-value">{{ section.settings.hours_full }}</span>
+      </div>
+      <div class="lf-cp-info-item">
+        <span class="lf-cp-info-label">Phone</span>
+        <span class="lf-cp-info-value"><a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a></span>
+      </div>
+      <div class="lf-cp-info-item">
+        <span class="lf-cp-info-label">Email</span>
+        <span class="lf-cp-info-value"><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></span>
+      </div>
+      {%- if section.settings.faq_link != blank -%}
+        <div class="lf-cp-info-item">
+          <span class="lf-cp-info-label">Quick answers</span>
+          <span class="lf-cp-info-value"><a href="{{ section.settings.faq_link }}">View our FAQ →</a></span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%}── Form + side ─────────────────────────────────{%- endcomment -%}
+  <section class="lf-cp-body" id="contact-form">
+    <div class="lf-cp-body-inner">
+
+      <div class="lf-cp-form-col">
+        <span class="lf-cp-section-label">Send a message</span>
+        <img class="lf-cp-ibanner" src="{{ 'contact-h-form.png' | asset_url }}" alt="We'll get back to you within a day.">
+        <h2 class="lf-cp-section-heading lf-cp-vh">{{ section.settings.form_heading }}</h2>
+
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="lf-cp-success">
+              Thank you, your message has been sent. We'll be in touch within one business day.
+            </div>
+          {%- elsif form.errors -%}
+            <div class="lf-cp-error">
+              Please check the fields below and try again.
+            </div>
+          {%- endif -%}
+
+          <div class="lf-cp-field">
+            <input
+              type="text"
+              name="contact[name]"
+              id="ContactFormName"
+              placeholder="Your name"
+              value="{%- if form.name -%}{{ form.name }}{%- elsif customer -%}{{ customer.name }}{%- endif -%}"
+              class="lf-cp-input"
+              required
+              autocomplete="name">
+          </div>
+
+          <div class="lf-cp-field">
+            <input
+              type="email"
+              name="contact[email]"
+              id="ContactFormEmail"
+              placeholder="Email address"
+              value="{%- if form.email -%}{{ form.email }}{%- elsif customer -%}{{ customer.email }}{%- endif -%}"
+              class="lf-cp-input"
+              required
+              autocomplete="email">
+          </div>
+
+          <div class="lf-cp-field">
+            <input
+              type="tel"
+              name="contact[phone]"
+              id="ContactFormPhone"
+              placeholder="Phone number (optional)"
+              value="{%- if form.phone -%}{{ form.phone }}{%- elsif customer -%}{{ customer.phone }}{%- endif -%}"
+              class="lf-cp-input"
+              autocomplete="tel">
+          </div>
+
+          <div class="lf-cp-field">
+            <textarea
+              name="contact[body]"
+              id="ContactFormMessage"
+              placeholder="How can we help?"
+              rows="7"
+              class="lf-cp-textarea"
+              required>{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
+          </div>
+
+          <button type="submit" class="lf-cp-submit">Send Message</button>
+        {%- endform -%}
+      </div>
+
+      <div class="lf-cp-side">
+        <div>
+          <span class="lf-cp-section-label">Stay in the loop</span>
+          <img class="lf-cp-ibanner" src="{{ 'contact-h-sms.png' | asset_url }}" alt="Exclusive offers. Direct to you.">
+          <h2 class="lf-cp-section-heading lf-cp-vh">{{ section.settings.sms_heading }}</h2>
+          <p class="lf-cp-sms-intro">{{ section.settings.sms_body }}</p>
+          <div class="lf-cp-sms-box">
+            <div class="klaviyo-form-{{ section.settings.klaviyo_form_id }}"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "text",    "id": "header_image", "label": "Header banner asset (brand-font PNG)" },
+    { "type": "text",    "id": "eyebrow",   "label": "Eyebrow",       "default": "Contact" },
+    { "type": "text",    "id": "heading",   "label": "Heading",       "default": "Get in touch." },
+    { "type": "textarea","id": "hero_body", "label": "Hero body text","default": "Expert skincare advice, help with an order, or just a question, we're here." },
+    {
+      "type": "header",
+      "content": "Contact Details"
+    },
+    { "type": "url",  "id": "consult_link","label": "Consultation booking link" },
+    { "type": "text", "id": "phone",       "label": "Phone number",             "default": "01457 321697" },
+    { "type": "text", "id": "email",       "label": "Email address",            "default": "info@theskinbay.co.uk" },
+    { "type": "text", "id": "hours_short", "label": "Hours (short, on card)",   "default": "Mon–Fri, 9am–5pm" },
+    { "type": "text", "id": "hours_full",  "label": "Hours (full, on strip)",   "default": "Monday – Friday: 9:00am – 5:00pm" },
+    { "type": "url",  "id": "faq_link",    "label": "FAQ page link" },
+    {
+      "type": "header",
+      "content": "Contact Form"
+    },
+    { "type": "inline_richtext", "id": "form_heading", "label": "Form heading", "default": "We'll get back to you <em>within a day.</em>" },
+    {
+      "type": "header",
+      "content": "SMS / Newsletter"
+    },
+    { "type": "text",    "id": "sms_heading",     "label": "SMS column heading", "default": "Exclusive offers. <em>Direct to you.</em>" },
+    { "type": "textarea","id": "sms_body",        "label": "SMS body text",      "default": "Subscribe for early-access promotions, new arrivals and skincare tips, straight to your phone or inbox." },
+    { "type": "text",    "id": "klaviyo_form_id", "label": "Klaviyo form ID",    "default": "UMQcSV" }
+  ],
+  "presets": [{ "name": "Contact Page" }]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+<style>
+  .lf-hp *, .lf-hp *::before, .lf-hp *::after { box-sizing:border-box; }
+  .lf-hp a { text-decoration:none; }
+  .lf-btn { display:inline-block; padding:13px 36px; font-family:'Lato',var(--font-body--family),sans-serif; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; text-decoration:none; border-radius:0; transition:background .18s,color .18s,border-color .18s; cursor:pointer; white-space:nowrap; line-height:1; border:1px solid transparent; }
+  .lf-btn--ghost-white { background:transparent; color:#fff; border-color:rgba(255,255,255,.4); }
+  .lf-btn--ghost-white:hover { border-color:#fff; background:rgba(255,255,255,.1); }
+
+  .lf-editorial { background:#0c0c0c; color:#fff; overflow:hidden; }
+  .lf-editorial__grid { display:grid; grid-template-columns:1fr 1fr; max-width:1500px; margin:0 auto; }
+  .lf-editorial__text { display:flex; flex-direction:column; justify-content:center; padding:80px clamp(32px,5vw,80px) 80px clamp(20px,5vw,80px); }
+  .lf-editorial__eyebrow { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.625rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.78); margin-bottom:18px; display:block; text-align:center; }
+  .lf-editorial__text .lf-hdr-banner { margin-left:auto; margin-right:auto; }
+  .lf-editorial__heading { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; line-height:1.1; letter-spacing:-.01em; color:#fff; margin:0 0 20px; }
+  .lf-editorial__heading em { font-style:italic; }
+  .lf-editorial__body { font-size:.875rem; color:rgba(255,255,255,.55); line-height:1.8; margin-bottom:40px; max-width:440px; }
+  .lf-editorial__image { position:relative; overflow:hidden; background:#1a1a1a; min-height:520px; }
+  .lf-editorial__image img { width:100%; height:100%; object-fit:cover; object-position:{{ section.settings.image_focal | default: 'center' }}; display:block; opacity:.8; }
+  .lf-editorial__img-placeholder { width:100%; height:100%; min-height:480px; background:linear-gradient(160deg,#1a1a1a,#2a2520); display:flex; align-items:center; justify-content:center; }
+
+  @media (max-width:899px) { .lf-editorial__grid { grid-template-columns:1fr; } .lf-editorial__image { display:none; } .lf-editorial__text { padding:56px 24px; align-items:center; text-align:center; } .lf-editorial__body { margin-left:auto; margin-right:auto; } .lf-editorial__text .lf-btn { align-self:center; } }
+</style>
+
+<div class="lf-hp">
+  <section class="lf-editorial">
+    <div class="lf-editorial__grid">
+    <div class="lf-editorial__text">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="lf-editorial__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.header_image != blank -%}
+        <h2 class="lf-editorial__heading" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">{{ section.settings.heading | default: 'Clinically proven. Expertly curated.' | strip_html }}</h2>
+        <img class="lf-hdr-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | default: 'Clinically proven' | strip_html | escape }}" style="display:block;width:100%;max-width:680px;height:auto;">
+      {%- else -%}
+        <h2 class="lf-editorial__heading">{{ section.settings.heading | default: 'Clinically proven.<br><em>Expertly curated.</em>' }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="lf-editorial__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+      <a href="{{ section.settings.cta_link | default: '/pages/skincare-consultation' }}" class="lf-btn lf-btn--ghost-white">
+        {{ section.settings.cta_label | default: 'Book a Consultation' }}
+      </a>
+    </div>
+    <div class="lf-editorial__image">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape | default: 'Expert skincare' }}" loading="lazy">
+      {%- else -%}
+        <div class="lf-editorial__img-placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"><circle cx="24" cy="18" r="8"/><path d="M10 42 C10 33 38 33 38 42"/></svg>
+        </div>
+      {%- endif -%}
+    </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Editorial Banner",
+  "tag": "div",
+  "settings": [
+    { "type": "text",       "id": "eyebrow", "label": "Pre-heading",  "default": "The expert difference" },
+    { "type": "textarea",   "id": "heading",  "label": "Heading",      "default": "Clinically proven.<br><em>Expertly curated.</em>" },
+    { "type": "text",       "id": "header_image", "label": "Header banner asset (blank = text)" },
+    { "type": "textarea",   "id": "body",     "label": "Body text",    "default": "Professional-grade skincare from leading dermatological brands. Every product is authentic, clinically validated, and selected by our expert team." },
+    { "type": "text",       "id": "cta_label","label": "Button label", "default": "Book a Consultation" },
+    { "type": "url",        "id": "cta_link", "label": "Button link" },
+    { "type": "image_picker","id": "image",   "label": "Image" },
+    { "type": "text",        "id": "image_focal", "label": "Image focal point (e.g. center, center top, 50% 20%)", "default": "center" }
+  ],
+  "presets": [{ "name": "Editorial Banner" }]
+}
+{% endschema %}

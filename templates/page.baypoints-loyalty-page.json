@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "lf_loyalty": {
+      "type": "lf-loyalty-page",
+      "settings": {}
+    },
+    "joy_blocks": {
+      "type": "_blocks",
+      "blocks": {
+        "joy_inline": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-in-line/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-in-line-background-color": "",
+            "joy-inline-banner-height": "fit-content",
+            "joy-in-line-content-alignment": "center",
+            "joy-in-line-title-before": "Join TheSkinBay Rewards",
+            "joy-in-line-title-after": "Welcome back, {customer_name} — you have {balance_points} points",
+            "joy-inline-heading-tag": "p",
+            "joy-in-line-font-size-heading": "1rem",
+            "joy-in-line-subheading": "Earn points on every purchase and redeem for exclusive rewards.",
+            "joy-inline-subheading-tag": "p",
+            "joy-in-line-heading-color": "#0c0c0c",
+            "joy-in-line-subheading-color": "#555",
+            "joy-in-line-primary-button-label": "Sign In",
+            "joy-in-line-primary-button-label-loggedIn": "Shop & Earn",
+            "joy-in-line-primary-button-link": "/account/login",
+            "joy-in-line-primary-button-link-loggedIn": "/collections/all",
+            "joy-in-line-secondary-button-label": "Create Account",
+            "joy-in-line-secondary-button-link": "/account/register",
+            "joy-in-line-corner-radius": 0,
+            "joy-in-line-primary-button-backgroundcolor": "#0c0c0c",
+            "joy-in-line-primary-button-color": "#ffffff",
+            "joy-in-line-secondary-button-backgroundcolor": "#C8A96A",
+            "joy-in-line-secondary-button-color": "#ffffff",
+            "joy-in-line-button-backgroundcolor-hover": "#C8A96A",
+            "joy-in-line-button-color-hover": "#ffffff",
+            "joy-inline-max-width": 100
+          }
+        },
+        "joy_how": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-how-it-works/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {}
+        },
+        "joy_redeem": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-way-to-redeem-block/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {}
+        }
+      },
+      "block_order": ["joy_inline", "joy_how", "joy_redeem"],
+      "settings": {}
+    }
+  },
+  "order": ["lf_loyalty", "joy_blocks"]
+}

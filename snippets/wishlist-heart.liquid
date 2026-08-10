@@ -1,0 +1,10 @@
+{%- comment -%} Reusable wishlist heart for product cards. Usage: {% render 'wishlist-heart', product: product %} {%- endcomment -%}
+{%- if product != blank -%}
+<button type="button" class="sb-card-wish" aria-label="Save to wishlist" aria-pressed="false"
+  data-handle="{{ product.handle }}" data-url="{{ product.url }}"
+  data-title="{{ product.title | escape }}" data-vendor="{{ product.vendor | escape }}"
+  data-img="{{ product.featured_image | image_url: width: 400 | escape }}"
+  data-price="{{ product.price | default: 0 }}" data-cprice="{{ product.compare_at_price | default: 0 }}">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+</button>
+{%- endif -%}

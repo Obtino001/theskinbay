@@ -1,0 +1,868 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_dAcfDa": {
+      "type": "hero",
+      "disabled": true,
+      "name": "t:names.hero_marquee",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Screenshot_2568-08-25_at_18.56.23.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "space-between",
+        "gap": 32,
+        "section_width": "full-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section_eaAE4F": {
+      "type": "section",
+      "blocks": {
+        "text_bxwTBP": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p></p><p><strong>SkinCeuticals — Advanced Professional Skincare</strong>Born from decades of skin cancer research at leading US universities, <strong>SkinCeuticals</strong> was established in 1997 with one clear mission: to <strong>improve skin health through advanced science</strong>. Today, they are recognized worldwide as the <strong>pioneers of antioxidant skincare</strong>, trusted by dermatologists, plastic surgeons, and medi-spas in more than 35 countries.</p><p>The brand’s philosophy is simple: <strong>Prevent. Protect. Correct.</strong></p><ul><li><strong>Prevent</strong> future skin damage with powerful antioxidants.<br/></li><li><strong>Protect</strong> the skin from environmental aggressors, especially UVA/UVB rays.<br/></li><li><strong>Correct</strong> existing concerns such as fine lines, discoloration, acne, and dullness.<br/></li></ul><p>Every product is backed by cutting-edge clinical research and formulated at pharmaceutical standards for maximum efficacy.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_bxwTBP"
+      ],
+      "disabled": true,
+      "name": "t:names.pull_quote",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-6",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "175013490371f25777": {
+      "type": "_blocks",
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "175013426953be3304": {
+      "type": "_blocks",
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "media_with_content_qTXG9P": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/23_1206_OUR_FOUNDER_LP_HERO_BANNER_D_1140x1060-cropped.jpg",
+            "link": "https://mediprodirect.book.app/book-now/availability?services=W3sicyI6MTUxMzM2MH1d",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "space-between",
+            "gap": 0
+          },
+          "blocks": {
+            "group_bxGKwU": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_KwmcXf": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h1>Dr. Sheldon R. Pinnell, MD</h1>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_nehyMG": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p><strong>SkinCeuticals’ founding scientist, Dr. Sheldon Pinnell, transformed the future of topical antioxidants through his pioneering research. His relentless pursuit of knowledge and dedication to skin science laid the foundation for SkinCeuticals’ position as the global authority on antioxidant skincare. Though Dr. Pinnell passed away in 2013, his groundbreaking work continues to inspire the brand’s research and drive its mission to develop advanced skincare solutions backed by science.</strong></p>",
+                    "width": "fit-content",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 17,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_KwmcXf",
+                "text_nehyMG"
+              ]
+            }
+          },
+          "block_order": [
+            "group_bxGKwU"
+          ]
+        }
+      },
+      "disabled": true,
+      "name": "t:names.editorial",
+      "settings": {
+        "media_position": "left",
+        "media_width": "narrow",
+        "media_height": "auto",
+        "section_width": "page-width",
+        "extend_media": true,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "media_with_content_axnjVK": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/23_1206_OUR_FOUNDER_LP_RESEARCH_MODULE_D_1260x1060_6d68a5d7-4f20-4bc8-9734-4d0d74e8a052.webp",
+            "link": "https://mediprodirect.book.app/book-now/availability?services=W3sicyI6MTUxMzM2MH1d",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "contain",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "space-between",
+            "gap": 24
+          },
+          "blocks": {
+            "group_hE7hYN": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_YfCfdj": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<p><strong>A Life Dedicated toResearch</strong></p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_feHwN9": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Dr. Pinnell’s Duke Antioxidant patent has been a driving force at SkinCeuticals since the company’s inception, but his contributions to science did not stop there. His skin science research findings have been published in peer-reviewed journals and have since been universally accepted in the dermatological community.</p>",
+                    "width": "fit-content",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_YfCfdj",
+                "text_feHwN9"
+              ]
+            }
+          },
+          "block_order": [
+            "group_hE7hYN"
+          ]
+        }
+      },
+      "disabled": true,
+      "name": "t:names.editorial",
+      "settings": {
+        "media_position": "right",
+        "media_width": "wide",
+        "media_height": "50svh",
+        "section_width": "page-width",
+        "extend_media": true,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "17501348016257a9ef": {
+      "type": "_blocks",
+      "blocks": {
+        "joy_loyalty_program_customer_account_nCyRjL": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/customer-account/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-customer-account-available-point": "Available points:",
+            "joy-customer-account-expiration-point": "Expired on:",
+            "joy-customer-account-pending-point": "Pending points:",
+            "joy-customer-account-coupon-list": "My coupons",
+            "joy-customer-account-earn-point-list": "Points history",
+            "joy-customer-account-coupon-code": "Coupon code",
+            "joy-customer-account-discount-value": "Discount value",
+            "joy-customer-account-discount-program": "Discount program",
+            "joy-customer-account-conditions": "Conditions",
+            "joy-customer-account-stackable-with": "Stackable with",
+            "joy-customer-account-expiration-date": "Expiration date",
+            "joy-customer-account-action": "Action",
+            "joy-customer-account-hide-coupon": false,
+            "joy-customer-account-hide-history": false,
+            "joy-customer-account-scroll-view-history": true,
+            "joy-customer-account-view-reward": "Apply",
+            "joy-customer-account-empty-message": "No data found",
+            "joy-customer-account-bg-color": "#ffffff",
+            "joy-customer-account-primary-text-color": "#000000",
+            "joy-customer-account-secondary-text-color": "#707070",
+            "joy-customer-account-button-text-color": "#000000",
+            "joy-customer-account-divider-color": "#dedede",
+            "joy-customer-account-wallet-modal-title": "Scan QR Code",
+            "joy-customer-account-wallet-modal-subtitle": "Scan this QR code with your phone to add the pass to your wallet"
+          }
+        }
+      },
+      "block_order": [
+        "joy_loyalty_program_customer_account_nCyRjL"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-6",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "founder_pinnell_CwBLie": {
+      "type": "founder-pinnell",
+      "blocks": {
+        "milestone_NY8iNF": {
+          "type": "milestone",
+          "settings": {
+            "year": "12+",
+            "description": "Prestigious Awards\n+ Accolades"
+          }
+        },
+        "milestone_DiyxKp": {
+          "type": "milestone",
+          "settings": {
+            "year": "1940s - 1960s",
+            "description": "Dr. Pinnell graduates from Duke University..."
+          }
+        },
+        "milestone_xT8txz": {
+          "type": "milestone",
+          "settings": {
+            "year": "200+",
+            "description": "Published Scientific\nArticles"
+          }
+        },
+        "milestone_UdY3WN": {
+          "type": "milestone",
+          "settings": {
+            "year": "10",
+            "description": "Patents"
+          }
+        },
+        "milestone_rWK8Ki": {
+          "type": "milestone",
+          "settings": {
+            "year": "100+",
+            "description": "Peer Reviewed\nPublications"
+          }
+        },
+        "milestone_BnkHLa": {
+          "type": "milestone",
+          "settings": {
+            "year": "40 years",
+            "description": "OF RESEARCH"
+          }
+        }
+      },
+      "block_order": [
+        "milestone_NY8iNF",
+        "milestone_DiyxKp",
+        "milestone_xT8txz",
+        "milestone_UdY3WN",
+        "milestone_rWK8Ki",
+        "milestone_BnkHLa"
+      ],
+      "name": "Founder Dr Pinnell",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "hero_image": "shopify://shop_images/SCNC_DrPnnll_BG_c3d47c27-a8b5-47a6-b455-9ec03dde4319.webp",
+        "hero_title": "SKINCEUTICALS FOUNDER: DR. SHELDON PINNELL",
+        "hero_bio": "<p>As SkinCeuticals founding scientist, Dr. Pinnell changed the face of topical antioxidants with his pivotal research. His quest for knowledge and dedication to skin science was paramount for establishing SkinCeuticals as the antioxidant authority. Although he passed away in 2013, his work will continue to inspire our research and promote our mission, which is to develop advanced skincare solutions backed by science.</p>",
+        "show_patent": true,
+        "patent_title": "A LIFE DEDICATED TO RESEARCH",
+        "patent_text": "<p>Dr. Pinnell’s Duke Antioxidant patent has been a driving force at SkinCeuticals since the company’s inception, but his contributions to science did not stop there. His skin science research findings have been published in peer-reviewed journals and have since been universally accepted in the dermatological community.</p>",
+        "patent_image": "shopify://shop_images/23_1206_OUR_FOUNDER_LP_RESEARCH_MODULE_D_1260x1060-1.jpg",
+        "quote_text": "My mission is to improve skin health. Dedicated to this purpose, we make one simple promise—to provide advanced skincare backed by science.",
+        "quote_author": "— DR. SHELDON PINNELL",
+        "button_link": "",
+        "button_label": "SHOP SKINCEUTICALS"
+      }
+    },
+    "section_B9Qxyy": {
+      "type": "section",
+      "blocks": {
+        "group_pNXEUX": {
+          "type": "group",
+          "name": "Caption",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "center",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "https://www.youtube.com/watch?v=f05WkLUM-80&list=PL9ACCBCF39AD9A754&index=4",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_zJY4Uz": {
+              "type": "text",
+              "name": "t:names.text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>Dr. Pinnell Q&A: SkinCeuticals compared to other brands</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_zJY4Uz"
+          ]
+        }
+      },
+      "block_order": [
+        "group_pNXEUX"
+      ],
+      "name": "t:names.video_section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section_hr9dNC": {
+      "type": "section",
+      "blocks": {
+        "video_GU6CcT": {
+          "type": "video",
+          "name": "t:names.video",
+          "settings": {
+            "source": "url",
+            "video_url": "https://www.youtube.com/watch?v=f05WkLUM-80&list=PL9ACCBCF39AD9A754&index=4",
+            "video_autoplay": true,
+            "video_loop": true,
+            "alt": "",
+            "custom_width": 100,
+            "custom_width_mobile": 100,
+            "aspect_ratio": "16/9",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "group_JaJFDt": {
+          "type": "group",
+          "name": "Caption",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "center",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_cdwETV": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>As SkinCeuticals founding scientist, Dr. Pinnell changed the face of topical antioxidants with his pivotal research. More than just a dermatologist, professor, and skincare chemist, meet the man behind the lab coat and hear him explain his groundbreaking work.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_cdwETV"
+          ]
+        }
+      },
+      "block_order": [
+        "video_GU6CcT",
+        "group_JaJFDt"
+      ],
+      "name": "t:names.video_section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    },
+    "lux_collection_grid_WCrpnG": {
+      "type": "lux-collection-grid",
+      "name": "Lux Collection Grid",
+      "settings": {
+        "collection": "skinceuticals",
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "hero_dAcfDa",
+    "section_eaAE4F",
+    "main",
+    "175013490371f25777",
+    "175013426953be3304",
+    "media_with_content_qTXG9P",
+    "media_with_content_axnjVK",
+    "17501348016257a9ef",
+    "founder_pinnell_CwBLie",
+    "section_B9Qxyy",
+    "section_hr9dNC",
+    "lux_collection_grid_WCrpnG"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "lf_contact": {
+      "type": "lf-contact-page",
+      "settings": {
+        "header_image": "contact-h-hero.png",
+        "eyebrow": "Contact",
+        "heading": "Get in touch.",
+        "hero_body": "Expert skincare advice, help with an order, or just a question — we're here.",
+        "consult_link": "https:\/\/mediprodirect.book.app\/book-now\/availability?services=W3sicyI6MTUxMzM2MH1d",
+        "phone": "01457 321697",
+        "email": "info@theskinbay.co.uk",
+        "hours_short": "Mon–Fri, 9am–5pm",
+        "hours_full": "Monday – Friday: 9:00am – 5:00pm",
+        "faq_link": "\/pages\/faq",
+        "form_heading": "We'll get back to you <em>within a day.<\/em>",
+        "sms_heading": "Exclusive offers. <em>Direct to you.<\/em>",
+        "sms_body": "Subscribe for early-access promotions, new arrivals and skincare tips — straight to your phone or inbox.",
+        "klaviyo_form_id": "UMQcSV"
+      }
+    }
+  },
+  "order": [
+    "lf_contact"
+  ]
+}

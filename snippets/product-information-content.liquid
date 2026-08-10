@@ -1,0 +1,160 @@
+{% liquid
+  if settings.desktop_media_position == 'left'
+    assign render_order = 'media,product-details'
+  else
+    assign render_order = 'product-details,media'
+  endif
+
+  assign product_has_media = true
+  if product_media_size == 0
+    assign product_has_media = false
+  endif
+
+  assign product_grid_class = 'product-information__grid'
+
+  if product_has_media == false
+    assign product_grid_class = product_grid_class | append: ' product-information--media-none'
+  elsif settings.desktop_media_position == 'right'
+    assign product_grid_class = product_grid_class | append: ' product-information--media-right'
+  else
+    assign product_grid_class = product_grid_class | append: ' product-information--media-left'
+  endif
+
+  case settings.content_width
+    when 'content-center-aligned'
+      assign content_width = 'page-width'
+    when 'content-full-width'
+      assign content_width = 'full-width'
+  endcase
+%}
+
+<div class="section-background color-{{ settings.color_scheme }}"></div>
+
+<div
+  class="product-information section section--{{ content_width }} color-{{ settings.color_scheme }}"
+  data-testid="product-information"
+>
+
+  <div class="{{ product_grid_class }}">
+
+    {% capture media %}
+      <div class="product-information__media">
+        {{ media_gallery }}
+      </div>
+    {% endcapture %}
+
+    {% for block in render_order | split: ',' %}
+      {% if block == 'media' and product_has_media %}
+        {{ media }}
+      {% elsif block == 'product-details' %}
+        <div class="product-details-wrapper">
+          {{ product_details }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  {{ additional_blocks }}
+
+</div>
+
+{% stylesheet %}
+
+/* SECTION */
+.product-information {
+  padding: 60px 0;
+}
+
+/* GRID */
+.product-information__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* MEDIA */
+.product-information__media {
+  width: 100%;
+}
+
+/* PRODUCT DETAILS */
+.product-details-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* MOBILE FIX */
+@media screen and (max-width: 749px) {
+  .product-details-wrapper {
+    padding: 0 20px;
+    text-align: center;
+  }
+}
+
+/* DESKTOP LAYOUT */
+@media screen and (min-width: 750px) {
+
+  .product-information__grid.product-information--media-left {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+
+  .product-information__grid.product-information--media-right {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+
+  .product-details-wrapper {
+    text-align: left;
+    margin: 0;
+    max-width: 480px;
+  }
+
+}
+
+/* LARGE SCREEN */
+@media screen and (min-width: 1200px) {
+  .product-information__grid.product-information--media-left {
+    grid-template-columns: 1.4fr 0.6fr;
+  }
+
+  .product-information__grid.product-information--media-right {
+    grid-template-columns: 0.6fr 1.4fr;
+  }
+}
+
+/* TYPOGRAPHY CLEANUP */
+.product-details-wrapper h1,
+.product-details-wrapper h2,
+.product-details-wrapper h3 {
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* SPACING */
+.product-details-wrapper .group-block {
+  margin-bottom: 18px;
+}
+
+/* BUTTONS */
+.product-details-wrapper .button {
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+}
+
+@media screen and (min-width: 750px) {
+  .product-details-wrapper .button {
+    margin: 20px 0 0;
+  }
+}
+
+/* IMAGE POLISH */
+.product-information__media img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+{% endstylesheet %}

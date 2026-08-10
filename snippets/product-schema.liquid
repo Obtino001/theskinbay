@@ -1,0 +1,52 @@
+{%- comment -%}
+  Product + Offer structured data (schema.org JSON-LD) for Google rich results.
+  Rendered once per retail product page from sections/lux-product-block-display.liquid.
+  aggregateRating is intentionally omitted — the reviews app injects its own rating schema,
+  so this keeps a single, non-conflicting Product node. Single variant -> Offer; multi -> AggregateOffer.
+{%- endcomment -%}
+{%- if product -%}
+  {%- assign _cur = cart.currency.iso_code | default: shop.currency -%}
+  {%- assign _var = product.selected_or_first_available_variant | default: product.variants.first -%}
+  {%- assign _avail = 'https://schema.org/OutOfStock' -%}
+  {%- if product.available -%}{%- assign _avail = 'https://schema.org/InStock' -%}{%- endif -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | truncate: 5000 | json }},
+  "url": {{ shop.secure_url | append: product.url | json }},
+  {%- if product.images.size > 0 %}
+  "image": [{% for image in product.images limit: 8 %}{{ image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https://', 'https://' | json }}{% unless forloop.last %},{% endunless %}{% endfor %}],
+  {%- endif %}
+  {%- if product.vendor != blank %}
+  "brand": {"@type": "Brand", "name": {{ product.vendor | json }}},
+  {%- endif %}
+  {%- if product.variants.size <= 1 %}
+  {%- if _var.sku != blank %}"sku": {{ _var.sku | json }},{% endif %}
+  {%- if _var.barcode != blank %}"gtin": {{ _var.barcode | strip | json }},{% endif %}
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ _var.price | divided_by: 100.0 }}",
+    "priceCurrency": {{ _cur | json }},
+    "availability": "{{ _avail }}",
+    "itemCondition": "https://schema.org/NewCondition",
+    "priceValidUntil": "{{ 'now' | date: '%Y' }}-12-31",
+    "url": {{ shop.secure_url | append: product.url | json }}
+  }
+  {%- else %}
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": {{ _cur | json }},
+    "lowPrice": "{{ product.price_min | divided_by: 100.0 }}",
+    "highPrice": "{{ product.price_max | divided_by: 100.0 }}",
+    "offerCount": {{ product.variants.size }},
+    "availability": "{{ _avail }}",
+    "itemCondition": "https://schema.org/NewCondition",
+    "priceValidUntil": "{{ 'now' | date: '%Y' }}-12-31",
+    "url": {{ shop.secure_url | append: product.url | json }}
+  }
+  {%- endif %}
+}
+</script>
+{%- endif -%}

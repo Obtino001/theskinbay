@@ -1,0 +1,74 @@
+{%- comment -%} NAD bespoke, how to use (metafield) + what's inside the kit (blocks) {%- endcomment -%}
+{%- assign has_vid = false -%}
+{%- if section.settings.hide_if_video -%}{%- for m in product.media -%}{%- if m.media_type == 'video' or m.media_type == 'external_video' -%}{%- assign has_vid = true -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- assign hide_empty = false -%}{%- if section.settings.hide_if_empty and product.metafields.custom.how_to_use == blank -%}{%- assign hide_empty = true -%}{%- endif -%}
+{%- unless has_vid or hide_empty -%}
+<section class="nad-howto" style="background:{{ section.settings.bg }};">
+  <div class="nadht-wrap">
+    <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;margin:-1px;border:0;">How to use</h2>
+    <img class="nad-header-img" src="{{ section.settings.header_image | default: 'nad-h-howto.png' | asset_url }}" alt="How to use it" loading="lazy" width="1500" height="340">
+    <div class="nadht-cols">
+      <div class="nadht-protocol">
+        {%- assign hu = product.metafields.custom.how_to_use -%}
+        <div class="nad-exp"><div class="nad-exp-in">{%- if hu != blank -%}{% render 'phc-richtext', rt: hu.value %}{%- else -%}<p>{{ product.description | strip_html | truncatewords: 60 }}</p>{%- endif -%}</div><button type="button" class="nad-exp-btn" onclick="nadExp(this)"><span>Read more</span> <b>+</b></button></div>
+      </div>
+      {%- if section.blocks.size > 0 -%}
+        <aside class="nadht-kit">
+          <span class="nadht-kit-h">{{ section.settings.kit_heading }}</span>
+          <ul>
+            {%- for block in section.blocks -%}
+              <li {{ block.shopify_attributes }}><span class="nadht-qty">{{ block.settings.qty }}</span>{{ block.settings.item }}</li>
+            {%- endfor -%}
+          </ul>
+          {%- if section.settings.note != blank -%}<p class="nadht-note">{{ section.settings.note }}</p>{%- endif -%}
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<style>
+  .nad-howto{padding:56px 20px;}
+  .nadht-wrap{max-width:1100px;margin:0 auto;}
+  .nad-howto .nad-header-img{max-width:460px;margin-bottom:26px;}
+  .nadht-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:34px;align-items:start;}
+  .nadht-protocol{font-family:'Lato',sans-serif;color:#141414;font-size:15.5px;line-height:1.7;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:20px;padding:26px 30px;}
+  .nadht-protocol p{margin:0 0 14px;padding-left:16px;border-left:2px solid var(--accent,#F6C21A);}
+  .nadht-protocol p:last-child{margin-bottom:0;}
+  .nadht-protocol strong{color:#141414;}
+  .nadht-kit{background:var(--card,#10233B);color:#f4f0e6;border-radius:16px;padding:28px 26px;}
+  .nadht-kit-h{display:block;font-family:'Playfair Display',serif;font-size:19px;color:#fff;margin-bottom:14px;}
+  .nadht-kit ul{list-style:none;margin:0;padding:0;}
+  .nadht-kit li{font-family:'Lato',sans-serif;font-size:14.5px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);display:flex;gap:10px;}
+  .nadht-kit li:last-child{border-bottom:none;}
+  .nadht-qty{color:var(--accent2,#F6C21A);font-weight:700;flex:0 0 auto;}
+  .nadht-note{font-family:'Lato',sans-serif;font-size:12px;line-height:1.55;color:#b9c2cf;margin:16px 0 0;}
+  @media(max-width:749px){.nad-howto{padding:38px 16px;}.nadht-cols{grid-template-columns:1fr;gap:24px;}}
+</style>
+{%- endunless -%}
+{% schema %}
+{
+  "name": "NAD · How to use",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#FBF8F2" },
+    { "type": "checkbox", "id": "hide_if_video", "label": "Hide if product has a video", "default": false },
+    { "type": "checkbox", "id": "hide_if_empty", "label": "Hide if no how-to metafield", "default": false },
+    { "type": "text", "id": "header_image", "label": "Header image file (blank = default)" },
+    { "type": "text", "id": "kit_heading", "label": "Kit heading", "default": "What's inside the kit" },
+    { "type": "textarea", "id": "note", "label": "Safety note", "default": "For adult use only. Consult your practitioner before beginning NAD+ therapy, particularly if pregnant, breastfeeding or managing a health condition." }
+  ],
+  "blocks": [
+    { "type": "kititem", "name": "Kit item", "settings": [
+      { "type": "text", "id": "qty", "label": "Qty", "default": "1 ×" },
+      { "type": "text", "id": "item", "label": "Item", "default": "Vial of 1000mg NAD+" }
+    ]}
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "NAD · How to use", "blocks": [
+    { "type": "kititem", "settings": { "qty": "1 ×", "item": "Vial containing 1000mg NAD+" } },
+    { "type": "kititem", "settings": { "qty": "20 ×", "item": "Micro syringes" } },
+    { "type": "kititem", "settings": { "qty": "20 ×", "item": "Antibacterial wipes" } },
+    { "type": "kititem", "settings": { "qty": "1 ×", "item": "Sharps bin for safe disposal" } },
+    { "type": "kititem", "settings": { "qty": "1 ×", "item": "Step-by-step instruction guide" } }
+  ]}]
+}
+{% endschema %}

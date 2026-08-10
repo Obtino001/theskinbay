@@ -1,0 +1,579 @@
+{% comment %}
+  Smart Skincare Matcher - "Carousel Wildcard" Edition
+  - Montserrat Font Integration
+  - CSS Scroll-Snap Carousel
+  - Brand-based filtering logic
+  - EDITABLE TEXT SIZES
+  - AJAX ADD TO BAG (No page reload)
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    font-family: 'Lato', sans-serif;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .ssm-container {
+    max-width: {{ section.settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .ssm-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size | times: 0.85 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ssm-heading {
+      font-size: {{ section.settings.heading_size }}px;
+    }
+  }
+
+  /* LOADER STYLES */
+  .ssm-loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+  }
+
+  .ssm-status-text {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: {{ section.settings.text_color }};
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: {{ section.settings.status_size | times: 0.9 }}px;
+  }
+
+  .ssm-progress-bar-bg {
+    width: 100%;
+    max-width: 300px;
+    height: 2px;
+    background-color: rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .ssm-progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #000;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* CAROUSEL STYLES */
+  .ssm-carousel-wrapper {
+    display: none;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .ssm-carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: none;
+  }
+
+  .ssm-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ssm-card {
+    flex: 0 0 calc(100% - 40px);
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ssm-card {
+      flex: 0 0 calc(33.333% - 14px);
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .ssm-card {
+      flex: 0 0 calc(25% - 15px);
+    }
+  }
+
+  .ssm-card-image-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f9f9f9;
+    margin-bottom: 15px;
+  }
+
+  .ssm-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+
+  .ssm-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+  }
+
+  .ssm-badge-wild { background: #000; color: #fff; }
+  .ssm-badge-standard { background: #f0f0f0; color: #000; }
+
+  .ssm-card-info { padding: 5px 0; flex-grow: 1; display: flex; flex-direction: column; }
+
+  .ssm-card-vendor {
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #777;
+    margin-bottom: 8px;
+    display: block;
+    font-size: {{ section.settings.meta_size | times: 0.9 }}px;
+  }
+
+  .ssm-card-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    font-size: {{ section.settings.title_size | times: 0.9 }}px;
+  }
+
+  .ssm-card-price {
+    font-weight: 400;
+    margin-bottom: 15px;
+    display: block;
+    font-size: {{ section.settings.meta_size | times: 0.9 }}px;
+  }
+
+  /* BUTTON STYLES */
+  .ssm-add-button {
+    width: 100%;
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    padding: 12px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .ssm-add-button:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  .ssm-add-button.is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ssm-card-vendor { font-size: {{ section.settings.meta_size }}px; }
+    .ssm-card-title { font-size: {{ section.settings.title_size }}px; }
+    .ssm-card-price { font-size: {{ section.settings.meta_size }}px; }
+    .ssm-status-text { font-size: {{ section.settings.status_size }}px; }
+  }
+
+  /* NAVIGATION BUTTONS */
+  .ssm-nav-btn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .ssm-nav-btn:hover { background: #000; color: #fff; border-color: #000; }
+  .ssm-nav-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .ssm-prev { left: -22px; }
+  .ssm-next { right: -22px; }
+
+  @media screen and (max-width: 749px) { .ssm-nav-btn { display: none; } }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding" id="SmartScanner-{{ section.id }}">
+  <div class="ssm-container">
+    {% if section.settings.heading != blank %}
+      <h2 class="ssm-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="ssm-loader-wrapper" id="Loader-{{ section.id }}">
+      <div class="ssm-status-text" id="StatusText-{{ section.id }}">
+        {{ section.settings.text_step_1 }}
+      </div>
+      <div class="ssm-progress-bar-bg">
+        <div class="ssm-progress-bar-fill" id="ProgressBar-{{ section.id }}"></div>
+      </div>
+    </div>
+
+    <div class="ssm-carousel-wrapper" id="Results-{{ section.id }}">
+      <button class="ssm-nav-btn ssm-prev" type="button" aria-label="Previous recommendations" onclick="scrollSSM('{{ section.id }}', -1)">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <div class="ssm-carousel-track" id="Track-{{ section.id }}">
+        {%- assign ssm_recs = product.metafields.custom.related_products_list.value -%}
+        {%- if ssm_recs == blank and recommendations.performed -%}{%- assign ssm_recs = recommendations.products -%}{%- endif -%}
+        {%- if ssm_recs != blank -%}
+          {%- for recommendation in ssm_recs -%}
+            {%- assign is_wildcard = false -%}
+            {%- if recommendation.vendor != product.vendor -%}{%- assign is_wildcard = true -%}{%- endif -%}
+            
+            <div class="ssm-card" style="position:relative;">
+              {% render 'wishlist-heart', product: recommendation %}
+              <a href="{{ recommendation.url }}" class="ssm-card-image-wrapper">
+                <span class="ssm-badge {% if is_wildcard %}ssm-badge-wild{% else %}ssm-badge-standard{% endif %}">
+                  {% if is_wildcard %}Try Something New{% else %}Related Product{% endif %}
+                </span>
+                <img class="ssm-card-image" src="{{ recommendation.featured_image | image_url: width: 600 }}" alt="{{ recommendation.title }}" loading="lazy">
+              </a>
+              <div class="ssm-card-info">
+                <span class="ssm-card-vendor">{{ recommendation.vendor }}</span>
+                <a href="{{ recommendation.url }}" style="text-decoration:none; color:inherit;">
+                   <h3 class="ssm-card-title">{{ recommendation.title }}</h3>
+                </a>
+                <span class="ssm-card-price">{{ recommendation.price | money }}</span>
+                
+                <button type="button" 
+                  class="ssm-add-button" 
+                  data-variant-id="{{ recommendation.first_available_variant.id }}"
+                  {% unless recommendation.available %}disabled{% endunless %}>
+                  {% if recommendation.available %}Add to Bag{% else %}Sold Out{% endif %}
+                </button>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      <button class="ssm-nav-btn ssm-next" type="button" aria-label="Next recommendations" onclick="scrollSSM('{{ section.id }}', 1)">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollSSM(id, direction) {
+  const track = document.getElementById(`Track-${id}`);
+  const scrollAmount = track.offsetWidth * 0.8;
+  track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const sectionId = "{{ section.id }}";
+  const productId = "{{ product.id }}";
+  const rootUrl = "{{ routes.product_recommendations_url }}";
+  
+  const loader = document.getElementById(`Loader-${sectionId}`);
+  const statusText = document.getElementById(`StatusText-${sectionId}`);
+  const progressBar = document.getElementById(`ProgressBar-${sectionId}`);
+  const resultsWrapper = document.getElementById(`Results-${sectionId}`);
+  const track = document.getElementById(`Track-${sectionId}`);
+
+  // Delegation for Add to Bag buttons
+  resultsWrapper.addEventListener('click', function(e) {
+    if (e.target.classList.contains('ssm-add-button')) {
+      const btn = e.target;
+      const variantId = btn.getAttribute('data-variant-id');
+      addToCart(variantId, btn);
+    }
+  });
+
+  function addToCart(variantId, btn) {
+    btn.classList.add('is-loading');
+    btn.innerText = "Adding...";
+
+    let formData = { 'items': [{ 'id': variantId, 'quantity': 1 }] };
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      btn.innerText = "Added!";
+      btn.classList.remove('is-loading');
+      
+      // Trigger Cart Drawer (Theme dependent)
+      // 1. Standard Dispatch for Dawn/Modern Themes
+      document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      
+      // 2. Specific trigger for Dawn
+      if (document.querySelector('cart-drawer')) {
+        const cartDrawer = document.querySelector('cart-drawer');
+        // This is the standard method used in Dawn to update and open drawer
+        fetch(`${window.Shopify.routes.root}?sections=cart-drawer,cart-icon-bubble`)
+          .then(res => res.json())
+          .then(json => {
+            const drawer = document.querySelector('cart-drawer');
+            if (drawer) {
+              const html = new DOMParser().parseFromString(json['cart-drawer'], 'text/html');
+              drawer.querySelector('#CartDrawer').innerHTML = html.querySelector('#CartDrawer').innerHTML;
+              drawer.classList.add('active'); // Dawn uses .active or .is-open
+              // Fallback: click the bag icon to trigger the drawer if the above fails
+              if (document.querySelector('#cart-icon-bubble')) document.querySelector('#cart-icon-bubble').click();
+            }
+          });
+      }
+
+      setTimeout(() => { btn.innerText = "Add to Bag"; }, 2000);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      btn.innerText = "Error";
+      btn.classList.remove('is-loading');
+    });
+  }
+
+  let hasRun = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !hasRun) {
+      hasRun = true;
+      runScanner();
+    }
+  }, { threshold: 0.1 });
+
+  observer.observe(loader);
+
+  function runScanner() {
+    let progress = 0;
+    const fetchUrl = `${rootUrl}?section_id=${sectionId}&product_id=${productId}&limit=10&intent=complementary`;
+    let fetchedHTML = null;
+
+    fetch(fetchUrl)
+      .then(r => r.text())
+      .then(text => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const newTrack = doc.getElementById(`Track-${sectionId}`);
+        if (newTrack && newTrack.innerHTML.trim() !== "") {
+          fetchedHTML = newTrack.innerHTML;
+        }
+      });
+
+    const interval = setInterval(() => {
+      progress += 1;
+      progressBar.style.width = progress + "%";
+      if (progress === 30) statusText.innerText = "{{ section.settings.text_step_2 }}";
+      if (progress === 60) statusText.innerText = "{{ section.settings.text_step_3 }}";
+      if (progress === 90) statusText.innerText = "{{ section.settings.text_final }}";
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          if (fetchedHTML) {
+            track.innerHTML = fetchedHTML;
+            loader.style.opacity = '0';
+            setTimeout(() => {
+              loader.style.display = 'none';
+              resultsWrapper.style.display = 'block';
+              setTimeout(() => { resultsWrapper.style.opacity = '1'; }, 50);
+            }, 500);
+          } else {
+            document.getElementById(`SmartScanner-${sectionId}`).style.display = 'none';
+          }
+        }, 600);
+      }
+    }, 40);
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Smart WildCard Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Perfect Add-Ons"
+    },
+    {
+      "type": "header",
+      "content": "Text Sizes (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Main Heading Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "status_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Loading Status Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "meta_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Vendor/Price Size",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "default": 1200,
+      "label": "Page Width"
+    },
+    {
+      "type": "header",
+      "content": "Loading Messages"
+    },
+    {
+      "type": "text",
+      "id": "text_step_1",
+      "label": "Step 1 Text",
+      "default": "Analyzing Skincare Profile..."
+    },
+    {
+      "type": "text",
+      "id": "text_step_2",
+      "label": "Step 2 Text",
+      "default": "Comparing Ingredients..."
+    },
+    {
+      "type": "text",
+      "id": "text_step_3",
+      "label": "Step 3 Text",
+      "default": "Finding Compatible Brands..."
+    },
+    {
+      "type": "text",
+      "id": "text_final",
+      "label": "Final Text",
+      "default": "Matches Found"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Top Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Bottom Padding"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smart WildCard Carousel"
+    }
+  ]
+}
+{% endschema %}

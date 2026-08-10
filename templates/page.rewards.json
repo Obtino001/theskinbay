@@ -1,0 +1,117 @@
+{
+  "sections": {
+    "tsb_hero": {
+      "type": "tsb-rewards-hero",
+      "settings": {
+        "eyebrow": "Exclusive Membership",
+        "heading": "TheSkinBay",
+        "script_line": "Rewards",
+        "subheading": "A curated membership for those who take their skincare seriously. Earn recognition, access and rewards with every order.",
+        "cta_primary_label": "Join the Club",
+        "cta_secondary_label": "Sign In"
+      }
+    },
+    "tsb_pillars": {
+      "type": "tsb-rewards-pillars",
+      "settings": {
+        "eyebrow": "Membership Benefits",
+        "heading": "The Privileges of Membership"
+      }
+    },
+    "tsb_how": {
+      "type": "tsb-rewards-how",
+      "settings": {
+        "eyebrow": "Simple & Rewarding",
+        "heading": "How It Works"
+      }
+    },
+    "tsb_faq": {
+      "type": "tsb-rewards-faq",
+      "settings": {
+        "eyebrow": "Questions & Answers",
+        "heading": "Frequently Asked"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I start earning points?",
+            "answer": "Simply create a free account and place your first order. Points are credited automatically once your order is confirmed."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When do my points expire?",
+            "answer": "Points are valid for 12 months from the date they were earned. We recommend redeeming regularly to make the most of your balance."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I redeem my points?",
+            "answer": "Log in to your account, visit the rewards section and select your voucher. The discount code is generated instantly and applied at checkout."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I earn points on sale items?",
+            "answer": "Yes. Points are earned on the total amount paid across all orders, including sale and bundle purchases."
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I refer friends?",
+            "answer": "Yes. Each successful referral earns you 100 points, credited once your friend completes their first order. There is no limit on referrals."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_6"
+      ]
+    },
+    "tsb_cta": {
+      "type": "tsb-rewards-cta",
+      "settings": {
+        "eyebrow": "Begin Your Journey",
+        "heading": "Become a Member",
+        "script_line": "Today.",
+        "body": "Membership is complimentary and instant. Start earning on your very next order.",
+        "primary_label": "Create Your Account",
+        "secondary_label": "Sign In",
+        "note": "Free to join. No minimum spend required."
+      }
+    },
+    "tsb_earn": {
+      "type": "tsb-rewards-earn",
+      "settings": {}
+    },
+    "tsb_showcase": {
+      "type": "tsb-rewards-showcase",
+      "settings": {
+        "image_asset": "rewards-baypoints.jpg",
+        "image_alt": "A hand holding a phone showing The Skin Bay BayPoints rewards balance of 1,250 points",
+        "img_max": 380,
+        "bg_color": "#FBF6EA",
+        "pad_top": 76,
+        "pad_bottom": 76,
+        "caption": "Check your balance, unlock member perks and redeem points straight from your account."
+      }
+    }
+  },
+  "order": [
+    "tsb_hero",
+    "tsb_showcase",
+    "tsb_pillars",
+    "tsb_how",
+    "tsb_earn",
+    "tsb_faq",
+    "tsb_cta"
+  ]
+}

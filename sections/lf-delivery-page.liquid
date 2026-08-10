@@ -1,0 +1,552 @@
+<style>
+  .lf-del *, .lf-del *::before, .lf-del *::after { box-sizing: border-box; }
+  .lf-del a { text-decoration: none; }
+
+  /* ── Hero ───────────────────────────────────────────── */
+  .lf-del-hero {
+    background: #0b1225;
+    padding: 88px 40px 80px;
+    text-align: center;
+  }
+  .lf-del-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    display: block;
+    margin-bottom: 18px;
+  }
+  .lf-del-hero-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 18px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .lf-del-hero-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .lf-del-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 22px;}
+  .lf-del-banner-int{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 40px;}
+  .lf-del-banner-left{display:block;width:100%;max-width:680px;height:auto;margin:0 0 18px;}
+  .lf-del-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* ── Free shipping banner ───────────────────────────── */
+  .lf-del-free-banner {
+    background: #f0f7f0;
+    border-top: 3px solid #2a7a4b;
+    border-bottom: 1px solid #c4dfc9;
+    padding: 28px 40px;
+    text-align: center;
+  }
+  .lf-del-free-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .lf-del-free-icon {
+    width: 28px;
+    height: 28px;
+    color: #2a7a4b;
+    flex-shrink: 0;
+  }
+  .lf-del-free-icon svg { width: 100%; height: 100%; display: block; }
+  .lf-del-free-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #1a4f2e;
+    letter-spacing: 0.01em;
+  }
+  .lf-del-free-sub {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: #3a6b4a;
+    margin-top: 4px;
+  }
+
+  /* ── Services grid ──────────────────────────────────── */
+  .lf-del-services {
+    background: #fff;
+    padding: 80px 40px;
+    border-top: 1px solid rgba(0,0,0,.06);
+  }
+  .lf-del-services-inner { max-width: 1200px; margin: 0 auto; }
+  .lf-del-section-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .lf-del-section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 400;
+    color: #111;
+    margin: 0 0 52px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    text-align: center;
+  }
+  .lf-del-section-heading em { font-style: italic; }
+
+  .lf-del-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,.07);
+    border: 1px solid rgba(0,0,0,.07);
+  }
+  .lf-del-card {
+    background: #fff;
+    padding: 40px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .lf-del-card-tag {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.3);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .lf-del-card-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #111;
+    margin: 0 0 6px;
+    line-height: 1.1;
+  }
+  .lf-del-card-time {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8125rem;
+    color: rgba(0,0,0,0.45);
+    margin: 0 0 28px;
+  }
+  .lf-del-card-divider {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,.08);
+    margin: 0 0 24px;
+  }
+  .lf-del-card-price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #0b1225;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .lf-del-card-price-note {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+  }
+  .lf-del-card-free {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2a7a4b;
+    background: #f0f7f0;
+    border: 1px solid #c4dfc9;
+    padding: 6px 12px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .lf-del-card-desc {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.7;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* ── Info strip ─────────────────────────────────────── */
+  .lf-del-info {
+    background: #faf8f5;
+    border-top: 1px solid rgba(0,0,0,.06);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    padding: 52px 40px;
+  }
+  .lf-del-info-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,.07);
+    border: 1px solid rgba(0,0,0,.07);
+  }
+  .lf-del-info-item {
+    background: #faf8f5;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lf-del-info-icon {
+    width: 28px;
+    height: 28px;
+    color: #0b1225;
+    margin-bottom: 6px;
+  }
+  .lf-del-info-icon svg { width: 100%; height: 100%; display: block; }
+  .lf-del-info-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+  }
+  .lf-del-info-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .lf-del-info-text a {
+    color: #0b1225;
+    border-bottom: 1px solid rgba(11,18,37,0.3);
+    padding-bottom: 1px;
+  }
+  .lf-del-info-text a:hover { border-color: #0b1225; }
+
+  /* ── Bottom CTA ─────────────────────────────────────── */
+  .lf-del-cta {
+    background: #0b1225;
+    padding: 72px 40px;
+    text-align: center;
+  }
+  .lf-del-cta-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 12px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .lf-del-cta-heading em { font-style: italic; }
+  .lf-del-cta-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 36px;
+    line-height: 1.7;
+  }
+  .lf-del-cta-btn {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 14px 36px;
+    display: inline-block;
+    transition: background 0.18s, border-color 0.18s;
+  }
+  .lf-del-cta-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.8);
+  }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 899px) {
+    .lf-del-grid { grid-template-columns: 1fr; }
+    .lf-del-info-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 749px) {
+    .lf-del-hero { padding: 60px 24px 52px; }
+    .lf-del-free-banner { padding: 20px 24px; }
+    .lf-del-services { padding: 52px 20px; }
+    .lf-del-info { padding: 40px 20px; }
+    .lf-del-cta { padding: 52px 20px; }
+  }
+</style>
+
+<div class="lf-del">
+
+  {%- comment -%}── Hero ────────────────────────────────────────{%- endcomment -%}
+  <section class="lf-del-hero">
+    {%- if section.settings.header_image != blank -%}
+      <img class="lf-del-banner" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="lf-del-hero-heading lf-del-vh">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+    {%- else -%}
+      <span class="lf-del-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="lf-del-hero-heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    <p class="lf-del-hero-body">{{ section.settings.hero_body }}</p>
+  </section>
+
+  {%- comment -%}── Free shipping banner ─────────────────────────{%- endcomment -%}
+  <div class="lf-del-free-banner">
+    <div class="lf-del-free-inner">
+      <div class="lf-del-free-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <div>
+        <div class="lf-del-free-text">Free delivery on orders over {{ section.settings.free_threshold | money_without_trailing_zeros }}</div>
+        <div class="lf-del-free-sub">{{ section.settings.free_threshold_note }}</div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}── Services ─────────────────────────────────────{%- endcomment -%}
+  <section class="lf-del-services">
+    <div class="lf-del-services-inner">
+      <span class="lf-del-section-eyebrow">Delivery options</span>
+      <img class="lf-del-banner-int" src="{{ 'delivery-h-speed.png' | asset_url }}" alt="Choose how fast it arrives.">
+      <h2 class="lf-del-section-heading lf-del-vh">Choose how fast <em>it arrives.</em></h2>
+      <div class="lf-del-grid">
+
+        {%- comment -%}Royal Mail 48{%- endcomment -%}
+        <div class="lf-del-card">
+          <span class="lf-del-card-tag">Royal Mail</span>
+          <h3 class="lf-del-card-name">{{ section.settings.s1_name }}</h3>
+          <p class="lf-del-card-time">{{ section.settings.s1_time }}</p>
+          <hr class="lf-del-card-divider">
+          <div class="lf-del-card-price">{{ section.settings.s1_price }}</div>
+          <p class="lf-del-card-price-note">per order</p>
+          <span class="lf-del-card-free">Free on orders over {{ section.settings.free_threshold | money_without_trailing_zeros }}</span>
+          <p class="lf-del-card-desc">{{ section.settings.s1_desc }}</p>
+        </div>
+
+        {%- comment -%}Royal Mail 24{%- endcomment -%}
+        <div class="lf-del-card">
+          <span class="lf-del-card-tag">Royal Mail</span>
+          <h3 class="lf-del-card-name">{{ section.settings.s2_name }}</h3>
+          <p class="lf-del-card-time">{{ section.settings.s2_time }}</p>
+          <hr class="lf-del-card-divider">
+          <div class="lf-del-card-price">{{ section.settings.s2_price }}</div>
+          <p class="lf-del-card-price-note">per order</p>
+          <span class="lf-del-card-free">Free on orders over {{ section.settings.free_threshold | money_without_trailing_zeros }}</span>
+          <p class="lf-del-card-desc">{{ section.settings.s2_desc }}</p>
+        </div>
+
+        {%- comment -%}Special Delivery{%- endcomment -%}
+        <div class="lf-del-card">
+          <span class="lf-del-card-tag">Royal Mail</span>
+          <h3 class="lf-del-card-name">{{ section.settings.s3_name }}</h3>
+          <p class="lf-del-card-time">{{ section.settings.s3_time }}</p>
+          <hr class="lf-del-card-divider">
+          <div class="lf-del-card-price">{{ section.settings.s3_price }}</div>
+          <p class="lf-del-card-price-note">per order</p>
+          <p class="lf-del-card-desc">{{ section.settings.s3_desc }}</p>
+          <ul class="lf-del-card-features">
+            <li>Tracked to delivery point, next day</li>
+            <li>Photo &amp; signature on delivery</li>
+            <li>SMS or email notification of delivery day</li>
+            <li>Online delivery confirmation with GPS map</li>
+            <li>Consequential loss cover included</li>
+            <li>Local Collect &amp; click &amp; collect options</li>
+            <li>Age &amp; ID verification available</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}── Info strip ──────────────────────────────────{%- endcomment -%}
+  <div class="lf-del-info">
+    <div class="lf-del-info-inner">
+
+      <div class="lf-del-info-item">
+        <div class="lf-del-info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <p class="lf-del-info-title">Order cut-off</p>
+        <p class="lf-del-info-text">{{ section.settings.cutoff_text }}</p>
+      </div>
+
+      <div class="lf-del-info-item">
+        <div class="lf-del-info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <p class="lf-del-info-title">Safeplace delivery</p>
+        <p class="lf-del-info-text">Not in? Ask us to leave your parcel in a safe, nominated spot. Free with Royal Mail 24 &amp; 48 and Tracked services, just add a note at checkout.</p>
+      </div>
+
+      <div class="lf-del-info-item">
+        <div class="lf-del-info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <p class="lf-del-info-title">Delivery problem?</p>
+        <p class="lf-del-info-text">Contact us at <a href="mailto:info@theskinbay.co.uk">info@theskinbay.co.uk</a> and we'll get it sorted.</p>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%}── Royal Mail lockers ──────────────────────────{%- endcomment -%}
+  <style>
+    .lf-del-locker{background:#fff;border-top:1px solid rgba(0,0,0,.06);padding:80px 40px;}
+    .lf-del-locker-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:center;}
+    .lf-del-locker-media{background:#faf8f5;border:1px solid rgba(0,0,0,.07);padding:26px;display:flex;align-items:center;justify-content:center;}
+    .lf-del-locker-media img{width:100%;height:auto;display:block;max-width:380px;}
+    .lf-del-locker-eyebrow{font-family:'Lato',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(0,0,0,0.35);display:block;margin-bottom:10px;}
+    .lf-del-locker-heading{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:400;color:#111;margin:0 0 18px;line-height:1.1;letter-spacing:-0.015em;}
+    .lf-del-locker-heading em{font-style:italic;}
+    .lf-del-locker-body{font-family:'Lato',sans-serif;font-size:1rem;color:rgba(0,0,0,0.55);line-height:1.7;margin:0 0 22px;max-width:470px;}
+    .lf-del-locker-list{list-style:none;margin:0 0 30px;padding:0;}
+    .lf-del-locker-list li{font-family:'Lato',sans-serif;font-size:0.9375rem;color:rgba(0,0,0,0.6);line-height:1.5;padding:9px 0 9px 26px;position:relative;border-top:1px solid rgba(0,0,0,.06);}
+    .lf-del-locker-list li:first-child{border-top:0;}
+    .lf-del-locker-list li::before{content:'';position:absolute;left:2px;top:14px;width:9px;height:9px;border:1.5px solid #2a7a4b;border-radius:50%;}
+    .lf-del-locker-btn{font-family:'Lato',sans-serif;font-size:0.6875rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#fff;background:#0b1225;border:1px solid #0b1225;padding:15px 34px;display:inline-block;transition:background .18s,color .18s;}
+    .lf-del-locker-btn:hover{background:transparent;color:#0b1225;}
+    .lf-del-locker-note{font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(0,0,0,0.38);margin:16px 0 0;line-height:1.6;max-width:470px;}
+    @media (max-width:899px){.lf-del-locker-inner{grid-template-columns:1fr;gap:34px;}.lf-del-locker-media{max-width:400px;margin:0 auto;width:100%;}}
+    @media (max-width:749px){.lf-del-locker{padding:52px 20px;}}
+  </style>
+
+  <section class="lf-del-locker">
+    <div class="lf-del-locker-inner">
+      <div class="lf-del-locker-media">
+        <img src="{{ 'rm-parcel-locker.jpg' | asset_url }}" alt="Royal Mail Parcel Locker" width="360" height="239" loading="lazy">
+      </div>
+      <div class="lf-del-locker-copy">
+        <span class="lf-del-locker-eyebrow">Collect &amp; return</span>
+        <img class="lf-del-banner-left" src="{{ 'delivery-h-lockers.png' | asset_url }}" alt="Royal Mail lockers, near you.">
+        <h2 class="lf-del-locker-heading lf-del-vh">Royal Mail lockers, <em>near you.</em></h2>
+        <p class="lf-del-locker-body">Because every order travels with Royal Mail, you also have their nationwide network of Parcel Lockers and collection points at your fingertips. Perfect for grabbing your parcel out of hours, or dropping off a return whenever it suits you.</p>
+        <ul class="lf-del-locker-list">
+          <li>Collect or drop off 7 days a week</li>
+          <li>Longer opening hours than the Post Office counter</li>
+          <li>Print your returns label right at the locker</li>
+          <li>Thousands of lockers and collection points across the UK</li>
+        </ul>
+        <a href="https://www.royalmail.com/find-locations" target="_blank" rel="noopener" class="lf-del-locker-btn">Find a locker near you</a>
+        <p class="lf-del-locker-note">Opens royalmail.com in a new tab. The Skin Bay is an independent retailer and is not affiliated with Royal Mail. Lockers and collection points are provided and operated by Royal Mail.</p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .lf-del-card-features{list-style:none;margin:14px 0 0;padding:0;text-align:left;}
+    .lf-del-card-features li{font-family:'Lato',sans-serif;font-size:12.5px;line-height:1.45;color:#6b6459;padding:6px 0 6px 16px;position:relative;border-top:1px solid #efeae1;}
+    .lf-del-card-features li:first-child{border-top:0;}
+    .lf-del-card-features li::before{content:', ';position:absolute;left:0;color:#b1a99a;}
+    .lf-del-rm-strip{background:#fff;text-align:center;padding:44px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+    .lf-del-rm-label{font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:10px;color:#a49c8d;}
+    .lf-del-rm-logo{height:52px;width:auto;display:block;}
+  </style>
+
+  <div class="lf-del-rm-strip">
+    <span class="lf-del-rm-label">Delivered with</span>
+    <img src="{{ 'royal-mail-logo.jpg' | asset_url }}" alt="Royal Mail" class="lf-del-rm-logo" loading="lazy">
+  </div>
+
+  {%- comment -%}── CTA ─────────────────────────────────────────{%- endcomment -%}
+  <section class="lf-del-cta">
+    <img class="lf-del-banner-int" src="{{ 'delivery-h-cta.png' | asset_url }}" alt="Ready to shop? Free delivery over £{{ section.settings.free_threshold | divided_by: 100 }}." style="margin-bottom:20px;">
+    <h2 class="lf-del-cta-heading lf-del-vh">Ready to shop? <em>Free delivery over £{{ section.settings.free_threshold | divided_by: 100 }}.</em></h2>
+    <p class="lf-del-cta-body">{{ section.settings.cta_body }}</p>
+    <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="lf-del-cta-btn">{{ section.settings.cta_label }}</a>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Delivery Page",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "text",    "id": "header_image", "label": "Header banner asset (brand-font PNG)" },
+    { "type": "text",    "id": "eyebrow",   "label": "Eyebrow",      "default": "Delivery" },
+    { "type": "text",    "id": "heading",   "label": "Heading",      "default": "Delivery Information." },
+    { "type": "textarea","id": "hero_body", "label": "Hero body",    "default": "We dispatch every order with Royal Mail. Choose the speed that suits you, and enjoy free delivery when you spend £400 or more." },
+    {
+      "type": "header",
+      "content": "Free Shipping"
+    },
+    {
+      "type": "number",
+      "id": "free_threshold",
+      "label": "Free shipping threshold (in pence, e.g. 40000 = £400)",
+      "default": 40000
+    },
+    { "type": "text", "id": "free_threshold_note", "label": "Sub-note under free shipping banner", "default": "Applied automatically at checkout. UK mainland only." },
+    {
+      "type": "header",
+      "content": "Royal Mail 48 (Standard)"
+    },
+    { "type": "text",    "id": "s1_name",  "label": "Service name",  "default": "Royal Mail 48" },
+    { "type": "text",    "id": "s1_time",  "label": "Delivery time", "default": "2–3 business days" },
+    { "type": "text",    "id": "s1_price", "label": "Price (display text)", "default": "£5.99" },
+    { "type": "textarea","id": "s1_desc",  "label": "Description",   "default": "Tracked and insured. Last collection 4pm Monday–Friday, please allow for bank holidays." },
+    {
+      "type": "header",
+      "content": "Royal Mail 24 (Express)"
+    },
+    { "type": "text",    "id": "s2_name",  "label": "Service name",  "default": "Royal Mail 24" },
+    { "type": "text",    "id": "s2_time",  "label": "Delivery time", "default": "1–2 business days" },
+    { "type": "text",    "id": "s2_price", "label": "Price (display text)", "default": "£8.00" },
+    { "type": "textarea","id": "s2_desc",  "label": "Description",   "default": "Tracked and insured. Last collection 4pm Monday–Friday, please allow for bank holidays." },
+    {
+      "type": "header",
+      "content": "Special Delivery (Guaranteed)"
+    },
+    { "type": "text",    "id": "s3_name",  "label": "Service name",  "default": "Special Delivery" },
+    { "type": "text",    "id": "s3_time",  "label": "Delivery time", "default": "Guaranteed next working day by 7pm" },
+    { "type": "text",    "id": "s3_price", "label": "Price (display text)", "default": "£12.00" },
+    { "type": "textarea","id": "s3_desc",  "label": "Description",   "default": "The only guaranteed next working day service. Last collection 4pm Friday, please allow for bank holidays. Fully tracked and insured." },
+    {
+      "type": "header",
+      "content": "Info Items"
+    },
+    { "type": "textarea","id": "cutoff_text",   "label": "Cut-off time text",  "default": "Last collection 4pm Monday–Friday. Please allow for bank holidays." },
+    { "type": "textarea","id": "tracking_text", "label": "Tracking text",      "default": "Royal Mail 24 and Special Delivery orders include full tracking. You'll receive a tracking number by email once your order is dispatched." },
+    {
+      "type": "header",
+      "content": "Bottom CTA"
+    },
+    { "type": "textarea","id": "cta_body",  "label": "CTA body text", "default": "Professional-grade skincare, dispatched from the UK. Every order is carefully packed and sent with care." },
+    { "type": "text",    "id": "cta_label","label": "Button label",   "default": "Shop Now" },
+    { "type": "url",     "id": "cta_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Delivery Page" }]
+}
+{% endschema %}

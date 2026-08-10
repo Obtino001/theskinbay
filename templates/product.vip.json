@@ -1,0 +1,193 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "icon": "shield",
+            "label": "12 months free shipping"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "icon": "sparkle",
+            "label": "SkinCeuticals gift"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "icon": "drop",
+            "label": "Auto-renews yearly"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#0b1c3e",
+        "box_bg": "#F7F1E0",
+        "box_border": "#E6DCC0",
+        "accent": "#D4AF37",
+        "acctext": "#0b1c3e",
+        "accent2": "#D4AF37",
+        "card": "#0b1c3e",
+        "tickcheck": "#0b1c3e",
+        "show_gift": false,
+        "chips_from_highlights": false,
+        "headline_style": "banner",
+        "header_image": "vip-header.png",
+        "tagline": "Unlimited free shipping for a whole year, plus an exclusive SkinCeuticals welcome gift.",
+        "cta_text": "Become a VIP",
+        "trust_line": "Auto-renews yearly \u00b7 Cancel anytime \u00b7 Free shipping applied automatically at checkout"
+      }
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "A year of free shipping",
+            "text": "Every order ships free for 12 months, applied automatically at checkout. No minimum spend, no codes."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sparkle",
+            "title": "An exclusive welcome gift",
+            "text": "Your VIP membership comes with an exclusive SkinCeuticals welcome gift, delivered with your first order."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "drop",
+            "title": "Instant VIP status",
+            "text": "You become a VIP the moment you join, with free delivery applied to everything you order."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "It never lapses",
+            "text": "As an annual subscription it auto-renews, so your free shipping continues year after year. Cancel anytime."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "bg": "#FAF6EC",
+        "on_bg": "#0b1c3e",
+        "header_image": "nad-h-benefits.png",
+        "hide_pillars": false,
+        "hide_if_no_metafield": false,
+        "intro": "Everything your VIP year includes, one payment, twelve months of perks."
+      }
+    },
+    "nad_imagefeature": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#0b1c3e",
+        "image_index": 0,
+        "require_image": false,
+        "stack_two": false,
+        "eyebrow": "YOUR WELCOME GIFT",
+        "heading": "An exclusive SkinCeuticals welcome gift",
+        "body": "<p>Every VIP membership comes with an exclusive SkinCeuticals gift set, delivered with your first order.</p>",
+        "caption": ""
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I get the free shipping?",
+            "a": "<p>It's automatic. Once you're a VIP, every order ships free at checkout, no code needed. Just make sure you're logged in to your account.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "What do I get for the membership?",
+            "a": "<p>A full 12 months of unlimited free delivery on every order, plus an exclusive SkinCeuticals welcome gift with your first order, all for one annual payment. If you order regularly, the free shipping alone more than covers it.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Does it renew?",
+            "a": "<p>Yes, it's an annual subscription that renews each year so your VIP free shipping never lapses. You can cancel anytime from your account.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I buy it as a one-off?",
+            "a": "<p>The VIP membership is subscription-based so your free shipping stays active and renews automatically. You're always in control and can cancel whenever you like.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "VIP membership terms",
+            "a": "<ul><li>VIP membership provides complimentary standard UK tracked delivery on all orders for 12 months from purchase, applied automatically at checkout while signed in to your VIP account.</li><li>Covers standard UK delivery only. It does not include express or next-day upgrades, international delivery, or any oversized-item, remote-area or courier surcharges.</li><li>Membership is personal to the account holder and non-transferable.</li><li>It is an annual subscription that renews automatically each year at the then-current price unless cancelled. Cancel anytime from your account; free shipping continues until the end of your paid term. The membership fee is non-refundable once your welcome gift has been dispatched.</li><li>The welcome gift is included with your first order while stocks last and subject to availability; contents may vary, one gift per membership, no cash value.</li><li>Applies to eligible orders only and cannot be combined with other delivery promotions. Standard delivery timeframes apply.</li><li>We reserve the right to amend, suspend or withdraw the benefit or these terms at any time, with reasonable notice of material changes.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {
+        "bg": "#FAF6EC",
+        "header_image": "nad-h-faq.png"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_benefits",
+    "nad_imagefeature",
+    "nad_faq"
+  ]
+}

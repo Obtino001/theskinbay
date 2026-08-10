@@ -1,0 +1,254 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {}
+    },
+    "nad_hero": {
+      "type": "nad-hero",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "box_bg": "#F3F3F1",
+        "box_border": "#E5E5E2",
+        "accent": "#141414",
+        "acctext": "#FFFFFF",
+        "accent2": "#FFFFFF",
+        "card": "#141414",
+        "tickcheck": "#FFFFFF",
+        "headline_style": "title",
+        "chips_from_highlights": true,
+        "show_gift": true,
+        "tagline": "",
+        "cta_text": "Add to bag",
+        "trust_line": "Genuine products \u00b7 Expert-curated \u00b7 Fast, tracked UK dispatch"
+      }
+    },
+    "nad_bundle": {
+      "type": "nad-bundle",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "heading": "Bundle includes"
+      }
+    },
+    "nad_trust": {
+      "type": "nad-trust",
+      "settings": {
+        "bg": "#ffffff"
+      },
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "100% genuine",
+            "sub": "Authorised UK stockist"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Expert-curated",
+            "sub": "By skincare specialists"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast, tracked delivery",
+            "sub": "Dispatched from the UK"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "check",
+            "title": "Earn Bay Points",
+            "sub": "Rewards on every order"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "nad_video": {
+      "type": "nad-productvideo",
+      "settings": {
+        "bg": "#ffffff",
+        "on_bg": "#141414",
+        "eyebrow": "SEE IT IN ACTION",
+        "heading": "How to use it",
+        "howto_heading": "How to use"
+      }
+    },
+    "nad_science": {
+      "type": "nad-science",
+      "settings": {
+        "bg": "#ffffff",
+        "use_metafield": true,
+        "insight": "",
+        "body": "<p>Expert-curated by theskinbay.</p>"
+      }
+    },
+    "nad_howto": {
+      "type": "nad-howto",
+      "settings": {
+        "bg": "#ffffff",
+        "kit_heading": "",
+        "hide_if_video": true,
+        "hide_if_empty": true,
+        "note": "Patch test before first use. For external use only. Always follow the product instructions."
+      }
+    },
+    "nad_breaker": {
+      "type": "nad-breaker",
+      "settings": {
+        "bg": "#ffffff",
+        "colour": "black"
+      }
+    },
+    "nad_founder": {
+      "type": "nad-founder",
+      "settings": {
+        "bg": "#ffffff",
+        "quote": "Every product we stock is one I would happily use myself. Curated skincare, honest advice, and results you can feel.",
+        "signature": "Emmalee x",
+        "role": "Founder, theskinbay"
+      }
+    },
+    "nad_crosssell": {
+      "type": "nad-crosssell",
+      "settings": {
+        "bg": "#ffffff",
+        "source": "related",
+        "cross_category": false,
+        "more_heading": "You may also love",
+        "max_products": 4,
+        "view_all_url": "",
+        "view_all_text": ""
+      }
+    },
+    "nad_faq": {
+      "type": "nad-faq",
+      "settings": {
+        "bg": "#ffffff"
+      },
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "Are your products genuine?",
+            "a": "<p>Yes. Everything we sell is 100% genuine, sourced from the brand or authorised UK suppliers.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How fast is delivery?",
+            "a": "<p>Orders are dispatched quickly and tracked across the UK. See our delivery page for full timings.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "What is your returns policy?",
+            "a": "<p>Unopened items can be returned within our standard returns window. See our returns page for details.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Do you offer rewards?",
+            "a": "<p>Yes. Earn Bay Points on every order to redeem against future purchases.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "Need help choosing?",
+            "a": "<p>Our team can help you build the right routine. Reach out any time and we will point you in the right direction.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    },
+    "nad_benefits": {
+      "type": "nad-benefits",
+      "settings": {
+        "bg": "#ffffff",
+        "hide_pillars": true,
+        "hide_if_no_metafield": true
+      }
+    },
+    "nad_if_a": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#ffffff",
+        "require_image": true,
+        "image_index": 2,
+        "layout": "left",
+        "eyebrow": "IN YOUR ROUTINE",
+        "heading": "Made to fit your everyday",
+        "body": "<p>Simple to use and easy to love. Slot it into your morning or evening routine and let it get to work.</p>",
+        "stack_two": true
+      }
+    },
+    "nad_if_b": {
+      "type": "nad-imagefeature",
+      "settings": {
+        "bg": "#ffffff",
+        "require_image": true,
+        "image_index": 4,
+        "layout": "right",
+        "eyebrow": "WHY IT WORKS",
+        "heading": "Considered, quality formulation",
+        "body": "<p>Carefully formulated and curated by theskinbay for real, visible results.</p>",
+        "stack_two": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "nad_hero",
+    "nad_bundle",
+    "nad_trust",
+    "nad_benefits",
+    "nad_if_a",
+    "nad_video",
+    "nad_science",
+    "nad_if_b",
+    "nad_howto",
+    "nad_breaker",
+    "nad_founder",
+    "nad_crosssell",
+    "nad_faq"
+  ]
+}

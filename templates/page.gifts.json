@@ -1,0 +1,208 @@
+{
+  "sections": {
+    "gifts": {
+      "type": "gifts-page",
+      "blocks": {
+        "gift_xbNtCQ": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/c7c5671db45d5db85445925ff37a3e02.png",
+            "image_url": "",
+            "title": "CLINICCARE SAMPLING",
+            "offer": "When you spend £50 with ClinicCare and get a complimentary Instant Peel @ HOME Sample",
+            "link": "shopify://collections/cliniccare"
+          }
+        },
+        "gift_Pa4D4y": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/3597eb55-8af2-4b0c-85cf-2820c9ba0c2c.png",
+            "image_url": "",
+            "title": "SkinCeuticals Lux Bag",
+            "offer": "Spend £400 On SkinCeuticals and Get a FREE gift worth £95 (Excludes Bundles with FREE 15ml Gifts.)",
+            "link": "shopify://collections/skinceuticals"
+          }
+        },
+        "gift_6inpjW": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/36_0d6f601a-137b-4eef-b29f-6354b558be55-2.png",
+            "image_url": "",
+            "title": "Skinceuticals exclusive",
+            "offer": "Get 15ml C E Ferulic when you buy 30ml C E Ferulic. 50% Extra Free!",
+            "link": "shopify://products/skinceuticals-c-e-ferulic-30ml-15ml-extra-free-bundle"
+          }
+        },
+        "gift_WYGEYa": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/8B948A95-D955-47CE-A2AB-243D32E2E77E.png",
+            "image_url": "",
+            "title": "SkinCeuticals Trio Of Minis",
+            "offer": "Get this Trio Of Minis From SkinCeuticals worth £50 when you spend £150 (Excludes Bundles with FREE 15ml Gifts).",
+            "link": "shopify://collections/skinceuticals"
+          }
+        },
+        "gift_8EiV3q": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/skinceuticals-age-interrupter-ultra-serum-15ml-gift.png",
+            "image_url": "",
+            "title": "SKINCEUTICALS EXCLUSIVE",
+            "offer": "Buy any 30ml A.G.E Interruptor Ultra Serum and get a complimentary 15ml. 50% Extra Free!",
+            "link": "shopify://products/skinceuticals-age-interrupter-ultra-serum-30ml-free-15ml-bundle"
+          }
+        },
+        "gift_JQTwP6": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/D99CE2BA-B6C2-419F-8483-A71EE0738F77_06720dd7-bea7-4e35-95ca-eea5ac810f82.png",
+            "image_url": "",
+            "title": "A.G.E BUNDLE GIFT",
+            "offer": "Buy an A.G.E Bundle + Get this FREE Gift worth over £100.",
+            "link": "shopify://products/skinceuticals-a-g-e-interrupter-advanced-48ml-a-g-e-interrupter-ultra-serum-30ml-bundle-free-15ml"
+          }
+        },
+        "gift_HWHpiC": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/download.webp",
+            "image_url": "",
+            "title": "SKINCEUTICALS EXCLUSIVE",
+            "offer": "Buying a SkinCeuticals Bundle containing a FREE 15ml? Get this free bag if your order exceeds £400",
+            "link": "shopify://collections/skinceuticals-bundles"
+          }
+        },
+        "gift_gLBcym": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPTImageJul12_2026at03_33_38PM.png",
+            "image_url": "",
+            "title": "LA ROCHE POSAY EXCLUSIVE",
+            "offer": "Free Anthelios UVMUNE 400 SPF 50 15ml when you buy ANY 2 La Roche Posay products.",
+            "link": "shopify://collections/la-roche-posay"
+          }
+        },
+        "gift_GhcEyf": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/P11689-4.jpg",
+            "image_url": "",
+            "title": "FREE LUX VANITY CASE",
+            "offer": "Spend £100 On Medik8 & Get A FREE Luxury Branded Vanity Case.",
+            "link": "shopify://collections/medik8"
+          }
+        },
+        "gift_wAjyLg": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/42ebdc7f2a6825a6ef60ba5b2eb461e9.jpg",
+            "image_url": "",
+            "title": "Cantabria labs exclusive",
+            "offer": "Buy 2 Heliocare Products And Get This Luxury Beach Accessory FREE!",
+            "link": "shopify://collections/heliocare"
+          }
+        },
+        "gift_g7pCc8": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2569-07-03_at_12.33.23_1c8156ec-bf55-4c75-be98-c2f0b66ca2d5.png",
+            "image_url": "",
+            "title": "EXCLUSIVE OLAPLEX OFFER",
+            "offer": "Buy Any 2 Olaplex Products And Get A FREE Treatment.",
+            "link": "shopify://collections/olaplex"
+          }
+        },
+        "gift_TkrMt7": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPTImageJun26_2026at01_31_40PM.png",
+            "image_url": "",
+            "title": "EXCLUSIVELY WITH THESKINBAY",
+            "offer": "Free 15ml P-tiox Cream When you buy P-tiox Duo Bundle!",
+            "link": "shopify://products/skinceuticals-p-tiox-30ml"
+          }
+        },
+        "gift_kMtxpk": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/843A1501-3582-439A-AE17-4055A5432AEF.png",
+            "image_url": "",
+            "title": "EXTRA FREE WITH VICHY",
+            "offer": "Buy Vichy LiftActiv Collagen Specialist 16 Bonding Serum 30ml Get a Free Lux Sample perfect for travel!",
+            "link": "shopify://products/vichy-liftactiv-collagen-specialist-16-bonding-serum-30ml"
+          }
+        },
+        "g1": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/VITAFREEToteGWP.jpg",
+            "image_url": "",
+            "title": "Vita Liberata",
+            "offer": "Free Tote Bag when you buy ANY 3 products",
+            "link": "shopify://collections/vita-liberata"
+          }
+        },
+        "gift_iLHJQ3": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/WAS_130.00NOW_99.00_f3f60321-4c68-43e4-876a-f2b0d4eb5d94.png",
+            "image_url": "",
+            "title": "ClinicCare",
+            "offer": "Spend £200 on ClinicCare and get rewarded with this travel bag + 4 luxury samples.",
+            "link": "shopify://collections/cliniccare"
+          }
+        },
+        "g2": {
+          "type": "gift",
+          "settings": {
+            "image": "shopify://shop_images/avene-beach-bag-transparent-under-200kb_8b929f97-a843-4602-a188-bcfd3302e3f8.png",
+            "image_url": "",
+            "title": "Avène",
+            "offer": "Complimentary tote bag when you buy ANY 3 Avène products.",
+            "link": "shopify://collections/avene"
+          }
+        }
+      },
+      "block_order": [
+        "gift_xbNtCQ",
+        "gift_Pa4D4y",
+        "gift_6inpjW",
+        "gift_WYGEYa",
+        "gift_8EiV3q",
+        "gift_JQTwP6",
+        "gift_HWHpiC",
+        "gift_gLBcym",
+        "gift_GhcEyf",
+        "gift_wAjyLg",
+        "gift_g7pCc8",
+        "gift_TkrMt7",
+        "gift_kMtxpk",
+        "g1",
+        "gift_iLHJQ3",
+        "g2"
+      ],
+      "settings": {
+        "eyebrow": "Complimentary",
+        "heading": "Gifts & Rewards",
+        "lede": "",
+        "founder_quote": "We want to reward our loyal customers by giving back to them. These gifts are a thank you for shopping with The Skin Bay — and a great opportunity to introduce you to new brands and fabulous new products.",
+        "header_image": "gifts-h-hero.png"
+      }
+    },
+    "gift_disclaimer": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"gift-disclaimer\">\n  <div class=\"gift-disclaimer__inner\">\n    <h3 class=\"gift-disclaimer__title\">Gift &amp; Offer Terms</h3>\n    <p class=\"gift-disclaimer__text\">All gifts are subject to availability and are awarded only with qualifying orders, while stocks last. Gifts hold no cash value and cannot be exchanged. The Skin Bay reserves the right to amend, withdraw or substitute any gift or offer at any time, without prior notice.</p>\n  </div>\n</div>\n<style>\n  .gift-disclaimer{padding:10px 20px 64px;}\n  .gift-disclaimer__inner{max-width:840px;margin:0 auto;border:1px solid #e3ddd2;border-radius:4px;background:#faf7f1;padding:30px 36px;text-align:center;}\n  .gift-disclaimer__title{font-family:'Playfair Display',Georgia,serif;font-size:17px;letter-spacing:1.5px;text-transform:uppercase;color:#1a1a1a;margin:0 0 12px;font-weight:500;}\n  .gift-disclaimer__text{font-family:'Lato',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.75;color:#6b6b6b;margin:0;letter-spacing:.2px;}\n  @media(max-width:749px){.gift-disclaimer{padding:6px 16px 44px;}.gift-disclaimer__inner{padding:24px 22px;}}\n</style>",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "gifts",
+    "gift_disclaimer"
+  ]
+}

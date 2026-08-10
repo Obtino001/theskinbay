@@ -1,0 +1,1035 @@
+{%- liquid
+  assign current_sort = collection.sort_by | default: collection.default_sort_by
+  assign sort_options = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-descending' | split: ','
+  assign sort_labels  = 'Featured,Best Selling,Name: A–Z,Name: Z–A,Price: Low–High,Price: High–Low,Newest' | split: ','
+
+  assign active_filter_count = 0
+  for filter in collection.filters
+    for value in filter.active_values
+      assign active_filter_count = active_filter_count | plus: 1
+    endfor
+    if filter.type == 'price_range'
+      if filter.min_value.value or filter.max_value.value
+        assign active_filter_count = active_filter_count | plus: 1
+      endif
+    endif
+  endfor
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --bg:       {{ section.settings.bg_color }};
+    --txt:      {{ section.settings.text_color }};
+    --border:   #e8e8e8;
+    --gift-bg:  #f5f0e8;
+    --gift-border: rgba(0,0,0,0.12);
+    --sale-red: #c0392b;
+    --ff:       'Lato', var(--font-body--family), sans-serif;
+    --sidebar:  260px;
+  }
+
+  /* ── Wrapper ── */
+  .pcg-section {
+    background: var(--bg);
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    font-family: var(--ff);
+    color: var(--txt);
+  }
+  .pcg-container { max-width: 1560px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── Two-column layout ── */
+  .lcg-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .lcg-sidebar { display: none; }
+
+  /* ══ SIDEBAR ══════════════════════════════════════════════ */
+  .lcg-sidebar {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd transparent;
+    padding-bottom: 40px;
+    border-right: 1px solid var(--border);
+    padding-right: 24px;
+  }
+  .lcg-sidebar::-webkit-scrollbar { width: 3px; }
+  .lcg-sidebar::-webkit-scrollbar-thumb { background: #ddd; }
+
+  .lcg-sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .lcg-sidebar-title {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: #0c0c0c; margin: 0;
+  }
+  .lcg-clear-all {
+    font-size: 8.5px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(0,0,0,.4); text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .lcg-clear-all:hover { color: #0c0c0c; border-color: #0c0c0c; }
+
+  /* ── Active pills ── */
+  .lcg-active-pills {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .lcg-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: #0c0c0c; background: #f2f2f2;
+    padding: 5px 9px; text-decoration: none;
+    border: 1px solid #e0e0e0;
+    transition: background .15s, color .15s;
+    line-height: 1;
+  }
+  .lcg-pill:hover { background: #0c0c0c; color: #fff; }
+  .lcg-pill-x { font-size: 11px; font-weight: 300; }
+
+  /* ── Filter groups ── */
+  .lcg-fgroup { border-bottom: 1px solid var(--border); }
+  .lcg-fgroup-head {
+    list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 15px 0; cursor: pointer;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: #0c0c0c; user-select: none;
+  }
+  .lcg-fgroup-head::-webkit-details-marker { display: none; }
+  .lcg-fgroup-head svg { transition: transform .2s; flex-shrink: 0; }
+  .lcg-fgroup[open] .lcg-fgroup-head svg { transform: rotate(180deg); }
+  .lcg-fgroup-body { padding-bottom: 14px; display: flex; flex-direction: column; gap: 1px; }
+
+  /* ── Filter checkboxes ── */
+  .lcg-fcheck {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 2px; cursor: pointer;
+    text-decoration: none; color: inherit;
+    border-radius: 2px;
+    transition: background .1s;
+  }
+  .lcg-fcheck:hover { background: #f8f8f8; }
+  .lcg-fcheck-box {
+    width: 15px; height: 15px;
+    border: 1.5px solid #ccc; border-radius: 2px;
+    flex-shrink: 0; position: relative;
+    transition: background .15s, border-color .15s;
+  }
+  .lcg-fcheck-box.checked { background: #0c0c0c; border-color: #0c0c0c; }
+  .lcg-fcheck-box.checked::after {
+    content: '';
+    position: absolute; top: 1px; left: 3px;
+    width: 6px; height: 9px;
+    border: 2px solid #fff; border-top: none; border-left: none;
+    transform: rotate(45deg);
+  }
+  .lcg-fname {
+    font-size: 12px; font-weight: 400; color: #222;
+    flex: 1; line-height: 1.35;
+  }
+  .lcg-fname.inactive { color: #bbb; }
+  .lcg-fcount { font-size: 10px; color: #aaa; }
+
+  /* ── Price filter ── */
+  .lcg-price-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lcg-price-input {
+    border: 1px solid var(--border);
+    padding: 9px 10px;
+    font-family: var(--ff); font-size: 12px;
+    width: 100%; box-sizing: border-box;
+    outline: none;
+  }
+  .lcg-price-input:focus { border-color: #0c0c0c; }
+  .lcg-price-btn {
+    margin-top: 8px; width: 100%; padding: 10px;
+    background: #0c0c0c; color: #fff; border: none;
+    font-family: var(--ff); font-size: 8.5px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    cursor: pointer; transition: background .2s;
+  }
+  .lcg-price-btn:hover { background: #333; }
+
+  .lcg-no-filters {
+    font-size: 11px; color: #aaa; padding: 16px 0;
+    line-height: 1.6; margin: 0;
+  }
+
+  /* ══ MAIN: toolbar + grid ══════════════════════════════ */
+  .lcg-main { min-width: 0; }
+  .lcg-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px; margin-bottom: 32px;
+  }
+  .lcg-count {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(0,0,0,.38);
+  }
+  .lcg-sort-select {
+    appearance: none; -webkit-appearance: none;
+    background: transparent url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='black' stroke-width='1'/%3E%3C/svg%3E") no-repeat right 12px center;
+    border: 1px solid var(--border); height: 38px;
+    padding: 0 36px 0 14px;
+    font-family: var(--ff); font-size: 9.5px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--txt); cursor: pointer;
+    transition: border-color .2s; min-width: 190px;
+  }
+  .lcg-sort-select:hover { border-color: #000; }
+
+  /* ══ PRODUCT GRID ══════════════════════════════════════ */
+  .pcg-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px; background: #fff;
+  }
+  .pcg-card { box-shadow: inset 0 0 0 1px var(--border); }
+  @media (min-width: 750px)  { .pcg-grid { grid-template-columns: repeat(5, 1fr); } }
+  @media (min-width: 1200px) { .pcg-grid { grid-template-columns: repeat(5, 1fr); } }
+
+  /* ══ PRODUCT CARD ═══════════════════════════════════════ */
+  .pcg-card { background: #fff; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+  .pcg-img-outer { position: relative; display: block; overflow: hidden; flex-shrink: 0; }
+  .pcg-image-wrap { position: relative; display: block; aspect-ratio: 1/1; overflow: hidden; background: #f9f9f9; text-decoration: none; }
+  .pcg-img { width: 100%; height: 100%; object-fit: contain; padding: 12px; display: block; transition: opacity .55s ease, transform .65s cubic-bezier(.25,.46,.45,.94); }
+  .pcg-img--primary { position: relative; z-index: 1; }
+  .pcg-img--secondary { position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity .55s ease; }
+  .pcg-card:hover .pcg-img--secondary { opacity: 1; }
+  .pcg-card:hover .pcg-img--primary   { transform: scale(1.03); }
+  .pcg-badges { position: absolute; top: 12px; left: 12px; z-index: 5; display: flex; flex-direction: column; gap: 5px; }
+  .pcg-badge { display: inline-block; font-family: var(--ff); font-size: 8px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 4px 8px; line-height: 1; }
+  .pcg-badge--sale { background:#c8102e; color:#fff; width:46px; height:46px; min-width:46px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; letter-spacing:0; align-self:flex-start; flex:0 0 auto; transform:rotate(-8deg); box-shadow:0 0 0 3px #fff, 0 4px 10px rgba(0,0,0,.2); position:relative; }
+  .pcg-badge--sale::before { content:''; position:absolute; inset:4px; border:1px dashed rgba(255,255,255,.6); border-radius:50%; }
+  .pcg-sale-num { font-size:14px; font-weight:800; line-height:1; }
+  .pcg-sale-off { font-size:7px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; margin-top:1px; opacity:.92; }
+  .pcg-badge--sold { background: #fff; color: #0c0c0c; border: 1px solid #0c0c0c; }
+  .pcg-badge--new  { background: #0c0c0c; color: #fff; border: 1px solid #0c0c0c; }
+  .pcg-badge--best { background: transparent; color: #0c0c0c; border: 1px solid #0c0c0c; }
+
+  .pcg-qv-trigger {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 6;
+    background: rgba(255,255,255,.95); backdrop-filter: blur(4px);
+    border: none; border-top: 1px solid rgba(0,0,0,.08);
+    padding: 11px 16px;
+    font-family: var(--ff); font-size: 8.5px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; color: #0c0c0c;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    opacity: 0; transform: translateY(100%);
+    transition: opacity .25s ease, transform .28s cubic-bezier(.25,.46,.45,.94);
+    pointer-events: none;
+  }
+  .pcg-card:hover .pcg-qv-trigger { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  .pcg-info { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 16px 18px 12px; }
+  .pcg-vendor { font-size: 8px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: rgba(0,0,0,.38); }
+  .pcg-title { font-size: 13px; font-weight: 400; color: var(--txt); text-decoration: none; line-height: 1.45; display: block; transition: color .15s; }
+  .pcg-title:hover { color: #555; }
+  .pcg-price-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
+  .pcg-price-now  { font-size: 14px; font-weight: 600; color: var(--txt); }
+  .pcg-price-was  { font-size: 12px; font-weight: 400; color: #aaa; text-decoration: line-through; }
+  .pcg-save-label { font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--sale-red); }
+
+  .pcg-btn-wrap { padding: 0 18px 18px; }
+  .pcg-quick-buy {
+    width: 100%; background: #0c0c0c; border: 1px solid #0c0c0c; color: #fff;
+    padding: 14px 16px;
+    font-family: var(--ff); font-size: 9px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+    cursor: pointer; transition: background .2s, border-color .2s, color .2s;
+  }
+  .pcg-quick-buy:hover   { background: transparent; color: #0c0c0c; border-color: #0c0c0c; }
+  .pcg-quick-buy:disabled { opacity: .4; cursor: not-allowed; background: #888; border-color: #888; }
+  .pcg-quick-buy.adding  { opacity: .65; cursor: wait; }
+
+  .pcg-gift-footer {
+    margin: 0 18px 16px; padding: 10px 12px;
+    background: var(--gift-bg); border: 1px solid var(--gift-border);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .pcg-gift-icon { width: 14px; height: 14px; fill: #000; flex-shrink: 0; }
+  .pcg-gift-text { font-size: 8.5px; font-weight: 700; color: rgba(0,0,0,.65); text-transform: uppercase; letter-spacing: .1em; line-height: 1.3; }
+
+  /* ══ PAGINATION ════════════════════════════════════════ */
+  .lcg-pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 6px; margin-top: 48px; font-family: var(--ff);
+  }
+  .lcg-page-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px;
+    border: 1px solid var(--border);
+    font-size: 11px; font-weight: 600; color: #0c0c0c; text-decoration: none;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .lcg-page-link:hover,
+  .lcg-page-link.active { background: #0c0c0c; color: #fff; border-color: #0c0c0c; }
+  .lcg-page-dots { font-size: 13px; color: #bbb; padding: 0 4px; }
+
+  /* ══ UNIFIED TOPBAR ════════════════════════════════════ */
+  .lcg-topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff; border-bottom: 1px solid var(--border);
+  }
+  .lcg-topbar-inner {
+    display: flex; align-items: center; gap: 20px; height: 52px;
+  }
+  .lcg-cats {
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto; flex: 1; min-width: 0;
+    scrollbar-width: none; -ms-overflow-style: none; height: 100%;
+  }
+  .lcg-cats::-webkit-scrollbar { display: none; }
+  .lcg-cat-pill {
+    white-space: nowrap; text-decoration: none; height: 100%;
+    display: inline-flex; align-items: center;
+    font-family: var(--ff); font-size: 8.5px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: rgba(0,0,0,.42);
+    padding: 0 16px; border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .lcg-cat-pill:hover { color: #0c0c0c; border-bottom-color: rgba(0,0,0,.22); }
+  .lcg-cat-pill.active { color: #0c0c0c; border-bottom-color: #0c0c0c; }
+  .lcg-topbar-actions {
+    display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  }
+  .lcg-count-label {
+    font-family: var(--ff); font-size: 9px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: rgba(0,0,0,.35);
+    white-space: nowrap;
+  }
+  .lcg-filter-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: 1px solid var(--border);
+    padding: 0 14px; height: 34px;
+    font-family: var(--ff); font-size: 8.5px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: #0c0c0c;
+    cursor: pointer; white-space: nowrap;
+    transition: border-color .15s;
+  }
+  .lcg-filter-btn:hover { border-color: #0c0c0c; }
+  .lcg-filter-btn svg { flex-shrink: 0; }
+
+  /* ══ FILTER DRAWER (mobile) ════════════════════════════ */
+  .lcg-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 400;
+  }
+  .lcg-overlay.open { display: block; }
+  .lcg-drawer {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: min(340px, 88vw); background: #fff; z-index: 500;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(.25,.46,.45,.94);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .lcg-drawer.open { transform: translateX(0); }
+  .lcg-drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .lcg-drawer-title {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .24em; text-transform: uppercase; margin: 0;
+  }
+  .lcg-drawer-close {
+    background: none; border: none; font-size: 22px;
+    cursor: pointer; color: #555; padding: 0; line-height: 1; font-weight: 300;
+  }
+  .lcg-drawer-body { flex: 1; overflow-y: auto; padding: 0 20px; scrollbar-width: thin; }
+  .lcg-drawer-footer {
+    padding: 14px 20px; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; flex-shrink: 0;
+  }
+  .lcg-drawer-apply {
+    flex: 2; padding: 13px; background: #0c0c0c; color: #fff; border: none;
+    font-family: var(--ff); font-size: 9px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase; cursor: pointer;
+    transition: background .2s;
+  }
+  .lcg-drawer-apply:hover { background: #333; }
+  .lcg-drawer-clear {
+    flex: 1; padding: 13px;
+    background: transparent; color: #0c0c0c; border: 1px solid var(--border);
+    font-family: var(--ff); font-size: 9px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .15s, background .15s;
+  }
+  .lcg-drawer-clear:hover { border-color: #0c0c0c; }
+
+  /* ══ QUICK VIEW MODAL ══════════════════════════════════ */
+  .pcg-qv-modal { display: none; position: fixed; inset: 0; z-index: 9000; align-items: center; justify-content: center; }
+  .pcg-qv-modal.open { display: flex; }
+  .pcg-qv-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.55); cursor: pointer; }
+  .pcg-qv-panel {
+    position: relative; background: #fff;
+    width: min(900px, 96vw); max-height: 90vh; overflow-y: auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    z-index: 1; animation: qvIn .3s cubic-bezier(.19,1,.22,1) both;
+  }
+  @media (max-width: 640px) { .pcg-qv-panel { grid-template-columns: 1fr; } }
+  @keyframes qvIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .pcg-qv-close { position: absolute; top: 16px; right: 18px; background: none; border: none; font-size: 22px; line-height: 1; cursor: pointer; color: #777; z-index: 2; font-weight: 300; transition: color .15s; }
+  .pcg-qv-close:hover { color: #000; }
+  .pcg-qv-gallery { background: #f5f5f5; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; padding: 32px; }
+  .pcg-qv-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pcg-qv-info { padding: 40px 36px 36px; display: flex; flex-direction: column; gap: 14px; font-family: var(--ff); }
+  .pcg-qv-vendor { font-size: 8.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: rgba(0,0,0,.38); margin: 0; }
+  .pcg-qv-title { font-size: 1.15rem; font-weight: 400; color: #0c0c0c; margin: 0; line-height: 1.35; }
+  .pcg-qv-price { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 600; }
+  .pcg-qv-price-was { font-size: .875rem; font-weight: 400; color: #aaa; text-decoration: line-through; }
+  .pcg-qv-variant-label { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(0,0,0,.5); margin: 0 0 8px; }
+  .pcg-qv-select { width: 100%; appearance: none; border: 1px solid #ddd; padding: 12px 36px 12px 14px; font-family: var(--ff); font-size: 12px; background: #fff url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='black' stroke-width='1'/%3E%3C/svg%3E") no-repeat right 14px center; cursor: pointer; }
+  .pcg-qv-atc { width: 100%; padding: 16px; background: #0c0c0c; color: #fff; border: 1px solid #0c0c0c; font-family: var(--ff); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
+  .pcg-qv-atc:hover { background: transparent; color: #0c0c0c; }
+  .pcg-qv-atc:disabled { opacity: .5; cursor: not-allowed; }
+  .pcg-qv-full-link { font-size: 9.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; color: #0c0c0c; border-bottom: 1px solid rgba(0,0,0,.25); padding-bottom: 1px; align-self: flex-start; transition: border-color .15s; }
+  .pcg-qv-full-link:hover { border-color: #000; }
+  .pcg-qv-desc-wrap { border-top: 1px solid #f0f0f0; padding-top: 14px; }
+  .pcg-qv-desc-label { font-size: 8px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: rgba(0,0,0,.38); margin: 0 0 8px; }
+  .pcg-qv-desc { font-size: 12.5px; line-height: 1.65; color: rgba(0,0,0,.65); margin: 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  @media (max-width: 640px) { .pcg-qv-gallery { aspect-ratio: auto; padding: 24px; min-height: 260px; } .pcg-qv-info { padding: 24px 20px 28px; } }
+
+  /* ══ RESPONSIVE ════════════════════════════════════════ */
+  @media (max-width: 989px) {
+    .lcg-topbar-inner { padding: 0 16px; height: 46px; }
+    .lcg-count-label { display: none; }
+    .pcg-container { padding: 0 16px; }
+    .pcg-section { padding-top: 0; }
+  }
+  @media (max-width: 749px) {
+    .pcg-info { padding: 14px 14px 10px; }
+    .pcg-title { font-size: 12px; }
+    .pcg-btn-wrap { padding: 0 14px 14px; }
+    .pcg-gift-footer { margin: 0 14px 12px; }
+    .pcg-quick-buy { font-size: 8px; padding: 12px; }
+  }
+
+  /* ══ VARIANT SWATCHES ══════════════════════════════════ */
+  .pcg-swatches {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 8;
+    background: rgba(255,255,255,0.97);
+    padding: 7px 10px 8px;
+    transform: translateY(100%);
+    transition: transform .28s cubic-bezier(.25,.46,.45,.94);
+  }
+  .pcg-card:hover .pcg-swatches { transform: translateY(0); }
+  .pcg-card:has(.pcg-swatches):hover .pcg-qv-trigger { opacity: 0; pointer-events: none; }
+  .pcg-swatch-track {
+    display: flex; gap: 4px; overflow-x: auto; align-items: center;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .pcg-swatch-track::-webkit-scrollbar { display: none; }
+  .pcg-swatch {
+    flex-shrink: 0; width: 34px; height: 34px;
+    border: 1px solid rgba(0,0,0,.1); background: #f5f5f5;
+    cursor: pointer; padding: 2px; overflow: hidden;
+    transition: border-color .15s;
+  }
+  .pcg-swatch:hover, .pcg-swatch.swatch-active { border-color: #0c0c0c; }
+  .pcg-swatch-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pcg-swatch-more {
+    font-family: 'Lato', sans-serif;
+    font-size: 7.5px; font-weight: 700; letter-spacing: .1em;
+    color: rgba(0,0,0,.38); white-space: nowrap; flex-shrink: 0; margin-left: 2px;
+  }
+  @media (hover: none) { .pcg-swatches { display: none; } }
+</style>
+
+{%- comment -%} Complimentary-gift collection offer bar removed 2026-06-30 (offer no longer valid). To restore: {%- render 'lf-collection-offer-banner', collection: collection -%} {%- endcomment -%}
+
+<!-- Unified category + filter topbar -->
+<div class="lcg-topbar">
+  <div class="lcg-topbar-inner pcg-container">
+    <nav class="lcg-cats" aria-label="Browse categories">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category_filter' -%}
+          {%- assign is_active = false -%}
+          {%- if collection.handle == block.settings.collection_link -%}{%- assign is_active = true -%}{%- endif -%}
+          <a href="/collections/{{ block.settings.collection_link }}"
+             class="lcg-cat-pill{% if is_active %} active{% endif %}"
+             {{ block.shopify_attributes }}>{{ block.settings.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+    <div class="lcg-topbar-actions">
+      <span class="lcg-count-label">{{ collection.products_count }} Product{% if collection.products_count != 1 %}s{% endif %}</span>
+      <button class="lcg-filter-btn" onclick="lcgOpenDrawer()" aria-label="Open filters">
+        <svg width="13" height="9" viewBox="0 0 13 9" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><line x1="0" y1="1" x2="13" y2="1"/><line x1="2" y1="4.5" x2="11" y2="4.5"/><line x1="4" y1="8" x2="9" y2="8"/></svg>
+        Refine{% if active_filter_count > 0 %} ({{ active_filter_count }}){% endif %}
+      </button>
+      <select class="lcg-sort-select" onchange="lcgSort(this.value)" aria-label="Sort products">
+        {%- for opt in sort_options -%}
+          <option value="{{ opt }}" {% if current_sort == opt %}selected{% endif %}>{{ sort_labels[forloop.index0] }}</option>
+        {%- endfor -%}
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Filter drawer backdrop + panel -->
+<div class="lcg-overlay" id="lcg-overlay" onclick="lcgCloseDrawer()"></div>
+<div class="lcg-drawer" id="lcg-drawer" role="dialog" aria-modal="true" aria-label="Filters">
+  <div class="lcg-drawer-head">
+    <h2 class="lcg-drawer-title">Filters{% if active_filter_count > 0 %} ({{ active_filter_count }}){% endif %}</h2>
+    <button class="lcg-drawer-close" onclick="lcgCloseDrawer()" aria-label="Close">&#215;</button>
+  </div>
+  <div class="lcg-drawer-body">
+    {%- render 'lcg-filters' -%}
+  </div>
+  <div class="lcg-drawer-footer">
+    {%- if active_filter_count > 0 -%}
+      <a href="{{ collection.url }}" class="lcg-drawer-clear">Clear all</a>
+    {%- endif -%}
+    <button class="lcg-drawer-apply" onclick="lcgCloseDrawer()">View Results</button>
+  </div>
+</div>
+
+<div class="pcg-section">
+  <div class="pcg-container">
+    <div class="lcg-layout">
+
+      <!-- Desktop sidebar -->
+      <aside class="lcg-sidebar" aria-label="Product filters">
+        <div class="lcg-sidebar-head">
+          <p class="lcg-sidebar-title">Filters</p>
+          {%- if active_filter_count > 0 -%}
+            <a href="{{ collection.url }}" class="lcg-clear-all">Clear all</a>
+          {%- endif -%}
+        </div>
+
+        {%- if active_filter_count > 0 -%}
+          <div class="lcg-active-pills">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a href="{{ value.url_to_remove }}" class="lcg-pill" aria-label="Remove {{ value.label }}">
+                  {{ value.label }} <span class="lcg-pill-x" aria-hidden="true">×</span>
+                </a>
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value or filter.max_value.value -%}
+                  <a href="{{ filter.url_to_remove }}" class="lcg-pill">
+                    {%- if filter.min_value.value -%}{{ filter.min_value.value | money_without_trailing_zeros }}{%- else -%}{{ filter.range_min | money_without_trailing_zeros }}{%- endif -%}
+                    &ndash;
+                    {%- if filter.max_value.value -%}{{ filter.max_value.value | money_without_trailing_zeros }}{%- else -%}{{ filter.range_max | money_without_trailing_zeros }}{%- endif -%}
+                    <span class="lcg-pill-x" aria-hidden="true">×</span>
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- render 'lcg-filters' -%}
+      </aside>
+
+      <!-- Main -->
+      <div class="lcg-main">
+
+        {%- paginate collection.products by 50 -%}
+
+          <div class="pcg-grid" id="pcg-grid-{{ section.id }}">
+            {%- for product in collection.products -%}
+              {%- if product.price > 0 -%}
+
+                {%- comment -%} Gift promo matching {%- endcomment -%}
+                {%- assign gift_promo_text = blank -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'gift_promo' -%}
+                    {%- assign match = false -%}
+                    {%- assign p_vendor = product.vendor | downcase -%}
+                    {%- assign b_vendor = block.settings.vendor_name | downcase -%}
+                    {%- case block.settings.trigger -%}
+                      {%- when 'vendor'        -%}{%- if b_vendor == p_vendor -%}{%- assign match = true -%}{%- endif -%}
+                      {%- when 'collection'    -%}{%- for c in product.collections -%}{%- if c.handle == block.settings.collection_trigger -%}{%- assign match = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                      {%- when 'product'       -%}{%- if block.settings.product_trigger.id == product.id -%}{%- assign match = true -%}{%- endif -%}
+                      {%- when 'product_group' -%}{%- for p_item in block.settings.product_group -%}{%- if p_item.id == product.id -%}{%- assign match = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                    {%- endcase -%}
+                    {%- if match -%}{%- assign gift_promo_text = block.settings.gift_text -%}{%- break -%}{%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- comment -%} Badge logic {%- endcomment -%}
+                {%- assign savings = 0 -%}
+                {%- if product.compare_at_price > product.price -%}
+                  {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                {%- endif -%}
+                {%- assign product_date_s = product.created_at | date: '%s' | plus: 0 -%}
+                {%- assign now_s = 'now' | date: '%s' | plus: 0 -%}
+                {%- assign days_old = now_s | minus: product_date_s | divided_by: 86400 -%}
+                {%- assign is_new = false -%}
+                {%- if days_old < 60 or product.tags contains 'new' or product.tags contains 'New' -%}{%- assign is_new = true -%}{%- endif -%}
+                {%- assign is_bestseller = false -%}
+                {%- if product.tags contains 'bestseller' or product.tags contains 'Bestseller' or product.tags contains 'best-seller' -%}{%- assign is_bestseller = true -%}{%- endif -%}
+
+                <div class="pcg-card" data-brand="{{ product.vendor | escape }}" data-price="{{ product.price }}" data-title="{{ product.title | escape }}">
+                  <div class="pcg-img-outer">
+                    {% render 'wishlist-heart', product: product %}
+                    <a href="{{ product.url }}" class="pcg-image-wrap" aria-label="{{ product.title | escape }}">
+                      <div class="pcg-badges">
+                        {%- unless product.available -%}<span class="pcg-badge pcg-badge--sold">Sold Out</span>{%- endunless -%}
+                        {%- if savings > 0 -%}<span class="pcg-badge pcg-badge--sale"><span class="pcg-sale-num">{{ savings }}%</span><span class="pcg-sale-off">off</span></span>{%- endif -%}
+                        {%- if is_bestseller -%}<span class="pcg-badge pcg-badge--best">Bestseller</span>{%- endif -%}
+                        {%- if is_new and savings == 0 -%}<span class="pcg-badge pcg-badge--new">New</span>{%- endif -%}
+                      </div>
+                      <img
+                        src="{{ product.featured_media | image_url: width: 600 }}"
+                        data-orig-src="{{ product.featured_media | image_url: width: 600 }}"
+                        width="600" height="600"
+                        loading="lazy"
+                        alt="{{ product.title | escape }}"
+                        class="pcg-img pcg-img--primary"
+                      >
+                      {%- if product.images[1] != blank -%}
+                        <img
+                          src="{{ product.images[1] | image_url: width: 600 }}"
+                          width="600" height="600"
+                          loading="lazy"
+                          alt="{{ product.title | escape }}"
+                          class="pcg-img pcg-img--secondary"
+                          aria-hidden="true"
+                        >
+                      {%- endif -%}
+                    </a>
+                    <button class="pcg-qv-trigger" data-handle="{{ product.handle }}" data-section="{{ section.id }}" aria-label="Quick view {{ product.title | escape }}" type="button">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      Quick View
+                    </button>
+
+                    {%- unless product.has_only_default_variant -%}
+                      {%- assign swatch_variants = '' -%}
+                      {%- assign swatch_count = 0 -%}
+                      {%- for v in product.variants -%}
+                        {%- if v.featured_image != blank -%}
+                          {%- assign swatch_count = swatch_count | plus: 1 -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- if swatch_count > 1 -%}
+                        <div class="pcg-swatches" aria-label="Colour options">
+                          <div class="pcg-swatch-track">
+                            {%- assign shown = 0 -%}
+                            {%- for v in product.variants -%}
+                              {%- if v.featured_image != blank and shown < 10 -%}
+                                <button class="pcg-swatch{% if forloop.first %} swatch-active{% endif %}"
+                                  type="button"
+                                  data-img="{{ v.featured_image | image_url: width: 600 }}"
+                                  data-variant="{{ v.id }}"
+                                  data-url="{{ product.url }}?variant={{ v.id }}"
+                                  aria-label="{{ v.title | escape }}">
+                                  <img src="{{ v.featured_image | image_url: width: 80 }}" alt="{{ v.title | escape }}" class="pcg-swatch-img" loading="lazy" width="34" height="34">
+                                </button>
+                                {%- assign shown = shown | plus: 1 -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                            {%- if swatch_count > 10 -%}
+                              <span class="pcg-swatch-more">+{{ swatch_count | minus: 10 }}</span>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endunless -%}
+                  </div>
+
+                  <div class="pcg-info">
+                    <span class="pcg-vendor">{{ product.vendor }}</span>
+                    <a href="{{ product.url }}" class="pcg-title">{{ product.title }}</a>
+                    <div class="pcg-price-row">
+                      {%- if savings > 0 -%}<span class="pcg-price-was">{{ product.compare_at_price | money }}</span>{%- endif -%}
+                      <span class="pcg-price-now">{{ product.price | money }}</span>
+                      {%- if savings > 0 -%}<span class="pcg-save-label">Save {{ savings }}%</span>{%- endif -%}
+                    </div>
+                  </div>
+
+                  <div class="pcg-btn-wrap">
+                    <form method="post" action="/cart/add" class="pcg-atc-form">
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <button type="submit" class="pcg-quick-buy" {% unless product.available %}disabled{% endunless %}>
+                        {%- if product.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
+                      </button>
+                    </form>
+                  </div>
+
+                  {%- if gift_promo_text != blank -%}
+                    <div class="pcg-gift-footer">
+                      <svg class="pcg-gift-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.41 12.24 12 8.66l3.59 3.58L17 10.83 14.92 8H20v6z"/></svg>
+                      <span class="pcg-gift-text">{{ gift_promo_text }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="lcg-pagination" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="lcg-page-link" aria-label="Previous">&larr;</a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="lcg-page-link">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="lcg-page-link active" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="lcg-page-dots">&hellip;</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="lcg-page-link" aria-label="Next">&rarr;</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+
+        {%- endpaginate -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="pcg-qv-modal" id="pcg-qv-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Quick view">
+  <div class="pcg-qv-backdrop" onclick="closeQuickView('{{ section.id }}')"></div>
+  <div class="pcg-qv-panel">
+    <button class="pcg-qv-close" onclick="closeQuickView('{{ section.id }}')" aria-label="Close">&#215;</button>
+    <div class="pcg-qv-gallery">
+      <img class="pcg-qv-img" src="" alt="" width="500" height="500">
+    </div>
+    <div class="pcg-qv-info">
+      <p class="pcg-qv-vendor"></p>
+      <h2 class="pcg-qv-title"></h2>
+      <div class="pcg-qv-price"></div>
+      <div class="pcg-qv-variants-wrap" style="display:none;">
+        <p class="pcg-qv-variant-label">Choose option</p>
+        <select class="pcg-qv-select" aria-label="Select variant"></select>
+      </div>
+      <div class="pcg-qv-desc-wrap" style="display:none;">
+        <h5 class="pcg-qv-desc-label">Description</h5>
+        <p class="pcg-qv-desc"></p>
+      </div>
+      <form class="pcg-qv-form pcg-atc-form" method="post" action="/cart/add">
+        <input type="hidden" name="id" class="pcg-qv-variant-id">
+        <button type="submit" class="pcg-qv-atc">Add to Bag</button>
+      </form>
+      <a class="pcg-qv-full-link" href="#">View Full Product &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Sort & Price filter (URL-based, SEO-safe) ──────────── */
+function lcgSort(v) {
+  const u = new URL(window.location.href);
+  u.searchParams.set('sort_by', v);
+  window.location.href = u.toString();
+}
+
+function lcgPriceFilter(e, form) {
+  e.preventDefault();
+  const u = new URL(window.location.href);
+  new FormData(form).forEach((val, key) => {
+    if (val !== '') u.searchParams.set(key, Math.round(parseFloat(val) * 100));
+    else u.searchParams.delete(key);
+  });
+  window.location.href = u.toString();
+}
+
+/* ── Mobile filter drawer ───────────────────────────────── */
+function lcgOpenDrawer() {
+  document.getElementById('lcg-drawer').classList.add('open');
+  document.getElementById('lcg-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function lcgCloseDrawer() {
+  document.getElementById('lcg-drawer').classList.remove('open');
+  document.getElementById('lcg-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── AJAX Add to Cart ───────────────────────────────────── */
+document.addEventListener('submit', function(e) {
+  if (!e.target.classList.contains('pcg-atc-form')) return;
+  e.preventDefault();
+  const form   = e.target;
+  const button = form.querySelector('button[type="submit"]');
+  const orig   = button.innerText;
+  button.classList.add('adding');
+  button.innerText = 'ADDING…';
+  fetch(window.Shopify.routes.root + 'cart/add.js', { method: 'POST', body: new FormData(form) })
+    .then(r => r.json())
+    .then(() => {
+      button.innerText = 'ADDED ✓';
+      fetch(window.Shopify.routes.root + 'cart.js').then(r => r.json()).then(cart => {
+        document.querySelectorAll('.cart-count-bubble, .header__cart-count').forEach(el => {
+          el.innerText = cart.item_count;
+          el.classList.remove('hidden');
+        });
+      });
+      document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      setTimeout(() => { button.innerText = orig; button.classList.remove('adding'); }, 2200);
+    })
+    .catch(() => {
+      button.innerText = 'ERROR';
+      setTimeout(() => { button.innerText = orig; button.classList.remove('adding'); }, 2200);
+    });
+});
+
+/* ── Quick View ─────────────────────────────────────────── */
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.pcg-qv-trigger');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  openQuickView(btn.dataset.handle, btn.dataset.section);
+});
+
+function openQuickView(handle, sectionId) {
+  const modal    = document.getElementById('pcg-qv-' + sectionId);
+  if (!modal) return;
+  const img      = modal.querySelector('.pcg-qv-img');
+  const title    = modal.querySelector('.pcg-qv-title');
+  const vendor   = modal.querySelector('.pcg-qv-vendor');
+  const price    = modal.querySelector('.pcg-qv-price');
+  const fullLnk  = modal.querySelector('.pcg-qv-full-link');
+  const vidWrap  = modal.querySelector('.pcg-qv-variants-wrap');
+  const vidSel   = modal.querySelector('.pcg-qv-select');
+  const varId    = modal.querySelector('.pcg-qv-variant-id');
+  const atcBtn   = modal.querySelector('.pcg-qv-atc');
+  const descWrap = modal.querySelector('.pcg-qv-desc-wrap');
+  const descEl   = modal.querySelector('.pcg-qv-desc');
+
+  title.innerText  = '…';
+  vendor.innerText = '';
+  price.innerHTML  = '';
+  img.src = ''; img.alt = '';
+  fullLnk.href = '/products/' + handle;
+  if (descWrap) descWrap.style.display = 'none';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  fetch('/products/' + handle + '.js')
+    .then(r => r.json())
+    .then(p => {
+      img.src          = p.featured_image ? p.featured_image.replace(/\?.*$/, '') + '?width=600' : '';
+      img.alt          = p.title;
+      title.innerText  = p.title;
+      vendor.innerText = p.vendor;
+      fullLnk.href     = '/products/' + p.handle;
+
+      if (descWrap && descEl && p.body_html) {
+        const tmp    = document.createElement('div');
+        tmp.innerHTML = p.body_html;
+        const firstP = Array.from(tmp.querySelectorAll('p')).find(el => el.textContent.trim().length > 0);
+        if (firstP) { descEl.textContent = firstP.textContent.trim(); descWrap.style.display = ''; }
+      }
+
+      const fv       = p.variants.find(v => v.available) || p.variants[0];
+      const priceF   = (fv.price / 100).toLocaleString('en-GB', { style: 'currency', currency: p.currency || 'GBP' });
+      const compareF = fv.compare_at_price && fv.compare_at_price > fv.price
+        ? (fv.compare_at_price / 100).toLocaleString('en-GB', { style: 'currency', currency: p.currency || 'GBP' }) : null;
+      price.innerHTML = (compareF ? '<span class="pcg-qv-price-was">' + compareF + '</span> ' : '') + priceF;
+      varId.value     = fv.id;
+      atcBtn.disabled = !fv.available;
+      atcBtn.innerText = fv.available ? 'Add to Bag' : 'Sold Out';
+
+      if (p.variants.length > 1) {
+        vidSel.innerHTML = '';
+        p.variants.forEach(v => {
+          const opt      = document.createElement('option');
+          opt.value      = v.id;
+          opt.innerText  = v.title + (v.available ? '' : ' – Sold Out');
+          opt.disabled   = !v.available;
+          if (v.id === fv.id) opt.selected = true;
+          vidSel.appendChild(opt);
+        });
+        vidSel.onchange = function() {
+          const chosen = p.variants.find(v => String(v.id) === this.value);
+          if (!chosen) return;
+          varId.value      = chosen.id;
+          atcBtn.disabled  = !chosen.available;
+          atcBtn.innerText = chosen.available ? 'Add to Bag' : 'Sold Out';
+          const pf = (chosen.price / 100).toLocaleString('en-GB', { style: 'currency', currency: p.currency || 'GBP' });
+          const cf = chosen.compare_at_price && chosen.compare_at_price > chosen.price
+            ? (chosen.compare_at_price / 100).toLocaleString('en-GB', { style: 'currency', currency: p.currency || 'GBP' }) : null;
+          price.innerHTML = (cf ? '<span class="pcg-qv-price-was">' + cf + '</span> ' : '') + pf;
+        };
+        vidWrap.style.display = '';
+      } else {
+        vidWrap.style.display = 'none';
+      }
+    })
+    .catch(() => { title.innerText = 'Could not load product.'; });
+}
+
+function closeQuickView(sectionId) {
+  const modal = document.getElementById('pcg-qv-' + sectionId);
+  if (modal) modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { lcgCloseDrawer(); closeQuickView('{{ section.id }}'); }
+});
+
+/* ── Variant swatches ───────────────────────────────────── */
+(function() {
+  const grid = document.getElementById('pcg-grid-{{ section.id }}');
+  if (!grid) return;
+
+  // Hover swatch → swap main image
+  grid.addEventListener('mouseenter', function(e) {
+    const swatch = e.target.closest('.pcg-swatch');
+    if (!swatch) return;
+    const card = swatch.closest('.pcg-card');
+    const img  = card && card.querySelector('.pcg-img--primary');
+    if (img && swatch.dataset.img) {
+      img.src = swatch.dataset.img;
+      card.querySelectorAll('.pcg-swatch').forEach(s => s.classList.remove('swatch-active'));
+      swatch.classList.add('swatch-active');
+      // Update hidden ATC variant id
+      const varInput = card.querySelector('.pcg-atc-form input[name="id"]');
+      if (varInput && swatch.dataset.variant) varInput.value = swatch.dataset.variant;
+    }
+  }, true);
+
+  // Leave swatch strip → restore original image
+  grid.addEventListener('mouseleave', function(e) {
+    const strip = e.target.closest('.pcg-swatches');
+    if (!strip) return;
+    const card = strip.closest('.pcg-card');
+    const img  = card && card.querySelector('.pcg-img--primary');
+    if (img && img.dataset.origSrc) img.src = img.dataset.origSrc;
+    // Reset ATC to first variant
+    const firstSwatch = strip.querySelector('.pcg-swatch');
+    if (firstSwatch) {
+      strip.querySelectorAll('.pcg-swatch').forEach(s => s.classList.remove('swatch-active'));
+      firstSwatch.classList.add('swatch-active');
+      const varInput = card.querySelector('.pcg-atc-form input[name="id"]');
+      if (varInput && firstSwatch.dataset.variant) varInput.value = firstSwatch.dataset.variant;
+    }
+  }, true);
+
+  // Click swatch → navigate to variant URL
+  grid.addEventListener('click', function(e) {
+    const swatch = e.target.closest('.pcg-swatch');
+    if (!swatch) return;
+    e.preventDefault();
+    if (swatch.dataset.url) window.location.href = swatch.dataset.url;
+  });
+})();
+</script>
+
+{%- if collection.handle == 'sale' -%}
+<script>
+/* LCG_SALE_ENH: sale collection = only 5%+ off, biggest savings first */
+(function(){
+  var SEC='{{ section.id }}', HANDLE='{{ collection.handle }}';
+  var grid=document.getElementById('pcg-grid-'+SEC);
+  if(!grid) return;
+  function money(v){ var n=parseFloat(v); return isNaN(n)?'':'£'+n.toFixed(2); }
+  function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function build(p){
+    var best=null,bestPct=0;
+    (p.variants||[]).forEach(function(v){ var price=parseFloat(v.price), cmp=v.compare_at_price?parseFloat(v.compare_at_price):0; if(cmp>price){ var pct=Math.round((cmp-price)/cmp*100); if(pct>bestPct){bestPct=pct;best=v;} } });
+    if(!best || bestPct<5) return null;
+    var avail=(p.variants||[]).some(function(v){return v.available;});
+    var buy=(p.variants||[]).filter(function(v){return v.available;})[0]||p.variants[0];
+    var img=(p.images&&p.images[0])?(p.images[0].src||p.images[0]):''; if(img && img.indexOf('width=')<0) img=img+(img.indexOf('?')>-1?'&':'?')+'width=600';
+    return {pct:bestPct, price:best.price, cmp:best.compare_at_price, avail:avail, id:buy?buy.id:'', img:img, title:p.title, vendor:p.vendor, handle:p.handle};
+  }
+  function render(list){
+    grid.innerHTML=list.map(function(c){
+      var url='/products/'+c.handle;
+      return '<div class="pcg-card" data-brand="'+esc(c.vendor)+'" data-title="'+esc(c.title)+'">'
+        +'<div class="pcg-img-outer"><button type=\"button\" class=\"sb-card-wish\" aria-label=\"Save to wishlist\" data-handle=\"'+c.handle+'\" data-url=\"'+url+'\" data-title=\"'+esc(c.title)+'\" data-vendor=\"'+esc(c.vendor)+'\" data-img=\"'+c.img+'\" data-price=\"'+Math.round(parseFloat(c.price)*100)+'\" data-cprice=\"'+Math.round(parseFloat(c.cmp||0)*100)+'\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z\"/></svg></button><a href="'+url+'" class="pcg-image-wrap" aria-label="'+esc(c.title)+'">'
+        +'<div class="pcg-badges">'+(c.avail?'':'<span class="pcg-badge pcg-badge--sold">Sold Out</span>')
+        +'<span class="pcg-badge pcg-badge--sale"><span class="pcg-sale-num">'+c.pct+'%</span><span class="pcg-sale-off">off</span></span></div>'
+        +(c.img?'<img src="'+c.img+'" width="600" height="600" loading="lazy" alt="'+esc(c.title)+'" class="pcg-img pcg-img--primary">':'')
+        +'</a><button class="pcg-qv-trigger" data-handle="'+c.handle+'" data-section="'+SEC+'" type="button" aria-label="Quick view"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Quick View</button></div>'
+        +'<div class="pcg-info"><span class="pcg-vendor">'+esc(c.vendor)+'</span><a href="'+url+'" class="pcg-title">'+esc(c.title)+'</a>'
+        +'<div class="pcg-price-row"><span class="pcg-price-was">'+money(c.cmp)+'</span><span class="pcg-price-now">'+money(c.price)+'</span><span class="pcg-save-label">Save '+c.pct+'%</span></div></div>'
+        +'<div class="pcg-btn-wrap"><form method="post" action="/cart/add" class="pcg-atc-form"><input type="hidden" name="id" value="'+c.id+'"><button type="submit" class="pcg-quick-buy"'+(c.avail?'':' disabled')+'>'+(c.avail?'Add to Bag':'Sold Out')+'</button></form></div>'
+        +'</div>';
+    }).join('');
+    var cl=document.querySelector('.lcg-count-label'); if(cl) cl.textContent=list.length+' Product'+(list.length===1?'':'s');
+    var pg=document.querySelector('.lcg-pagination'); if(pg) pg.style.display='none';
+    if(window.sbPaintWish) window.sbPaintWish();
+  }
+  var all=[];
+  function load(page){
+    fetch('/collections/'+HANDLE+'/products.json?limit=250&page='+page).then(function(r){return r.json();}).then(function(d){
+      var ps=d.products||[]; ps.forEach(function(p){ var c=build(p); if(c) all.push(c); });
+      if(ps.length===250) load(page+1); else { all.sort(function(a,b){ return b.pct-a.pct || parseFloat(b.price)-parseFloat(a.price); }); render(all); }
+    }).catch(function(){});
+  }
+  load(1);
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pro Grid (Clean Layout)",
+  "settings": [
+    { "type": "collection", "id": "collection",     "label": "Main Data Source" },
+    { "type": "color",      "id": "bg_color",       "label": "Background",    "default": "#ffffff" },
+    { "type": "color",      "id": "text_color",     "label": "Text",          "default": "#111111" },
+    { "type": "range",      "id": "padding_top",    "min": 0, "max": 100, "step": 5, "default": 40, "label": "Top Padding" },
+    { "type": "range",      "id": "padding_bottom", "min": 0, "max": 100, "step": 5, "default": 60, "label": "Bottom Padding" }
+  ],
+  "blocks": [
+    {
+      "type": "category_filter",
+      "name": "Category Filter",
+      "settings": [
+        { "type": "text",       "id": "title",           "label": "Filter Name",       "default": "Skincare" },
+        { "type": "collection", "id": "collection_link", "label": "Connect Collection" }
+      ]
+    },
+    {
+      "type": "gift_promo",
+      "name": "🎁 Gift Promo Rule",
+      "settings": [
+        {
+          "type": "select", "id": "trigger", "label": "Apply Gift to:",
+          "options": [
+            { "value": "vendor",        "label": "Whole Brand (Vendor)" },
+            { "value": "collection",    "label": "Specific Collection" },
+            { "value": "product",       "label": "Single Specific Product" },
+            { "value": "product_group", "label": "Selected Product Group" }
+          ],
+          "default": "vendor"
+        },
+        { "type": "text",         "id": "vendor_name",        "label": "Vendor Name (Case-insensitive)" },
+        { "type": "collection",   "id": "collection_trigger", "label": "Collection Trigger" },
+        { "type": "product",      "id": "product_trigger",    "label": "Single Product Trigger" },
+        { "type": "product_list", "id": "product_group",      "label": "Selected Product Group", "limit": 50 },
+        { "type": "text",         "id": "gift_text",          "label": "Gift Label", "default": "Free Gift" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Pro Grid (Clean Layout)" }]
+}
+{% endschema %}

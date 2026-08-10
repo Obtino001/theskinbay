@@ -1,0 +1,1598 @@
+{%- liquid
+  assign selected_product = closest.product
+  assign product_media_size = selected_product.media.size
+
+  assign product_grid_class = 'product-information__grid'
+  if product_media_size == 0
+    assign product_grid_class = product_grid_class | append: ' product-information--media-none'
+  elsif section.settings.desktop_media_position == 'right'
+    assign product_grid_class = product_grid_class | append: ' product-information--media-right'
+  else
+    assign product_grid_class = product_grid_class | append: ' product-information--media-left'
+  endif
+
+  case section.settings.content_width
+    when 'content-center-aligned'
+      assign content_width = 'page-width'
+    when 'content-full-width'
+      assign content_width = 'full-width'
+    else
+      assign content_width = 'page-width'
+  endcase
+
+  assign _pv_s = selected_product.vendor | downcase
+  assign _priv_b      = nil
+  assign _priv_titles = nil
+  assign _priv_spends = nil
+  if _pv_s contains 'skinceuticals'
+    assign _priv_b      = 'SkinCeuticals'
+    assign _priv_titles = 'Complimentary SkinCeuticals Gift|Gift Worth £95'
+    assign _priv_spends = '£150|£400'
+  elsif _pv_s contains 'medik8' or _pv_s contains 'medik 8'
+    assign _priv_b      = 'Medik8'
+    assign _priv_titles = 'Complimentary Medik8 Gift'
+    assign _priv_spends = '£100'
+  elsif _pv_s contains 'cliniccare'
+    assign _priv_b      = 'Cliniccare'
+    assign _priv_titles = 'Complimentary Cliniccare Gift'
+    assign _priv_spends = '£200'
+  endif
+-%}
+
+{%- render 'breadcrumbs' -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="product-information section section--{{ content_width }} color-{{ section.settings.color_scheme }}"
+  data-testid="product-information"
+>
+  <h1 class="visually-hidden">{{ selected_product.title }}</h1>
+  <div class="{{ product_grid_class }}">
+    {%- assign _rev_sku = selected_product.selected_or_first_available_variant.sku -%}
+    {%- if _rev_sku == blank -%}{%- assign _rev_sku = selected_product.handle -%}{%- endif -%}
+    {%- if section.settings.desktop_media_position == 'right' -%}
+      <div class="product-details-wrapper">
+        {%- content_for 'block', id: 'product-details', type: '_product-details' -%}
+      </div>
+      {%- if product_media_size > 0 -%}
+        <div class="product-information__media lf-media-col">
+          {%- content_for 'block', id: 'media-gallery', type: '_product-media-gallery' -%}
+          {%- assign _sv = selected_product.selected_or_first_available_variant -%}
+          {%- if _sv.compare_at_price > _sv.price -%}
+            {%- assign _save_pct = _sv.compare_at_price | minus: _sv.price | times: 100.0 | divided_by: _sv.compare_at_price | round -%}
+            <div class="lf-save-badge" data-product-id="{{ selected_product.id }}">Save {{ _sv.compare_at_price | minus: _sv.price | money }} · {{ _save_pct }}% OFF</div>
+          {%- else -%}
+            <div class="lf-save-badge lf-save-badge--hidden" data-product-id="{{ selected_product.id }}"></div>
+          {%- endif -%}
+          {%- render 'lf-pdp-left-extras', priv_b: _priv_b, priv_titles: _priv_titles, priv_spends: _priv_spends -%}
+          {%- render 'lf-pdp-extra-media', product: selected_product -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {%- if product_media_size > 0 -%}
+        <div class="product-information__media lf-media-col">
+          {%- content_for 'block', id: 'media-gallery', type: '_product-media-gallery' -%}
+          {%- assign _sv = selected_product.selected_or_first_available_variant -%}
+          {%- if _sv.compare_at_price > _sv.price -%}
+            {%- assign _save_pct = _sv.compare_at_price | minus: _sv.price | times: 100.0 | divided_by: _sv.compare_at_price | round -%}
+            <div class="lf-save-badge" data-product-id="{{ selected_product.id }}">Save {{ _sv.compare_at_price | minus: _sv.price | money }} · {{ _save_pct }}% OFF</div>
+          {%- else -%}
+            <div class="lf-save-badge lf-save-badge--hidden" data-product-id="{{ selected_product.id }}"></div>
+          {%- endif -%}
+          {%- render 'lf-pdp-left-extras', priv_b: _priv_b, priv_titles: _priv_titles, priv_spends: _priv_spends -%}
+          {%- render 'lf-pdp-extra-media', product: selected_product -%}
+        </div>
+      {%- endif -%}
+      <div class="product-details-wrapper">
+        {%- content_for 'block', id: 'product-details', type: '_product-details' -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- content_for 'blocks' -%}
+</div>
+
+<style>
+/* VSK override, inline so it wins regardless of compiled-CSS cache timing */
+[data-testid="product-information"] variant-swatch-king{display:none!important}
+[data-testid="product-information"] .variant-picker{opacity:1!important;max-height:none!important;overflow:visible!important}
+</style>
+
+{%- unless selected_product == blank -%}
+  {%- assign _sav = selected_product.selected_or_first_available_variant -%}
+  <div id="lf-sticky-atc-{{ selected_product.id }}" class="lf-sticky-atc" aria-hidden="true">
+    <div class="lf-sticky-atc__inner">
+      <div class="lf-sticky-atc__info">
+        <span class="lf-sticky-atc__title">{{ selected_product.title | truncate: 38 }}</span>
+        <span class="lf-sticky-atc__price" id="lf-sticky-price-{{ selected_product.id }}">{{ _sav.price | money }}</span>
+      </div>
+      <button
+        class="lf-sticky-atc__btn"
+        id="lf-sticky-btn-{{ selected_product.id }}"
+        data-variant-id="{{ _sav.id }}"
+        data-product-id="{{ selected_product.id }}"
+        {% unless _sav.available %}disabled{% endunless %}
+      >{%- if _sav.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}</button>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var pid = {{ selected_product.id }};
+    var bar = document.getElementById('lf-sticky-atc-' + pid);
+    var btn = document.getElementById('lf-sticky-btn-' + pid);
+    var priceEl = document.getElementById('lf-sticky-price-' + pid);
+    if (!bar || !btn) return;
+
+    var dataEl = document.getElementById('lf-vpx-' + pid);
+    var variants = [];
+    try { variants = JSON.parse(dataEl ? dataEl.textContent : '[]'); } catch(e) {}
+
+    function formatMoney(pence) {
+      return '£' + (pence / 100).toFixed(2).replace(/\.00$/, '');
+    }
+
+    function applyVariant(v) {
+      if (!v) return;
+      btn.dataset.variantId = v.id;
+      if (priceEl) priceEl.textContent = formatMoney(v.p);
+      btn.disabled = !v.available;
+      btn.textContent = v.available ? 'Add to Cart' : 'Sold Out';
+    }
+
+    var input = document.querySelector('[data-testid="product-information"] input[name="id"]');
+    if (input) {
+      new MutationObserver(function() {
+        var id = parseInt(input.value, 10);
+        var v = variants.find(function(x) { return x.id === id; });
+        if (v) {
+          v.available = input.closest('form') ? !input.closest('form').querySelector('[data-soldout]') : true;
+          applyVariant(v);
+        }
+      }).observe(input, { attributes: true, attributeFilter: ['value'] });
+      input.addEventListener('change', function() {
+        var id = parseInt(this.value, 10);
+        var v = variants.find(function(x) { return x.id === id; });
+        if (v) applyVariant(v);
+      });
+    }
+
+    var mainAtc = document.querySelector('[data-testid="product-information"] .product-form-buttons');
+    if (mainAtc && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        var visible = entries[0].isIntersecting;
+        bar.classList.toggle('lf-sticky-atc--visible', !visible);
+        bar.setAttribute('aria-hidden', visible ? 'true' : 'false');
+      }, { threshold: 0.2 }).observe(mainAtc);
+    }
+
+    btn.addEventListener('click', function() {
+      var vid = parseInt(btn.dataset.variantId, 10);
+      if (!vid) return;
+      btn.textContent = 'Adding…';
+      btn.disabled = true;
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: vid, quantity: 1 }] })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function() {
+        btn.textContent = 'Added ✓';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        setTimeout(function() { btn.textContent = 'Add to Cart'; btn.disabled = false; }, 2000);
+      })
+      .catch(function() {
+        btn.textContent = 'Error, try again';
+        setTimeout(function() { btn.textContent = 'Add to Cart'; btn.disabled = false; }, 2000);
+      });
+    });
+  })();
+  </script>
+{%- endunless -%}
+
+<style>
+  .lf-media-col { display: flex; flex-direction: column; position: relative; }
+  .lf-pdp-reviews-col {
+    margin-top: 24px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    padding-top: 8px;
+    min-height: 0;
+  }
+</style>
+
+<script>
+(function() {
+  var widgetId = 'lf-reviewsio-pdp-{{ selected_product.id }}';
+  var sku = {{ _rev_sku | json }};
+
+  function initWidget() {
+    if (typeof carouselInlineWidget === 'undefined') return;
+    new carouselInlineWidget(widgetId, {
+      store: 'theskinbay.co.uk',
+      sku: sku,
+      lang: 'en',
+      carousel_type: 'default',
+      styles_carousel: 'CarouselWidget--sideHeader--withcards',
+      options: {
+        general: {
+          review_type: 'product, company',
+          min_reviews: '1',
+          max_reviews: '20',
+          enable_auto_scroll: 4000,
+          enable_pause_button: false,
+          enable_sorting: false,
+        },
+        header: {
+          enable_overall_stars: true,
+          rating_decimal_places: 1,
+        },
+        reviews: {
+          enable_customer_name: true,
+          enable_customer_location: false,
+          enable_verified_badge: true,
+          enable_review_date: true,
+          hide_empty_reviews: true,
+          enable_product_name: false,
+          min_review_percent: 3,
+          third_party_source: true,
+          disable_same_customer: true,
+        },
+        popups: {
+          enable_review_popups: true,
+          enable_helpful_buttons: false,
+          enable_helpful_count: false,
+          enable_share_buttons: false,
+        },
+      },
+      styles: {
+        '--base-font-size': '14px',
+        '--base-maxwidth': '100%',
+        '--reviewsio-logo-style': 'var(--logo-inverted)',
+        '--common-star-color': '#0c0c0c',
+        '--common-star-disabled-color': 'rgba(0,0,0,0.2)',
+        '--medium-star-size': '18px',
+        '--small-star-size': '15px',
+        '--header-order': '1',
+        '--header-width': '180px',
+        '--header-bg-start-color': '#0c0c0c',
+        '--header-bg-end-color': '#0c0c0c',
+        '--header-gradient-direction': '135deg',
+        '--header-padding': '1.2em',
+        '--header-border-width': '0px',
+        '--header-border-radius': '0px',
+        '--header-shadow-size': '0px',
+        '--header-star-color': '#fff',
+        '--header-heading-text-color': '#fff',
+        '--header-subheading-text-color': '#fff',
+        '--header-subheading-font-weight': '300',
+        '--item-maximum-columns': '3',
+        '--item-background-start-color': '#ffffff',
+        '--item-background-end-color': '#ffffff',
+        '--item-padding': '1em',
+        '--item-border-width': '1px',
+        '--item-border-color': 'rgba(0,0,0,0.08)',
+        '--item-border-radius': '0px',
+        '--item-shadow-size': '0px',
+        '--heading-text-color': '#0c0c0c',
+        '--heading-text-font-weight': '600',
+        '--body-text-color': '#444',
+        '--body-text-font-weight': '400',
+        '--scroll-button-icon-color': '#0c0c0c',
+        '--scroll-button-icon-size': '20px',
+        '--scroll-button-bg-color': 'transparent',
+        '--scroll-button-border-width': '0px',
+        '--scroll-button-border-radius': '0px',
+        '--scroll-button-shadow-size': '0px',
+        '--scroll-button-horizontal-position': '0px',
+        '--scroll-button-vertical-position': '0px',
+        '--badge-icon-color': '#0c0c0c',
+        '--badge-text-color': '#0c0c0c',
+        '--popup-backdrop-color': 'rgba(0,0,0,0.75)',
+        '--popup-color': '#fff',
+        '--popup-border-radius': '0px',
+        '--popup-shadow-size': '0px',
+        '--popup-icon-color': '#0c0c0c',
+        '--tooltip-bg-color': '#0c0c0c',
+        '--tooltip-text-color': '#fff',
+      },
+      translations: { verified_customer: 'Verified Customer' },
+    });
+  }
+
+  // Rating snippet, lightweight star widget near title
+  (function() {
+    var rsEl = document.getElementById('lf-rs-{{ selected_product.id }}');
+    if (!rsEl) return;
+    var rsSku = rsEl.getAttribute('data-sku');
+    if (!rsSku) return;
+
+    function initRatingSnippet() {
+      if (typeof ratingSnippet === 'undefined') return;
+      ratingSnippet('ratingSnippet', {
+        store: 'theskinbay.co.uk',
+        sku: rsSku,
+        component: rsEl,
+        lang: 'en',
+        color: '#0c0c0c',
+      });
+      // Hide if widget renders nothing (no reviews yet)
+      setTimeout(function() {
+        if (!rsEl.querySelector('.ruk_rating_snippet') && !rsEl.innerHTML.trim()) {
+          rsEl.style.display = 'none';
+        }
+      }, 2500);
+    }
+
+    if (!document.querySelector('script[src*="rating-snippet/dist"]')) {
+      var rs = document.createElement('script');
+      rs.src = 'https://widget.reviews.co.uk/rating-snippet/dist.js';
+      rs.async = true;
+      rs.onload = initRatingSnippet;
+      document.head.appendChild(rs);
+      var rsc = document.createElement('link');
+      rsc.rel = 'stylesheet';
+      rsc.href = 'https://widget.reviews.co.uk/rating-snippet/dist.css';
+      document.head.appendChild(rsc);
+    } else {
+      initRatingSnippet();
+    }
+  })();
+
+  if (!document.querySelector('script[src*="carousel-inline-iframeless"]')) {
+    // Preconnect for faster loading
+    ['https://widget.reviews.co.uk', 'https://assets.reviews.io'].forEach(function(origin) {
+      if (!document.querySelector('link[rel="preconnect"][href="' + origin + '"]')) {
+        var pc = document.createElement('link');
+        pc.rel = 'preconnect'; pc.href = origin; pc.crossOrigin = 'anonymous';
+        document.head.appendChild(pc);
+      }
+    });
+    var s = document.createElement('script');
+    s.src = 'https://widget.reviews.co.uk/carousel-inline-iframeless/dist.js?_t=2026042205';
+    s.async = true;
+    s.onload = initWidget;
+    document.head.appendChild(s);
+    var c = document.createElement('link');
+    c.rel = 'stylesheet';
+    c.href = 'https://assets.reviews.io/css/widgets/carousel-widget.css?_t=2026042205';
+    document.head.appendChild(c);
+    var i = document.createElement('link');
+    i.rel = 'stylesheet';
+    i.href = 'https://assets.reviews.io/iconfont/reviewsio-icons/style.css?_t=2026042205';
+    document.head.appendChild(i);
+  } else {
+    initWidget();
+  }
+})();
+</script>
+
+<script type="application/ld+json">
+{%- liquid
+  assign _sp = selected_product
+  assign _sv = _sp.selected_or_first_available_variant
+-%}
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": "{{ canonical_url }}#product",
+  "name": {{ _sp.title | json }},
+  "description": {{ _sp.description | strip_html | strip | truncate: 5000 | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": {{ _sp.vendor | json }}
+  },
+  "category": {{ _sp.type | json }},
+  "url": "{{ canonical_url }}",
+  {%- unless _sv.sku == blank -%}
+  "sku": {{ _sv.sku | json }},
+  {%- endunless -%}
+  {%- if _sv.barcode != blank -%}
+  "gtin": {{ _sv.barcode | json }},
+  {%- endif -%}
+  "image": [
+    {%- assign _img_i = 0 -%}
+    {%- for media in _sp.media -%}
+      {%- if media.media_type == 'image' -%}
+        {%- if _img_i > 0 -%},{%- endif -%}
+        "https:{{ media | image_url: width: 1200 }}"
+        {%- assign _img_i = _img_i | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ],
+  "offers": [
+    {%- for variant in _sp.variants -%}
+    {%- unless forloop.first -%},{%- endunless -%}
+    {%- assign _pi = variant.price | divided_by: 100 -%}
+    {%- assign _pd = variant.price | modulo: 100 -%}
+    {%- if _pd < 10 -%}{%- assign _ps = _pi | append: '.0' | append: _pd -%}
+    {%- else -%}{%- assign _ps = _pi | append: '.' | append: _pd -%}{%- endif -%}
+    {
+      "@type": "Offer",
+      "@id": "{{ canonical_url }}?variant={{ variant.id }}#offer",
+      "sku": {{ variant.sku | default: _sp.handle | json }},
+      "price": "{{ _ps }}",
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}"
+      {%- if variant.compare_at_price > variant.price -%}
+      {%- assign _yr = 'now' | date: '%Y' | plus: 1 -%}
+      ,"priceValidUntil": "{{ _yr }}-12-31"
+      {%- endif -%}
+      ,"url": "{{ canonical_url }}?variant={{ variant.id }}"
+      ,"seller": {
+        "@type": "Organization",
+        "name": {{ shop.name | json }}
+      }
+    }
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<script type="application/json" id="lf-vpx-{{ selected_product.id }}">
+  [
+    {%- for v in selected_product.variants -%}
+      {"id":{{ v.id }},"p":{{ v.price }},"cp":{{ v.compare_at_price | default: 0 }},"iq":{{ v.inventory_quantity }},"ip":"{{ v.inventory_policy }}","im":"{{ v.inventory_management }}"}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+</script>
+<script>
+(function () {
+  var pid = {{ selected_product.id }};
+  var dataEl = document.getElementById('lf-vpx-' + pid);
+  if (!dataEl) return;
+  var variants;
+  try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+  function getBadge() {
+    return document.querySelector('.lf-save-badge[data-product-id="' + pid + '"]');
+  }
+
+  function applyVariant(id) {
+    var v = variants.find(function (x) { return x.id === id; });
+    if (!v) return;
+
+    // Save badge
+    var badge = document.querySelector('.lf-save-badge[data-product-id="' + pid + '"]');
+    if (badge) {
+      var pct = (v.cp > v.p) ? Math.round((v.cp - v.p) * 100 / v.cp) : 0;
+      if (pct > 0) {
+        badge.textContent = 'Save £' + ((v.cp - v.p) / 100).toFixed(2) + ' · ' + pct + '% OFF';
+        badge.classList.remove('lf-save-badge--hidden');
+      } else {
+        badge.textContent = '';
+        badge.classList.add('lf-save-badge--hidden');
+      }
+    }
+
+    // Rewards points + £ equivalent
+    var rpts = document.getElementById('lf-rpts-' + pid);
+    var pts = Math.round((v.p / 100) * 0.5);
+    if (rpts) rpts.textContent = pts;
+    var rptsgbp = document.getElementById('lf-rpts-gbp-' + pid);
+    if (rptsgbp) rptsgbp.textContent = '£' + (pts * 0.05).toFixed(2).replace(/\.00$/, '');
+
+    // Stock counter
+    var stock = document.getElementById('lf-stock-' + pid);
+    if (stock) {
+      if (v.im === 'shopify' && v.ip === 'deny' && v.iq > 0 && v.iq <= 10) {
+        stock.innerHTML = '<span class="lf-stock-dot"></span>Only ' + v.iq + ' left in stock';
+        stock.style.display = '';
+      } else {
+        stock.style.display = 'none';
+      }
+    }
+  }
+
+  function watchInput(input) {
+    new MutationObserver(function () {
+      applyVariant(parseInt(input.value, 10));
+    }).observe(input, { attributes: true, attributeFilter: ['value'] });
+    input.addEventListener('change', function () {
+      applyVariant(parseInt(this.value, 10));
+    });
+  }
+
+  // Move privilege card below Apple Pay / buy buttons block
+  function positionPrivCard() {
+    var card = document.querySelector('[data-testid="product-information-details"] .lf-priv-card');
+    var anchor = document.querySelector('[data-testid="product-information-details"] .accelerated-checkout-block')
+      || document.querySelector('[data-testid="product-information-details"] more-payment-options-link')
+      || document.querySelector('[data-testid="product-information-details"] .buy-buttons-block');
+    if (card && anchor) anchor.after(card);
+  }
+
+  // Move rewards bar to directly below the price element
+  function positionRewardsBar() {
+    var bar = document.querySelector('.lf-rewards-bar[data-product-id="' + pid + '"]');
+    var priceEl = document.querySelector('[data-testid="product-information-details"] product-price');
+    if (bar && priceEl) priceEl.after(bar);
+  }
+
+  // Move rating snippet to before the price (below title)
+  function positionRatingSnippet() {
+    var el = document.getElementById('lf-rs-' + pid);
+    var priceEl = document.querySelector('[data-testid="product-information-details"] product-price');
+    if (el && priceEl) priceEl.before(el);
+  }
+
+  // Move stock counter to just before the buy-buttons block
+  function positionStockCounter() {
+    var el = document.getElementById('lf-stock-' + pid);
+    var buyBlock = document.querySelector('[data-testid="product-information-details"] .buy-buttons-block')
+      || document.querySelector('[data-testid="product-information-details"] .product-form-buttons');
+    if (el && buyBlock) buyBlock.before(el);
+  }
+
+  // Move mobile trust strip to after privilege card (or after Apple Pay if no priv card)
+  function positionMobTrust() {
+    var el = document.querySelector('[data-testid="product-information-details"] .lf-mob-trust');
+    var anchor = document.querySelector('[data-testid="product-information-details"] .lf-priv-card')
+      || document.querySelector('[data-testid="product-information-details"] more-payment-options-link')
+      || document.querySelector('[data-testid="product-information-details"] .accelerated-checkout-block')
+      || document.querySelector('[data-testid="product-information-details"] .buy-buttons-block');
+    if (el && anchor) anchor.after(el);
+  }
+
+  function init() {
+    var input = document.querySelector('[data-testid="product-information"] input[name="id"]');
+    if (input) watchInput(input);
+    positionRatingSnippet();
+    positionRewardsBar();
+    positionStockCounter();
+    positionPrivCard();
+    positionMobTrust();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+{% stylesheet %}
+
+.product-information {
+  padding: 40px 0;
+  overflow-x: clip;
+}
+
+.product-information__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.product-information__media {
+  width: 100%;
+}
+
+.product-details-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 749px) {
+  .product-details-wrapper {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .product-information__grid.product-information--media-left {
+    grid-template-columns: 1.3fr 1fr;
+  }
+
+  .product-information__grid.product-information--media-right {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  .product-details-wrapper {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .product-information__grid.product-information--media-left {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+  }
+
+  .product-information__grid.product-information--media-right {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+  }
+
+  .product-information {
+    padding: 48px 0 80px;
+  }
+}
+
+/* ── Price: editorial scale and weight ── */
+[data-testid="product-information"] product-price {
+  font-size: 1.125rem;
+  letter-spacing: 0.01em;
+}
+
+/* Sale price: red accent, compare-at muted */
+[data-testid="product-information"] .price--on-sale .price__sale {
+  color: #c0392b;
+}
+[data-testid="product-information"] .price--on-sale .price__compare {
+  opacity: 0.4;
+  text-decoration: line-through;
+  font-size: 0.875rem;
+}
+
+/* ── Quantity selector: sharp luxury corners, aligned with ATC ── */
+[data-testid="product-information"] .quantity-selector {
+  border-radius: 0 !important;
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+[data-testid="product-information"] .quantity-selector :is(.quantity-minus.quantity-plus) {
+  opacity: 0.55;
+  transition: opacity 0.18s ease;
+}
+
+[data-testid="product-information"] .quantity-selector :is(.quantity-minus.quantity-plus):hover {
+  opacity: 1;
+}
+
+/* ── ATC luxury overrides (scoped to PDP section only) ── */
+[data-testid="product-information"] .add-to-cart-button {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #000;
+  border-radius: 0;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  transition: background-color 0.22s ease, color 0.22s ease;
+}
+
+[data-testid="product-information"] .add-to-cart-button:hover:not([disabled]):not([aria-disabled="true"]) {
+  background-color: transparent;
+  color: #000;
+  border-color: #000;
+}
+
+/* Accelerated checkout, visually secondary, separated with "or" */
+[data-testid="product-information"] .accelerated-checkout-block {
+  position: relative;
+  margin-block-start: 16px;
+  padding-block-start: 16px;
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  opacity: 0.6;
+  transition: opacity 0.22s ease;
+}
+
+[data-testid="product-information"] .accelerated-checkout-block::before {
+  content: 'or';
+  position: absolute;
+  top: -0.55em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5625rem;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  opacity: 0.4;
+  background: var(--color-background, #fff);
+  padding-inline: 10px;
+  white-space: nowrap;
+}
+
+[data-testid="product-information"] .accelerated-checkout-block:hover {
+  opacity: 0.88;
+}
+
+/* Reduce Shop Pay visual height to sit clearly below ATC in hierarchy */
+[data-testid="product-information"] .shopify-payment-button__button {
+  border-radius: 0 !important;
+  min-height: 38px !important;
+  height: 38px !important;
+}
+
+[data-testid="product-information"] more-payment-options-link a {
+  font-size: 0.6875rem;
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+}
+
+/* ── Subscription / purchase-options: override app defaults ── */
+[data-testid="product-information"] .selling-plan-selector,
+[data-testid="product-information"] purchase-options-selector,
+[data-testid="product-information"] selling-plan-selector {
+  margin-block: 12px 0;
+}
+
+[data-testid="product-information"] .selling-plan-selector__option-label,
+[data-testid="product-information"] .selling-plan-option label {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Monk upsell: flatten app styling */
+[data-testid="product-information"] .monk-widget,
+[data-testid="product-information"] [class*="monk-"],
+[data-testid="product-information"] [class*="Monk"] {
+  border-radius: 0 !important;
+  font-family: 'Lato', var(--font-body--family), sans-serif !important;
+}
+
+/* Generic purchase options (Shopify native subscription) */
+[data-testid="product-information"] purchase-options-selector .purchase-option {
+  border-radius: 0;
+  border-color: rgba(0, 0, 0, 0.15);
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+}
+
+[data-testid="product-information"] purchase-options-selector .purchase-option--selected,
+[data-testid="product-information"] purchase-options-selector .purchase-option:has(input:checked) {
+  border-color: #0c0c0c;
+  border-width: 2px;
+}
+
+[data-testid="product-information"] purchase-options-selector .purchase-option__title {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+[data-testid="product-information"] purchase-options-selector .purchase-option__saving-badge {
+  background: #0c0c0c;
+  color: #fff;
+  border-radius: 0;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.4375rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+[data-testid="product-information"] purchase-options-selector .purchase-option__frequency {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.8125rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* ── Gallery: vertical thumbnail rail ── */
+
+/* Tighten gap and strip excess padding from the vertical left rail */
+[data-testid="product-information"] slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails {
+  gap: 6px;
+  padding-block: 0;
+  padding-inline-start: 0;
+}
+
+/* Inactive thumbnails: subtle fade, smooth on hover */
+[data-testid="product-information"] .slideshow-controls__thumbnails .slideshow-control {
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+
+[data-testid="product-information"] .slideshow-controls__thumbnails .slideshow-control:hover {
+  opacity: 0.75;
+}
+
+/* Active thumbnail: clean inset border instead of focus ring */
+[data-testid="product-information"] .slideshow-controls__thumbnails .slideshow-control[aria-selected='true'] {
+  opacity: 1;
+  outline: none;
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Mobile counter: minimal pill, Montserrat micro-label treatment */
+[data-testid="product-information"] .slideshow-controls__counter {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: rgb(0 0 0 / 30%);
+  border-radius: 1rem;
+  padding: 0.25rem 0.6rem;
+  backdrop-filter: blur(8px);
+}
+
+/* ═══════════════════════════════════════════════
+   LUXURY PDP REDESIGN, Space NK inspired
+   ═══════════════════════════════════════════════ */
+
+/* ── VENDOR LABEL above title ── */
+.lf-pdp-vendor {
+  display: block;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 6px;
+}
+
+/* ── PRODUCT TITLE: editorial luxury scale ── */
+/* Override the block's inline --font-size custom property */
+[data-testid="product-information"] .product-details .custom-font-size > p[role="heading"],
+[data-testid="product-information"] .product-details .custom-font-size > * > p[role="heading"] {
+  font-size: clamp(1.2rem, 1.7vw, 1.65rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0.015em !important;
+  color: #0c0c0c !important;
+  text-transform: uppercase !important;
+}
+
+/* ── PRICE ── */
+[data-testid="product-information"] .product-details .price {
+  font-size: 1.0625rem;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+/* ── VARIANT PICKER: luxury buttons ── */
+[data-testid="product-information"] .variant-option--buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+[data-testid="product-information"] .variant-option legend {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+  float: none;
+  width: 100%;
+}
+
+[data-testid="product-information"] .variant-option legend .variant-option__swatch-value {
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.65);
+  margin-left: 8px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+[data-testid="product-information"] .variant-option__button-label {
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  padding: 9px 18px;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+[data-testid="product-information"] .variant-option__button-label:hover {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-testid="product-information"] .variant-option__button-label:has(input:checked) {
+  border: 2px solid #0c0c0c;
+  padding: 8.5px 17.5px;
+}
+
+[data-testid="product-information"] .variant-option__button-label:has(input[aria-disabled]) {
+  opacity: 0.25;
+  text-decoration: line-through;
+  cursor: default;
+  pointer-events: none;
+}
+
+[data-testid="product-information"] .variant-option__button-label__pill {
+  display: none;
+}
+
+[data-testid="product-information"] .variant-option legend br {
+  display: none;
+}
+
+/* ── ATC BUTTON: full luxury black ── */
+[data-testid="product-information"] .add-to-cart-button {
+  min-height: 52px !important;
+  font-size: 0.6875rem !important;
+}
+
+/* ── EXCLUSIVE PRIVILEGES CARD, luxury centred banner ── */
+.lf-priv-card {
+  border: 1px solid rgba(201, 169, 110, 0.38);
+  background: #faf8f4;
+  padding: 20px 22px 22px;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.lf-priv-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lf-priv-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(201, 169, 110, 0.4);
+}
+
+.lf-priv-star {
+  font-size: 8px;
+  color: #c9a96e;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.lf-priv-label {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  white-space: nowrap;
+}
+
+.lf-priv-title {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0c0c0c;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.lf-priv-sub {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lf-priv-sub strong {
+  color: #0c0c0c;
+  font-weight: 700;
+}
+
+.lf-priv-gift-row--sep {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.lf-priv-free-label {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.4375rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 5px;
+}
+
+/* ── ACCORDIONS: luxury minimal ── */
+[data-testid="product-information"] .details.pdp-description-accordions .details {
+  border-radius: 0 !important;
+  border-color: rgba(0, 0, 0, 0.09) !important;
+}
+
+[data-testid="product-information"] .details__header.pdp-description-accordions .details__header {
+  font-family: 'Lato', var(--font-body--family), sans-serif !important;
+  font-size: 0.5625rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: #0c0c0c !important;
+  padding-block: 16px !important;
+}
+
+[data-testid="product-information"] .details-content.pdp-description-accordions .details-content {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.78;
+  color: rgba(0, 0, 0, 0.6);
+  padding-bottom: 20px;
+}
+
+/* Also style the intro description text */
+.pdp-desc-intro {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: rgba(0, 0, 0, 0.62);
+  margin-bottom: 12px;
+}
+
+/* ── DESCRIPTION BODY: enforce Lato across all rich text in buy panel ── */
+[data-testid="product-information"] .rte,
+[data-testid="product-information"] .rte p,
+[data-testid="product-information"] .rte li,
+[data-testid="product-information"] .rte ul,
+[data-testid="product-information"] .rte ol {
+  font-family: 'Lato', var(--font-body--family), sans-serif !important;
+  font-size: 0.9rem !important;
+  line-height: 1.75 !important;
+  color: rgba(0, 0, 0, 0.68) !important;
+  font-weight: 400 !important;
+}
+
+[data-testid="product-information"] .rte strong,
+[data-testid="product-information"] .rte b {
+  font-family: 'Lato', var(--font-body--family), sans-serif !important;
+  font-weight: 700 !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* ── GALLERY: enforce square on all screen sizes, no more portrait/landscape mismatches ── */
+[data-testid="product-information"] .product-media-container {
+  aspect-ratio: 1 / 1 !important;
+  background: var(--color-background, #fff);
+}
+
+/* ── GALLERY: sticky media column on desktop ── */
+@media screen and (min-width: 1200px) {
+  [data-testid="product-information"] .product-information__media {
+    position: sticky;
+    top: calc(var(--header-group-height, 0px) + 20px);
+    align-self: start;
+  }
+
+  [data-testid="product-information"] slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails {
+    padding-block: 0;
+    padding-inline-start: 0;
+    gap: 5px;
+  }
+
+  /* Cap right panel width on large and ultrawide screens */
+  .product-details-wrapper {
+    max-width: 540px;
+  }
+}
+
+/* Ultrawide: limit overall section width to prevent over-stretching */
+@media screen and (min-width: 1600px) {
+  [data-testid="product-information"] .product-information__grid {
+    max-width: 1480px;
+    margin-inline: auto;
+  }
+}
+
+/* ── SAVE % BADGE overlaid on gallery ── */
+.lf-save-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background: #0c0c0c;
+  color: #fff;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.lf-save-badge--hidden.lf-save-badge:empty {
+  display: none;
+}
+
+/* ── SKINBAY REWARDS BAR ── */
+.lf-rewards-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f9f9f9;
+}
+
+.lf-rewards-icon {
+  font-size: 12px;
+  color: #c9a96e;
+  flex-shrink: 0;
+}
+
+.lf-rewards-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lf-rewards-eyebrow {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.4375rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.lf-rewards-msg {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.35;
+}
+
+.lf-rewards-msg strong {
+  color: #0c0c0c;
+  font-weight: 700;
+}
+
+/* ── LEGACY GIFT BADGE (kept for backward compat, hidden) ── */
+.lf-pdp-gift-badge { display: none; }
+
+/* ── LEFT COLUMN EXTRAS (trust grid + privilege card) ── */
+
+/* Hidden on mobile, right panel shows instead */
+.lf-left-extras {
+  display: none;
+}
+
+/* Desktop: show below image, hide from right buy panel */
+@media screen and (min-width: 900px) {
+  .lf-left-extras {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    margin-top: 10px;
+  }
+
+  .lf-left-extras .lf-trust-grid {
+    border: 1px solid rgba(0, 0, 0, 0.07);
+  }
+
+  /* Hide trust strip from the right sticky buy panel on desktop */
+  [data-testid="product-information-details"] .pdp-trust-strip {
+    display: none;
+  }
+}
+
+/* ── MOBILE: ensure readable padding in single column ── */
+@media screen and (max-width: 749px) {
+  .product-information {
+    padding: 0 0 48px;
+  }
+
+  .lf-priv-card {
+    margin-inline: 0;
+  }
+
+  .lf-rewards-bar {
+    margin-inline: 0;
+  }
+
+  /* Hide quantity +/- on mobile, not needed for single-unit beauty purchases */
+  [data-testid="product-information"] .quantity-selector-wrapper {
+    display: none;
+  }
+
+  /* ATC button: full width on mobile */
+  [data-testid="product-information"] .product-form-buttons {
+    display: block;
+  }
+
+  [data-testid="product-information"] .product-form-buttons > * {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Gallery: clip so next slide never bleeds into view */
+  [data-testid="product-information"] .product-information__media,
+  [data-testid="product-information"] slideshow-component,
+  [data-testid="product-information"] .media-gallery {
+    overflow: hidden;
+    max-width: 100vw;
+  }
+
+  /* Title: allow wrapping, prevent right-edge clip */
+  [data-testid="product-information"] h1,
+  [data-testid="product-information"] .product-title {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    max-width: 100%;
+  }
+
+  /* Ensure detail wrapper never overflows viewport */
+  .product-details-wrapper {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+/* ── DESCRIPTION intro text ── */
+.pdp-desc-intro,
+[data-testid="product-information"] .product-description > :first-child {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.78;
+  color: rgba(0, 0, 0, 0.62);
+}
+
+/* ── VARIANT SWATCH images: constrain to luxury sizing ── */
+[data-testid="product-information"] .variant-option--swatches {
+  --variant-picker-swatch-width: 40px;
+  --variant-picker-swatch-height: 40px;
+}
+
+/* ── GROUP BLOCK (right panel inner container): remove excess padding on desktop ── */
+@media screen and (min-width: 900px) {
+  [data-testid="product-information-details"] > .group-block {
+    padding-inline: 0;
+  }
+}
+
+/* ── QUANTITY SELECTOR sizing ── */
+[data-testid="product-information"] .quantity-selector {
+  height: 44px;
+}
+
+[data-testid="product-information"] .quantity-selector .quantity-input {
+  min-width: 44px;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ── Rewards bar: tighter on mobile ── */
+@media screen and (max-width: 749px) {
+  .lf-rewards-bar {
+    padding: 11px 14px;
+  }
+}
+
+/* ── Mobile trust strip, hidden on desktop (left column handles it) ── */
+.lf-mob-trust {
+  display: none;
+}
+
+@media screen and (max-width: 899px) {
+  .lf-mob-trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    margin-top: 16px;
+  }
+
+  .lf-mob-trust__cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 14px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.35;
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  }
+
+  .lf-mob-trust__cell:nth-child(even) {
+    border-right: none;
+  }
+
+  .lf-mob-trust__cell:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .lf-mob-trust__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* ── 750–899px: stacked single-column, full-width form controls ── */
+@media screen and (min-width: 750px) and (max-width: 899px) {
+  [data-testid="product-information"] .product-form-buttons {
+    display: block;
+  }
+  [data-testid="product-information"] .product-form-buttons > * {
+    width: 100%;
+    min-width: 0;
+  }
+  [data-testid="product-information"] .quantity-selector-wrapper {
+    display: none;
+  }
+}
+
+/* ── Rewards £ equivalent inline text ── */
+.lf-rewards-equiv {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 0.8125rem;
+}
+
+/* ── Reviews.io rating snippet near title ── */
+.lf-rating-snippet {
+  margin-block: 4px 2px;
+  min-height: 0;
+  line-height: 1;
+}
+
+.lf-rating-snippet:empty {
+  display: none;
+}
+
+/* ── Low stock urgency counter ── */
+.lf-stock-counter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c0392b;
+  margin-block: 6px 0;
+}
+
+.lf-stock-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c0392b;
+  flex-shrink: 0;
+  animation: lf-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes lf-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+
+/* ── Variant Swatch King (VSK) app: suppress duplicate injection ──
+   VSK injects a swatch UI then hides .variant-picker with opacity:0;max-height:0.
+   We hide VSK's injected element and restore visibility of the theme's native picker. */
+[data-testid="product-information"] variant-swatch-king {
+  display: none !important;
+}
+[data-testid="product-information"] .variant-picker {
+  opacity: 1 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* ── Variant dropdown: luxury select styling ── */
+[data-testid="product-information"] .variant-option--dropdowns .variant-option__select-wrapper {
+  border: 1.5px solid rgba(0, 0, 0, 0.18);
+  border-radius: 0;
+  margin-top: 8px;
+}
+
+[data-testid="product-information"] .variant-option--dropdowns .variant-option__select {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-block: 14px;
+  color: #0c0c0c;
+}
+
+[data-testid="product-information"] .variant-option--dropdowns label {
+  font-family: 'Lato', var(--font-body--family), sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Mobile sticky ATC bar ── */
+.lf-sticky-atc {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .product-information {
+    padding-bottom: 80px;
+  }
+
+  .lf-sticky-atc {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 998;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    padding: 10px 16px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    transform: translateY(110%);
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+
+  .lf-sticky-atc--visible {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .lf-sticky-atc__inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lf-sticky-atc__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .lf-sticky-atc__title {
+    font-size: 11px;
+    font-weight: 500;
+    color: #111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lf-sticky-atc__price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .lf-sticky-atc__btn {
+    flex-shrink: 0;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 13px 18px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .lf-sticky-atc__btn:hover:not(:disabled) {
+    background: #222;
+  }
+
+  .lf-sticky-atc__btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product",
+  "class": "product-information-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "t:settings.media_width",
+      "options": [
+        { "value": "content-center-aligned", "label": "t:options.contained" },
+        { "value": "content-full-width", "label": "t:options.full_width" }
+      ],
+      "default": "content-center-aligned"
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_position",
+      "label": "t:settings.desktop_media_position",
+      "options": [
+        { "value": "left", "label": "t:options.left" },
+        { "value": "right", "label": "t:options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "equal_columns",
+      "label": "t:settings.equal_columns",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "limit_details_width",
+      "label": "t:settings.limit_details_width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product"
+    }
+  ]
+}
+{% endschema %}

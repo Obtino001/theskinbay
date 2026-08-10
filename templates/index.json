@@ -1,0 +1,364 @@
+{
+  "sections": {
+    "home_hero": {
+      "type": "home-hero",
+      "blocks": {
+        "cliniccare": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/exec-02fbc27c-9057-4838-a6c9-3e84420c84ea.png",
+            "bg_color": "#011940",
+            "text_theme": "light",
+            "eyebrow": "",
+            "heading": "Instant Peel @ Home",
+            "headline_image": "hero-cliniccare.png",
+            "body": "Free ClinicCare Instant Peel @ Home sample when you spend \u00a350 on any ClinicCare order. Helping restore the skin's natural radiance, refine texture and support cellular renewal, with visible results in just minutes.",
+            "cta1_label": "SHOP NOW",
+            "cta1_link": "shopify://collections/cliniccare",
+            "cta2_label": "",
+            "cta2_link": ""
+          }
+        },
+        "vita": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Vita_Glow_Shot_07_7048_19b6696a-f411-4d9c-a6f9-6a9bb62dbbf1.webp",
+            "bg_color": "#451c03",
+            "text_theme": "light",
+            "eyebrow": "",
+            "heading": "VITA LIBERATA The Glaze",
+            "headline_image": "hero-vita.png",
+            "body": "The Glaze stimulates elastin and collagen production while tanning your skin to give you a believable, hydrated, light to medium glow that builds over time.",
+            "cta1_label": "GET THE GLOW",
+            "cta1_link": "shopify://products/vita-liberata-the-glaze-peptide-tanning-serum-150ml",
+            "cta2_label": "",
+            "cta2_link": "shopify://collections/vita-liberata"
+          }
+        },
+        "phyto": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/phyto-corrective-pdrn.png",
+            "bg_color": "#343c05",
+            "text_theme": "light",
+            "eyebrow": "",
+            "heading": "Reducing Redness",
+            "headline_image": "hero-phyto.png",
+            "body": "An advanced, soothing serum designed for redness-prone and blemish-prone skin. Inspired by Korean PDRN injection treatments, it repairs the skin barrier in just one hour and reduce visible redness by up to 20%.",
+            "cta1_label": "SHOP NOW",
+            "cta1_link": "shopify://products/skinceuticals-phyto-corrective-30ml-76",
+            "cta2_label": "",
+            "cta2_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "cliniccare",
+        "vita",
+        "phyto"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "seo_h1": "Medical-Grade Skincare & Clinic-Backed Brands at The Skin Bay",
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "show_arrows": true,
+        "show_dots": true,
+        "brand_strip": ""
+      }
+    },
+    "home_collections": {
+      "type": "home-collections",
+      "blocks": {
+        "collection_card_KX7jLW": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "summer-skin",
+            "label": "summer",
+            "image": "shopify://shop_images/summer-banner-theskinbay.png",
+            "link": ""
+          }
+        },
+        "collection_card_FVt6dc": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "skincare",
+            "label": "",
+            "link": ""
+          }
+        },
+        "collection_card_kVd9iJ": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "make-up",
+            "label": "",
+            "link": ""
+          }
+        },
+        "collection_card_hWT4iM": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "health-wellness",
+            "label": "",
+            "link": ""
+          }
+        },
+        "collection_card_XMbYXf": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "body-care",
+            "label": "",
+            "image": "shopify://shop_images/6c09ff683643cc9acdd69391eedf549d.png",
+            "link": ""
+          }
+        },
+        "collection_card_hPCXUw": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "hair-care",
+            "label": "",
+            "link": ""
+          }
+        },
+        "collection_card_JbA9dR": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "home-spa",
+            "label": "Home",
+            "link": ""
+          }
+        },
+        "collection_card_9gTgqD": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "sale",
+            "label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_KX7jLW",
+        "collection_card_FVt6dc",
+        "collection_card_kVd9iJ",
+        "collection_card_hWT4iM",
+        "collection_card_XMbYXf",
+        "collection_card_hPCXUw",
+        "collection_card_JbA9dR",
+        "collection_card_9gTgqD"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "header_image": "home-h-shop.png",
+        "eyebrow": "Most loved",
+        "heading": "Shop our most popular collections",
+        "subheading": "Jump straight to the edits our customers reach for most."
+      }
+    },
+    "home_showcase": {
+      "type": "home-showcase",
+      "blocks": {
+        "b1": {
+          "type": "tab",
+          "settings": {
+            "label": "ClinicCare Bestsellers",
+            "collection": "cliniccare-best-sellers",
+            "view_all": ""
+          }
+        },
+        "b2": {
+          "type": "tab",
+          "settings": {
+            "label": "Bundle Exclusives",
+            "collection": "bundle-deals",
+            "view_all": ""
+          }
+        },
+        "b3": {
+          "type": "tab",
+          "settings": {
+            "label": "SkinCeuticals",
+            "collection": "skinceuticals",
+            "view_all": ""
+          }
+        },
+        "b4": {
+          "type": "tab",
+          "settings": {
+            "label": "New In",
+            "collection": "new-in",
+            "view_all": ""
+          }
+        },
+        "b5": {
+          "type": "tab",
+          "settings": {
+            "label": "Voya",
+            "collection": "voya",
+            "view_all": ""
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+      ],
+      "settings": {
+        "bg": "#ffffff",
+        "header_image": "home-h-best.png",
+        "hidden_heading": "The best of The Skin Bay",
+        "intro": "The products our customers reach for again and again.",
+        "count": 10
+      }
+    },
+    "lf_brands": {
+      "type": "lf-brand-showcase",
+      "settings": {
+        "eyebrow": "Premium brands",
+        "heading": "Shop by Brand",
+        "header_image": "home-h-brand.png",
+        "body": "Discover clinically curated skincare from the world's leading dermatology and cosmetic brands.",
+        "view_all_label": "View All Brands",
+        "view_all_link": "/collections/brands",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35
+      }
+    },
+    "home_brand_feature": {
+      "type": "home-brand-feature",
+      "settings": {
+        "bg": "#f7f7f5",
+        "header_image": "home-h-spotlight.png",
+        "brand_name": "Medik8",
+        "story": "British skincare science, powered by vitamin A. Medik8's CSA philosophy pairs daily antioxidants and sunscreen with nightly retinal for visibly firmer, brighter, healthier skin.",
+        "collection": "medik8",
+        "count": 8,
+        "cta_label": "Shop all Medik8",
+        "cta_link": "/collections/medik8"
+      }
+    },
+    "banner_offer_spf_bdixmH": {
+      "type": "skinny-gift-banner",
+      "settings": {
+        "gift_handle": "free-avene-tote-bag",
+        "bg_color": "#f25555",
+        "text_color": "#ffffff",
+        "fallback_url": ""
+      }
+    },
+    "lf_concern": {
+      "type": "lf-shop-concern",
+      "blocks": {
+        "concern_tLi8pa": {
+          "type": "concern",
+          "settings": {
+            "collection": "rosacea-redness-1",
+            "label": "ROSACEA",
+            "image": "shopify://shop_images/9003220A-2333-498A-B9F8-924DE9384C8A.png",
+            "link": "shopify://collections/rosacea-redness"
+          }
+        },
+        "concern_JrVDJe": {
+          "type": "concern",
+          "settings": {
+            "collection": "suncare",
+            "label": "SUNCARE",
+            "link": "shopify://collections/suncare"
+          }
+        },
+        "concern_F46gED": {
+          "type": "concern",
+          "settings": {
+            "collection": "after-sun-care",
+            "label": "AFTERSUN",
+            "link": "shopify://collections/after-sun-care"
+          }
+        },
+        "concern_4Ma4Pz": {
+          "type": "concern",
+          "settings": {
+            "collection": "pigmentation-dark-spots",
+            "label": "PIGMENTED",
+            "link": "shopify://collections/pigmentation-dark-spots"
+          }
+        },
+        "concern_z9QeHr": {
+          "type": "concern",
+          "settings": {
+            "collection": "dry-dehydrated-skin",
+            "label": "DRY",
+            "link": "shopify://collections/dry-dehydrated-skin"
+          }
+        },
+        "concern_bHgEpz": {
+          "type": "concern",
+          "settings": {
+            "collection": "skincare-for-acne-blemish-prone",
+            "label": "ACNE/BLEMISH",
+            "link": "shopify://collections/skincare-for-acne-blemish-prone"
+          }
+        }
+      },
+      "block_order": [
+        "concern_tLi8pa",
+        "concern_JrVDJe",
+        "concern_F46gED",
+        "concern_4Ma4Pz",
+        "concern_z9QeHr",
+        "concern_bHgEpz"
+      ],
+      "settings": {
+        "eyebrow": "Find your routine",
+        "heading": "Shop by Concern",
+        "header_image": "home-h-concern.png",
+        "view_all_label": "View all",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "lf_editorial": {
+      "type": "lf-editorial-dark",
+      "settings": {
+        "eyebrow": "The expert difference",
+        "heading": "Clinically proven.<br><em>Expertly curated.</em>",
+        "header_image": "home-h-editorial.png",
+        "body": "TheSkinBay brings you professional-grade skincare from the world's leading dermatological brands. Every product is authentic, clinically validated, and selected by our expert team.",
+        "cta_label": "Book a Consultation",
+        "cta_link": "shopify://pages/free-personal-skincare-consultation",
+        "image": "shopify://shop_images/6B8B3409-77BE-4BB2-BFEE-41FA162DE723.png",
+        "image_focal": "center"
+      }
+    },
+    "lf_usp": {
+      "type": "lf-usp-strip",
+      "disabled": true,
+      "settings": {
+        "bg_color": "#faf8f5",
+        "icon_color": "#1a1a2e",
+        "heading_color": "#111111",
+        "sub_color": "#666666",
+        "usp1_label": "Free UK Delivery",
+        "usp1_sub": "On all orders over \u00a3400",
+        "usp2_label": "100% Authentic",
+        "usp2_sub": "Genuine products, direct from brands",
+        "usp3_label": "Expert Skincare Advice",
+        "usp3_sub": "Free personal consultation service",
+        "usp4_label": "Easy Returns",
+        "usp4_sub": "30-day hassle-free returns"
+      }
+    }
+  },
+  "order": [
+    "home_hero",
+    "home_collections",
+    "home_showcase",
+    "lf_brands",
+    "home_brand_feature",
+    "banner_offer_spf_bdixmH",
+    "lf_concern",
+    "lf_editorial",
+    "lf_usp"
+  ]
+}

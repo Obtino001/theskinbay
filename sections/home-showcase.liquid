@@ -1,0 +1,139 @@
+{%- comment -%} Skin Bay homepage — branded tabbed product showcase (lazy tabs, covers many collections lightly) {%- endcomment -%}
+{%- assign sid = 'hsc-' | append: section.id -%}
+<section class="home-sc" id="{{ sid }}" style="background:{{ section.settings.bg }};">
+  <div class="hsc-wrap">
+    <h2 class="hsc-hidden">{{ section.settings.hidden_heading }}</h2>
+    {%- if section.settings.header_image != blank -%}
+      <img class="hsc-header" src="{{ section.settings.header_image | asset_url }}" alt="{{ section.settings.hidden_heading | escape }}" width="1500" height="340">
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}<p class="hsc-intro">{{ section.settings.intro }}</p>{%- endif -%}
+
+    <div class="hsc-tabs" role="tablist">
+      {%- for block in section.blocks -%}
+        <button class="hsc-tab{% if forloop.first %} on{% endif %}" type="button" role="tab" data-t="{{ forloop.index0 }}" onclick="hscTab('{{ sid }}',{{ forloop.index0 }})" {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
+      {%- endfor -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- assign coll = collections[block.settings.collection] -%}
+      <div class="hsc-panel{% if forloop.first %} on{% endif %}" data-t="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %}>
+        <div class="hsc-row">
+          {%- assign shown = 0 -%}
+          {%- for p in coll.products -%}
+            {%- if shown < section.settings.count and p.available -%}
+              {%- assign pv = p.selected_or_first_available_variant -%}
+              <div class="hsc-card">
+                <a class="hsc-clink" href="{{ p.url }}">
+                  <div class="hsc-cimg">
+                    <img {% if forloop.parentloop.first %}src="{{ p.featured_image | image_url: width: 420 }}" loading="lazy"{% else %}data-src="{{ p.featured_image | image_url: width: 420 }}"{% endif %} alt="{{ p.title | escape }}" width="420" height="420">
+                    {%- if pv.compare_at_price > pv.price -%}<span class="hsc-save">Save {{ pv.compare_at_price | minus: pv.price | money_without_trailing_zeros }}</span>{%- endif -%}
+                  </div>
+                  <div class="hsc-info">
+                    <span class="hsc-vendor">{{ p.vendor }}</span>
+                    <span class="hsc-title">{{ p.title }}</span>
+                    <span class="hsc-price">{{ pv.price | money }}{% if pv.compare_at_price > pv.price %}<em>{{ pv.compare_at_price | money }}</em>{% endif %}</span>
+                  </div>
+                </a>
+                {%- if pv.available and p.variants.size == 1 -%}
+                  <button type="button" class="hsc-add" data-vid="{{ pv.id }}">Add to bag</button>
+                {%- elsif p.available -%}
+                  <a class="hsc-add hsc-add--opt" href="{{ p.url }}">Choose options</a>
+                {%- else -%}
+                  <span class="hsc-add hsc-add--out">Sold out</span>
+                {%- endif -%}
+              </div>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <a class="hsc-viewall" href="{{ coll.url | default: block.settings.view_all }}">Shop all {{ block.settings.label }} <span>&rarr;</span></a>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+<script>
+  function hscTab(sid,i){var root=document.getElementById(sid);if(!root)return;
+    var tabs=root.querySelectorAll('.hsc-tab'),pans=root.querySelectorAll('.hsc-panel');
+    tabs.forEach(function(t){t.classList.toggle('on',+t.dataset.t===i);});
+    pans.forEach(function(pn){var a=+pn.dataset.t===i;pn.hidden=!a;pn.classList.toggle('on',a);
+      if(a){pn.querySelectorAll('img[data-src]').forEach(function(im){im.src=im.dataset.src;im.removeAttribute('data-src');});}});
+  }
+  (function(){
+    var sec=document.getElementById('{{ sid }}');
+    if(!sec) return;
+    sec.addEventListener('click',function(e){
+      var btn=e.target.closest('.hsc-add[data-vid]'); if(!btn) return;
+      e.preventDefault();
+      if(btn.dataset.busy) return; btn.dataset.busy='1';
+      var orig=btn.textContent; btn.textContent='Adding…';
+      fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(btn.getAttribute('data-vid'),10),quantity:1}]})})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(function(){
+        btn.textContent='Added ✓'; btn.classList.add('is-added');
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('cart:build'));
+        return fetch('/cart.js').then(function(x){return x.json();});
+      })
+      .then(function(c){
+        if(c&&typeof c.item_count!=='undefined'){
+          document.querySelectorAll('.cart-count-bubble span:not([aria-hidden]),[data-cart-count],.cart-count,.header__cart-count').forEach(function(el){el.textContent=c.item_count;});
+        }
+        setTimeout(function(){btn.textContent=orig;btn.classList.remove('is-added');btn.dataset.busy='';},1900);
+      })
+      .catch(function(){window.location='/cart';});
+    });
+  })();
+</script>
+<style>
+  .home-sc{padding:46px 20px;}
+  .hsc-wrap{max-width:1280px;margin:0 auto;}
+  .hsc-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .hsc-header{display:block;width:min(420px,80vw);max-width:none;height:auto;margin:0 auto 6px;}
+  .hsc-intro{text-align:center;font-family:'Lato',sans-serif;font-size:15.5px;color:#4a4a4a;max-width:560px;margin:0 auto 6px;}
+  .hsc-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:22px 0 26px;}
+  .hsc-tab{cursor:pointer;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;color:#141414;background:#F4F4F2;border:1.5px solid #E5E5E2;border-radius:30px;padding:10px 20px;transition:all .15s ease;}
+  .hsc-tab:hover{border-color:#141414;}
+  .hsc-tab.on{background:#141414;color:#fff;border-color:#141414;}
+  .hsc-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,1fr);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 2px 8px;}
+  .hsc-row::-webkit-scrollbar{display:none;}
+  .hsc-card{scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;}
+  .hsc-clink{text-decoration:none;color:#141414;display:flex;flex-direction:column;gap:12px;}
+  .hsc-cimg{position:relative;background:#F7F7F5;border:1px solid #EDEDEA;border-radius:16px;overflow:hidden;aspect-ratio:1/1;}
+  .hsc-cimg img{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:multiply;}
+  .hsc-save{position:absolute;top:10px;left:10px;background:#141414;color:#fff;font-family:'Lato',sans-serif;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:20px;}
+  .hsc-info{display:flex;flex-direction:column;gap:3px;padding:0 2px;}
+  .hsc-vendor{font-family:'Lato',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9a958c;}
+  .hsc-title{font-family:'Lato',sans-serif;font-size:13.5px;line-height:1.35;color:#141414;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em;}
+  .hsc-price{font-family:'Playfair Display',serif;font-size:16px;color:#141414;}
+  .hsc-price em{font-style:normal;font-size:13px;color:#a29b8f;text-decoration:line-through;margin-left:6px;}
+  .hsc-viewall{display:inline-flex;align-items:center;gap:7px;margin-top:22px;font-family:'Lato',sans-serif;font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#141414;text-decoration:none;border-bottom:2px solid #141414;padding-bottom:3px;}
+  .hsc-viewall span{transition:transform .15s ease;}.hsc-viewall:hover span{transform:translateX(4px);}
+  .hsc-add{margin-top:2px;font-family:'Lato',sans-serif;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:#141414;background:#fff;border:1.5px solid #141414;border-radius:40px;padding:11px 12px;cursor:pointer;text-decoration:none;transition:background .2s ease,color .2s ease;}
+  .hsc-add:hover{background:#141414;color:#fff;}
+  .hsc-add.is-added{background:#141414;color:#fff;border-color:#141414;}
+  .hsc-add--opt{border-color:rgba(20,20,20,.35);}
+  .hsc-add--out{border-color:#e2e2e2;color:#b0aaa0;cursor:default;background:#fafafa;}
+  .hsc-add--out:hover{background:#fafafa;color:#b0aaa0;}
+  @media(max-width:749px){.home-sc{padding:34px 14px;}.hsc-row{grid-auto-columns:minmax(158px,1fr);gap:12px;}.hsc-tab{font-size:12px;padding:9px 15px;}.hsc-add{font-size:10px;padding:10px 8px;}}
+</style>
+{% schema %}
+{
+  "name": "Home · Showcase (tabs)",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "text", "id": "header_image", "label": "Header banner asset", "default": "home-h-best.png" },
+    { "type": "text", "id": "hidden_heading", "label": "Hidden SEO heading", "default": "The best of The Skin Bay" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "The products our customers reach for again and again." },
+    { "type": "range", "id": "count", "min": 6, "max": 16, "step": 1, "label": "Products per tab", "default": 10 }
+  ],
+  "blocks": [
+    { "type": "tab", "name": "Tab", "settings": [
+      { "type": "text", "id": "label", "label": "Tab label", "default": "Bestsellers" },
+      { "type": "collection", "id": "collection", "label": "Collection" },
+      { "type": "url", "id": "view_all", "label": "View-all fallback link" }
+    ]}
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Home · Showcase (tabs)" }]
+}
+{% endschema %}

@@ -1,0 +1,474 @@
+<style>
+  .lf-search-page {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+  }
+
+  .lf-search-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8e8e8;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lf-search-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #999;
+    font-weight: 400;
+  }
+  .lf-search-heading strong {
+    color: #000;
+    font-weight: 600;
+  }
+  .lf-search-count {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+  }
+
+  /* ── Toolbar ─────────────────────────────────────────────────── */
+  .lf-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lf-toolbar-left { display: flex; gap: 8px; flex-wrap: wrap; }
+  .lf-filter-group { position: relative; }
+
+  .lf-filter-btn {
+    appearance: none;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    padding: 0 18px;
+    height: 40px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0;
+    transition: border-color 0.15s ease;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+  }
+  .lf-filter-btn:hover { border-color: #000; }
+
+  .lf-sort-select {
+    appearance: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23000'/%3E%3C/svg%3E") no-repeat right 14px center;
+    border: 1px solid #d8d8d8;
+    padding: 0 36px 0 16px;
+    height: 40px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    cursor: pointer;
+    border-radius: 0;
+    transition: border-color 0.15s ease;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    min-width: 160px;
+  }
+  .lf-sort-select:hover { border-color: #000; }
+
+  .lf-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    background: #fff;
+    border: 1px solid #000;
+    min-width: 220px;
+    z-index: 200;
+    max-height: 360px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .lf-dropdown.active { display: block; }
+  .lf-dropdown-item {
+    padding: 11px 18px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid #f2f2f2;
+    cursor: pointer;
+    transition: background 0.12s ease;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+  }
+  .lf-dropdown-item:last-child { border-bottom: none; }
+  .lf-dropdown-item:hover { background: #f8f8f8; }
+  .lf-dropdown-item.selected { font-weight: 700; }
+
+  /* ── Product Grid ─────────────────────────────────────────────── */
+  .lf-search-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 32px 14px;
+  }
+  @media (max-width: 1199px) { .lf-search-grid { grid-template-columns: repeat(4, 1fr); gap: 28px 12px; } }
+  @media (max-width: 749px) { .lf-search-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 10px; } }
+
+  /* ── Product Card ─────────────────────────────────────────────── */
+  .lf-sc { position: relative; display: flex; flex-direction: column; }
+  .lf-sc a { text-decoration: none; color: inherit; }
+
+  .lf-sc-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f8f8f8;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lf-sc-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+    padding: 8%;
+    box-sizing: border-box;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .lf-sc:hover .lf-sc-img { transform: scale(1.04); }
+
+  .lf-sc-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #741111;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+  }
+
+  .lf-sc-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .lf-sc-vendor {
+    font-size: 8px;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0,0,0,0.38);
+    margin-bottom: 1px;
+  }
+  .lf-sc-title {
+    font-size: 11px;
+    font-weight: 400;
+    color: #111;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.15s ease;
+  }
+  .lf-sc:hover .lf-sc-title { color: rgba(0,0,0,0.6); }
+
+  .lf-sc-price-row { font-size: 11px; margin-top: 3px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .lf-sc-price { font-weight: 600; color: #000; }
+  .lf-sc-compare { font-weight: 400; color: #aaa; text-decoration: line-through; font-size: 10px; }
+  .lf-sc-sale { color: #741111; font-weight: 600; }
+
+  .lf-sc-atc {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px 6px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    font-family: 'Lato', var(--font-body--family), sans-serif;
+    border-radius: 0;
+  }
+  .lf-sc-atc:hover { background: #000; border-color: #000; color: #fff; }
+  .lf-sc-atc:disabled { opacity: 0.45; cursor: not-allowed; }
+  .lf-sc-atc.added { background: #000; border-color: #000; color: #fff; }
+
+  /* ── Empty ────────────────────────────────────────────────────── */
+  .lf-search-empty {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  .lf-search-empty h3 { font-size: 14px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .lf-search-empty p { font-size: 12px; color: #999; }
+
+  /* ── Pagination ───────────────────────────────────────────────── */
+  .lf-pagination {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+  .lf-pagination a.lf-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid transparent;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .lf-pagination a:hover { border-color: #000; }
+  .lf-pagination .current span.lf-pagination .active span {
+    border-bottom: 2px solid #000;
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  if (!document.querySelector('link[href*="Lato"]')) {
+    var _mf = document.createElement('link');
+    _mf.rel = 'stylesheet';
+    _mf.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap';
+    document.head.appendChild(_mf);
+  }
+</script>
+
+<div class="lf-search-page">
+  {% if search.performed %}
+    <div class="lf-search-meta">
+      <span class="lf-search-heading">Results for <strong>"{{ search.terms }}"</strong></span>
+      <span class="lf-search-count">
+        {% assign product_results = 0 %}
+        {% for item in search.results %}
+          {% if item.object_type == 'product' and item.price > 0 %}
+            {% assign product_results = product_results | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        {{ product_results }} product{% if product_results != 1 %}s{% endif %}
+      </span>
+    </div>
+
+    <div class="lf-toolbar">
+      <div class="lf-toolbar-left">
+        {%- for filter in search.filters -%}
+          {%- if filter.label == 'Brand' or filter.label == 'Vendor' -%}
+            <div class="lf-filter-group">
+              <button class="lf-filter-btn js-lf-filter-toggle">
+                <span>{{ filter.label }}</span>
+                <svg width="9" height="5" viewBox="0 0 9 5" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l3.5 3.5L8 1"/></svg>
+              </button>
+              <div class="lf-dropdown">
+                <div class="lf-dropdown-item" onclick="lfClearFilter('{{ filter.param_name }}')">All {{ filter.label }}s</div>
+                {%- for value in filter.values -%}
+                  <div class="lf-dropdown-item js-lf-facet {% if value.active %}selected{% endif %}"
+                       data-param="{{ value.param_name }}"
+                       data-val="{{ value.value }}">
+                    {{ value.label }} ({{ value.count }})
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <select class="lf-sort-select js-lf-sort">
+        {%- for option in search.sort_options -%}
+          <option value="{{ option.value }}" {% if option.value == search.sort_by %}selected{% endif %}>Sort: {{ option.name }}</option>
+        {%- endfor -%}
+      </select>
+    </div>
+
+    {% paginate search.results by 48 %}
+      {%- assign has_products = false -%}
+      {%- for item in search.results -%}
+        {%- if item.object_type == 'product' and item.price > 0 -%}
+          {%- assign has_products = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {% if has_products %}
+        <div class="lf-search-grid">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' and item.price > 0 %}
+              {%- assign save_pct = 0 -%}
+              {%- if item.compare_at_price > item.price -%}
+                {%- assign save_pct = item.compare_at_price | minus: item.price | times: 100 | divided_by: item.compare_at_price -%}
+              {%- endif -%}
+              <div class="lf-sc">
+                {% render 'wishlist-heart', product: item %}
+                <a href="{{ item.url }}">
+                  <div class="lf-sc-img-wrap">
+                    {%- if save_pct > 0 -%}
+                      <div class="lf-sc-badge">Save {{ save_pct }}%</div>
+                    {%- endif -%}
+                    {%- if item.featured_image != blank -%}
+                      {%- assign img_src_200 = item.featured_image | image_url: width: 200 -%}
+                      {%- assign img_src_400 = item.featured_image | image_url: width: 400 -%}
+                      {%- assign img_src_600 = item.featured_image | image_url: width: 600 -%}
+                      <img
+                        src="{{ img_src_400 }}"
+                        srcset="{{ img_src_200 }} 200w, {{ img_src_400 }} 400w, {{ img_src_600 }} 600w"
+                        sizes="(min-width: 1200px) 17vw, (min-width: 750px) 25vw, 50vw"
+                        alt="{{ item.featured_image.alt | escape }}"
+                        class="lf-sc-img"
+                        loading="lazy"
+                        width="{{ item.featured_image.width }}"
+                        height="{{ item.featured_image.height }}"
+                      >
+                    {%- else -%}
+                      <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18"/><path d="m3 9 4-4 4 4 4-4 4 4"/><circle cx="8" cy="14" r="2"/></svg></div>
+                    {%- endif -%}
+                  </div>
+                </a>
+                <div class="lf-sc-info">
+                  <div class="lf-sc-vendor">{{ item.vendor }}</div>
+                  <a href="{{ item.url }}" class="lf-sc-title">{{ item.title }}</a>
+                  <div class="lf-sc-price-row">
+                    {%- if save_pct > 0 -%}
+                      <span class="lf-sc-sale">{{ item.price | money }}</span>
+                      <span class="lf-sc-compare">{{ item.compare_at_price | money }}</span>
+                    {%- else -%}
+                      <span class="lf-sc-price">{{ item.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+                {%- if item.available -%}
+                  <button class="lf-sc-atc js-lf-atc" data-variant="{{ item.first_available_variant.id }}">Add to Cart</button>
+                {%- else -%}
+                  <button class="lf-sc-atc" disabled>Sold Out</button>
+                {%- endif -%}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="lf-search-empty">
+          <h3>No results found</h3>
+          <p>Try a different search term or browse our collections.</p>
+        </div>
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <nav class="lf-pagination">
+          {{ paginate | default_pagination }}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+
+  {% else %}
+    <div class="lf-search-empty">
+      <h3>Search Our Store</h3>
+      <p>Enter a search term above to find products.</p>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  // Filter dropdowns
+  document.querySelectorAll('.js-lf-filter-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var dd = this.nextElementSibling;
+      var isOpen = dd.classList.contains('active');
+      document.querySelectorAll('.lf-dropdown').forEach(function(d) { d.classList.remove('active'); });
+      if (!isOpen) dd.classList.add('active');
+    });
+  });
+  window.addEventListener('click', function() {
+    document.querySelectorAll('.lf-dropdown').forEach(function(d) { d.classList.remove('active'); });
+  });
+
+  document.querySelectorAll('.js-lf-facet').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var params = new URLSearchParams(window.location.search);
+      params.set(this.dataset.param, this.dataset.val);
+      window.location.search = params.toString();
+    });
+  });
+
+  function lfClearFilter(paramName) {
+    var params = new URLSearchParams(window.location.search);
+    params.delete(paramName);
+    window.location.search = params.toString();
+  }
+
+  var sortSelect = document.querySelector('.js-lf-sort');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      var params = new URLSearchParams(window.location.search);
+      params.set('sort_by', this.value);
+      window.location.search = params.toString();
+    });
+  }
+
+  // AJAX Add to Cart, fires into our custom cart drawer
+  document.querySelectorAll('.js-lf-atc').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var vid = this.dataset.variant;
+      var self = this;
+      self.textContent = 'Adding...';
+      self.disabled = true;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: parseInt(vid), quantity: 1 }] })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self.textContent = 'Added';
+        self.classList.add('added');
+        setTimeout(function() {
+          self.textContent = 'Add to Cart';
+          self.classList.remove('added');
+          self.disabled = false;
+        }, 2000);
+        document.querySelectorAll('.global-cart-count').forEach(function(el) {
+          el.textContent = parseInt(el.textContent || '0') + 1;
+        });
+        if (typeof openCart === 'function') openCart();
+        else document.dispatchEvent(new CustomEvent('cart:refresh'));
+      })
+      .catch(function() {
+        self.textContent = 'Error';
+        setTimeout(function() { self.textContent = 'Add to Cart'; self.disabled = false; }, 2000);
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": []
+}
+{% endschema %}

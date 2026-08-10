@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "bayblog-index",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "theskinbay Journal",
+        "heading": "The Bay Blog",
+        "tagline": "Expert skincare guides, ingredient science and honest advice from theskinbay.",
+        "show_founder": true,
+        "founder_kicker": "A Note From Emmalee",
+        "founder_quote": "I love talking products, ingredients and results, so The Bay Blog is my way of sharing the knowledge I learn every day, with the brands, the products and with your skin. Search topics below and really get to know what you're putting on the skin, it makes the journey even more exciting.",
+        "founder_name": "Emmalee",
+        "founder_link": "/pages/social",
+        "founder_link_text": "More from our socials"
+      }
+    }
+  },
+  "order": ["main"]
+}

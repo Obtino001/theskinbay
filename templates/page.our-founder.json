@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "lf_hero": {
+      "type": "lf-page-hero",
+      "settings": {
+        "bg_color": "#0b1225",
+        "eyebrow": "Meet the Founder",
+        "heading": "Emmalee Fitton.",
+        "body": "The Skin Bay was built by Emmalee \u2014 a clinically trained skincare specialist with over a decade on the clinic floor at Medipro Aesthetics.",
+        "cta1_label": "Book a Consultation",
+        "cta1_link": "https://mediprodirect.book.app/book-now/availability?services=W3sicyI6MTUxMzM2MH1d",
+        "cta2_label": "",
+        "cta2_link": "",
+        "header_image": "founder-h-hero.png"
+      }
+    },
+    "editorial_founder_FVw3WR": {
+      "type": "editorial-founder",
+      "name": "Editorial Founder",
+      "settings": {
+        "heading": "OUR FOUNDER",
+        "bio_content": "<p>Emmalee Fitton is the founder and driving force behind TheSkinBay. With over a decade of hands-on clinical experience at Medipro Aesthetics, she has built a reputation as one of the UK's most trusted skincare specialists \u2014 combining clinical expertise with a genuine passion for helping people feel confident in their skin.</p><p>A SkinCeuticals European Master Physician and advanced aesthetic practitioner, Emmalee has performed over 2,000 personal skin consultations. She works directly with the world's leading dermatological brands \u2014 not just stocking their products, but understanding them at a clinical level, so every recommendation she makes is grounded in real evidence.</p><p>TheSkinBay was born from that knowledge. Built to bring professional-grade skincare out of the clinic and into people's homes \u2014 with the same care, honesty, and expertise you'd expect face to face.</p>",
+        "founder_name": "Emmalee Fitton",
+        "founder_sub": "SkinCeuticals European Master Physician \u00b7 10+ years clinical \u00b7 2,000+ consultations",
+        "main_image": "shopify://shop_images/EmmaLee_Fitton_TheSkinBay_Founder.jpg",
+        "title_size": 60,
+        "title_weight": "700",
+        "text_size": 16,
+        "text_weight": "400",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "founding_story": {
+      "type": "main-page",
+      "blocks": {
+        "story_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>TheSkinBay was born during one of the most uncertain times of my life. When the world went into lockdown, I found myself with shelves full of professional skincare and no way of reaching my clients who relied on me for advice, treatments, and results. Suppliers still needed paying, shelves were stacked with stock, and I felt this overwhelming responsibility to keep everything afloat.</p><p>So, I did what I've always known best: I built something new. With nothing but a laptop, determination, and a deep love for skincare, I started TheSkinBay. What began as a small lifeline quickly became a vision: a place where people could discover trusted, clinical-grade skincare at home, with the same care and expertise they'd receive in a clinic. Fast forward, and TheSkinBay is now a thriving online space, shipping globally, employing a wonderful team, and bringing together some of the world's most respected skincare brands under one roof.</p><p>But at the heart of it all, TheSkinBay is still personal. It's about empowering people to feel confident in their own skin, whether that's through a gentle cleanser, a brightening serum, or expert advice that feels like it's coming from a friend who truly cares. For me, skincare isn't just business. It's family, legacy, resilience, and passion all rolled into one. And every order, every package, every message we send out into the world carries that same love and belief.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "story_text"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": [
+    "lf_hero",
+    "editorial_founder_FVw3WR",
+    "founding_story"
+  ]
+}

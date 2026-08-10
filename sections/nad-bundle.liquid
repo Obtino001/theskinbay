@@ -1,0 +1,40 @@
+{%- comment -%} NAD bespoke, "Bundle includes" — only renders if product has bundle_offer metafield {%- endcomment -%}
+{%- assign bo = product.metafields.custom.bundle_offer -%}
+{%- if bo != blank -%}
+<section class="nad-bundle" style="background:{{ section.settings.bg }};--onbg:{{ section.settings.on_bg | default: '#141414' }};">
+  <div class="nadbun-wrap">
+    <div class="nadbun-box">
+      <span class="nadbun-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span>
+      {%- if section.settings.heading != blank -%}<h2 class="nadbun-h">{{ section.settings.heading }}</h2>{%- endif -%}
+      <div class="nadbun-body">{% render 'phc-richtext', rt: bo.value %}</div>
+    </div>
+  </div>
+</section>
+<style>
+  .nad-bundle{padding:8px 20px 26px;}
+  .nadbun-wrap{max-width:760px;margin:0 auto;}
+  .nadbun-box{background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:22px;padding:34px 40px;text-align:center;}
+  .nadbun-ico{display:inline-flex;width:52px;height:52px;border-radius:50%;background:#fff;border:1px solid var(--boxline,#ECE3CE);align-items:center;justify-content:center;color:var(--onbg);margin-bottom:14px;}
+  .nadbun-ico svg{width:26px;height:26px;}
+  .nadbun-h{font-family:'Playfair Display',serif;font-size:23px;color:var(--onbg);margin:0 0 6px;letter-spacing:.01em;}
+  .nadbun-body{font-family:'Lato',sans-serif;font-size:15px;line-height:1.6;color:var(--onbg);max-width:460px;margin:14px auto 0;text-align:left;}
+  .nadbun-body > p:first-child{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+  .nadbun-body ul{list-style:none;margin:0;padding:0;}
+  .nadbun-body li{position:relative;padding:11px 0 11px 30px;border-bottom:1px solid var(--boxline,#ECE3CE);font-weight:600;}
+  .nadbun-body li:last-child{border-bottom:none;}
+  .nadbun-body li:before{content:"";position:absolute;left:4px;top:15px;width:12px;height:7px;border-left:2px solid var(--onbg);border-bottom:2px solid var(--onbg);transform:rotate(-45deg);}
+  .nadbun-body p{margin:0 0 8px;}
+  @media(max-width:749px){.nad-bundle{padding:4px 16px 22px;}.nadbun-box{padding:28px 24px;}}
+</style>
+{%- endif -%}
+{% schema %}
+{
+  "name": "NAD · Bundle includes",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "on_bg", "label": "Text on background", "default": "#141414" },
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "presets": [{ "name": "NAD · Bundle includes" }]
+}
+{% endschema %}

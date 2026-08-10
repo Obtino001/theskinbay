@@ -1,0 +1,105 @@
+{
+  "sections": {
+    "social": {
+      "type": "social-hub",
+      "blocks": {
+        "tt1": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/photo/7547803431394692374"
+          }
+        },
+        "tt2": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/video/7548022996506529046"
+          }
+        },
+        "tt3": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/video/7577379167700864278"
+          }
+        },
+        "tt4": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/video/7574010163145854230"
+          }
+        },
+        "tt5": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/video/7571180619435166998"
+          }
+        },
+        "tt6": {
+          "type": "tiktok",
+          "settings": {
+            "url": "https://www.tiktok.com/@theskinbay.co.uk/video/7566572674600815894"
+          }
+        },
+        "ig1": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DVO7rPYjd9G/"
+          }
+        },
+        "ig2": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DV6yXIhjBJZ/"
+          }
+        },
+        "ig3": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DUx5PcPDHcG/"
+          }
+        },
+        "ig4": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DUiiJPHjbwi/"
+          }
+        },
+        "ig5": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DRT5RmtjDV5/"
+          }
+        },
+        "ig6": {
+          "type": "instagram",
+          "settings": {
+            "url": "https://www.instagram.com/reel/DO_F0vgDNgH/"
+          }
+        }
+      },
+      "block_order": [
+        "tt1",
+        "tt2",
+        "tt3",
+        "tt4",
+        "tt5",
+        "tt6",
+        "ig1",
+        "ig2",
+        "ig3",
+        "ig4",
+        "ig5",
+        "ig6"
+      ],
+      "settings": {
+        "feature_youtube": "06eHbHE2hww",
+        "feature_eyebrow": "As Seen On",
+        "feature_heading": "Abbey Clancy on The Therapy Crouch",
+        "feature_body": "Abbey Clancy chose our ClinicCare EGF Mask \u2014 and talked all about it on her hit podcast, The Therapy Crouch. Watch the moment below.",
+        "feature_image": "therapy-crouch.jpg"
+      }
+    }
+  },
+  "order": [
+    "social"
+  ]
+}

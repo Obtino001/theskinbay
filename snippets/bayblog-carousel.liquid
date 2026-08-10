@@ -1,0 +1,43 @@
+{%- doc -%}
+  Renders a horizontal product-card carousel for a collection, inline within a Bay Blog article.
+  @param {object} col - the collection object
+  @param {string} label - heading label for the carousel
+{%- enddoc -%}
+{%- if col and col.products.size > 0 -%}
+  <aside class="bayblog-shop" aria-label="Shop {{ label | default: col.title | escape }}">
+    <div class="bayblog-shop__head">
+      <div>
+        <div class="bayblog-shop__label">Shop the edit</div>
+        <div class="bayblog-shop__title">{{ label | default: col.title }}</div>
+      </div>
+      <a class="bayblog-shop__all" href="{{ col.url }}">Shop all&nbsp;&rsaquo;</a>
+    </div>
+    <div class="bayblog-shop__track">
+      {%- for product in col.products limit: 12 -%}
+        <a class="bayblog-pc" href="{{ product.url }}">
+          <span class="bayblog-pc__imgwrap">
+            {%- if product.featured_image -%}
+              <img
+                class="bayblog-pc__img"
+                src="{{ product.featured_image | image_url: width: 400 }}"
+                srcset="{{ product.featured_image | image_url: width: 300 }} 300w, {{ product.featured_image | image_url: width: 500 }} 500w"
+                sizes="220px"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                width="220" height="220" loading="lazy">
+            {%- endif -%}
+          </span>
+          {%- if product.vendor != blank -%}<span class="bayblog-pc__brand">{{ product.vendor }}</span>{%- endif -%}
+          <span class="bayblog-pc__name">{{ product.title }}</span>
+          <span class="bayblog-pc__price">
+            {%- if product.compare_at_price > product.price -%}
+              <span class="bayblog-pc__now">{{ product.price | money }}</span>
+              <s class="bayblog-pc__was">{{ product.compare_at_price | money }}</s>
+            {%- else -%}
+              {{ product.price | money }}
+            {%- endif -%}
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </aside>
+{%- endif -%}

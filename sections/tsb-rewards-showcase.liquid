@@ -1,0 +1,43 @@
+{%- comment -%} Rewards, Showcase — clean framed lifestyle image band for the loyalty/rewards page {%- endcomment -%}
+<style>
+  .tsb-rs{background:{{ section.settings.bg_color | default: '#FBF6EA' }};padding:{{ section.settings.pad_top | default: 76 }}px 24px {{ section.settings.pad_bottom | default: 76 }}px;text-align:center;}
+  .tsb-rs__inner{max-width:640px;margin:0 auto;}
+  .tsb-rs__eyebrow{font-family:'Lato',var(--font-body--family),sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#9a8f74;display:block;margin-bottom:16px;}
+  .tsb-rs__h{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.14;color:#141414;margin:0 auto 30px;max-width:560px;}
+  .tsb-rs__frame{display:inline-block;width:100%;max-width:{{ section.settings.img_max | default: 380 }}px;border-radius:24px;overflow:hidden;box-shadow:0 26px 60px rgba(20,16,8,.16);}
+  .tsb-rs__frame img{display:block;width:100%;height:auto;}
+  .tsb-rs__cap{font-family:'Lato',var(--font-body--family),sans-serif;font-size:.92rem;line-height:1.75;color:#6a6357;max-width:440px;margin:28px auto 0;}
+  @media (max-width:749px){.tsb-rs__frame{max-width:300px;}}
+</style>
+
+<section class="tsb-rs">
+  <div class="tsb-rs__inner">
+    {%- render 'sb-brand-heading', image: 'rwd-h-showcase.png', text: 'Track your BayPoints anytime', tag: 'h2', max: 420 -%}
+    <span class="tsb-rs__frame">
+      <img src="{{ section.settings.image_asset | default: 'rewards-baypoints.jpg' | asset_url }}"
+           alt="{{ section.settings.image_alt | escape }}" loading="lazy" width="900" height="900">
+    </span>
+    {%- if section.settings.caption != blank -%}
+      <p class="tsb-rs__cap">{{ section.settings.caption }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rewards, Showcase",
+  "tag": "div",
+  "settings": [
+    { "type": "text",     "id": "image_asset", "label": "Image asset filename", "default": "rewards-baypoints.jpg", "info": "Filename of an image in Assets" },
+    { "type": "text",     "id": "image_alt",   "label": "Image alt text", "default": "A hand holding a phone showing The Skin Bay BayPoints rewards balance of 1,250 points" },
+    { "type": "range",    "id": "img_max",     "label": "Image width (px)", "min": 260, "max": 560, "step": 10, "default": 380 },
+    { "type": "text",     "id": "eyebrow",     "label": "Eyebrow", "default": "Your Rewards, In Your Pocket" },
+    { "type": "text",     "id": "heading",     "label": "Heading (Playfair)", "default": "Track your BayPoints anytime" },
+    { "type": "textarea", "id": "caption",     "label": "Caption", "default": "Check your balance, unlock member perks and redeem points straight from your account." },
+    { "type": "color",    "id": "bg_color",    "label": "Background", "default": "#FBF6EA" },
+    { "type": "range",    "id": "pad_top",     "label": "Padding top", "min": 32, "max": 140, "step": 4, "default": 76, "unit": "px" },
+    { "type": "range",    "id": "pad_bottom",  "label": "Padding bottom", "min": 32, "max": 140, "step": 4, "default": 76, "unit": "px" }
+  ],
+  "presets": [{ "name": "Rewards, Showcase" }]
+}
+{% endschema %}

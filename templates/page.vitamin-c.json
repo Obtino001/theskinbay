@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_UfcDyT": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>{{ closest.page.title }}</p>{{ closest.page.content }}",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_UfcDyT"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-4b5a7ffc-9cb4-491c-9610-cdb4b5f9adeb",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "viatminc_about_MVDLQb": {
+      "type": "viatminc-about",
+      "blocks": {
+        "benefit_bkDKdR": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Wrinkle Reduction",
+            "benefit_desc": "Stimulates collagen production to improve texture and soften the appearance of fine lines."
+          }
+        },
+        "benefit_HFn44K": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Dark Spot Correction",
+            "benefit_desc": "Inhibits melanin production to fade hyperpigmentation and even out skin tone."
+          }
+        },
+        "benefit_AcHKTj": {
+          "type": "benefit",
+          "settings": {
+            "benefit_title": "Daily Brightening",
+            "benefit_desc": "Provides an immediate glow and long-term radiance for dull or tired-looking skin."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_bkDKdR",
+        "benefit_HFn44K",
+        "benefit_AcHKTj"
+      ],
+      "name": "Skin Bay Vitamin C",
+      "settings": {
+        "title_size_d": 48,
+        "title_size_m": 32,
+        "subtitle_size_d": 14,
+        "subtitle_size_m": 12,
+        "h2_size_d": 20,
+        "h2_size_m": 16,
+        "body_size_d": 14,
+        "body_size_m": 13,
+        "card_title_size": 13,
+        "padding_top": 20,
+        "padding_bottom": 15,
+        "padding_top_m": 10,
+        "padding_bottom_m": 15,
+        "internal_spacing": 30,
+        "bg_color": "#ffffff",
+        "text_color": "#333333",
+        "heading_color": "#000000",
+        "accent_color": "#E87E04",
+        "card_bg": "#fafafa",
+        "border_color": "#e5e5e5",
+        "subtitle": "The Science of Glow",
+        "title": "Vitamin C Serum",
+        "intro_text": "<p>Unlock your skin’s potential with the gold standard of antioxidants. While essential for health, the human body does not produce Vitamin C on its own. Topical application is the most effective way to deliver this nutrient directly to your skin for visible radiance.</p>",
+        "hero_image": "shopify://shop_images/Untitled-design-4-1080x628.jpg",
+        "show_cta": true,
+        "cta_text": "Shop VitC Products Now",
+        "cta_link": "shopify://collections/vitamin-c-products",
+        "definition_title": "Why Vitamin C?",
+        "definition_text": "<p>Vitamin C is a potent antioxidant that serves as your skin’s daily shield. It works by neutralizing harmful free radicals caused by exposure to UV light and environmental pollution. At The Skin Bay, we formulate our serums to ensure stability and maximum absorption, helping to prevent premature aging at the cellular level.</p>",
+        "benefits_title": "The Skin Benefits",
+        "ritual_title": "The Ritual",
+        "ritual_text": "<p>For maximum protection, apply your Vitamin C serum in the morning after cleansing and toning. It layers perfectly beneath your moisturizer. Always finish with a broad-spectrum sunscreen; Vitamin C and SPF work synergistically to provide superior protection against sun damage.</p>"
+      }
+    },
+    "sliding_feature_X8XGPT": {
+      "type": "sliding-feature",
+      "name": "Collection Banner Slider",
+      "settings": {
+        "collection": "vitamin-c-products",
+        "product_limit": 12,
+        "desktop_height": 450,
+        "banner_width": 33,
+        "mobile_banner_height": 350,
+        "banner_image": "shopify://shop_images/article_VITc---3.jpg",
+        "overlay_color": "#ffffff",
+        "overlay_opacity": 0,
+        "banner_text_color": "#000000",
+        "banner_heading": "Vitamin C",
+        "heading_size": 36,
+        "banner_text": "For brighter, clearer complexions.",
+        "desc_size": 16,
+        "btn_text": "SHOP NOW",
+        "btn_size": 14,
+        "btn_link": "shopify://collections/vitamin-c-products",
+        "bg_color": "#ffffff",
+        "pt_desk": 36,
+        "pb_desk": 36,
+        "pt_mob": 20,
+        "pb_mob": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "viatminc_about_MVDLQb",
+    "sliding_feature_X8XGPT"
+  ]
+}

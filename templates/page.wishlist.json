@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "wishlist": {
+      "type": "wishlist-page",
+      "settings": {
+        "heading": "My Wishlist",
+        "header_image": "wishlist-h-hero.png"
+      }
+    }
+  },
+  "order": [
+    "wishlist"
+  ]
+}
