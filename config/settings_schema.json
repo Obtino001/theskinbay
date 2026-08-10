@@ -8,6 +8,33 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "color_schemes",
+        "label": "Color schemes",
+        "default": [
+          {
+            "id": "scheme-1",
+            "settings": {
+              "background": "#FFFFFF",
+              "text": "#000000",
+              "button_background": "#000000",
+              "button_text": "#FFFFFF",
+              "primary_button": "#000000",
+              "primary_button_label": "#FFFFFF",
+              "secondary_button": "#FFFFFF",
+              "secondary_button_label": "#000000",
+              "link": "#000000",
+              "border": "#000000"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": "t:names.logo_and_favicon",
     "settings": [
       {
