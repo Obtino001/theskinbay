@@ -105,7 +105,7 @@
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
-                class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
+                class="menu-drawer__list-item--{{ link.title | handleize }} {%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
               >
                 {% if block_settings.drawer_accordion and link.links != blank %}
                   {%- comment -%}
@@ -257,7 +257,7 @@
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
-                class="menu-drawer__list-item"
+                class="menu-drawer__list-item menu-drawer__list-item--{{ link.title | handleize }}"
                 style="--menu-drawer-animation-index: {{ animation_index }};"
               >
                 {%- if link.links != blank -%}
@@ -1409,5 +1409,53 @@
 
   .drawer-localization .language-selector .svg-wrapper.icon-caret svg {
     transform: none;
+  }
+  /* CUSTOM MENU SORTING & CRO STYLING */
+  .menu-drawer__menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu-drawer__list-item--sale {
+    order: -2;
+  }
+  .menu-drawer__list-item--sale .menu-drawer__menu-item {
+    background: #c8102e;
+    color: #ffffff;
+    margin: 8px 20px;
+    border-radius: 3px;
+    padding: 12px 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  
+  .menu-drawer__list-item--free-gifts {
+    order: -1;
+  }
+  .menu-drawer__list-item--free-gifts .menu-drawer__menu-item {
+    background: #141414;
+    color: #ffffff;
+    margin: 8px 20px 20px;
+    border-radius: 3px;
+    padding: 12px 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  
+  .menu-drawer__list-item--sale .icon-plus,
+  .menu-drawer__list-item--free-gifts .icon-plus {
+    display: none;
+  }
+
+  .menu-drawer__list-item--about {
+    order: 100;
+    margin-top: 20px;
+    border-top: 1px solid rgb(var(--color-foreground) 0.08);
+  }
+  .menu-drawer__list-item--consultation {
+    order: 101;
   }
 {% endstylesheet %}
