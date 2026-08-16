@@ -45,11 +45,7 @@
       <div class="modal-overlay"></div>
 
       <div class="ds-search-panel__inner page-width" tabindex="-1">
-        {%- if settings.predictive_search_enabled -%}
-          <predictive-search class="ds-search-panel__predictive" data-loading-text="{{ 'accessibility.loading' | t }}">
-        {%- else -%}
-          <search-form class="ds-search-panel__predictive">
-        {%- endif -%}
+        <predictive-search class="ds-search-panel__predictive" data-loading-text="{{ 'accessibility.loading' | t }}">
 
         <form action="{{ routes.search_url }}" method="get" role="search" class="ds-search-form">
           <div class="ds-search-form__field">
@@ -63,8 +59,7 @@
               name="q"
               value="{{ search.terms | escape }}"
               placeholder="{{ search_placeholder | escape }}"
-              {%- if settings.predictive_search_enabled -%}
-                role="combobox"
+              role="combobox"
                 aria-expanded="false"
                 aria-owns="predictive-search-results"
                 aria-controls="predictive-search-results"
@@ -74,7 +69,6 @@
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck="false"
-              {%- endif -%}
             >
             <input type="hidden" name="options[prefix]" value="last">
             <button
@@ -92,12 +86,10 @@
           </button>
         </form>
 
-        {%- if settings.predictive_search_enabled -%}
-          <div class="predictive-search predictive-search--header ds-search-results" tabindex="-1" data-predictive-search>
+        <div class="predictive-search predictive-search--header ds-search-results" tabindex="-1" data-predictive-search>
             {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
           </div>
           <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-        {%- endif -%}
 
         <div class="ds-search-discovery" data-ds-search-discovery>
           <div class="ds-search-discovery__grid">
@@ -380,12 +372,10 @@
           </div>
         </div>
 
-        {%- if settings.predictive_search_enabled -%}
-          </predictive-search>
-        {%- else -%}
-          </search-form>
-        {%- endif -%}
+        </predictive-search>
       </div>
     </div>
   </details>
 </details-modal>
+
+
