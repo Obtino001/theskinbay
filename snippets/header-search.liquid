@@ -10,10 +10,10 @@
 {% endcomment %}
 
 {%- liquid
-  assign search_placeholder = settings.search_placeholder | default: section.settings.search_placeholder | default: 'Søg blandt over 2.000 koreanske produkter...'
-  assign popular_searches_heading = settings.popular_searches_heading | default: section.settings.popular_searches_heading | default: 'Populære søgninger'
-  assign popular_brands_heading = settings.popular_brands_heading | default: section.settings.popular_brands_heading | default: 'Populære brands'
-  assign popular_blogs_heading = settings.popular_blogs_heading | default: section.settings.popular_blogs_heading | default: 'Efterspurgte blogs'
+  assign search_placeholder = settings.search_placeholder | default: section.settings.search_placeholder | default: 'Search among 2,000+ Korean products...'
+  assign popular_searches_heading = settings.popular_searches_heading | default: section.settings.popular_searches_heading | default: 'Popular Searches'
+  assign popular_brands_heading = settings.popular_brands_heading | default: section.settings.popular_brands_heading | default: 'Popular Brands'
+  assign popular_blogs_heading = settings.popular_blogs_heading | default: section.settings.popular_blogs_heading | default: 'Popular Blogs'
   assign trending_heading = settings.trending_heading | default: section.settings.trending_heading | default: 'Trending'
 
   assign popular_searches_menu = settings.popular_searches_menu | default: section.settings.popular_searches_menu
@@ -250,7 +250,7 @@
                             {{- 'icon-ds-chat.svg' | inline_asset_content -}}
                           </span>
                           <span class="ds-search-link__label ds-search-link__label--truncate">
-                            Den ultimative guide til pigmentpletter
+                            The ultimate guide to pigmentation
                           </span>
                         </span>
                       </a>
@@ -262,7 +262,7 @@
                             {{- 'icon-ds-chat.svg' | inline_asset_content -}}
                           </span>
                           <span class="ds-search-link__label ds-search-link__label--truncate">
-                            Top 5 ingredienser til rødme
+                            Top 5 ingredients for redness
                           </span>
                         </span>
                       </a>
@@ -318,11 +318,11 @@
                         case i
                           when 1
                             if card_title == blank
-                              assign card_title = 'Find din rutine'
+                              assign card_title = 'Find your routine'
                             endif
                           when 2
                             if card_title == blank
-                              assign card_title = 'Hårpleje'
+                              assign card_title = 'Hair Care'
                             endif
                           when 3
                             if card_title == blank
@@ -330,7 +330,7 @@
                             endif
                           when 4
                             if card_title == blank
-                              assign card_title = 'Kropspleje'
+                              assign card_title = 'Body Care'
                             endif
                         endcase
                       -%}
