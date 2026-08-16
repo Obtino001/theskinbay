@@ -1,1 +1,33 @@
-{"sections":{"main":{"type":"main-search","settings":{"columns_desktop":6,"columns_mobile":"2","image_ratio":"square","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"enable_filtering":true,"filter_type":"drawer","enable_sorting":true,"article_show_date":true,"article_show_author":false,"padding_top":12,"padding_bottom":12}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "search-results",
+      "settings": {}
+    },
+    "collections_nav": {
+      "type": "lf-search-collections",
+      "settings": {
+        "eyebrow": "Explore",
+        "heading": "Shop by Brand",
+        "collection_list": [
+          "gid://shopify/Collection/386764013815",
+          "gid://shopify/Collection/675351495036",
+          "gid://shopify/Collection/267924013239",
+          "gid://shopify/Collection/671228526972",
+          "gid://shopify/Collection/675725869436",
+          "gid://shopify/Collection/677685952892",
+          "gid://shopify/Collection/267743920311",
+          "gid://shopify/Collection/267923456183",
+          "gid://shopify/Collection/267729567927",
+          "gid://shopify/Collection/687157117308"
+        ],
+        "bg_color": "#ffffff",
+        "text_color": "#0c0c0c"
+      }
+    }
+  },
+  "order": [
+    "collections_nav",
+    "main"
+  ]
+}

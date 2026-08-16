@@ -73,13 +73,7 @@
             <div class="ds-predictive-products__grid">
               {%- for product in predictive_search.resources.products limit: 4 -%}
                 <div class="ds-predictive-product-item">
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: 'square',
-                    show_secondary_image: true,
-                    show_vendor: true,
-                    lazy_load: false
-                  %}
+                  {% render 'product-card', product: product %}
                 </div>
               {%- endfor -%}
             </div>
@@ -102,3 +96,4 @@
     %}
   </span>
 {%- endif -%}
+
