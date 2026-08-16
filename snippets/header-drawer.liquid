@@ -104,7 +104,7 @@
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
-                style="--menu-drawer-animation-index: {{ animation_index }};"
+                style="--menu-drawer-animation-index: {{ animation_index }}; {% render 'menu-item-image', title: link.title, request_type: 'highlight' %}"
                 class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
               >
                 {% if block_settings.drawer_accordion and link.links != blank %}
@@ -126,6 +126,7 @@
                         id="HeaderDrawer-{{ link.handle }}"
                         class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
                       >
+                        {% render 'menu-item-image', title: link.title %}
                         <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                         <span class="svg-wrapper icon-plus">
                           {{- 'icon-plus.svg' | inline_asset_content -}}
@@ -190,6 +191,7 @@
                       aria-current="page"
                     {% endif %}
                   >
+                    {% render 'menu-item-image', title: link.title %}
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>
                   {% liquid
@@ -244,6 +246,7 @@
                       aria-current="page"
                     {% endif %}
                   >
+                    {% render 'menu-item-image', title: link.title %}
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>
                 {% endif %}
@@ -258,7 +261,7 @@
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 class="menu-drawer__list-item"
-                style="--menu-drawer-animation-index: {{ animation_index }};"
+                style="--menu-drawer-animation-index: {{ animation_index }}; {% render 'menu-item-image', title: link.title, request_type: 'highlight' %}"
               >
                 {%- if link.links != blank -%}
                   {%- comment -%}
@@ -273,6 +276,7 @@
                       class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       on:click="header-drawer/open/submenu"
                     >
+                      {% render 'menu-item-image', title: link.title %}
                       <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                       <span class="svg-wrapper icon-caret icon-caret--forward">
                         {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -564,6 +568,7 @@
                       aria-current="page"
                     {% endif %}
                   >
+                    {% render 'menu-item-image', title: link.title %}
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>
                 {%- endif -%}
@@ -572,6 +577,28 @@
           {% endif %}
         </ul>
       </nav>
+
+      {%- assign drawer_banner_block = section.blocks | where: 'type', 'drawer_banner' | first -%}
+      {%- if drawer_banner_block -%}
+        <div class="menu-drawer__promo-banner">
+          <a href="{{ drawer_banner_block.settings.link | default: '#' }}" class="drawer-promo-card">
+            {%- if drawer_banner_block.settings.image -%}
+              {{ drawer_banner_block.settings.image | image_url: width: 600 | image_tag: class: 'drawer-promo-bg', loading: 'lazy' }}
+            {%- else -%}
+              <div class="drawer-promo-bg drawer-promo-bg--placeholder"></div>
+            {%- endif -%}
+            <div class="drawer-promo-content">
+              {%- if drawer_banner_block.settings.title != blank -%}
+                <h4 class="drawer-promo-title">{{ drawer_banner_block.settings.title }} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="promo-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></h4>
+              {%- endif -%}
+              {%- if drawer_banner_block.settings.text != blank -%}
+                <p class="drawer-promo-text">{{ drawer_banner_block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        </div>
+      {%- endif -%}
+
       <div
         class="menu-drawer__utility-links menu-drawer__animated-element"
         style="--menu-drawer-animation-index: {{ linklist.links.size }};"
@@ -700,6 +727,24 @@
               </details>
             </drawer-localization-component>
           {% endif %}
+        {%- endif -%}
+      </div>
+
+      <div class="menu-drawer__social-icons">
+        {%- if section.settings.social_instagram != blank -%}
+          <a href="{{ section.settings.social_instagram }}" target="_blank" class="menu-drawer__social-link">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.social_facebook != blank -%}
+          <a href="{{ section.settings.social_facebook }}" target="_blank" class="menu-drawer__social-link">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.social_tiktok != blank -%}
+          <a href="{{ section.settings.social_tiktok }}" target="_blank" class="menu-drawer__social-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5h3"></path></svg>
+          </a>
         {%- endif -%}
       </div>
 
@@ -1411,3 +1456,103 @@
     transform: none;
   }
 {% endstylesheet %}
+
+
+
+
+<style>
+  /* Custom Menu Design matching Naillak */
+  .menu-drawer__menu-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 10px 15px !important;
+  }
+  .drawer-menu-icon-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .drawer-menu-icon-box img {
+    max-width: 24px;
+    max-height: 24px;
+    object-fit: contain;
+  }
+  .menu-drawer__menu-item-text {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #333 !important;
+    flex-grow: 1;
+    text-transform: lowercase;
+  }
+  .menu-drawer__menu-item > .icon-plus, 
+  .menu-drawer__menu-item > .icon-caret {
+    margin-left: auto;
+  }
+  .menu-drawer__promo-banner {
+    padding: 20px 15px;
+  }
+  .drawer-promo-card {
+    display: block;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    min-height: 120px;
+  }
+  .drawer-promo-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .drawer-promo-bg--placeholder {
+    background-color: #eaeaea;
+  }
+  .drawer-promo-content {
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0) 100%);
+  }
+  .drawer-promo-title {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .drawer-promo-text {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+  }
+  .promo-heart {
+    width: 16px;
+    height: 16px;
+    color: #e2a6a6;
+  }
+  .menu-drawer__social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 0;
+  }
+  .menu-drawer__social-link {
+    color: #a48585;
+    transition: color 0.2s ease;
+  }
+</style>

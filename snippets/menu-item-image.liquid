@@ -1,0 +1,26 @@
+{%- assign link_title_down = title | downcase -%}
+{%- assign current_menu_image = blank -%}
+{%- assign current_bg_color = blank -%}
+{%- assign current_highlight = blank -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'menu_image' -%}
+    {%- assign block_title_down = block.settings.title | downcase -%}
+    {%- if block_title_down == link_title_down -%}
+      {%- assign current_menu_image = block.settings.image -%}
+      {%- assign current_bg_color = block.settings.bg_color -%}
+      {%- assign current_highlight = block.settings.highlight_bg -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if request_type == 'highlight' -%}
+  {%- if current_highlight != blank and current_highlight != 'rgba(0,0,0,0)' and current_highlight != 'transparent' -%}
+    background-color: {{ current_highlight }};
+  {%- endif -%}
+{%- else -%}
+  <div class="drawer-menu-icon-box" style="background-color: {{ current_bg_color | default: 'transparent' }};">
+    {%- if current_menu_image != blank -%}
+      {{ current_menu_image | image_url: width: 40 | image_tag: loading: 'lazy' }}
+    {%- endif -%}
+  </div>
+{%- endif -%}

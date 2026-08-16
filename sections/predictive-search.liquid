@@ -73,7 +73,19 @@
             <div class="ds-predictive-products__grid">
               {%- for product in predictive_search.resources.products limit: 4 -%}
                 <div class="ds-predictive-product-item">
-                  {% render 'product-card', product: product %}
+                  <a href="{{ product.url }}" class="ds-predictive-product-link">
+                    {%- if product.featured_media != blank -%}
+                      {{ product.featured_media | image_url: width: 300 | image_tag: class: 'ds-predictive-product-image', loading: 'lazy' }}
+                    {%- else -%}
+                      <div class="ds-predictive-product-image ds-predictive-placeholder"></div>
+                    {%- endif -%}
+                    <div class="ds-predictive-product-info">
+                      <span class="ds-predictive-product-title">{{ product.title }}</span>
+                      <div class="ds-predictive-product-price">
+                        {{ product.price | money }}
+                      </div>
+                    </div>
+                  </a>
                 </div>
               {%- endfor -%}
             </div>
@@ -96,4 +108,5 @@
     %}
   </span>
 {%- endif -%}
+
 

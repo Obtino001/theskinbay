@@ -154,7 +154,7 @@
   border: 1px solid #e6e6e6 !important;
   border-radius: 0.23438rem !important;
   padding: 0.625rem 0.625rem 0.625rem 1.64062rem !important;
-  font-size: 0.54688rem !important;
+  font-size: 0.875rem !important;
   line-height: 1.4 !important;
   color: #212121 !important;
   box-shadow: none !important;
@@ -329,7 +329,7 @@
   border: 1px solid #e6e6e6 !important;
   border-radius: 0.23438rem !important;
   padding: 0.625rem 0.625rem 0.625rem 1.64062rem !important;
-  font-size: 0.54688rem !important;
+  font-size: 0.875rem !important;
   line-height: 1.4 !important;
   color: #212121 !important;
   box-shadow: none !important;
@@ -431,12 +431,12 @@
 
   .ds-search-form__input {
     padding: 0.54688rem 0.54688rem 0.54688rem 1.5625rem !important;
-    font-size: 0.50781rem !important;
+    font-size: 0.8125rem !important;
   }
 
   .ds-search-link {
     padding: 0.23438rem 0;
-    font-size: 0.54688rem;
+    font-size: 0.875rem;
   }
 
   .ds-search-link__label--truncate {
@@ -450,7 +450,7 @@
   }
 
   .ds-trending-card__label {
-    font-size: 0.46875rem;
+    font-size: 0.75rem;
   }
 
   .ds-trending-slider__dots {
@@ -467,7 +467,7 @@
 
 .ds-search-group__heading h4 {
   margin: 0;
-  font-size: 0.46875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #000;
   letter-spacing: 0;
@@ -499,7 +499,7 @@
   padding: 0.15625rem 0;
   color: #212121;
   text-decoration: none;
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   font-weight: 300;
   line-height: 1.4;
 }
@@ -613,7 +613,7 @@
 
 .ds-trending-card__label {
   display: block;
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   color: #212121;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -675,7 +675,7 @@
 }
 
 .ds-header-search .predictive-search__heading {
-  font-size: 0.46875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: none;
   letter-spacing: 0;
@@ -683,7 +683,7 @@
 }
 
 .ds-header-search .predictive-search__item-heading {
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   font-weight: 300;
   color: #212121;
 }
@@ -737,7 +737,7 @@
 }
 
 .ds-predictive-queries__heading {
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #000;
   margin: 0 0 0.46875rem 0;
@@ -762,7 +762,7 @@
   justify-content: space-between;
   text-decoration: none;
   color: #212121;
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   padding: 0.23438rem 0;
   transition: color 0.15s ease;
 }
@@ -803,7 +803,7 @@
 }
 
 .ds-predictive-products__heading {
-  font-size: 0.54688rem;
+  font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -813,7 +813,7 @@
 }
 
 .ds-predictive-products__see-all {
-  font-size: 0.46875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -861,3 +861,42 @@
 
 
 
+
+
+/* Predictive Search Products Grid */
+.ds-predictive-products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.ds-predictive-product-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+.ds-predictive-product-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+}
+.ds-predictive-placeholder {
+  aspect-ratio: 1;
+}
+.ds-predictive-product-info {
+  margin-top: 0.5rem;
+}
+.ds-predictive-product-title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.ds-predictive-product-price {
+  font-size: 0.8125rem;
+  color: #333;
+}
