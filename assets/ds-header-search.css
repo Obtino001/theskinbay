@@ -113,7 +113,182 @@
   gap: 0.625rem;
   width: 100% !important;
   max-width: none !important;
-  padding: 0.625rem 0 0.375rem;
+  padding: 0.625rem 1.5rem 0.375rem;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .ds-search-form {
+    padding-top: 0.875rem;
+  }
+}
+
+.ds-search-form__field {
+  position: relative;
+  flex: 1;
+  width: 100%;
+}
+
+.ds-search-form__icon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-flex;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ds-search-form__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.ds-search-form__input {
+  width: 100% !important;
+  appearance: none;
+  -webkit-appearance: none;
+  background: #faf9f7 !important;
+  border: 1px solid #e6e6e6 !important;
+  border-radius: 0.375rem !important;
+  padding: 1rem 1rem 1rem 2.625rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+  color: #212121 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+.ds-search-form__input::placeholder {
+  color: #8a8a8a;
+  opacity: 1;
+}
+
+.ds-search-form__input:focus {
+  outline: none !important;
+  border-color: #212121 !important;
+  box-shadow: none !important;
+}
+/* Derma Space–style header search dropdown
+   Overrides Dawn's default full-screen search modal */
+
+.ds-header-search {
+  position: static !important;
+}
+
+.ds-header-search details {
+  position: static !important;
+}
+
+.ds-header-search .ds-search-panel {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 100% !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 0;
+  min-height: 0 !important;
+  max-height: none !important;
+  opacity: 1;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 20;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  display: block !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  line-height: normal !important;
+  overflow: hidden;
+  will-change: height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Open state is driven by JS (.is-open) for smooth 0 → auto height */
+.ds-header-search .ds-search-panel.is-open {
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.ds-header-search .ds-search-panel.is-open:not(.is-animating) {
+  height: auto;
+  overflow: hidden;
+}
+
+/* Keep header search icon stable (close only inside panel, like Derma Space) */
+.ds-header-search details[open] > summary .svg-wrapper {
+  display: flex;
+}
+
+.ds-header-search details .header__icon-close {
+  display: none !important;
+}
+
+/* Keep header stable while search is open (no sticky hide/show flicker) */
+.section-header.ds-search-header-pinned,
+.section-header.ds-search-header-pinned sticky-header,
+.section-header.ds-search-header-pinned .header-wrapper,
+.section-header.ds-search-header-pinned .header {
+  transform: none !important;
+}
+
+.section-header.ds-search-header-pinned.shopify-section-header-hidden {
+  transform: none !important;
+  top: 0 !important;
+}
+
+.ds-header-search .modal-overlay {
+  display: none !important;
+}
+
+.ds-header-search details[open] .modal-overlay {
+  display: block !important;
+  position: fixed !important;
+  inset: 0;
+  top: 0;
+  z-index: -1;
+  background: transparent !important;
+}
+
+.ds-header-search details[open] .modal-overlay::after {
+  display: none !important;
+  content: none !important;
+}
+
+.ds-search-panel__inner {
+  position: relative;
+  display: block !important;
+  width: 100% !important;
+  max-width: var(--page-width);
+  height: auto !important;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.ds-search-panel__predictive {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+/* Search form */
+.ds-search-form {
+  display: flex !important;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0.625rem 1.5rem 0.375rem;
   margin: 0;
 }
 
@@ -180,7 +355,6 @@
 }
 
 .ds-search-form__close {
-  flex-shrink: 0;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
@@ -188,15 +362,9 @@
   background: transparent !important;
   border: 0 !important;
   cursor: pointer;
-  line-height: 0;
-  position: static !important;
-  margin: 0 !important;
-  width: auto !important;
-  height: auto !important;
-}
-
-.ds-search-form__close:hover {
-  opacity: 0.9;
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  flex-shrink: 0 !important;
 }
 
 .ds-search-form__close svg {
@@ -466,6 +634,12 @@
   padding: 0;
   background: #d9d9d9;
   cursor: pointer;
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  flex-shrink: 0 !important;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
 }
 
 .ds-trending-slider__dot.is-active {
@@ -684,3 +858,5 @@
 .ds-predictive-product-item .card__content {
   padding-top: 0.5rem;
 }
+
+
