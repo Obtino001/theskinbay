@@ -266,7 +266,7 @@
     transition: opacity 0.2s ease, transform 0.3s ease;
   }
   .mob-toggle-btn:hover { opacity: 1; }
-  .mob-submenu.open + .mob-toggle-btn, .mob-row:has(+ .mob-submenu.open) .mob-toggle-btn { transform: rotate(45deg); }
+  .mob-toggle-btn.is-open { transform: rotate(45deg); }
 
   /* Mobile submenu */
   .mob-submenu { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -947,6 +947,7 @@
     <button onclick="closeDrawers()" class="lf-mob-drawer-close" aria-label="Close menu">&times;</button>
   </div>
   {% for link in main_menu.links %}
+    {% if link.title != blank %}
     <div class="mob-nav-item">
       <div class="mob-row">
         <a href="{{ link.url }}" class="mob-nav-link-main">{{ link.title }}</a>
@@ -1002,6 +1003,7 @@
         {% endif %}
       {% endif %}
     </div>
+    {% endif %}
   {% endfor %}
 </div>
 
@@ -1085,7 +1087,7 @@
     if (sub && sub.classList.contains('mob-submenu')) {
       var opening = !sub.classList.contains('open');
       sub.classList.toggle('open', opening);
-      btn.textContent = opening ? '−' : '+';
+      btn.classList.toggle('is-open', opening);
     }
   }
 
