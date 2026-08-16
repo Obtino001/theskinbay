@@ -4222,3 +4222,15 @@ button[name="checkout"]:hover,
 .cart__checkout-button:hover {
   background-color: #111 !important;
 }
+
+/* Global Pill Button Override */
+.button, 
+.btn, 
+.shopify-payment-button__button, 
+.product-form__submit, 
+.ds-predictive-products__see-all,
+button[name="add"],
+.cart__checkout-button,
+button[name="checkout"] {
+  border-radius: 50px !important;
+}
