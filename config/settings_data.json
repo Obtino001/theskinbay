@@ -11,16 +11,18 @@
   "current": {
     "color_schemes": {
       "scheme-1": {
-        "background": "#ffffff",
-        "text": "#000000",
-        "button_background": "#000000",
-        "button_text": "#ffffff",
-        "primary_button": "#000000",
-        "primary_button_label": "#ffffff",
-        "secondary_button": "#ffffff",
-        "secondary_button_label": "#000000",
-        "link": "#000000",
-        "border": "#000000"
+        "settings": {
+          "background": "#ffffff",
+          "text": "#000000",
+          "button_background": "#000000",
+          "button_text": "#ffffff",
+          "primary_button": "#000000",
+          "primary_button_label": "#ffffff",
+          "secondary_button": "#ffffff",
+          "secondary_button_label": "#000000",
+          "link": "#000000",
+          "border": "#000000"
+        }
       }
     },
     "logo_height": 56,

@@ -11,7 +11,7 @@
     "name": "Colors",
     "settings": [
       {
-        "type": "color_scheme",
+        "type": "color_scheme_group",
         "id": "color_schemes",
         "label": "Color schemes",
         "default": [
