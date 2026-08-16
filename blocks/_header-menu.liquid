@@ -8,7 +8,6 @@
 
 {% liquid
   assign block_settings = block.settings
-  assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
 %}
 
 {% case variant %}
@@ -19,23 +18,13 @@
       data-hydration-key="header-drawer-mobile"
       {{ block.shopify_attributes }}
     >
-      {% render 'header-drawer',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer',
-        block: block,
-        section: section
-      %}
+      {% render 'header-drawer', linklist: block_settings.menu, data_header_drawer_type: 'mobile-drawer' %}
     </div>
 
   {% when 'navigation_bar' %}
     {% if block_settings.navigation_bar == true %}
-      {% render 'contrast-override',
-        background_color: block_settings.background_color_navigation_bar,
-        text_color: block_settings.text_color_navigation_bar,
-        section_id: block.id
-      %}
       <div
-        class="menu-list menu-list--mobile{% if transparent == blank %} color-custom-{{ block.id }}{% endif %}"
+        class="menu-list menu-list--mobile{% if transparent == blank %} color-{{ block_settings.color_scheme_navigation_bar }}{% endif %}"
         style="--menu-horizontal-gap: 15px; --mobile-nav-margin: auto;"
         data-hydration-key="header-menu-mobile-navigation-bar"
       >
@@ -67,21 +56,18 @@
       assign block_settings = block.settings
       assign menu_content_type = block_settings.menu_style | default: 'text'
       assign image_border_radius = block_settings.image_border_radius
+      assign color_scheme_classes = ''
+      assign color_scheme_setting_id = 'color_scheme_' | append: section.settings.menu_row
+      assign current_color_scheme = block_settings.color_scheme
+      assign parent_color_scheme = section.settings[color_scheme_setting_id]
 
-      render 'contrast-override', background_color: block_settings.background_color, text_color: block_settings.text_color, section_id: block.id
-
-      assign background_color_classes = ''
-      assign background_color_setting_id = 'background_color_' | append: section.settings.menu_row
-      assign current_background_color = block_settings.background_color | default: settings.page_background_color
-      assign parent_background_color = section.settings[background_color_setting_id] | default: settings.page_background_color
-
-      if parent_background_color != current_background_color or block_settings.text_color != blank
-        assign background_color_classes = ' color-custom-' | append: block.id
+      if parent_color_scheme.id != current_color_scheme.id
+        assign color_scheme_classes = ' color-' | append: current_color_scheme
       endif
 
       # Check if header and menu colors match. This is used to apply different padding styles in css
-      if parent_background_color.rgb == current_background_color.rgb
-        assign background_color_classes = background_color_classes | append: ' background-matches-parent'
+      if parent_color_scheme.settings.background.rgb == current_color_scheme.settings.background.rgb
+        assign color_scheme_classes = color_scheme_classes | append: ' color-scheme-matches-parent'
       endif
 
       if block_settings.menu_style == 'featured_collections'
@@ -118,7 +104,7 @@
             <span class="menu-list__link-title">{{- link.title -}}</span>
           </a>
           {%- if link.links != blank -%}
-            <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]">
+            <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
               <div
                 id="submenu-{{ forloop.index }}"
                 class="menu-list__submenu-inner"
@@ -157,13 +143,7 @@
         on:pointerenter="/activate"
         on:pointerleave="/deactivate"
       >
-        <button
-          role="listitem"
-          class="menu-list__link button-unstyled"
-          aria-haspopup="true"
-          aria-expanded="false"
-          ref="menuitem"
-        >
+        <button role="listitem" class="menu-list__link button-unstyled">
           <span class="menu-list__link-title">{{ 'actions.more' | t }}</span>
         </button>
       </li>
@@ -181,7 +161,7 @@
           aria-label="{{ 'accessibility.header_navigation_label' | t }}"
           style="{% render 'menu-font-styles', settings: block_settings, menu_type: 'mega_menu' %}"
         >
-          {% assign class = 'overflow-menu' | append: background_color_classes %}
+          {% assign class = 'overflow-menu' | append: color_scheme_classes %}
           {% render 'overflow-list',
             class: class,
             ref: 'overflowMenu',
@@ -203,11 +183,7 @@
 
 {% style %}
   .header__underlay {
-    --color-submenu: rgb({{effective_submenu_color.rgb}});
-  }
-
-  .menu-list {
-    --color-submenu-surface: rgb({{ effective_submenu_color.rgb }});
+    --color-submenu: rgb({{ block_settings.color_scheme.settings.background.rgba }});
   }
 {% endstyle %}
 {% stylesheet %}
@@ -342,29 +318,10 @@
     padding-inline: 0;
   }
 
-  /* Caret marking top-level links that open a submenu. */
-  .menu-list__link[aria-haspopup='true'] .menu-list__link-title::after {
-    content: '';
-    display: inline-block;
-    width: 0.36em;
-    height: 0.36em;
-    margin-inline-start: 0.45em;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: translateY(-0.15em) rotate(45deg);
-    transition: transform 0.15s ease;
-  }
-
-  .menu-list__list-item:where(:hover, :focus-within)
-    .menu-list__link[aria-haspopup='true']
-    .menu-list__link-title::after {
-    transform: translateY(0.05em) rotate(-135deg);
-  }
-
   .menu-list__list-item:not([slot='overflow']) {
     flex-direction: column;
   }
-  .menu-list__list-item[slot='more']:has(.menu-list__link[aria-expanded='true'])::after {
+  .menu-list__list-item:not([slot='overflow'])::after {
     content: '';
     width: 100%;
     height: var(--header-padding);
@@ -390,7 +347,7 @@
   /* stylelint-disable-next-line selector-max-specificity */
   .menu-list:not(:has(.menu-list__list-item:hover)) .menu-list__link--active,
   .menu-list .menu-list__list-item:where(:hover, :focus-within) .menu-list__link,
-  .menu-list .menu-list__list-item:is([slot='more'], [slot='overflow']) .menu-list__link[aria-expanded='true'] {
+  .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
     color: var(--menu-top-level-font-color);
   }
 
@@ -403,8 +360,7 @@
   }
 
   .overflow-menu {
-    /* stylelint-disable-next-line declaration-no-important */
-    background-color: transparent !important;
+    background-color: transparent;
     padding: var(--focus-outline-size);
     margin: calc(-1 * var(--focus-outline-size));
   }
@@ -419,8 +375,8 @@
   }
 
   .header__row[style*='--border-bottom-width: 0px'] {
-    .menu-list__submenu.background-matches-parent,
-    .overflow-menu.background-matches-parent::part(overflow) {
+    .menu-list__submenu.color-scheme-matches-parent,
+    .overflow-menu.color-scheme-matches-parent::part(overflow) {
       --submenu-padding-block-start: 0px;
     }
   }
@@ -724,154 +680,6 @@
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
   }
-
-  /* Hide product cards in collapsed submenus from the IntersectionObserver that fires product view events */
-  .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
-    display: none;
-  }
-
-  /* ==========================================================================
-     Compact dropdowns instead of the full-bleed mega menu.
-
-     Three things have to change together, otherwise the panel renders twice or
-     gets cut in half:
-     1. `.header__underlay-open` is the full-width sheet the header grows behind.
-     2. `overflow-list` clips its list on the y axis, so an absolutely
-        positioned submenu anchored to a list item would be sliced off.
-     3. The submenu itself is sized/clipped to span the whole viewport.
-     ========================================================================== */
-  @media screen and (min-width: 750px) {
-    .header__underlay-open {
-      display: none;
-    }
-
-    /* The overflow ("More") panel relied on the underlay for its surface. */
-    .overflow-menu::part(overflow) {
-      background-color: var(--color-submenu-surface, var(--color-background));
-      box-shadow: var(--shadow-popover);
-    }
-
-    .overflow-menu::part(list) {
-      overflow: visible;
-    }
-
-    .menu-list__list-item:where(:not([slot='overflow'])) {
-      position: relative;
-    }
-
-    .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu {
-      --submenu-padding-block-start: 0px;
-      --submenu-padding-block-end: 0px;
-
-      content-visibility: visible;
-      top: 100%;
-      left: 0;
-      right: auto;
-      width: max-content;
-      min-width: 15rem;
-      max-width: 24rem;
-      padding-inline: 0;
-      clip-path: none;
-      transition: none;
-    }
-
-    .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu > .menu-list__submenu-inner {
-      display: block;
-      transform: none;
-      padding-block: var(--padding-xs);
-      padding-inline: 0;
-      max-height: none;
-      overflow: visible;
-      background-color: var(--color-submenu-surface, var(--color-background));
-      border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
-      box-shadow: var(--shadow-popover);
-    }
-
-    /* Undo the page-grid the mega menu uses to span the viewport. */
-    .menu-list__submenu .mega-menu,
-    .menu-list__submenu .mega-menu__grid,
-    .menu-list__submenu .mega-menu__list,
-    .menu-list__submenu .mega-menu__column {
-      display: block;
-      grid-column: auto;
-      gap: 0;
-      width: auto;
-      padding-inline: 0;
-    }
-
-    /* `.section--page-width > *` pins children to the centre grid column. */
-    .menu-list__submenu .mega-menu.section > .mega-menu__grid {
-      grid-column: auto;
-      padding-inline: 0;
-    }
-
-    .menu-list__submenu .mega-menu__link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--gap-md);
-      padding: var(--padding-2xs) var(--padding-lg);
-      white-space: nowrap;
-    }
-
-    .menu-list__submenu .mega-menu__link:hover {
-      background-color: rgb(var(--color-foreground-rgb) / 0.05);
-    }
-
-    /* Every second-level row reads the same, whether or not it has children.
-       Stock markup only tags the ones with children as `--parent`, which left
-       the childless ones styled as third-level links. */
-    .menu-list__submenu .mega-menu__column > div > .mega-menu__link {
-      font-family: var(--menu-parent-font-family);
-      font-style: var(--menu-parent-font-style);
-      font-weight: var(--menu-parent-font-weight);
-      font-size: var(--menu-parent-font-size);
-      line-height: var(--menu-parent-font-line-height);
-      text-transform: var(--menu-parent-font-case);
-      color: var(--menu-parent-font-color);
-    }
-
-    .menu-list__submenu .mega-menu__column > div > .mega-menu__link:hover {
-      color: var(--menu-parent-active-font-color);
-    }
-
-    /* Third level opens to the side of its parent row. */
-    .menu-list__submenu .mega-menu__column > div {
-      position: relative;
-    }
-
-    .menu-list__submenu .mega-menu__column > div > ul {
-      position: absolute;
-      top: calc(-1 * var(--padding-xs));
-      left: 100%;
-      z-index: 1;
-      width: max-content;
-      min-width: 13rem;
-      max-width: 22rem;
-      padding-block: var(--padding-xs);
-      background-color: var(--color-submenu-surface, var(--color-background));
-      border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
-      box-shadow: var(--shadow-popover);
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity var(--animation-speed) var(--animation-easing);
-    }
-
-    .menu-list__submenu .mega-menu__column > div:where(:hover, :focus-within) > ul {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .menu-list__submenu .mega-menu__link--parent::after {
-      content: '';
-      flex: 0 0 auto;
-      width: 0.36em;
-      height: 0.36em;
-      border-right: 1.5px solid currentcolor;
-      border-bottom: 1.5px solid currentcolor;
-      transform: rotate(-45deg);
-    }
-  }
 {% endstylesheet %}
 
 {% schema %}
@@ -886,24 +694,10 @@
       "default": "main-menu"
     },
     {
-      "type": "header",
-      "content": "t:content.appearance"
-    },
-    {
-      "type": "paragraph",
-      "content": "t:content.menu_appearance_paragraph"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "t:settings.background_color",
-      "default": "{{ settings.color_palette.background }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "t:settings.text_color",
-      "placeholder": "t:settings.default"
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "primary"
     },
     {
       "type": "header",
@@ -1089,17 +883,10 @@
       "label": "t:settings.navigation_bar"
     },
     {
-      "type": "color",
-      "id": "background_color_navigation_bar",
-      "label": "t:settings.navigation_bar_background_color",
-      "default": "{{ settings.color_palette.background }}",
-      "visible_if": "{{ block.settings.navigation_bar }}"
-    },
-    {
-      "type": "color",
-      "id": "text_color_navigation_bar",
-      "label": "t:settings.navigation_bar_text_color",
-      "placeholder": "t:settings.default",
+      "type": "color_scheme",
+      "id": "color_scheme_navigation_bar",
+      "label": "t:settings.navigation_bar_color_scheme",
+      "default": "primary",
       "visible_if": "{{ block.settings.navigation_bar }}"
     },
     {
