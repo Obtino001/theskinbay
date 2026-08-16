@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'ds-header-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 {% liquid
@@ -600,36 +607,6 @@
     text-transform: uppercase !important;
   }
 
-  /* ── Inline predictive search (brand) ── */
-  .lf-search { position: relative; width: 100%; max-width: 340px; font-family:'Lato',var(--font-body--family),sans-serif; }
-  .lf-search-form { display:flex; align-items:center; border-bottom:1px solid rgba(0,0,0,0.18); }
-  .lf-search-form:focus-within { border-bottom-color:#000; }
-  .lf-search-input { flex:1; border:none; background:none; padding:8px 0; font-family:'Lato',var(--font-body--family),sans-serif; font-size:12px; letter-spacing:.06em; color:#000; outline:none; }
-  .lf-search-input::placeholder { color:rgba(0,0,0,0.4); text-transform:uppercase; letter-spacing:.08em; font-size:11px; }
-  .lf-search-go { background:none; border:none; cursor:pointer; color:#000; display:flex; padding:4px; }
-  .lf-search-drop { position:absolute; top:calc(100% + 6px); left:0; right:0; min-width:320px; background:#fff; border:1px solid #ededed; box-shadow:0 14px 38px rgba(0,0,0,0.13); z-index:2400; max-height:74vh; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-  .lf-search-drop[hidden]{ display:none; }
-  .lf-sd-sec-title { font-family:'Lato',var(--font-body--family),sans-serif; font-size:9px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:#9a9a9a; padding:13px 16px 6px; }
-  .lf-sd-prod { display:flex; gap:12px; align-items:center; padding:8px 16px; text-decoration:none; color:#000; }
-  .lf-sd-prod:hover { background:#fafafa; }
-  .lf-sd-prod img { width:48px; height:48px; object-fit:contain; background:#f7f7f7; flex-shrink:0; }
-  .lf-sd-info { display:flex; flex-direction:column; gap:1px; }
-  .lf-sd-vendor { font-size:8.5px; letter-spacing:.1em; text-transform:uppercase; color:#9a9a9a; }
-  .lf-sd-name { font-size:11px; line-height:1.3; color:#111; }
-  .lf-sd-price { font-size:11px; font-weight:700; color:#000; margin-top:1px; }
-  .lf-sd-row { display:block; padding:8px 16px; text-decoration:none; color:#333; font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
-  .lf-sd-row:hover { background:#fafafa; color:#000; }
-  .lf-sd-pills { display:flex; flex-wrap:wrap; gap:6px; padding:6px 16px 12px; }
-  .lf-sd-pill { border:1px solid #ddd; padding:5px 10px; font-size:10px; text-decoration:none; color:#333; text-transform:capitalize; }
-  .lf-sd-pill:hover { background:#000; color:#fff; border-color:#000; }
-  .lf-sd-all { display:block; text-align:center; padding:13px; background:#000; color:#fff; text-decoration:none; font-family:'Lato',var(--font-body--family),sans-serif; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
-  .lf-sd-all:hover { background:#222; }
-  .lf-sd-empty { padding:22px 16px; font-size:11px; color:#999; text-align:center; }
-  .lf-msearch { display:none; padding:10px 16px 12px; border-bottom:1px solid #eee; background:#fff; }
-  .lf-msearch.active { display:block; }
-  .lf-msearch .lf-search { max-width:none; }
-
-
 /* ===== SB-LUXE-HEADER-SEARCH ===== */
 .lf-search{ max-width:440px !important; }
 .lf-search-form{
@@ -739,13 +716,7 @@
       <div class="lf-left-col">
         <button class="mobile-only icon-btn" onclick="toggleMenu()" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
         <div class="desktop-only" style="width:100%;">
-          <div class="lf-search">
-            <form class="lf-search-form" action="/search" method="get" role="search">
-              <input type="search" name="q" class="lf-search-input" placeholder="Search products, brands..." autocomplete="off" aria-label="Search products">
-              <button type="submit" class="lf-search-go" aria-label="Search"><svg viewBox="0 0 24 24" width="17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
-            </form>
-            <div class="lf-search-drop" hidden></div>
-          </div>
+          {% render 'header-search', input_id: 'Search-In-Modal-Desktop', section: section %}
         </div>
       </div>
 
@@ -756,7 +727,7 @@
       </div>
 
       <div class="lf-tool-flex">
-        <button class="icon-btn mobile-only" onclick="toggleMobileSearch()" aria-label="Open search"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+        {% render 'header-search', input_id: 'Search-In-Modal-Mobile', section: section %}
         <a href="{{ login_url }}" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
         <a href="/pages/wishlist" class="icon-btn lf-wish-link" aria-label="Wishlist" style="position:relative;">
           <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.1" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -799,15 +770,7 @@
     </div>
   </div>
 
-  <div class="lf-msearch mobile-only" id="lf-msearch">
-    <div class="lf-search">
-      <form class="lf-search-form" action="/search" method="get" role="search">
-        <input type="search" name="q" class="lf-search-input" placeholder="Search products, brands..." autocomplete="off" aria-label="Search products">
-        <button type="submit" class="lf-search-go" aria-label="Search"><svg viewBox="0 0 24 24" width="17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
-      </form>
-      <div class="lf-search-drop" hidden></div>
-    </div>
-  </div>
+
 
   <nav class="lf-nav-bar desktop-only">
     <div class="container-wide">
@@ -1082,33 +1045,7 @@
     }, 60);
   }
 
-  // ── Inline predictive search ────────────────────────────────────
-  function lfMoney(p){ if(p==null||p==='') return ''; var s=String(p); if(/[£$€]/.test(s)) return s; var n=parseFloat(s); return isNaN(n)?'':'£'+n.toFixed(2); }
-  function lfEsc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function lfFetch(q, drop){
-    fetch('/search/suggest.json?q='+encodeURIComponent(q)+'&resources[type]=product,collection,query&resources[limit]=6&resources[options][unavailable_products]=last')
-      .then(function(r){ return r.json(); })
-      .then(function(d){
-        var r=(d.resources&&d.resources.results)||{}, prods=r.products||[], colls=r.collections||[], qs=r.queries||[];
-        if(!prods.length && !colls.length && !qs.length){ drop.innerHTML='<div class="lf-sd-empty">No matches for &ldquo;'+lfEsc(q)+'&rdquo;</div>'; drop.hidden=false; return; }
-        var h='';
-        if(qs.length){ h+='<div class="lf-sd-sec-title">Suggestions</div><div class="lf-sd-pills">'; qs.forEach(function(x){ h+='<a class="lf-sd-pill" href="/search?q='+encodeURIComponent(x.text)+'">'+lfEsc(x.text)+'</a>'; }); h+='</div>'; }
-        if(colls.length){ h+='<div class="lf-sd-sec-title">Collections</div>'; colls.forEach(function(c){ h+='<a class="lf-sd-row" href="'+c.url+'">'+lfEsc(c.title)+'</a>'; }); }
-        if(prods.length){ h+='<div class="lf-sd-sec-title">Products</div>'; prods.forEach(function(p){ var img=(typeof p.image==='string'&&p.image)?p.image:((p.featured_image&&p.featured_image.url)?p.featured_image.url:''); if(img){ img=img+(img.indexOf('?')>-1?'&':'?')+'width=96'; } h+='<a class="lf-sd-prod" href="'+p.url+'">'+(img?'<img src="'+img+'" alt="" loading="lazy">':'')+'<span class="lf-sd-info"><span class="lf-sd-vendor">'+lfEsc(p.vendor||'')+'</span><span class="lf-sd-name">'+lfEsc(p.title)+'</span><span class="lf-sd-price">'+lfMoney(p.price)+'</span></span></a>'; }); }
-        h+='<a class="lf-sd-all" href="/search?q='+encodeURIComponent(q)+'">View all results</a>';
-        drop.innerHTML=h; drop.hidden=false;
-      }).catch(function(){});
-  }
-  function lfWireSearch(root){
-    var input=root.querySelector('.lf-search-input'), drop=root.querySelector('.lf-search-drop');
-    if(!input||!drop||input.dataset.lfWired) return; input.dataset.lfWired='1';
-    var t;
-    input.addEventListener('input',function(){ clearTimeout(t); var q=input.value.trim(); if(q.length<2){ drop.hidden=true; drop.innerHTML=''; return; } t=setTimeout(function(){ lfFetch(q,drop); },170); });
-    input.addEventListener('focus',function(){ if(drop.innerHTML) drop.hidden=false; });
-    document.addEventListener('click',function(e){ if(!root.contains(e.target)) drop.hidden=true; });
-  }
-  function toggleMobileSearch(){ var m=document.getElementById('lf-msearch'); if(!m) return; m.classList.toggle('active'); if(m.classList.contains('active')){ var i=m.querySelector('.lf-search-input'); if(i) setTimeout(function(){ i.focus(); },60); } }
-  document.addEventListener('DOMContentLoaded',function(){ document.querySelectorAll('.lf-search').forEach(lfWireSearch); });
+
 
   // ── Close cart + mobile nav ─────────────────────────────────────
   function closeDrawers() {
@@ -1515,3 +1452,9 @@
 }
 {% endschema %}
 
+
+<script src="{{ 'ds-header-search.js' | asset_url }}" defer="defer"></script>
+
+<script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
