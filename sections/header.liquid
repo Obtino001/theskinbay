@@ -189,8 +189,7 @@
   /* SALE column header → red box, white text */
   .mega-title[href$="/collections/sale"] { display:inline-block; background:#c8102e; color:#fff; border:none; padding:5px 14px; border-radius:3px; letter-spacing:0.12em; }
   .mega-title[href$="/collections/sale"]:hover { color:#fff; background:#a30c22; }
-  /* SALE in mobile drawer → red pill */
-  .lf-mob-drawer a[href$="/collections/sale"] { display:inline-block; background:#c8102e; color:#fff !important; padding:5px 14px; margin:6px 0 6px 35px; border-radius:3px; font-weight:700; letter-spacing:.08em; opacity:1 !important; }
+  /* SALE pill is desktop mega only — mobile drawer uses collection-image rows */
   /* SkinCeuticals PREVENT / CORRECT / PROTECT → black boxes, white text */
   .mega-title[href$="/collections/skinceuticals-prevent"],
   .mega-title[href$="/collections/skinceuticals-correct-1"],
@@ -198,9 +197,6 @@
   .mega-title[href$="/collections/skinceuticals-prevent"]:hover,
   .mega-title[href$="/collections/skinceuticals-correct-1"]:hover,
   .mega-title[href$="/collections/skinceuticals-protect-2"]:hover { color:#fff; background:#333; }
-  .lf-mob-drawer a[href$="/collections/skinceuticals-prevent"],
-  .lf-mob-drawer a[href$="/collections/skinceuticals-correct-1"],
-  .lf-mob-drawer a[href$="/collections/skinceuticals-protect-2"] { display:inline-block; background:#141414; color:#fff !important; padding:5px 14px; margin:6px 0 6px 35px; border-radius:3px; font-weight:700; letter-spacing:.08em; opacity:1 !important; }
   /* FREE GIFTS column header → black box, white text, gift icon */
   .mega-title[href*="/pages/gifts"] { display:inline-flex; align-items:center; gap:6px; background:#141414; color:#fff; border:none; padding:5px 12px; border-radius:3px; letter-spacing:0.12em; text-transform:uppercase; }
   .mega-title[href*="/pages/gifts"]:hover { color:#fff; background:#333; }
@@ -208,7 +204,6 @@
   /* keep pill headers (SALE / SkinCeuticals / Free Gifts) in Lato with no gold accent bar */
   .mega-title[href$="/collections/sale"], .mega-title[href$="/collections/skinceuticals-prevent"], .mega-title[href$="/collections/skinceuticals-correct-1"], .mega-title[href$="/collections/skinceuticals-protect-2"], .mega-title[href*="/pages/gifts"] { font-family:'Lato',var(--font-body--family),sans-serif; font-weight:700; font-size:12px; }
   .mega-title[href$="/collections/sale"]::after, .mega-title[href$="/collections/skinceuticals-prevent"]::after, .mega-title[href$="/collections/skinceuticals-correct-1"]::after, .mega-title[href$="/collections/skinceuticals-protect-2"]::after, .mega-title[href*="/pages/gifts"]::after { display:none; }
-  .lf-mob-drawer a[href*="/pages/gifts"] { display:inline-block; background:#141414; color:#fff !important; padding:5px 14px; margin:6px 0 6px 35px; border-radius:3px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; opacity:1 !important; }
   /* MAKE UP mega — centered columns + icons */
   .mega-menu--make-up .mega-grid { display:flex; justify-content:center; gap:0 clamp(28px,4vw,60px); }
   .mega-menu--make-up .mega-title { display:flex; flex-direction:column; align-items:center; gap:9px; text-align:center; }
@@ -224,55 +219,245 @@
   }
   .mega-list a:hover { color: #0c0c0c; padding-left: 4px; }
 
-  /* --- MOBILE NAV (Sleek Style) --- */
-  .lf-mob-drawer { position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 2200; transition: left 0.35s cubic-bezier(0.77, 0, 0.175, 1); overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: calc(104px + env(safe-area-inset-bottom)); box-shadow: 5px 0 30px rgba(0,0,0,0.08); }
-  .lf-mob-drawer.active { left: 0; }
-  .lf-mob-drawer-header { padding: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 10px; }
-  .lf-mob-drawer-header-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #000; }
-  .lf-mob-drawer-close { background: none; border: none; font-size: 22px; line-height: 1; cursor: pointer; color: #000; padding: 0; opacity: 0.5; transition: opacity 0.2s; }
-  .lf-mob-drawer-close:hover { opacity: 1; }
-
-  .mob-nav-item { margin-bottom: 4px; }
-  .mob-row { display: flex; align-items: center; padding: 0 16px; }
-  .mob-row.lvl-2 { padding: 0 16px 0 32px; }
-
-  .mob-nav-link-main {
-    flex-grow: 1;
-    padding: 14px 8px;
-    text-decoration: none;
-    color: #0c0c0c;
-    font-size: 15px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: color 0.2s ease;
+  /* --- MOBILE NAV (Naillak 1:1) --- */
+  .lf-mob-drawer {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    height: 100dvh;
+    background: #fff;
+    z-index: 2200;
+    transition: left 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
   }
-  .mob-row.lvl-2 .mob-nav-link-main { font-size: 13px; font-weight: 500; color: #444; padding: 12px 8px; }
-  .mob-nav-link-main:hover { color: rgba(0,0,0,0.5); }
+  .lf-mob-drawer.active { left: 0; }
+  @media (min-width: 750px) {
+    .lf-mob-drawer { max-width: 420px; box-shadow: 8px 0 40px rgba(0,0,0,0.12); }
+  }
 
-  .mob-toggle-btn {
-    width: 44px;
-    height: 44px;
+  .nlk-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 14px;
+    flex-shrink: 0;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .nlk-head-logo { display: flex; align-items: center; line-height: 0; }
+  .nlk-head-logo img { height: 26px; width: auto; max-width: 170px; object-fit: contain; display: block; }
+  .nlk-close {
+    background: none;
+    border: none;
+    padding: 6px;
+    margin: -6px;
+    cursor: pointer;
+    color: #111;
     display: flex;
     align-items: center;
     justify-content: center;
+    line-height: 0;
+  }
+  .nlk-close svg { width: 22px; height: 22px; display: block; }
+
+  .nlk-nav { flex: 1 0 auto; }
+
+  .nlk-item { margin: 0; }
+
+  .nlk-bar {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .lf-mob-drawer a.nlk-row,
+  .lf-mob-drawer .nlk-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+    min-height: 58px;
+    padding: 8px 4px 8px 18px !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    color: #1a1a1a !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    opacity: 1 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    font-weight: 400 !important;
+    width: auto !important;
+  }
+  .lf-mob-drawer a.nlk-row:hover,
+  .nlk-row:hover { color: #1a1a1a !important; background: transparent !important; }
+
+  .nlk-thumb {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f4f4f4;
+    display: block;
+  }
+  .nlk-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .nlk-label {
+    flex: 1;
+    min-width: 0;
+    font-family: 'Lato', var(--font-stack), sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.25;
+    letter-spacing: -0.01em !important;
+    color: #222 !important;
+    text-transform: lowercase !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nlk-chevron {
+    flex-shrink: 0;
+    width: 42px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a;
     background: none;
     border: none;
+    padding: 0;
     cursor: pointer;
-    font-size: 22px;
-    font-weight: 300;
-    color: #0c0c0c;
-    opacity: 0.6;
-    transition: opacity 0.2s ease, transform 0.3s ease;
   }
-  .mob-toggle-btn:hover { opacity: 1; }
-  .mob-toggle-btn.is-open { transform: rotate(45deg); }
+  .nlk-chevron svg { width: 16px; height: 16px; display: block; }
+  .nlk-expand.is-open svg { transform: rotate(90deg); }
+  .nlk-expand svg { transition: transform 0.22s ease; }
 
-  /* Mobile submenu */
+  .nlk-item > .mob-submenu { background: #fff; }
+  .nlk-item > .mob-submenu .nlk-bar { padding-left: 0; }
+  .nlk-item > .mob-submenu .nlk-thumb { width: 38px; height: 38px; border-radius: 6px; }
+  .nlk-item > .mob-submenu .nlk-row { min-height: 54px; padding-left: 28px !important; }
+  .nlk-item > .mob-submenu .nlk-chevron { height: 54px; }
+  .nlk-item > .mob-submenu .nlk-label { font-size: 15px !important; }
+
+  .nlk-letter {
+    padding: 14px 16px 6px;
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.32);
+    border-bottom: 1px solid #f2f2f2;
+  }
+
   .mob-submenu { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-  .mob-submenu.open { max-height: 1200px; }
-  .mob-link-final { display: block; padding: 10px 8px 10px 48px; text-decoration: none; color: #666; font-size: 13px; font-weight: 400; text-transform: none; transition: color 0.2s ease; }
-  .mob-link-final:hover { color: #0c0c0c; }
+  .mob-submenu.open { max-height: 4000px; }
+
+  .nlk-promo { padding: 18px 16px 8px; }
+  .nlk-promo-card {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    min-height: 148px;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    background: #f4f4f4;
+    color: inherit;
+    box-shadow: 0 1px 10px rgba(0,0,0,0.06);
+  }
+  .nlk-promo-img {
+    min-height: 148px;
+    height: 100%;
+    align-self: stretch;
+    background: #e8e4df center / cover no-repeat;
+  }
+  .nlk-promo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .nlk-promo-body {
+    background: #fff;
+    padding: 16px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .nlk-promo-title {
+    margin: 0 0 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #111;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .nlk-promo-title svg { width: 15px; height: 15px; color: #c9a0a0; flex-shrink: 0; }
+  .nlk-promo-text {
+    margin: 0 0 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #444;
+    font-weight: 400;
+  }
+  .nlk-promo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    background: #c9a0a0;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    padding: 8px 16px;
+    border-radius: 3px;
+    line-height: 1;
+  }
+
+  .nlk-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    padding: 28px 16px 8px;
+    margin-top: auto;
+  }
+  .nlk-social {
+    color: #c4a4a4;
+    display: flex;
+    line-height: 0;
+    transition: color 0.15s ease;
+  }
+  .nlk-social:hover { color: #8c7171; }
+  .nlk-social svg { width: 22px; height: 22px; display: block; }
 
   /* ── Overlay ── */
   .overlay-bg { position: fixed; inset: 0; z-index: 1500; background: rgba(0,0,0,0); visibility: hidden; transition: background 0.4s ease, visibility 0s linear 0.4s; }
@@ -942,69 +1127,152 @@
 
 <!-- MOBILE NAV -->
 <div class="lf-mob-drawer" id="mobile-nav">
-  <div class="lf-mob-drawer-header">
-    <span class="lf-mob-drawer-header-title">Menu</span>
-    <button onclick="closeDrawers()" class="lf-mob-drawer-close" aria-label="Close menu">&times;</button>
+  <div class="nlk-head">
+    <a href="{{ routes.root_url }}" class="nlk-head-logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo_image != blank -%}
+        <img src="{{ section.settings.logo_image | image_url: width: 360 }}" alt="{{ shop.name }}" width="170" height="26">
+      {%- else -%}
+        <img src="{{ 'TheSkinBay Logo.png' | asset_url }}" alt="{{ shop.name }}">
+      {%- endif -%}
+    </a>
+    <button type="button" onclick="closeDrawers()" class="nlk-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
   </div>
-  {% for link in main_menu.links %}
-    {% if link.title != blank %}
-    <div class="mob-nav-item">
-      <div class="mob-row">
-        <a href="{{ link.url }}" class="mob-nav-link-main">{{ link.title }}</a>
-        {% if link.links != blank %}
-          <button class="mob-toggle-btn" onclick="toggleSubMobile(event, this)">+</button>
-        {% endif %}
-      </div>
-      {% if link.links != blank %}
-        {%- assign mob_link_handle = link.title | handleize -%}
-        {% if mob_link_handle == 'brands' %}
-          <div class="mob-submenu">
-            {%- assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," -%}
-            {%- for letter in alphabet -%}
-              {%- assign letter_has = false -%}
-              {%- for brand in link.links -%}{%- assign bf = brand.title | slice: 0 | upcase -%}{%- if bf == letter -%}{%- assign letter_has = true -%}{%- endif -%}{%- endfor -%}
-              {%- if letter_has -%}
-                <div class="mob-brand-letter">{{ letter }}</div>
-                {%- for brand in link.links -%}
-                  {%- assign bf = brand.title | slice: 0 | upcase -%}
-                  {%- if bf == letter -%}
-                    <div class="mob-row lvl-2">
-                      <a href="{{ brand.url }}" class="mob-nav-link-main">{{ brand.title }}</a>
-                      {% if brand.links != blank %}<button class="mob-toggle-btn" onclick="toggleSubMobile(event, this)">+</button>{% endif %}
-                    </div>
-                    {% if brand.links != blank %}
-                      <div class="mob-submenu">
-                        {% for r in brand.links %}<a href="{{ r.url }}" class="mob-link-final">{{ r.title }}</a>{% endfor %}
-                      </div>
-                    {% endif %}
+
+  <nav class="nlk-nav" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
+    {% for link in main_menu.links %}
+      {% if link.title != blank %}
+        {%- assign nlk_has_kids = false -%}
+        {%- if link.links != blank -%}{%- assign nlk_has_kids = true -%}{%- endif -%}
+        <div class="nlk-item">
+          <div class="nlk-bar">
+            {% if nlk_has_kids %}
+              {% render 'nlk-menu-row', link: link, chevron: 'none' %}
+              <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ link.title | escape }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            {% else %}
+              {% render 'nlk-menu-row', link: link, chevron: 'inside' %}
+            {% endif %}
+          </div>
+          {% if nlk_has_kids %}
+            {%- assign mob_link_handle = link.title | handleize -%}
+            {% if mob_link_handle == 'brands' %}
+              <div class="mob-submenu">
+                {%- assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," -%}
+                {%- for letter in alphabet -%}
+                  {%- assign letter_has = false -%}
+                  {%- for brand in link.links -%}{%- assign bf = brand.title | slice: 0 | upcase -%}{%- if bf == letter -%}{%- assign letter_has = true -%}{%- endif -%}{%- endfor -%}
+                  {%- if letter_has -%}
+                    <div class="nlk-letter">{{ letter }}</div>
+                    {%- for brand in link.links -%}
+                      {%- assign bf = brand.title | slice: 0 | upcase -%}
+                      {%- if bf == letter -%}
+                        {%- assign brand_has_kids = false -%}
+                        {%- if brand.links != blank -%}{%- assign brand_has_kids = true -%}{%- endif -%}
+                        <div class="nlk-item">
+                          <div class="nlk-bar">
+                            {% if brand_has_kids %}
+                              {% render 'nlk-menu-row', link: brand, chevron: 'none' %}
+                              <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ brand.title | escape }}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                              </button>
+                            {% else %}
+                              {% render 'nlk-menu-row', link: brand, chevron: 'inside' %}
+                            {% endif %}
+                          </div>
+                          {% if brand_has_kids %}
+                            <div class="mob-submenu">
+                              {% for r in brand.links %}
+                                <div class="nlk-bar">{% render 'nlk-menu-row', link: r, chevron: 'inside' %}</div>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
                   {%- endif -%}
                 {%- endfor -%}
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        {% else %}
-          <div class="mob-submenu">
-            {% for child in link.links %}
-               <div class="mob-row lvl-2">
-                 <a href="{{ child.url }}" class="mob-nav-link-main">{{ child.title }}</a>
-                 {% if child.links != blank %}
-                   <button class="mob-toggle-btn" onclick="toggleSubMobile(event, this)">+</button>
-                 {% endif %}
-               </div>
-               {% if child.links != blank %}
-                 <div class="mob-submenu">
-                   {% for sub_child in child.links %}
-                     <a href="{{ sub_child.url }}" class="mob-link-final">{{ sub_child.title }}</a>
-                   {% endfor %}
-                 </div>
-               {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
+              </div>
+            {% else %}
+              <div class="mob-submenu">
+                {% for child in link.links %}
+                  {%- assign child_has_kids = false -%}
+                  {%- if child.links != blank -%}{%- assign child_has_kids = true -%}{%- endif -%}
+                  <div class="nlk-item">
+                    <div class="nlk-bar">
+                      {% if child_has_kids %}
+                        {% render 'nlk-menu-row', link: child, chevron: 'none' %}
+                        <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ child.title | escape }}">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                      {% else %}
+                        {% render 'nlk-menu-row', link: child, chevron: 'inside' %}
+                      {% endif %}
+                    </div>
+                    {% if child_has_kids %}
+                      <div class="mob-submenu">
+                        {% for sub_child in child.links %}
+                          <div class="nlk-bar">{% render 'nlk-menu-row', link: sub_child, chevron: 'inside' %}</div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
       {% endif %}
+    {% endfor %}
+  </nav>
+
+  {%- if section.settings.drawer_promo_enable -%}
+    <div class="nlk-promo">
+      <a href="{{ section.settings.drawer_promo_link | default: routes.root_url }}" class="nlk-promo-card">
+        <div class="nlk-promo-img">
+          {%- if section.settings.drawer_promo_image != blank -%}
+            {{ section.settings.drawer_promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.drawer_promo_title }}
+          {%- endif -%}
+        </div>
+        <div class="nlk-promo-body">
+          {%- if section.settings.drawer_promo_title != blank -%}
+            <h4 class="nlk-promo-title">
+              {{ section.settings.drawer_promo_title }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </h4>
+          {%- endif -%}
+          {%- if section.settings.drawer_promo_text != blank -%}
+            <p class="nlk-promo-text">{{ section.settings.drawer_promo_text }}</p>
+          {%- endif -%}
+          {%- if section.settings.drawer_promo_button != blank -%}
+            <span class="nlk-promo-btn">{{ section.settings.drawer_promo_button }}</span>
+          {%- endif -%}
+        </div>
+      </a>
     </div>
-    {% endif %}
-  {% endfor %}
+  {%- endif -%}
+
+  {%- if section.settings.social_instagram != blank or section.settings.social_facebook != blank or section.settings.social_tiktok != blank -%}
+    <div class="nlk-socials">
+      {%- if section.settings.social_instagram != blank -%}
+        <a href="{{ section.settings.social_instagram }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.social_facebook != blank -%}
+        <a href="{{ section.settings.social_facebook }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.social_tiktok != blank -%}
+        <a href="{{ section.settings.social_tiktok }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </div>
 
 <div class="overlay-bg" id="header-overlay" onclick="closeDrawers()"></div>
@@ -1081,13 +1349,15 @@
 
   // ── Mobile submenu ──────────────────────────────────────────────
   function toggleSubMobile(e, btn) {
+    e.preventDefault();
     e.stopPropagation();
-    var row = btn.parentElement;
-    var sub = row.nextElementSibling;
+    var bar = btn.closest('.nlk-bar') || btn.parentElement;
+    var sub = bar ? bar.nextElementSibling : null;
     if (sub && sub.classList.contains('mob-submenu')) {
       var opening = !sub.classList.contains('open');
       sub.classList.toggle('open', opening);
       btn.classList.toggle('is-open', opening);
+      btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
     }
   }
 
@@ -1453,6 +1723,13 @@
   { "type": "range", "id": "nav_font_size", "min": 10, "max": 18, "step": 1, "unit": "px", "label": "Main Nav Size", "default": 12 },
   { "type": "range", "id": "mega_title_font_size", "min": 10, "max": 20, "step": 1, "unit": "px", "label": "Mega Heading Size", "default": 11 },
   { "type": "range", "id": "nav_font_size_mobile", "min": 10, "max": 18, "step": 1, "unit": "px", "label": "Mobile Menu Size", "default": 13 },
+  { "type": "header", "content": "Mobile menu promo" },
+  { "type": "checkbox", "id": "drawer_promo_enable", "label": "Show promo card", "default": true },
+  { "type": "image_picker", "id": "drawer_promo_image", "label": "Promo image" },
+  { "type": "text", "id": "drawer_promo_title", "label": "Promo title", "default": "the skin bay club" },
+  { "type": "textarea", "id": "drawer_promo_text", "label": "Promo text", "default": "get 10% off your next order, plus exclusive rewards every time you shop." },
+  { "type": "text", "id": "drawer_promo_button", "label": "Promo button", "default": "read more" },
+  { "type": "url", "id": "drawer_promo_link", "label": "Promo link" },
   { "type": "header", "content": "Search Settings" },
   { "type": "collection", "id": "search_rec_collection", "label": "Recommended Collection" },
   { "type": "text", "id": "search_rec_title", "label": "Recommended Heading", "default": "Our Favorites" },

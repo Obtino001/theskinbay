@@ -20,7 +20,11 @@
         "search_rec_collection": "bundle-deals",
         "search_rec_title": "You might also like...",
         "announcement_font_size": 10,
-        "announcement_font_size_mobile": 9
+        "announcement_font_size_mobile": 9,
+        "drawer_promo_enable": true,
+        "drawer_promo_title": "the skin bay club",
+        "drawer_promo_text": "get 10% off your next order, plus exclusive rewards every time you shop.",
+        "drawer_promo_button": "read more"
       }
     }
   },
