@@ -5,23 +5,23 @@
   /* ── Hero ───────────────────────────────────────────── */
   .lf-sub-hero { background: #0b1225; padding: 88px 40px 80px; text-align: center; }
   .lf-sub-eyebrow {
-    font-family: 'Lato', sans-serif; font-size: 0.625rem; font-weight: 700;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.625rem; font-weight: 700;
     letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4);
     display: block; margin-bottom: 18px;
   }
   .lf-sub-hero-heading {
-    font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-family: var(--font-heading--family), serif; font-size: clamp(2.25rem, 5.5vw, 3.75rem);
     font-weight: 400; color: #fff; margin: 0 0 18px; line-height: 1.08; letter-spacing: -0.02em;
   }
   .lf-sub-hero-body {
-    font-family: 'Lato', sans-serif; font-size: 1rem; color: rgba(255,255,255,0.55);
+    font-family: var(--font-body--family), sans-serif; font-size: 1rem; color: rgba(255,255,255,0.55);
     line-height: 1.7; max-width: 560px; margin: 0 auto;
   }
   .lf-sub-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 22px;}
   .lf-sub-banner-int{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 40px;}
   .lf-sub-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
   .lf-sub-hero-link {
-    display: inline-block; margin-top: 26px; font-family: 'Lato', sans-serif; font-size: 0.75rem;
+    display: inline-block; margin-top: 26px; font-family: var(--font-body--family), sans-serif; font-size: 0.75rem;
     font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.85);
     border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 4px; transition: color .18s, border-color .18s;
   }
@@ -38,8 +38,8 @@
   }
   .lf-sub-benefit-icon { width: 28px; height: 28px; color: #1a1a1a; flex-shrink: 0; }
   .lf-sub-benefit-icon svg { width: 100%; height: 100%; display: block; }
-  .lf-sub-benefit-text { font-family: 'Lato', sans-serif; font-size: 0.9375rem; font-weight: 700; color: #1a1a1a; letter-spacing: 0.01em; }
-  .lf-sub-benefit-sub { font-family: 'Lato', sans-serif; font-size: 0.875rem; color: #6b6459; margin-top: 4px; }
+  .lf-sub-benefit-text { font-family: var(--font-body--family), sans-serif; font-size: 0.9375rem; font-weight: 700; color: #1a1a1a; letter-spacing: 0.01em; }
+  .lf-sub-benefit-sub { font-family: var(--font-body--family), sans-serif; font-size: 0.875rem; color: #6b6459; margin-top: 4px; }
 
   /* ── Shared section shells ──────────────────────────── */
   .lf-sub-sec { padding: 80px 40px; border-top: 1px solid rgba(0,0,0,.06); }
@@ -47,11 +47,11 @@
   .lf-sub-sec-cream { background: #faf8f5; }
   .lf-sub-inner { max-width: 1200px; margin: 0 auto; }
   .lf-sub-sec-eyebrow {
-    font-family: 'Lato', sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.2em;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.2em;
     text-transform: uppercase; color: rgba(0,0,0,0.35); display: block; margin-bottom: 10px; text-align: center;
   }
   .lf-sub-sec-heading {
-    font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400;
+    font-family: var(--font-heading--family), serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400;
     color: #111; margin: 0 0 52px; line-height: 1.1; letter-spacing: -0.015em; text-align: center;
   }
   .lf-sub-sec-heading em { font-style: italic; }
@@ -63,40 +63,40 @@
   }
   .lf-sub-card { background: #fff; padding: 40px 32px 36px; display: flex; flex-direction: column; }
   .lf-sub-card-num {
-    font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400;
+    font-family: var(--font-heading--family), serif; font-size: 2rem; font-weight: 400;
     color: #0b1225; line-height: 1; margin-bottom: 18px;
   }
-  .lf-sub-card-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #111; margin: 0 0 14px; line-height: 1.15; }
-  .lf-sub-card-desc { font-family: 'Lato', sans-serif; font-size: 0.875rem; color: rgba(0,0,0,0.55); line-height: 1.75; margin: 0; }
+  .lf-sub-card-name { font-family: var(--font-heading--family), serif; font-size: 1.375rem; font-weight: 400; color: #111; margin: 0 0 14px; line-height: 1.15; }
+  .lf-sub-card-desc { font-family: var(--font-body--family), sans-serif; font-size: 0.875rem; color: rgba(0,0,0,0.55); line-height: 1.75; margin: 0; }
 
   /* ── Manage: portal button + step columns ───────────── */
   .lf-sub-portal-cta { text-align: center; margin: 0 0 56px; }
   .lf-sub-btn {
-    font-family: 'Lato', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em;
     text-transform: uppercase; color: #fff; background: #1a1a1a; border: 1px solid #1a1a1a;
     padding: 15px 40px; display: inline-block; transition: background .18s, color .18s;
   }
   .lf-sub-btn:hover { background: #333; }
   .lf-sub-btn-ghost { color: #1a1a1a; background: transparent; }
   .lf-sub-btn-ghost:hover { background: rgba(0,0,0,0.05); }
-  .lf-sub-portal-note { font-family: 'Lato', sans-serif; font-size: 0.8125rem; color: rgba(0,0,0,0.45); margin: 16px auto 0; max-width: 560px; line-height: 1.6; }
+  .lf-sub-portal-note { font-family: var(--font-body--family), sans-serif; font-size: 0.8125rem; color: rgba(0,0,0,0.45); margin: 16px auto 0; max-width: 560px; line-height: 1.6; }
   .lf-sub-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(0,0,0,.07); border: 1px solid rgba(0,0,0,.07); }
   .lf-sub-step { background: #faf8f5; padding: 36px 30px; }
   .lf-sub-step-tag {
-    font-family: 'Lato', sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.2em;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.2em;
     text-transform: uppercase; color: rgba(0,0,0,0.3); margin-bottom: 12px; display: block;
   }
-  .lf-sub-step-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #111; margin: 0 0 20px; }
+  .lf-sub-step-name { font-family: var(--font-heading--family), serif; font-size: 1.375rem; font-weight: 400; color: #111; margin: 0 0 20px; }
   .lf-sub-step ol, .lf-sub-step ul { margin: 0; padding: 0; list-style: none; }
   .lf-sub-step li {
-    font-family: 'Lato', sans-serif; font-size: 0.8125rem; line-height: 1.5; color: #4a453d;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.8125rem; line-height: 1.5; color: #4a453d;
     padding: 9px 0 9px 26px; position: relative; border-top: 1px solid #ece5da;
   }
   .lf-sub-step li:first-child { border-top: 0; }
   .lf-sub-step ol { counter-reset: s; }
   .lf-sub-step ol li::before {
     counter-increment: s; content: counter(s); position: absolute; left: 0; top: 8px;
-    font-family: 'Lato', sans-serif; font-size: 0.5625rem; font-weight: 700; color: #fff; background: #1a1a1a;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.5625rem; font-weight: 700; color: #fff; background: #1a1a1a;
     width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   }
   .lf-sub-step ul li::before { content: ''; position: absolute; left: 4px; top: 15px; width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
@@ -109,8 +109,8 @@
   .lf-sub-info-item { background: #faf8f5; padding: 32px 28px; display: flex; flex-direction: column; gap: 8px; }
   .lf-sub-info-icon { width: 28px; height: 28px; color: #0b1225; margin-bottom: 6px; }
   .lf-sub-info-icon svg { width: 100%; height: 100%; display: block; }
-  .lf-sub-info-title { font-family: 'Lato', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #111; margin: 0; }
-  .lf-sub-info-text { font-family: 'Lato', sans-serif; font-size: 0.875rem; color: rgba(0,0,0,0.5); line-height: 1.7; margin: 0; }
+  .lf-sub-info-title { font-family: var(--font-body--family), sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #111; margin: 0; }
+  .lf-sub-info-text { font-family: var(--font-body--family), sans-serif; font-size: 0.875rem; color: rgba(0,0,0,0.5); line-height: 1.7; margin: 0; }
   .lf-sub-info-text a { color: #0b1225; border-bottom: 1px solid rgba(11,18,37,0.3); padding-bottom: 1px; }
   .lf-sub-info-text a:hover { border-color: #0b1225; }
 
@@ -118,25 +118,25 @@
   .lf-sub-faq-inner { max-width: 820px; margin: 0 auto; }
   .lf-sub-faq { border-top: 1px solid rgba(0,0,0,.1); }
   .lf-sub-faq summary {
-    font-family: 'Lato', sans-serif; font-size: 1rem; font-weight: 700; color: #1a1a1a;
+    font-family: var(--font-body--family), sans-serif; font-size: 1rem; font-weight: 700; color: #1a1a1a;
     padding: 24px 44px 24px 0; position: relative; cursor: pointer; list-style: none; line-height: 1.4;
   }
   .lf-sub-faq summary::-webkit-details-marker { display: none; }
   .lf-sub-faq summary::after {
     content: '+'; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    font-family: 'Lato', sans-serif; font-size: 1.5rem; font-weight: 400; color: #1a1a1a; transition: transform .2s;
+    font-family: var(--font-body--family), sans-serif; font-size: 1.5rem; font-weight: 400; color: #1a1a1a; transition: transform .2s;
   }
   .lf-sub-faq[open] summary::after { content: '\2212'; }
-  .lf-sub-faq-body { font-family: 'Lato', sans-serif; font-size: 0.9375rem; color: rgba(0,0,0,0.6); line-height: 1.75; padding: 0 44px 26px 0; margin: 0; }
+  .lf-sub-faq-body { font-family: var(--font-body--family), sans-serif; font-size: 0.9375rem; color: rgba(0,0,0,0.6); line-height: 1.75; padding: 0 44px 26px 0; margin: 0; }
   .lf-sub-faq-body a { color: #0b1225; border-bottom: 1px solid rgba(11,18,37,0.3); }
 
   /* ── Bottom CTA ─────────────────────────────────────── */
   .lf-sub-cta { background: #0b1225; padding: 72px 40px; text-align: center; }
-  .lf-sub-cta-heading { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.5rem, 2.5vw, 2.25rem); font-weight: 400; color: #fff; margin: 0 0 12px; line-height: 1.1; letter-spacing: -0.015em; }
+  .lf-sub-cta-heading { font-family: var(--font-heading--family), serif; font-size: clamp(1.5rem, 2.5vw, 2.25rem); font-weight: 400; color: #fff; margin: 0 0 12px; line-height: 1.1; letter-spacing: -0.015em; }
   .lf-sub-cta-heading em { font-style: italic; }
-  .lf-sub-cta-body { font-family: 'Lato', sans-serif; font-size: 0.9375rem; color: rgba(255,255,255,0.5); margin: 0 0 36px; line-height: 1.7; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .lf-sub-cta-body { font-family: var(--font-body--family), sans-serif; font-size: 0.9375rem; color: rgba(255,255,255,0.5); margin: 0 0 36px; line-height: 1.7; max-width: 520px; margin-left: auto; margin-right: auto; }
   .lf-sub-cta-btn {
-    font-family: 'Lato', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    font-family: var(--font-body--family), sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
     color: #fff; background: transparent; border: 1px solid rgba(255,255,255,0.5); padding: 14px 36px; display: inline-block;
     transition: background .18s, border-color .18s; margin: 0 6px 10px;
   }
@@ -267,7 +267,7 @@
             <li>Select the subscription you would like to stop.</li>
             <li>Choose <strong>Cancel subscription</strong>, and that is it.</li>
           </ol>
-          <p style="font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(0,0,0,0.45);line-height:1.6;margin:16px 0 0;">Cancelling is genuinely quick. No fees, no minimum term, and you never have to call or email to do it. You can reactivate later whenever you want.</p>
+          <p style="font-family:var(--font-body--family), sans-serif;font-size:0.75rem;color:rgba(0,0,0,0.45);line-height:1.6;margin:16px 0 0;">Cancelling is genuinely quick. No fees, no minimum term, and you never have to call or email to do it. You can reactivate later whenever you want.</p>
         </div>
       </div>
     </div>

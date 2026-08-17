@@ -2,10 +2,10 @@
   .lf-hp *, .lf-hp *::before, .lf-hp *::after { box-sizing:border-box; }
   .lf-hp a { text-decoration:none; }
   .lf-inner { max-width:1560px; margin:0 auto; padding:0 40px; }
-  .lf-section-eyebrow { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,0,0,.35); display:block; }
-  .lf-section-title   { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; letter-spacing:-.015em; color:#111; margin:0; line-height:1.1; }
+  .lf-section-eyebrow { font-family:var(--font-body--family), sans-serif; font-size:.5rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,0,0,.35); display:block; }
+  .lf-section-title   { font-family:var(--font-heading--family), serif; font-size:clamp(1.75rem,3vw,2.75rem); font-weight:400; letter-spacing:-.015em; color:#111; margin:0; line-height:1.1; }
   .lf-section-header  { display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; margin-bottom:44px; }
-  .lf-view-all        { font-family:'Lato',var(--font-body--family),sans-serif; font-size:.5625rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.45); border-bottom:1px solid rgba(0,0,0,.2); padding-bottom:1px; transition:color .15s; white-space:nowrap; }
+  .lf-view-all        { font-family:var(--font-body--family), sans-serif; font-size:.5625rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.45); border-bottom:1px solid rgba(0,0,0,.2); padding-bottom:1px; transition:color .15s; white-space:nowrap; }
   .lf-view-all:hover  { color:#000; border-color:#000; }
 
   .lf-bestsellers-section { padding:64px 0; background:#fafafa; }
@@ -16,16 +16,16 @@
   .lf-bs-img-wrap { position:relative; width:100%; aspect-ratio:1/1; overflow:hidden; background:#fff; margin-bottom:10px; display:flex; align-items:center; justify-content:center; }
   .lf-bs-img { width:100%; height:100%; object-fit:contain; padding:8%; box-sizing:border-box; display:block; transition:transform .5s cubic-bezier(.25,.46,.45,.94); }
   .lf-bs-card:hover .lf-bs-img { transform:scale(1.04); }
-  .lf-bs-badge { position:absolute; bottom:0; left:0; background:#741111; color:#fff; padding:4px 8px; font-family:'Lato',var(--font-body--family),sans-serif; font-size:8px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; z-index:2; }
-  .lf-best-badge { position:absolute; top:10px; right:10px; z-index:3; background:#000; color:#fff; font-family:'Lato',var(--font-body--family),sans-serif; font-size:7px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:5px 8px; }
+  .lf-bs-badge { position:absolute; bottom:0; left:0; background:#741111; color:#fff; padding:4px 8px; font-family:var(--font-body--family), sans-serif; font-size:8px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; z-index:2; }
+  .lf-best-badge { position:absolute; top:10px; right:10px; z-index:3; background:#000; color:#fff; font-family:var(--font-body--family), sans-serif; font-size:7px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:5px 8px; }
   .lf-bs-info { flex:1; display:flex; flex-direction:column; gap:2px; }
-  .lf-bs-vendor { font-family:'Lato',var(--font-body--family),sans-serif; font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.38); }
+  .lf-bs-vendor { font-family:var(--font-body--family), sans-serif; font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(0,0,0,.38); }
   .lf-bs-title { font-size:11px; color:#111; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; transition:color .15s; }
   .lf-bs-card:hover .lf-bs-title { color:rgba(0,0,0,.6); }
   .lf-bs-price-row { font-size:11px; margin-top:3px; display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
   .lf-bs-price { font-weight:600; color:#000; }
   .lf-bs-compare { color:#aaa; text-decoration:line-through; font-size:10px; }
-  .lf-bs-atc { margin-top:8px; width:100%; padding:8px 6px; background:#fff; border:1px solid #d8d8d8; font-family:'Lato',var(--font-body--family),sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:background .18s,border-color .18s,color .18s; }
+  .lf-bs-atc { margin-top:8px; width:100%; padding:8px 6px; background:#fff; border:1px solid #d8d8d8; font-family:var(--font-body--family), sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:background .18s,border-color .18s,color .18s; }
   .lf-bs-atc:hover { background:#000; border-color:#000; color:#fff; }
   .lf-bs-atc:disabled { opacity:.4; cursor:not-allowed; }
 

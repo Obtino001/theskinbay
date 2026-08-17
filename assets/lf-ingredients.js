@@ -870,7 +870,7 @@ function renderModal(ing) {
 
   var contrainHtml = ing.contraindications.length
     ? ing.contraindications.map(function(c) { return '<span class="lf-ing-compat-tag avoid">' + esc(c) + '</span>'; }).join('')
-    : '<span style="font-family:Lato,sans-serif;font-size:0.875rem;color:rgba(12,12,12,0.5)">No significant contraindications identified at typical usage concentrations.</span>';
+    : '<span style="font-family:var(--font-body--family), sans-serif;font-size:0.875rem;color:rgba(12,12,12,0.5)">No significant contraindications identified at typical usage concentrations.</span>';
 
   var skinHtml = ing.skinTypes.map(function(s) {
     return '<span class="lf-ing-skintype-tag">' + esc(s) + '</span>';
@@ -919,7 +919,7 @@ function renderModal(ing) {
     (ing.pregnancyNote ? '<div class="lf-ing-section">' +
       '<h3 class="lf-ing-section-title">Pregnancy &amp; Safety</h3>' +
       pregBadge +
-      '<p style="margin-top:10px;font-family:Lato,sans-serif;font-size:0.875rem;line-height:1.7;color:rgba(12,12,12,0.65)">' + esc(ing.pregnancyNote) + '</p>' +
+      '<p style="margin-top:10px;font-family:var(--font-body--family), sans-serif;font-size:0.875rem;line-height:1.7;color:rgba(12,12,12,0.65)">' + esc(ing.pregnancyNote) + '</p>' +
     '</div>' : '') +
 
     (ing.layering ? '<div class="lf-ing-section">' +
@@ -968,7 +968,7 @@ async function loadProducts(ing) {
       var img = p.image ? p.image.url || p.image : '';
       var imgHtml = img
         ? '<img class="lf-ing-prod-img" src="' + img + '" alt="' + esc(p.title) + '" loading="lazy" width="200" height="200">'
-        : '<div class="lf-ing-prod-img" style="display:flex;align-items:center;justify-content:center;background:#f0efed;font-family:Montserrat,sans-serif;font-size:0.5rem;color:rgba(0,0,0,0.25)">NO IMAGE</div>';
+        : '<div class="lf-ing-prod-img" style="display:flex;align-items:center;justify-content:center;background:#f0efed;font-family:var(--font-body--family), sans-serif;font-size:0.5rem;color:rgba(0,0,0,0.25)">NO IMAGE</div>';
       return '<a class="lf-ing-prod-card" href="' + esc(p.url) + '">' +
         imgHtml +
         '<div class="lf-ing-prod-info">' +

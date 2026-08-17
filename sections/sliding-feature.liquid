@@ -6,10 +6,6 @@
   - Fully Editable: Sizes, Fonts, Padding.
 {% endcomment %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <div class="cbs-section" id="cbs-{{ section.id }}">
   <div class="page-width cbs-container">
     
@@ -114,7 +110,7 @@
     background-color: {{ section.settings.bg_color }};
     padding-top: {{ section.settings.pt_mob }}px;
     padding-bottom: {{ section.settings.pb_mob }}px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     color: {{ section.settings.text_color }};
   }
 
@@ -199,7 +195,7 @@
   }
 
   .cbs-heading {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-size: {{ section.settings.heading_size }}px;
     font-weight: 700;
     margin-bottom: 12px;
@@ -208,7 +204,7 @@
   }
 
   .cbs-desc {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-size: {{ section.settings.desc_size }}px;
     margin-bottom: 25px;
     line-height: 1.5;

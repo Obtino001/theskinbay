@@ -31,14 +31,14 @@
   .nadfq-list{background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:22px;padding:4px 30px;}
   .nadfq-item{border-bottom:1px solid var(--boxline,#ECE3CE);}
   .nadfq-item:last-child{border-bottom:none;}
-  .nadfq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 2px;font-family:'Playfair Display',serif;font-size:18px;color:#141414;}
+  .nadfq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 2px;font-family:var(--font-heading--family), serif;font-size:18px;color:#141414;}
   .nadfq-item summary::-webkit-details-marker{display:none;}
   .nadfq-plus{position:relative;flex:0 0 20px;width:20px;height:20px;}
   .nadfq-plus:before,.nadfq-plus:after{content:"";position:absolute;background:#141414;left:50%;top:50%;transform:translate(-50%,-50%);}
   .nadfq-plus:before{width:16px;height:2.5px;}
   .nadfq-plus:after{width:2.5px;height:16px;transition:transform .2s ease;}
   .nadfq-item[open] .nadfq-plus:after{transform:translate(-50%,-50%) scaleY(0);}
-  .nadfq-a{font-family:'Lato',sans-serif;font-size:15.5px;line-height:1.7;color:#141414;padding:0 2px 22px;}
+  .nadfq-a{font-family:var(--font-body--family), sans-serif;font-size:15.5px;line-height:1.7;color:#141414;padding:0 2px 22px;}
   .nadfq-a p{margin:0 0 12px;}
   @media(max-width:749px){.nad-faq{padding:38px 16px;}.nadfq-item summary{font-size:16px;}}
 </style>

@@ -6,8 +6,8 @@ wi-cartdrawer {
   --wi-muted: rgba(20, 20, 20, 0.55);
   --wi-line: rgba(20, 20, 20, 0.1);
   --wi-sale: #c44444;
-  --wi-font: "Lato", sans-serif;
-  --wi-heading: "Playfair Display", Georgia, serif;
+  --wi-font: var(--font-body--family), sans-serif;
+  --wi-heading: var(--font-heading--family), serif;
   --wi-drawer-w: min(700px, 100vw);
   --wi-upsell-w: 300px;
   --wi-cart-w: calc(var(--wi-drawer-w) - var(--wi-upsell-w));
@@ -646,6 +646,7 @@ wi-cartdrawer {
   margin: 0;
   padding: 0;
   list-style: none;
+  flex-wrap: wrap;
 }
 
 .WI_cartDrawer_badges svg,

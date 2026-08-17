@@ -6,8 +6,6 @@
 {% endcomment %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
-
   #shopify-section-{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
@@ -18,7 +16,7 @@
     margin: 0 auto;
     padding-left: 20px;
     padding-right: 20px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
   }
 
   /* Section Padding (Outer) */

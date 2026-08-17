@@ -3,15 +3,13 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
-
 :root {
   --page-bg: {{ section.settings.page_bg | default: '#ffffff' }};
   --box-bg: {{ section.settings.box_bg | default: '#f9f8f6' }};
   --accent: {{ section.settings.accent_color | default: '#000000' }};
   --text: {{ section.settings.text_color | default: '#1a1a1a' }};
   --btn-text: {{ section.settings.btn_text_color | default: '#ffffff' }};
-  --sb-body: 'Lato', sans-serif;
+  --sb-body: var(--font-body--family), sans-serif;
 }
 
 .omni-perfect-{{sb_uid}} { background-color: var(--page-bg); color: var(--text); font-family: var(--sb-body) !important; padding: 20px 0 100px 0; overflow-x: hidden; }
@@ -37,10 +35,10 @@
 /* --- BUY COLUMN --- */
 .omni-buy-col { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 40px; }
 .omni-brand { font-size: 12px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin: 0; }
-.omni-title { font-family: 'Playfair Display', Georgia, serif !important; font-size: 30px; font-weight: 500; text-transform: none; line-height: 1.12; margin: 10px 0; letter-spacing: -0.2px; }
+.omni-title { font-family: var(--font-heading--family), serif !important; font-size: 30px; font-weight: 500; text-transform: none; line-height: 1.12; margin: 10px 0; letter-spacing: -0.2px; }
 .omni-price-row { font-size: 24px; font-weight: 500; display: flex; align-items: baseline; gap: 12px; }
 .omni-was { font-size: 16px; text-decoration: line-through; opacity: 0.4; }
-.omni-save-badge { display: inline-flex; align-items: center; align-self: center; background: var(--accent); color: #fff; font-family: var(--sb-body), 'Lato', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; line-height: 1; white-space: nowrap; }
+.omni-save-badge { display: inline-flex; align-items: center; align-self: center; background: var(--accent); color: #fff; font-family: var(--sb-body), var(--font-body--family), sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; line-height: 1; white-space: nowrap; }
 
 /* --- VARIANTS / SWATCHES --- */
 .omni-variants { margin-top: 10px; display: flex; flex-direction: column; gap: 20px; }
@@ -86,7 +84,7 @@
 .omni-btn { width: 100%; padding: 20px; border-radius: 50px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; border: none; }
 .omni-btn-bag { background: #fff; color: #000; border: 1px solid #000; }
 .omni-btn-checkout { background: var(--accent); color: var(--btn-text); }
-.omni-dispatch-note { display:flex; align-items:center; gap:8px; margin-top:12px; padding:9px 12px; background:#f7f4ef; border:1px solid #e6ddcd; border-radius:3px; font-family:'Lato',sans-serif; font-size:11px; line-height:1.45; letter-spacing:.02em; color:#6b5b3e; }
+.omni-dispatch-note { display:flex; align-items:center; gap:8px; margin-top:12px; padding:9px 12px; background:#f7f4ef; border:1px solid #e6ddcd; border-radius:3px; font-family:var(--font-body--family), sans-serif; font-size:11px; line-height:1.45; letter-spacing:.02em; color:#6b5b3e; }
 .omni-dispatch-note svg { flex-shrink:0; color:#c9a96e; }
 
 /* --- PAYMENT ICONS --- */
@@ -159,7 +157,7 @@
     {%- assign _cl = product.metafields.custom.cleanser_upsell.value -%}
   {%- capture cleanser_box -%}{%- if _cl != blank and _cl.available -%}{%- assign _clv = _cl.selected_or_first_available_variant -%}<div class="pgc-box"><div class="pgc-head"><span class="pgc-eyebrow">Complimenting Cleanser</span><span class="pgc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Start Your Routine</span></div><div class="pgc-body"><a href="{{ _cl.url }}" class="pgc-img">{% if _cl.featured_image %}<img src="{{ _cl.featured_image | image_url: width: 200 }}" alt="{{ _cl.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgc-info"><p class="pgc-role">Cleanse First</p><p class="pgc-vendor">{{ _cl.vendor }}</p><a href="{{ _cl.url }}" class="pgc-title">{{ _cl.title }}</a><p class="pgc-price">{{ _clv.price | money }}</p></div></div><div class="pgc-reason">Cleansing is the first, and most important, step of any good routine, it preps the skin so everything you apply after works harder.</div><div class="pgc-foot"><button type="button" class="pgc-btn" onclick="pgcAdd(this, {{ _clv.id }})">Add Cleanser</button></div></div>{%- endif -%}{%- endcapture -%}
   <style>
-  .pgc-box{border:1px solid #e6e0d5;border-radius:6px;background:#fff;overflow:hidden;font-family:'Lato',sans-serif;margin-top:16px;}
+  .pgc-box{border:1px solid #e6e0d5;border-radius:6px;background:#fff;overflow:hidden;font-family:var(--font-body--family), sans-serif;margin-top:16px;}
   .pgc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid #efe9df;}
   .pgc-eyebrow{font-size:10px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:#141414;}
   .pgc-tag{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b08d3f;}.pgc-tag svg{width:13px;height:13px;}
@@ -171,7 +169,7 @@
   .pgc-price{font-size:13px;font-weight:700;color:#141414;margin:0;}
   .pgc-reason{padding:12px 18px;background:#f9f3ed;border-top:1px solid #efe9df;font-size:11.5px;line-height:1.6;color:#6b6459;}
   .pgc-foot{padding:16px 18px;border-top:1px solid #efe9df;}
-  .pgc-btn{width:100%;padding:14px 20px;background:#141414;color:#fff;border:none;border-radius:40px;font-family:'Lato',sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}.pgc-btn:hover{background:#333;}.pgc-btn[disabled]{opacity:.6;}
+  .pgc-btn{width:100%;padding:14px 20px;background:#141414;color:#fff;border:none;border-radius:40px;font-family:var(--font-body--family), sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}.pgc-btn:hover{background:#333;}.pgc-btn[disabled]{opacity:.6;}
   .pgc-desk{display:none;}
   @media (min-width:750px){.pgc-desk{display:block;}}
   </style>
@@ -247,7 +245,7 @@
       </div>
     </div>
     <style>
-      .pgp-wrap { margin: 26px 0 0; font-family: 'Lato', sans-serif; }
+      .pgp-wrap { margin: 26px 0 0; font-family: var(--font-body--family), sans-serif; }
       .pgp-box { border: 1px solid #e6e0d5; border-radius: 6px; background: #fff; overflow: hidden; }
       .pgp-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px; border-bottom:1px solid #efe9df; }
       .pgp-eyebrow { font-size:10px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:#141414; }
@@ -263,8 +261,8 @@
       .pgp-reason { padding:12px 18px; background:#f9f3ed; border-top:1px solid #efe9df; font-size:11.5px; line-height:1.6; color:#6b6459; }
       .pgp-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-top:1px solid #efe9df; flex-wrap:wrap; }
       .pgp-total-label { display:block; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#8a8478; margin-bottom:4px; }
-      .pgp-total { font-family:'Playfair Display', Georgia, serif; font-size:22px; color:#141414; }
-      .pgp-btn { flex:1; min-width:160px; max-width:260px; padding:14px 20px; background:#141414; color:#fff; border:none; border-radius:40px; font-family:'Lato',sans-serif; font-size:11px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; } .pgp-btn:hover { background:#333; } .pgp-btn.pgp-loading { opacity:.6; pointer-events:none; }
+      .pgp-total { font-family:var(--font-heading--family), serif; font-size:22px; color:#141414; }
+      .pgp-btn { flex:1; min-width:160px; max-width:260px; padding:14px 20px; background:#141414; color:#fff; border:none; border-radius:40px; font-family:var(--font-body--family), sans-serif; font-size:11px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; } .pgp-btn:hover { background:#333; } .pgp-btn.pgp-loading { opacity:.6; pointer-events:none; }
       @media (max-width: 749px){ .pgp-wrap { display:none !important; } }
     </style>
     <script>

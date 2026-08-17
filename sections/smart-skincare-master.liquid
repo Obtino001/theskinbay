@@ -11,7 +11,7 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     background-color: {{ section.settings.bg_color }};
   }
 
@@ -30,7 +30,7 @@
   }
 
   .ssm-heading {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-heading--family), serif;
     font-weight: 400;
     text-align: center;
     margin-bottom: 3rem;
@@ -167,7 +167,7 @@
   }
 
   .ssm-card-title {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-weight: 600;
     margin: 0 0 8px 0;
     line-height: 1.4;
@@ -190,7 +190,7 @@
     color: #000;
     border: 1px solid #000;
     padding: 12px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-weight: 600;
     font-size: 12px;
     text-transform: uppercase;

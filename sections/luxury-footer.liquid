@@ -2,10 +2,6 @@
   THE SKIN BAY — LUXURY FOOTER (brand-matched: Playfair Display + Lato, black & cream)
 {% endcomment %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 {% style %}
   :root {
     --lux-bg: {{ section.settings.bg_color }};
@@ -14,8 +10,8 @@
     --lux-cream: #efe7d8;
     --lux-line: rgba(239,231,216,0.16);
     --lux-muted: rgba(239,231,216,0.62);
-    --lux-head: 'Playfair Display', Georgia, serif;
-    --lux-body: 'Lato', Helvetica, Arial, sans-serif;
+    --lux-head: var(--font-heading--family), serif;
+    --lux-body: var(--font-body--family), sans-serif;
   }
 
   .lux-footer-wrapper {

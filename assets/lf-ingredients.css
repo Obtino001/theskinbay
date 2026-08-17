@@ -46,7 +46,7 @@
 
 .lf-ing-hero__eyebrow {
   display: block;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.3em;
@@ -56,7 +56,7 @@
 }
 
 .lf-ing-hero__title {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -71,7 +71,7 @@
 }
 
 .lf-ing-hero__sub {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 1rem;
   line-height: 1.72;
   color: rgba(255,255,255,0.7);
@@ -80,7 +80,7 @@
 }
 
 .lf-ing-hero__desc {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   line-height: 1.7;
   color: rgba(255,255,255,0.45);
@@ -123,7 +123,7 @@
   background: none;
   border: none;
   outline: none;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.9375rem;
   color: #fff;
   padding: 16px 0;
@@ -184,7 +184,7 @@
 }
 
 .lf-ing-ac-name {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -193,7 +193,7 @@
 }
 
 .lf-ing-ac-cat {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.8125rem;
   color: var(--ing-muted);
   margin-left: auto;
@@ -215,14 +215,14 @@
 
 .lf-ing-stat__num {
   display: block;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--ing-gold);
 }
 
 .lf-ing-stat__label {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -256,7 +256,7 @@
 .lf-ing-filters-inner::-webkit-scrollbar { display: none; }
 
 .lf-ing-filter-label {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -284,7 +284,7 @@
   border: 1.5px solid var(--ing-border);
   background: transparent;
   cursor: pointer;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -318,7 +318,7 @@
   background: none;
   border: 1.5px solid var(--ing-border);
   cursor: pointer;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -376,7 +376,7 @@
   justify-content: center;
   width: 32px;
   height: 24px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -414,7 +414,7 @@
 }
 
 .lf-ing-results-count {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -432,7 +432,7 @@
 }
 
 .lf-ing-letter-heading {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   color: rgba(12,12,12,0.06);
@@ -486,7 +486,7 @@
 }
 
 .lf-ing-card__cat {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -503,7 +503,7 @@
 }
 
 .lf-ing-card__name {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -513,7 +513,7 @@
 }
 
 .lf-ing-card__alias {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.75rem;
   color: var(--ing-muted);
   margin-bottom: 14px;
@@ -528,7 +528,7 @@
 }
 
 .lf-ing-card__benefit-tag {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.375rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -543,7 +543,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -596,7 +596,7 @@
 }
 
 .lf-ing-empty__title {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -606,7 +606,7 @@
 }
 
 .lf-ing-empty__text {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.9375rem;
   color: var(--ing-muted);
   line-height: 1.7;
@@ -683,7 +683,7 @@
   gap: 8px;
   padding: 7px 14px;
   margin-bottom: 20px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -703,7 +703,7 @@
 }
 
 .lf-ing-drawer__name {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: clamp(1.25rem, 3vw, 1.625rem);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -721,7 +721,7 @@
 }
 
 .lf-ing-drawer__cat-badge {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -732,7 +732,7 @@
 }
 
 .lf-ing-drawer__aliases {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.8125rem;
   color: var(--ing-muted);
   line-height: 1.5;
@@ -747,7 +747,7 @@
 }
 
 .lf-ing-drawer__summary {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.9375rem;
   line-height: 1.78;
   color: rgba(12,12,12,0.65);
@@ -770,7 +770,7 @@
 }
 
 .lf-ing-section-title {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -802,7 +802,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: rgba(12,12,12,0.7);
@@ -825,7 +825,7 @@
 }
 
 .lf-ing-compat-tag {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -853,7 +853,7 @@
 }
 
 .lf-ing-skintype-tag {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.8125rem;
   padding: 5px 12px;
   border: 1px solid var(--ing-border);
@@ -862,7 +862,7 @@
 
 /* Safety note */
 .lf-ing-safety-note {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   line-height: 1.68;
   color: rgba(12,12,12,0.6);
@@ -879,7 +879,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -893,7 +893,7 @@
 
 /* Layering tip */
 .lf-ing-layering {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.9375rem;
   line-height: 1.72;
   color: rgba(12,12,12,0.65);
@@ -906,7 +906,7 @@
 .lf-ing-products-loading {
   text-align: center;
   padding: 24px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   color: var(--ing-muted);
 }
@@ -943,7 +943,7 @@
 }
 
 .lf-ing-prod-title {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -958,14 +958,14 @@
 }
 
 .lf-ing-prod-price {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   color: var(--ing-muted);
   font-weight: 600;
 }
 
 .lf-ing-no-products {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.875rem;
   color: var(--ing-muted);
   padding: 16px 0;
@@ -1053,7 +1053,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body--family), sans-serif;
   font-size: 0.4375rem;
   font-weight: 700;
   letter-spacing: 0.12em;

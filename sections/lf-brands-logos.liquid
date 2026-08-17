@@ -6,7 +6,7 @@
   .lf-bl-section { padding: 72px 0; background: {{ section.settings.bg_color }}; border-top: 1px solid rgba(0,0,0,.06); }
   .lf-bl-header { text-align: center; margin-bottom: 48px; }
   .lf-bl-eyebrow {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-size: 0.5rem;
     font-weight: 700;
     letter-spacing: 0.2em;
@@ -16,7 +16,7 @@
     margin-bottom: 10px;
   }
   .lf-bl-heading {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-heading--family), serif;
     font-size: clamp(1.75rem, 3vw, 2.75rem);
     font-weight: 400;
     color: #111;
@@ -27,7 +27,7 @@
   .lf-bl-heading em { font-style: italic; }
   .lf-bl-banner{display:block;width:100%;max-width:680px;height:auto;margin:0 auto 6px;}.lf-bl-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
   .lf-bl-body {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body--family), sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     color: rgba(0,0,0,0.45);
@@ -109,7 +109,7 @@
               </div>
             {%- else -%}
               <div class="lf-bl-item" {{ block.shopify_attributes }}>
-                <span style="font-family:'Lato',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.22);">{{ block.settings.name }}</span>
+                <span style="font-family:var(--font-body--family), sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.22);">{{ block.settings.name }}</span>
               </div>
             {%- endif -%}
           {%- endfor -%}
