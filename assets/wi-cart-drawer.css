@@ -8,8 +8,8 @@ wi-cartdrawer {
   --wi-sale: #c44444;
   --wi-font: "Lato", sans-serif;
   --wi-heading: "Playfair Display", Georgia, serif;
-  --wi-drawer-w: min(600px, 100vw);
-  --wi-upsell-w: 250px;
+  --wi-drawer-w: min(700px, 100vw);
+  --wi-upsell-w: 300px;
   --wi-cart-w: calc(var(--wi-drawer-w) - var(--wi-upsell-w));
   width: 100%;
   height: 100dvh;
