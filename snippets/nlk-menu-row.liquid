@@ -39,7 +39,8 @@
   endif
 
   if nlk_img == blank
-    assign nlk_by_title = collections[link.title | handleize]
+    assign nlk_title_handle = link.title | handleize
+    assign nlk_by_title = collections[nlk_title_handle]
     if nlk_by_title != blank and nlk_by_title.image != blank
       assign nlk_img = nlk_by_title.image
     endif
