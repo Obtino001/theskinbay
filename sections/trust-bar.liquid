@@ -1,15 +1,18 @@
 {%- style -%}
+  #shopify-section-{{ section.id }},
+  #header-group #shopify-section-{{ section.id }},
   #header-group .trust-bar-section {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: 0;
     padding: 0;
     background: {{ section.settings.bg_color }};
   }
 
   .iwao-trust-bar-{{ section.id }} {
     width: 100%;
+    max-width: none;
     min-height: 38px;
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
@@ -245,6 +248,7 @@
 
   .trust-bar-section {
     width: 100%;
+    max-width: none;
     margin: 0;
     padding: 0;
     display: block;

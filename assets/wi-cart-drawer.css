@@ -8,7 +8,7 @@ wi-cartdrawer {
   --wi-sale: #c44444;
   --wi-font: "Lato", sans-serif;
   --wi-heading: "Playfair Display", Georgia, serif;
-  --wi-drawer-w: min(960px, 100vw);
+  --wi-drawer-w: min(600px, 100vw);
   --wi-upsell-w: 250px;
   --wi-cart-w: calc(var(--wi-drawer-w) - var(--wi-upsell-w));
   width: 100%;
@@ -796,9 +796,9 @@ wi-cartdrawer.wi-cart-updating .WI_cartDrawerin_cart_items {
 /* Mobile: single column, hide upsell */
 @media (max-width: 860px) {
   wi-cartdrawer {
-    --wi-drawer-w: 100vw;
+    --wi-drawer-w: min(600px, 100vw);
     --wi-upsell-w: 0px;
-    --wi-cart-w: 100vw;
+    --wi-cart-w: min(600px, 100vw);
   }
 
   .WI_cartDrawerin_upsell {
