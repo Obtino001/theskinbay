@@ -263,12 +263,30 @@ wi-cartdrawer {
   color: #2e7d52;
 }
 
+.WI_cartDrawer_shipping_rail {
+  --wi-milestone-size: 30px;
+  --wi-rail-gutter: calc(var(--wi-milestone-size) / 2);
+}
+
+.WI_cartDrawer_shipping_icons,
+.WI_cartDrawer_shipping_captions {
+  position: relative;
+  margin-left: var(--wi-rail-gutter);
+  margin-right: var(--wi-rail-gutter);
+}
+
+.WI_cartDrawer_shipping_icons {
+  height: var(--wi-milestone-size);
+  margin-bottom: 8px;
+}
+
 .WI_cartDrawer_shipping_track {
   position: relative;
   height: 4px;
   background: rgba(20, 20, 20, 0.1);
   border-radius: 4px;
-  margin-bottom: 36px;
+  margin-left: var(--wi-rail-gutter);
+  margin-right: var(--wi-rail-gutter);
 }
 
 .WI_cartDrawer_shipping_fill {
@@ -282,49 +300,73 @@ wi-cartdrawer {
   background: #2e7d52;
 }
 
-.WI_cartDrawer_shipping_milestones {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 0;
+.WI_cartDrawer_shipping_captions {
+  min-height: 30px;
+  margin-top: 10px;
 }
 
 .WI_ship_milestone {
   position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
   top: 0;
+  left: calc((100% - var(--wi-milestone-size)) * var(--wi-pos) / 100 + var(--wi-milestone-size) / 2);
+  transform: translateX(-50%);
 }
 
-.WI_ship_milestone svg {
-  width: 18px;
-  height: 18px;
-  padding: 6px;
-  box-sizing: content-box;
+.WI_ship_milestone--ship {
+  left: calc((100% - var(--wi-milestone-size)) * 0.72 + var(--wi-milestone-size) / 2);
+}
+
+.WI_ship_milestone--gift {
+  left: calc(100% - var(--wi-milestone-size) / 2);
+}
+
+.WI_ship_milestone_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--wi-milestone-size);
+  height: var(--wi-milestone-size);
   background: var(--wi-bg);
   border: 1px solid var(--wi-line);
   border-radius: 50%;
   color: var(--wi-muted);
 }
 
-.WI_ship_milestone em {
-  font-style: normal;
-  font-size: 11px;
-  color: var(--wi-muted);
-  white-space: nowrap;
-  margin-top: 28px;
+.WI_ship_milestone_icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
-.WI_ship_milestone.is-reached svg {
+.WI_ship_caption {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 11px;
+  line-height: 1.25;
+  color: var(--wi-muted);
+  text-align: center;
+  max-width: 88px;
+  white-space: normal;
+}
+
+.WI_ship_caption--ship {
+  left: calc((100% - var(--wi-milestone-size)) * 0.72 + var(--wi-milestone-size) / 2);
+}
+
+.WI_ship_caption--gift {
+  left: calc(100% - var(--wi-milestone-size) / 2);
+  max-width: 72px;
+}
+
+.WI_ship_milestone.is-reached .WI_ship_milestone_icon,
+.WI_ship_caption.is-reached {
   border-color: var(--wi-fg);
   color: var(--wi-fg);
 }
 
-.WI_ship_milestone.is-reached em {
+.WI_ship_milestone.is-reached .WI_ship_milestone_icon {
+  border-color: var(--wi-fg);
   color: var(--wi-fg);
 }
 
