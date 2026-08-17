@@ -37,14 +37,14 @@
   }
 
   body {
-    padding-top: 228px;
+    padding-top: 192px;
     margin: 0;
     font-family: 'Lato', var(--font-stack), sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     font-weight: var(--font-body--weight);
   }
-  @media (max-width: 1023px) { body { padding-top: 210px; } }
+  @media (max-width: 1023px) { body { padding-top: 174px; } }
 
   #header-group {
     position: fixed;
@@ -53,6 +53,7 @@
     width: 100%;
     z-index: 1000;
     background: #fff;
+    overflow-x: clip;
   }
   #header-group .trust-bar-section {
     margin: 0;
@@ -90,8 +91,17 @@
   }
 
   /* --- MAIN HEADER --- */
-  .lf-main-header { padding: 15px 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-  @media (max-width: 1023px) { .lf-main-header { grid-template-columns: 1fr 2fr 1fr; gap: 10px; padding: 10px 0; } }
+  .lf-main-header {
+    padding: 15px 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lf-left-col { display: flex; align-items: center; gap: 10px; width: auto; flex-shrink: 0; }
+  .lf-desktop-search { width: 260px; max-width: 260px; flex-shrink: 0; }
+  .lf-desktop-search .ds-header-search { width: 260px; max-width: 260px; }
 
   .lf-logo-wrap { display: flex; justify-content: center; align-items: center; }
   .lf-logo-wrap a { display: flex; justify-content: center; align-items: center; }
@@ -105,8 +115,7 @@
   .basket-badge { position: absolute; top: -8px; right: -8px; background: #000; color: #fff; border-radius: 50%; width: 18px; height: 18px; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 500; }
 
   /* Search trigger */
-  .lf-left-col { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .lf-left-col .ds-header-search { width: 100%; max-width: 300px; }
+  .lf-left-col .ds-header-search { width: 260px; max-width: 260px; }
   .lf-menu-btn {
     flex-shrink: 0;
     width: 40px;
@@ -156,8 +165,8 @@
     display: flex !important;
     align-items: center;
     gap: 10px;
-    width: 100%;
-    max-width: 300px;
+    width: 260px;
+    max-width: 260px;
     height: 40px;
     padding: 0 14px !important;
     margin: 0;
@@ -940,6 +949,7 @@
 </style>
 
 <div class="lf-header-root">
+  {%- if section.settings.show_promo_bar and section.settings.promo_text != blank -%}
   {%- assign _promo_link = section.settings.promo_link -%}
   {%- if _promo_link == blank -%}{%- assign _promo_link = '/pages/book-1-2-consultation' -%}{%- endif -%}
   <div class="lf-promo-bar">
@@ -964,6 +974,7 @@
       </div>
     {%- endif -%}
   </div>
+  {%- endif -%}
 
   <div class="container-wide">
     <div class="lf-main-header">
@@ -1791,6 +1802,8 @@
   { "type": "image_picker", "id": "logo_image", "label": "Logo Image" },
   { "type": "range", "id": "logo_width", "min": 100, "max": 400, "step": 10, "unit": "px", "label": "Logo Width Desktop", "default": 220 },
   { "type": "range", "id": "logo_width_mobile", "min": 50, "max": 250, "step": 5, "unit": "px", "label": "Logo Width Mobile", "default": 130 },
+  { "type": "header", "content": "Announcement bar" },
+  { "type": "checkbox", "id": "show_promo_bar", "label": "Show announcement bar", "default": false },
   { "type": "color", "id": "promo_bg", "label": "Promo BG", "default": "#000" },
   { "type": "color", "id": "promo_text_color", "label": "Promo Text", "default": "#fff" },
   { "type": "text", "id": "promo_text", "label": "Promo Text", "default": "FREE SPF50 WITH ANY SKINCEUTICALS SERUM OR MOISTURISER" },

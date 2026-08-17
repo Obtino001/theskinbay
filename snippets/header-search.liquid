@@ -10,16 +10,27 @@
 {% endcomment %}
 
 {%- liquid
-  assign search_placeholder = settings.search_placeholder | default: section.settings.search_placeholder | default: 'Search among 2,000+ Korean products...'
-  assign popular_searches_heading = settings.popular_searches_heading | default: section.settings.popular_searches_heading | default: 'Popular Searches'
-  assign popular_brands_heading = settings.popular_brands_heading | default: section.settings.popular_brands_heading | default: 'Popular Brands'
-  assign popular_blogs_heading = settings.popular_blogs_heading | default: section.settings.popular_blogs_heading | default: 'Popular Blogs'
-  assign trending_heading = settings.trending_heading | default: section.settings.trending_heading | default: 'Trending'
+  assign search_placeholder = section.settings.search_placeholder | default: 'Search products'
+  assign popular_searches_heading = section.settings.popular_searches_heading | default: 'Popular Searches'
+  assign popular_brands_heading = section.settings.popular_brands_heading | default: 'Popular Brands'
+  assign popular_blogs_heading = section.settings.popular_blogs_heading | default: 'Popular Blogs'
+  assign trending_heading = section.settings.trending_heading | default: 'Trending'
 
-  assign popular_searches_menu = settings.popular_searches_menu | default: section.settings.popular_searches_menu
-  assign popular_brands_menu = settings.popular_brands_menu | default: section.settings.popular_brands_menu
-  assign popular_blogs_menu = settings.popular_blogs_menu | default: section.settings.popular_blogs_menu
-  assign trending_collections = settings.trending_collections | default: section.settings.trending_collections
+  assign popular_searches_menu = blank
+  assign popular_brands_menu = blank
+  assign popular_blogs_menu = blank
+
+  if section.settings.popular_searches_menu != blank
+    assign popular_searches_menu = linklists[section.settings.popular_searches_menu]
+  endif
+  if section.settings.popular_brands_menu != blank
+    assign popular_brands_menu = linklists[section.settings.popular_brands_menu]
+  endif
+  if section.settings.popular_blogs_menu != blank
+    assign popular_blogs_menu = linklists[section.settings.popular_blogs_menu]
+  endif
+
+  assign trending_collections = section.settings.trending_collections
 -%}
 
 <details-modal class="header__search ds-header-search">
@@ -32,7 +43,7 @@
       <span class="lf-search-trigger__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       </span>
-      <span class="lf-search-trigger__placeholder">Search products</span>
+      <span class="lf-search-trigger__placeholder">{{ search_placeholder }}</span>
     </summary>
 
     <div
@@ -119,41 +130,7 @@
                   </ul>
                 </div>
               {%- else -%}
-                {%- comment -%} Default Popular Searches Fallback {%- endcomment -%}
-                <div class="ds-search-group">
-                  <div class="ds-search-group__heading">
-                    <h4>{{ popular_searches_heading }}</h4>
-                    <span class="ds-search-group__line"></span>
-                  </div>
-                  <ul class="ds-search-group__list list-unstyled">
-                    <li>
-                      <a href="{{ routes.search_url }}?q=Anua+Zero-cast" class="ds-search-link ds-search-link--search">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-search.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label">Anua Zero-cast</span>
-                        </span>
-                        <span class="ds-search-link__arrow" aria-hidden="true">
-                          {{- 'icon-ds-arrow.svg' | inline_asset_content -}}
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ routes.search_url }}?q=Toner" class="ds-search-link ds-search-link--search">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-search.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label">Toner</span>
-                        </span>
-                        <span class="ds-search-link__arrow" aria-hidden="true">
-                          {{- 'icon-ds-arrow.svg' | inline_asset_content -}}
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                {%- comment -%} No menu selected in theme settings {%- endcomment -%}
               {%- endif -%}
 
               {%- comment -%} Popular Brands {%- endcomment -%}
@@ -179,35 +156,7 @@
                   </ul>
                 </div>
               {%- else -%}
-                {%- comment -%} Default Popular Brands Fallback {%- endcomment -%}
-                <div class="ds-search-group">
-                  <div class="ds-search-group__heading">
-                    <h4>{{ popular_brands_heading }}</h4>
-                    <span class="ds-search-group__line"></span>
-                  </div>
-                  <ul class="ds-search-group__list list-unstyled">
-                    <li>
-                      <a href="{{ routes.collections_url }}/anua" class="ds-search-link">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-collection.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label">Anua</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ routes.collections_url }}/medicube" class="ds-search-link">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-collection.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label">Medicube</span>
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                {%- comment -%} No menu selected in theme settings {%- endcomment -%}
               {%- endif -%}
 
               {%- comment -%} Popular Blogs {%- endcomment -%}
@@ -234,40 +183,6 @@
                     {%- endfor -%}
                   </ul>
                 </div>
-              {%- else -%}
-                {%- comment -%} Default Popular Blogs Fallback {%- endcomment -%}
-                <div class="ds-search-group">
-                  <div class="ds-search-group__heading">
-                    <h4>{{ popular_blogs_heading }}</h4>
-                    <span class="ds-search-group__line"></span>
-                  </div>
-                  <ul class="ds-search-group__list list-unstyled">
-                    <li>
-                      <a href="#" class="ds-search-link">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-chat.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label ds-search-link__label--truncate">
-                            The ultimate guide to pigmentation
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="ds-search-link">
-                        <span class="ds-search-link__left">
-                          <span class="ds-search-link__icon" aria-hidden="true">
-                            {{- 'icon-ds-chat.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="ds-search-link__label ds-search-link__label--truncate">
-                            Top 5 ingredients for redness
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               {%- endif -%}
             </div>
 
@@ -280,14 +195,20 @@
 
               <div class="ds-trending-slider" data-ds-trending-slider>
                 <div class="ds-trending-slider__track" data-ds-trending-track>
-                  {%- if trending_collections != blank and trending_collections.count > 0 -%}
+                  {%- if trending_collections != blank and trending_collections.size > 0 -%}
                     {%- for col in trending_collections -%}
+                      {%- liquid
+                        assign trending_img = col.featured_image
+                        if trending_img == blank
+                          assign trending_img = col.image
+                        endif
+                      -%}
                       <div class="ds-trending-slide">
                         <a class="ds-trending-card" href="{{ col.url }}">
                           <div class="ds-trending-card__thumb">
-                            {%- if col.featured_image != blank -%}
+                            {%- if trending_img != blank -%}
                               {{
-                                col.featured_image
+                                trending_img
                                 | image_url: width: 658
                                 | image_tag:
                                   loading: 'lazy',
