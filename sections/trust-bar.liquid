@@ -32,8 +32,12 @@
     max-width: 1480px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     white-space: nowrap;
+  }
+
+  .iwao-trust-bar-{{ section.id }} .iwao-trust-bar__desktop:has(.iwao-trust-bar__phone) {
+    justify-content: space-between;
   }
 
   .iwao-trust-bar-{{ section.id }} .iwao-trust-bar__usp-wrap {
@@ -226,6 +230,13 @@
   @media (prefers-reduced-motion: reduce) {
     .iwao-trust-bar-{{ section.id }} .iwao-trust-bar__track { animation: none; }
   }
+
+  .trust-bar-section {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
 {%- endstyle -%}
 
 <div class="iwao-trust-bar-{{ section.id }}" data-iwao-trust-bar="">
@@ -294,7 +305,10 @@
 {
   "name": "Trust Announcement Bar",
   "tag": "section",
-  "class": "section",
+  "class": "trust-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
   "settings": [
     {
       "type": "header",
@@ -326,7 +340,7 @@
       "type": "text",
       "id": "phone_text",
       "label": "Phone Number Text",
-      "default": "+45 70 70 71 30"
+      "default": ""
     },
     {
       "type": "url",

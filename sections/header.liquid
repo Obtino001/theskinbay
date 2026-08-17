@@ -37,14 +37,28 @@
   }
 
   body {
-    padding-top: 190px;
+    padding-top: 228px;
     margin: 0;
     font-family: 'Lato', var(--font-stack), sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     font-weight: var(--font-body--weight);
   }
-  @media (max-width: 1023px) { body { padding-top: 130px; } }
+  @media (max-width: 1023px) { body { padding-top: 168px; } }
+
+  #header-group {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #fff;
+  }
+  #shopify-section-trust-bar {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
 
   /* Global Playfair Display headings */
   h1, h2, h3, h4, h5, h6 {
@@ -57,7 +71,7 @@
     font-family: 'Lato', var(--font-stack), sans-serif;
   }
 
-  .lf-header-root { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: #fff; border-bottom: 1px solid #e5e5e5; }
+  .lf-header-root { position: relative; width: 100%; background: #fff; border-bottom: 1px solid #e5e5e5; }
   .container-wide { max-width: 1600px; margin: 0 auto; padding: 0 20px; position: relative; }
 
   /* --- ANNOUNCEMENT --- */
@@ -90,8 +104,60 @@
   .basket-badge { position: absolute; top: -8px; right: -8px; background: #000; color: #fff; border-radius: 50%; width: 18px; height: 18px; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 500; }
 
   /* Search trigger */
-  .search-fake-trigger { border-bottom: 1px solid rgba(0,0,0,0.15); padding: 8px 0; width: 100%; max-width: 280px; display: flex; justify-content: space-between; align-items: center; cursor: text; color: rgba(0,0,0,0.4); font-size: 11px; font-weight: 300; letter-spacing: 0.05em; transition: border-color 0.15s ease, color 0.15s ease; }
-  .search-fake-trigger:hover { border-bottom-color: #000; color: #000; }
+  .lf-left-col { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .lf-left-col .ds-header-search { width: 100%; max-width: 300px; }
+
+  .lf-search-trigger {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    height: 40px;
+    padding: 0 14px !important;
+    margin: 0;
+    background: #f7f5f2;
+    border: 1px solid rgba(12,12,12,0.08);
+    border-radius: 999px;
+    cursor: text;
+    color: #0c0c0c;
+    list-style: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .lf-search-trigger::-webkit-details-marker { display: none; }
+  .lf-search-trigger::marker { content: none; }
+  .lf-search-trigger:hover,
+  .lf-search-trigger:focus {
+    border-color: rgba(184,146,90,0.55);
+    box-shadow: 0 0 0 3px rgba(184,146,90,0.12);
+    background: #fbf9f4;
+    opacity: 1;
+  }
+  details[open] > .lf-search-trigger {
+    border-color: rgba(184,146,90,0.7);
+    box-shadow: 0 0 0 3px rgba(184,146,90,0.14);
+  }
+  .lf-search-trigger__icon {
+    display: flex;
+    flex-shrink: 0;
+    color: #8a7a62;
+  }
+  .lf-search-trigger__icon svg { width: 16px; height: 16px; display: block; }
+  .lf-search-trigger__placeholder {
+    font-family: 'Lato', var(--font-stack), sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: rgba(12,12,12,0.42);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 1023px) {
+    .lf-search-trigger { height: 36px; padding: 0 12px !important; }
+    .lf-search-trigger__placeholder { font-size: 11.5px; }
+  }
 
   /* --- DESKTOP NAV --- */
   .lf-nav-bar { position: relative; }
@@ -463,9 +529,8 @@
   .overlay-bg { position: fixed; inset: 0; z-index: 1500; background: rgba(0,0,0,0); visibility: hidden; transition: background 0.4s ease, visibility 0s linear 0.4s; }
   .overlay-bg.active { background: rgba(0,0,0,0.52); visibility: visible; transition: background 0.4s ease; cursor: pointer; }
 
-  /* ── Cart Drawer Shell ── */
-  #lux-cart-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 100%; max-width: 440px; background: #fff; z-index: 2500; display: flex; flex-direction: column; transform: translateX(105%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; box-shadow: -6px 0 40px rgba(0,0,0,0.1); }
-  #lux-cart-drawer.is-open { transform: translateX(0); }
+  /* ── Cart Drawer Shell (replaced by wi-cartdrawer; kept as fallback) ── */
+  #lux-cart-drawer { display: none !important; }
 
   /* Header */
   #lf-cart-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 24px 18px; border-bottom: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
@@ -798,53 +863,6 @@
     text-transform: uppercase !important;
   }
 
-/* ===== SB-LUXE-HEADER-SEARCH ===== */
-.lf-search{ max-width:440px !important; }
-.lf-search-form{
-  position:relative !important; gap:11px !important;
-  border:1.6px solid transparent !important; border-radius:999px !important;
-  padding:8px 14px 8px 7px !important;
-  background:linear-gradient(#fbf9f4,#fbf9f4) padding-box,
-    linear-gradient(120deg,#0c0c0c 0%,#b8925a 25%,#0c0c0c 50%,#0c0c0c 100%) border-box !important;
-  background-size:100% 100%, 260% 100% !important;
-  box-shadow:0 5px 18px rgba(12,12,12,.06), inset 0 1px 0 rgba(255,255,255,.6) !important;
-  transition:box-shadow .35s ease, transform .35s ease !important;
-  animation:sb-shimmer-h 7s linear infinite;
-}
-@keyframes sb-shimmer-h{ from{background-position:0 0,0 0} to{background-position:0 0,260% 0} }
-.lf-search-form:focus-within{
-  box-shadow:0 0 0 4px rgba(184,146,90,.16), 0 10px 28px rgba(12,12,12,.12) !important;
-  transform:translateY(-1px); border-color:transparent !important; border-bottom-color:transparent !important;
-}
-.lf-search-go{
-  order:-1 !important; flex:0 0 auto !important; width:34px !important; height:34px !important;
-  border-radius:50% !important; display:flex !important; align-items:center !important; justify-content:center !important;
-  padding:0 !important; margin:0 !important; color:#fff !important;
-  background:radial-gradient(120% 120% at 30% 25%,#2a2a2a,#0c0c0c) !important;
-  box-shadow:0 3px 12px rgba(12,12,12,.28), 0 0 0 1px rgba(184,146,90,.35) !important;
-  transition:transform .35s ease, box-shadow .35s ease !important;
-}
-.lf-search-form:focus-within .lf-search-go{ transform:scale(1.06); box-shadow:0 5px 16px rgba(12,12,12,.32), 0 0 0 2px rgba(184,146,90,.55) !important; }
-.lf-search-go svg{ width:15px !important; height:15px !important; color:#fff !important; stroke:#fff !important; }
-.lf-search-input{ padding:6px 0 !important; font-size:12.5px !important; letter-spacing:.04em !important; }
-.lf-search-input::placeholder{ letter-spacing:.12em !important; }
-
-
-@media (max-width:1100px){ .lf-search{ max-width:360px !important; }  }
-
-/* keep logo dead-centre regardless of search width */
-@media (min-width:1024px){ .lf-main-header{ grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) !important; } }
-.lf-left-col{ min-width:0 !important; }
-.lf-search{ min-width:0 !important; }
-.lf-search-input{ min-width:0 !important; }
-
-
-/* mobile: remove redundant search icon, keep search bar always visible */
-@media (max-width:1023px){
-  .lf-tool-flex [aria-label="Open search"]{ display:none !important; }
-  #lf-msearch.lf-msearch{ display:block !important; }
-}
-
 /* ===== /SB-LUXE-HEADER-SEARCH ===== */
 
 
@@ -906,9 +924,7 @@
     <div class="lf-main-header">
       <div class="lf-left-col">
         <button class="mobile-only icon-btn" onclick="toggleMenu()" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
-        <div class="desktop-only" style="width:100%;">
-          {% render 'header-search', input_id: 'Search-In-Modal-Desktop', section: section %}
-        </div>
+        {% render 'header-search', input_id: 'Search-In-Modal-Desktop', section: section %}
       </div>
 
       <div class="lf-logo-wrap">
@@ -918,7 +934,6 @@
       </div>
 
       <div class="lf-tool-flex">
-        {% render 'header-search', input_id: 'Search-In-Modal-Mobile', section: section %}
         <a href="{{ login_url }}" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
         <a href="/pages/wishlist" class="icon-btn lf-wish-link" aria-label="Wishlist" style="position:relative;">
           <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.1" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -951,7 +966,7 @@
           window.addEventListener('storage',function(e){ if(e.key===KEY) mark(); });
         })();
         </script>
-        <button class="icon-btn" onclick="openCart()">
+        <button class="icon-btn" id="cart-icon-bubble" onclick="openCart()" aria-label="Open shopping bag">
           <div style="position:relative;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.1"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
             <span class="basket-badge global-cart-count">{{ cart.item_count }}</span>
@@ -1295,11 +1310,11 @@
 
   // ── Dynamic body clearance ──────────────────────────────────────
   function updateBodyPadding() {
-    var h = document.querySelector('.lf-header-root');
+    var h = document.getElementById('header-group') || document.querySelector('.lf-header-root');
     if (h) document.body.style.paddingTop = h.offsetHeight + 'px';
   }
   document.addEventListener('DOMContentLoaded', function() {
-    var _hdrEl = document.querySelector('.lf-header-root');
+    var _hdrEl = document.getElementById('header-group') || document.querySelector('.lf-header-root');
     if (_hdrEl) {
       if (window.ResizeObserver) {
         new ResizeObserver(updateBodyPadding).observe(_hdrEl);
@@ -1328,10 +1343,15 @@
 
   // ── Close cart + mobile nav ─────────────────────────────────────
   function closeDrawers() {
-    document.getElementById('mobile-nav').classList.remove('active');
-    document.getElementById('lux-cart-drawer').classList.remove('is-open');
-    document.getElementById('header-overlay').classList.remove('active');
+    var mob = document.getElementById('mobile-nav');
+    if (mob) mob.classList.remove('active');
+    var lux = document.getElementById('lux-cart-drawer');
+    if (lux) lux.classList.remove('is-open');
+    var overlay = document.getElementById('header-overlay');
+    if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
+    var drawer = document.querySelector('wi-cartdrawer');
+    if (drawer && typeof drawer.closeCartdrawer === 'function') drawer.closeCartdrawer();
   }
 
   function toggleMenu() {
@@ -1341,11 +1361,21 @@
   }
 
   function openCart() {
-    updateCartDrawer();
-    document.getElementById('lux-cart-drawer').classList.add('is-open');
-    document.getElementById('header-overlay').classList.add('active');
+    var drawer = document.querySelector('wi-cartdrawer');
+    if (drawer && typeof drawer.openCart === 'function') {
+      drawer.openCart({ refresh: true, mode: 'refresh' });
+      return;
+    }
+    if (typeof updateCartDrawer === 'function') updateCartDrawer();
+    var lux = document.getElementById('lux-cart-drawer');
+    if (lux) lux.classList.add('is-open');
+    var overlay = document.getElementById('header-overlay');
+    if (overlay) overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
+
+  window.openCart = openCart;
+  window.closeDrawers = closeDrawers;
 
   // ── Mobile submenu ──────────────────────────────────────────────
   function toggleSubMobile(e, btn) {
@@ -1656,7 +1686,7 @@
   // Legacy alias kept for any external references
   function removeItem(key) { lfRemove(key); }
 
-  document.addEventListener('cart:refresh', openCart);
+  // cart:refresh is handled by wi-cartdrawer (opens drawer + refreshes cart)
 
   // Brand mega-menu: hover-reveal range flyout
   (function initBrandFlyout(){

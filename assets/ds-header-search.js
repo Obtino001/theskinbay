@@ -112,16 +112,10 @@ function placePanelUnderHeader(panel) {
   return top;
 }
 
-function getSearchPanelMaxHeight(panelTop) {
-  const top = typeof panelTop === 'number' ? panelTop : 0;
-  return Math.max(180, window.innerHeight - top);
-}
-
 function expandSearchPanel(panel) {
   if (!panel) return;
 
-  const top = placePanelUnderHeader(panel);
-  const maxHeight = getSearchPanelMaxHeight(top);
+  placePanelUnderHeader(panel);
 
   panel.classList.add('is-open', 'is-animating');
   panel.style.visibility = 'visible';
@@ -130,7 +124,7 @@ function expandSearchPanel(panel) {
   panel.style.maxHeight = 'none';
   panel.style.height = '0px';
 
-  const target = Math.min(panel.scrollHeight, maxHeight);
+  const target = panel.scrollHeight;
 
   // eslint-disable-next-line no-unused-expressions
   panel.offsetHeight;
@@ -143,8 +137,8 @@ function expandSearchPanel(panel) {
     panel.removeEventListener('transitionend', onEnd);
     panel.style.transition = '';
     panel.style.height = 'auto';
-    panel.style.maxHeight = `${maxHeight}px`;
-    panel.style.overflow = 'hidden';
+    panel.style.maxHeight = 'none';
+    panel.style.overflow = 'visible';
     panel.classList.remove('is-animating');
   };
 
@@ -153,9 +147,17 @@ function expandSearchPanel(panel) {
     if (!panel.classList.contains('is-animating')) return;
     panel.style.transition = '';
     panel.style.height = 'auto';
-    panel.style.maxHeight = `${maxHeight}px`;
+    panel.style.maxHeight = 'none';
+    panel.style.overflow = 'visible';
     panel.classList.remove('is-animating');
   }, DS_SEARCH_DURATION + 60);
+}
+
+function fitOpenSearchPanel(panel) {
+  if (!panel || !panel.classList.contains('is-open') || panel.classList.contains('is-animating')) return;
+  panel.style.height = 'auto';
+  panel.style.maxHeight = 'none';
+  panel.style.overflow = 'visible';
 }
 
 function collapseSearchPanel(panel) {
@@ -344,6 +346,15 @@ function bindDsSearchCollapse(modal) {
     const input = details.querySelector('.ds-search-form__input');
     if (input) setTimeout(() => input.focus(), 40);
   });
+
+  const results = modal.querySelector('[data-predictive-search]');
+  if (results && window.MutationObserver && !results.dataset.dsFitBound) {
+    results.dataset.dsFitBound = 'true';
+    new MutationObserver(() => {
+      if (!details.open) return;
+      requestAnimationFrame(() => fitOpenSearchPanel(panel));
+    }).observe(results, { childList: true, subtree: true });
+  }
 }
 
 function initDsSearchEnhancements() {
@@ -358,10 +369,8 @@ window.addEventListener(
   () => {
     if (!isDsSearchOpen()) return;
     document.querySelectorAll('.ds-search-panel.is-open').forEach((panel) => {
-      const top = placePanelUnderHeader(panel);
-      if (!panel.classList.contains('is-animating')) {
-        panel.style.maxHeight = `${getSearchPanelMaxHeight(top)}px`;
-      }
+      placePanelUnderHeader(panel);
+      fitOpenSearchPanel(panel);
     });
   },
   { passive: true }

@@ -1,0 +1,347 @@
+{%- liquid
+  assign logo_width = section.settings.logo_width
+  assign item_gap = section.settings.item_gap
+  assign duration = section.settings.scroll_duration
+  assign brand_blocks = section.blocks | where: 'type', 'brand'
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --tsb-marquee-bg: {{ section.settings.bg_color }};
+    --tsb-marquee-pad: {{ section.settings.padding_y }}px;
+    --tsb-marquee-gap: {{ item_gap }}px;
+    --tsb-marquee-duration: {{ duration }}s;
+    --tsb-marquee-logo: {{ logo_width }}px;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-brands-marquee {
+    background: var(--tsb-marquee-bg);
+    padding: var(--tsb-marquee-pad) 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+    animation: tsbBrandsMarquee var(--tsb-marquee-duration) linear infinite;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: var(--tsb-marquee-gap);
+    padding-right: var(--tsb-marquee-gap);
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tsb-marquee-logo);
+    min-height: calc(var(--tsb-marquee-logo) * 0.45);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item a:hover {
+    opacity: 0.72;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(var(--tsb-marquee-logo) * 0.55);
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.72;
+    transition: filter 0.25s ease, opacity 0.25s ease;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item a:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item__text {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(12, 12, 12, 0.35);
+    white-space: nowrap;
+  }
+
+  @keyframes tsbBrandsMarquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .tsb-marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+      gap: var(--tsb-marquee-gap);
+    }
+    #shopify-section-{{ section.id }} .tsb-marquee-group[aria-hidden="true"] {
+      display: none;
+    }
+  }
+
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      --tsb-marquee-logo: {{ section.settings.logo_width_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="tsb-brands-marquee" data-section-type="scrolling-banner">
+  <div class="tsb-marquee-viewport">
+    <div class="tsb-marquee-track" role="marquee" aria-label="{{ section.settings.aria_label | escape }}">
+      {%- for copy in (1..2) -%}
+        <div class="tsb-marquee-group"{% if copy > 1 %} aria-hidden="true"{% endif %}>
+          {%- if brand_blocks.size > 0 -%}
+            {%- for block in brand_blocks -%}
+              {%- liquid
+                assign item_url = block.settings.link
+                assign item_image = block.settings.image
+                assign item_label = block.settings.name
+                assign col = block.settings.collection
+
+                if col != blank
+                  if item_url == blank
+                    assign item_url = col.url
+                  endif
+                  if item_image == blank and col.image != blank
+                    assign item_image = col.image
+                  endif
+                  if item_label == blank
+                    assign item_label = col.title
+                  endif
+                endif
+              -%}
+              {%- if item_url != blank or item_image != blank or item_label != blank -%}
+                <span class="tsb-marquee-item" {{ block.shopify_attributes }}>
+                  {%- if item_url != blank -%}
+                    <a href="{{ item_url }}"{% if copy > 1 %} tabindex="-1"{% endif %}{% if item_label != blank %} aria-label="{{ item_label | escape }}"{% endif %}>
+                      {%- if item_image != blank -%}
+                        {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
+                      {%- else -%}
+                        <span class="tsb-marquee-item__text">{{ item_label }}</span>
+                      {%- endif -%}
+                    </a>
+                  {%- else -%}
+                    {%- if item_image != blank -%}
+                      {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
+                    {%- else -%}
+                      <span class="tsb-marquee-item__text">{{ item_label }}</span>
+                    {%- endif -%}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign hp_menu = linklists[section.settings.menu] | default: linklists['main-menu'] -%}
+            {%- assign bc_priority = section.settings.auto_brand_handles | split: '|' -%}
+            {%- assign hp_brands_list = nil -%}
+            {%- for nl in hp_menu.links -%}
+              {%- assign nl_h = nl.title | handleize -%}
+              {%- if nl_h == 'brands' -%}
+                {%- assign hp_brands_list = nl.links -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if hp_brands_list != blank -%}
+              {%- for bc_slug in bc_priority -%}
+                {%- for brand in hp_brands_list -%}
+                  {%- assign bh = brand.url | split: '/collections/' | last -%}
+                  {%- assign bth = brand.title | handleize -%}
+                  {%- if bh == bc_slug or bth == bc_slug -%}
+                    {%- assign bc_col = collections[bh] -%}
+                    <span class="tsb-marquee-item">
+                      <a href="{{ brand.url }}"{% if copy > 1 %} tabindex="-1"{% endif %} aria-label="{{ brand.title | escape }}">
+                        {%- if bc_col.image != blank -%}
+                          {{ bc_col.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: brand.title | escape }}
+                        {%- else -%}
+                          <span class="tsb-marquee-item__text">{{ brand.title }}</span>
+                        {%- endif -%}
+                      </a>
+                    </span>
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+              {%- for brand in hp_brands_list -%}
+                {%- assign bh = brand.url | split: '/collections/' | last -%}
+                {%- assign bth = brand.title | handleize -%}
+                {%- unless bc_priority contains bh or bc_priority contains bth -%}
+                  {%- assign bc_col = collections[bh] -%}
+                  <span class="tsb-marquee-item">
+                    <a href="{{ brand.url }}"{% if copy > 1 %} tabindex="-1"{% endif %} aria-label="{{ brand.title | escape }}">
+                      {%- if bc_col.image != blank -%}
+                        {{ bc_col.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: brand.title | escape }}
+                      {%- else -%}
+                        <span class="tsb-marquee-item__text">{{ brand.title }}</span>
+                      {%- endif -%}
+                    </a>
+                  </span>
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Brand logo marquee",
+  "tag": "section",
+  "class": "tsb-brands-marquee-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width (desktop)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "min": 50,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width (mobile)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between logos",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "scroll_duration",
+      "min": 8,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Scroll duration",
+      "default": 28
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessibility label",
+      "default": "Featured brands"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu for auto brands",
+      "default": "main-menu",
+      "info": "Used when no brand blocks are added. Reads links under the Brands menu item."
+    },
+    {
+      "type": "textarea",
+      "id": "auto_brand_handles",
+      "label": "Auto brand order (handles)",
+      "default": "skinceuticals|cliniccare|medik8|avene|vichy|la-roche-posay|jane-iredale|vita-liberata|skinade|voya|olaplex|cebelia",
+      "info": "Pipe-separated collection handles, used for auto-populate order."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Brand name",
+          "info": "Used for alt text and text fallback."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Optional. Uses collection URL/image when link or logo is empty."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "Brand logo marquee",
+      "blocks": [
+        { "type": "brand", "settings": { "name": "Skinceuticals", "collection": "skinceuticals" } },
+        { "type": "brand", "settings": { "name": "Cliniccare", "collection": "cliniccare" } },
+        { "type": "brand", "settings": { "name": "Medik8", "collection": "medik8" } },
+        { "type": "brand", "settings": { "name": "Avène", "collection": "avene" } },
+        { "type": "brand", "settings": { "name": "Vichy", "collection": "vichy" } },
+        { "type": "brand", "settings": { "name": "La Roche-Posay", "collection": "la-roche-posay" } },
+        { "type": "brand", "settings": { "name": "Jane Iredale", "collection": "jane-iredale" } },
+        { "type": "brand", "settings": { "name": "Vita Liberata", "collection": "vita-liberata" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

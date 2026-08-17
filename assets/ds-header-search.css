@@ -47,7 +47,7 @@
 
 .ds-header-search .ds-search-panel.is-open:not(.is-animating) {
   height: auto;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Keep header search icon stable (close only inside panel, like Derma Space) */
@@ -223,7 +223,7 @@
 
 .ds-header-search .ds-search-panel.is-open:not(.is-animating) {
   height: auto;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Keep header search icon stable (close only inside panel, like Derma Space) */
@@ -410,9 +410,8 @@
 /* Mobile: same stacked layout as Derma Space */
 @media screen and (max-width: 989px) {
   .ds-search-panel__inner {
-    max-height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    max-height: none;
+    overflow: visible;
   }
 
   .ds-search-discovery {
@@ -660,10 +659,10 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
-  max-height: min(60vh, 20.3125rem);
-  overflow-y: auto;
+  max-height: none !important;
+  overflow: visible !important;
   margin-top: 0.3125rem;
-  padding: 0 0 0.625rem !important;
+  padding: 0 0 1.75rem !important;
 }
 
 .ds-header-search predictive-search[open] .ds-search-results.predictive-search,
@@ -894,6 +893,7 @@
 
 .ds-predictive-product-info {
   margin-top: 0.5rem;
+  padding-bottom: 0.35rem;
 }
 
 .ds-predictive-product-title {
@@ -901,6 +901,10 @@
   font-weight: 500;
   display: block;
   margin-bottom: 0.25rem;
+  line-height: 1.35;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 .ds-predictive-product-price {

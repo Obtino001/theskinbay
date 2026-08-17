@@ -67,6 +67,120 @@
         "brand_strip": ""
       }
     },
+    "home_brands_slider": {
+      "type": "home-brands-slider",
+      "blocks": {
+        "brand_skinceuticals": {
+          "type": "brand",
+          "settings": {
+            "name": "Skinceuticals",
+            "collection": "skinceuticals"
+          }
+        },
+        "brand_cliniccare": {
+          "type": "brand",
+          "settings": {
+            "name": "Cliniccare",
+            "collection": "cliniccare"
+          }
+        },
+        "brand_medik8": {
+          "type": "brand",
+          "settings": {
+            "name": "Medik8",
+            "collection": "medik8"
+          }
+        },
+        "brand_avene": {
+          "type": "brand",
+          "settings": {
+            "name": "Avène",
+            "collection": "avene"
+          }
+        },
+        "brand_vichy": {
+          "type": "brand",
+          "settings": {
+            "name": "Vichy",
+            "collection": "vichy"
+          }
+        },
+        "brand_lrp": {
+          "type": "brand",
+          "settings": {
+            "name": "La Roche-Posay",
+            "collection": "la-roche-posay"
+          }
+        },
+        "brand_jane": {
+          "type": "brand",
+          "settings": {
+            "name": "Jane Iredale",
+            "collection": "jane-iredale"
+          }
+        },
+        "brand_vita": {
+          "type": "brand",
+          "settings": {
+            "name": "Vita Liberata",
+            "collection": "vita-liberata"
+          }
+        },
+        "brand_skinade": {
+          "type": "brand",
+          "settings": {
+            "name": "Skinade",
+            "collection": "skinade"
+          }
+        },
+        "brand_voya": {
+          "type": "brand",
+          "settings": {
+            "name": "Voya",
+            "collection": "voya"
+          }
+        },
+        "brand_olaplex": {
+          "type": "brand",
+          "settings": {
+            "name": "Olaplex",
+            "collection": "olaplex"
+          }
+        },
+        "brand_cebelia": {
+          "type": "brand",
+          "settings": {
+            "name": "Cebelia",
+            "collection": "cebelia"
+          }
+        }
+      },
+      "block_order": [
+        "brand_skinceuticals",
+        "brand_cliniccare",
+        "brand_medik8",
+        "brand_avene",
+        "brand_vichy",
+        "brand_lrp",
+        "brand_jane",
+        "brand_vita",
+        "brand_skinade",
+        "brand_voya",
+        "brand_olaplex",
+        "brand_cebelia"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "padding_y": 20,
+        "logo_width": 100,
+        "logo_width_mobile": 80,
+        "item_gap": 50,
+        "scroll_duration": 28,
+        "aria_label": "Featured brands",
+        "menu": "main-menu",
+        "auto_brand_handles": "skinceuticals|cliniccare|medik8|avene|vichy|la-roche-posay|jane-iredale|vita-liberata|skinade|voya|olaplex|cebelia"
+      }
+    },
     "home_collections": {
       "type": "home-collections",
       "blocks": {
@@ -333,18 +447,18 @@
     },
     "lf_usp": {
       "type": "lf-usp-strip",
-      "disabled": true,
+      "disabled": false,
       "settings": {
-        "bg_color": "#faf8f5",
-        "icon_color": "#1a1a2e",
-        "heading_color": "#111111",
-        "sub_color": "#666666",
+        "bg_color": "#f7f4ef",
+        "icon_color": "#b8925a",
+        "heading_color": "#141414",
+        "sub_color": "#6a6a6a",
         "usp1_label": "Free UK Delivery",
         "usp1_sub": "On all orders over \u00a3400",
         "usp2_label": "100% Authentic",
         "usp2_sub": "Genuine products, direct from brands",
-        "usp3_label": "Expert Skincare Advice",
-        "usp3_sub": "Free personal consultation service",
+        "usp3_label": "Expert Advice",
+        "usp3_sub": "Free personal consultation",
         "usp4_label": "Easy Returns",
         "usp4_sub": "30-day hassle-free returns"
       }
@@ -352,13 +466,14 @@
   },
   "order": [
     "home_hero",
+    "home_brands_slider",
+    "lf_usp",
     "home_collections",
     "home_showcase",
     "lf_brands",
     "home_brand_feature",
     "banner_offer_spf_bdixmH",
     "lf_concern",
-    "lf_editorial",
-    "lf_usp"
+    "lf_editorial"
   ]
 }

@@ -2,6 +2,16 @@
   "type": "header",
   "name": "Header",
   "sections": {
+    "trust_bar": {
+      "type": "trust-bar",
+      "settings": {
+        "bg_color": "#242833",
+        "text_color": "#ffffff",
+        "icon_color": "#d8a94f",
+        "phone_text": "",
+        "marquee_speed": 22
+      }
+    },
     "header_section": {
       "type": "header",
       "custom_css": [],
@@ -29,6 +39,7 @@
     }
   },
   "order": [
+    "trust_bar",
     "header_section"
   ]
 }
