@@ -209,6 +209,13 @@
                   <button type="button" class="WI_discount_btn">{{ section.settings.discount_btn_text }}</button>
                 </div>
               {% endif %}
+
+              {%- if section.settings.show_upsell_panel -%}
+                <div class="WI_cartDrawer_recommendations is-hidden" aria-label="{{ section.settings.upsell_title | escape }}">
+                  <h3 class="WI_cartDrawer_recommendations_title">{{ section.settings.upsell_title }}</h3>
+                  <div class="WI_upsell_list WI_upsell_list--mobile" id="WI_upsell_list_mobile"></div>
+                </div>
+              {%- endif -%}
             </div>
 
             <div class="WI_cartDrawerin_cart_footer">

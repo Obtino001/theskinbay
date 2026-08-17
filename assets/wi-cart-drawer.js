@@ -317,11 +317,21 @@ class WIcartDrawer extends HTMLElement {
 
   loadRecommendations() {
     const dataEl = this.querySelector("#cart-drawer-data");
-    const list = this.querySelector("#WI_upsell_list");
-    if (!list) return;
+    const desktopList = this.querySelector("#WI_upsell_list");
+    const mobileList = this.querySelector("#WI_upsell_list_mobile");
+    const mobileSection = this.querySelector(".WI_cartDrawer_recommendations");
+    const lists = [desktopList, mobileList].filter(Boolean);
+    if (!lists.length) return;
+
+    const clearLists = () => {
+      lists.forEach((list) => {
+        list.innerHTML = "";
+      });
+      if (mobileSection) mobileSection.classList.add("is-hidden");
+    };
 
     if (!dataEl) {
-      list.innerHTML = "";
+      clearLists();
       return;
     }
 
@@ -330,7 +340,7 @@ class WIcartDrawer extends HTMLElement {
     const cartHandles = cartHandlesAttr ? cartHandlesAttr.split(",") : [];
 
     if (!firstProductId) {
-      list.innerHTML = "";
+      clearLists();
       return;
     }
 
@@ -350,11 +360,11 @@ class WIcartDrawer extends HTMLElement {
         );
 
         if (!prods.length) {
-          list.innerHTML = "";
+          clearLists();
           return;
         }
 
-        list.innerHTML = prods
+        const html = prods
           .slice(0, 5)
           .map((prod) => {
             const featured =
@@ -407,6 +417,11 @@ class WIcartDrawer extends HTMLElement {
             </div>`;
           })
           .join("");
+
+        lists.forEach((list) => {
+          list.innerHTML = html;
+        });
+        if (mobileSection) mobileSection.classList.remove("is-hidden");
       })
       .catch((err) => {
         if (err && err.name === "AbortError") return;
