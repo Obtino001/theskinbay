@@ -476,9 +476,23 @@
 
   .nlk-bar {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     border-bottom: 1px solid #ececec;
   }
+
+  .nlk-row .nlk-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    width: auto;
+    height: auto;
+    min-height: 58px;
+    padding-right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a;
+  }
+  .nlk-row .nlk-chevron svg { width: 16px; height: 16px; display: block; }
 
   .lf-mob-drawer a.nlk-row,
   .lf-mob-drawer .nlk-row,
@@ -539,32 +553,14 @@
     text-overflow: ellipsis;
   }
 
-  .nlk-chevron {
-    flex-shrink: 0;
-    width: 42px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1a1a1a;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
   .nlk-chevron svg { width: 16px; height: 16px; display: block; }
-  .nlk-expand.is-open svg { transform: rotate(90deg); }
-  .nlk-expand svg { transition: transform 0.22s ease; }
 
-  .nlk-item > .mob-submenu { background: #fff; }
-  .nlk-item > .mob-submenu .nlk-bar { padding-left: 0; }
-  .nlk-item > .mob-submenu .nlk-thumb { width: 38px; height: 38px; border-radius: 6px; }
-  .nlk-item > .mob-submenu .nlk-row { min-height: 54px; padding-left: 28px !important; }
-  .nlk-item > .mob-submenu .nlk-chevron { height: 54px; }
-  .nlk-item > .mob-submenu .nlk-label { font-size: 15px !important; }
+  .nlk-panel .nlk-thumb { width: 38px; height: 38px; border-radius: 6px; }
+  .nlk-panel:not(#nlk-panel-root) .nlk-row { min-height: 54px; }
+  .nlk-panel:not(#nlk-panel-root) .nlk-label { font-size: 15px !important; }
 
   .nlk-letter {
-    padding: 14px 16px 6px;
+    padding: 14px 18px 6px;
     font-family: var(--font-body--family), sans-serif;
     font-size: 11px;
     font-weight: 700;
@@ -574,8 +570,7 @@
     border-bottom: 1px solid #f2f2f2;
   }
 
-  .mob-submenu { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-  .mob-submenu.open { max-height: 4000px; }
+  .nlk-panel-footer { flex-shrink: 0; padding-bottom: 28px; }
 
   .nlk-promo { padding: 18px 16px 8px; }
   .nlk-promo-card {
@@ -1290,7 +1285,11 @@
 <!-- MOBILE NAV -->
 <div class="lf-mob-drawer" id="mobile-nav">
   <div class="nlk-head">
-    <a href="{{ routes.root_url }}" class="nlk-head-logo" aria-label="{{ shop.name }}">
+    <button type="button" class="nlk-back" id="nlk-back" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <p class="nlk-head-title" id="nlk-head-title"></p>
+    <a href="{{ routes.root_url }}" class="nlk-head-logo" id="nlk-head-logo" aria-label="{{ shop.name }}">
       {%- if section.settings.logo_image != blank -%}
         <img src="{{ section.settings.logo_image | image_url: width: 360 }}" alt="{{ shop.name }}" width="170" height="26">
       {%- else -%}
@@ -1302,139 +1301,158 @@
     </button>
   </div>
 
-  <nav class="nlk-nav" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
-    {% for link in main_menu.links %}
-      {% if link.title != blank %}
-        {%- assign nlk_has_kids = false -%}
-        {%- if link.links != blank -%}{%- assign nlk_has_kids = true -%}{%- endif -%}
-        <div class="nlk-item">
-          <div class="nlk-bar">
-            {% if nlk_has_kids %}
-              {% render 'nlk-menu-row', link: link, chevron: 'none' %}
-              <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ link.title | escape }}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-              </button>
-            {% else %}
-              {% render 'nlk-menu-row', link: link, chevron: 'inside' %}
-            {% endif %}
+  <div class="nlk-viewport">
+    <div class="nlk-panel is-current" id="nlk-panel-root" data-nlk-title="{{ shop.name }}">
+      <nav class="nlk-nav" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
+        {% for link in main_menu.links %}
+          {% if link.title != blank %}
+            {%- assign nlk_has_kids = false -%}
+            {%- if link.links != blank -%}{%- assign nlk_has_kids = true -%}{%- endif -%}
+            <div class="nlk-item">
+              <div class="nlk-bar">
+                {% if nlk_has_kids %}
+                  {%- capture nlk_panel_id -%}nlk-panel-{{ link.handle }}{%- endcapture -%}
+                  {% render 'nlk-menu-row', link: link, chevron: 'inside', panel_id: nlk_panel_id %}
+                {% else %}
+                  {% render 'nlk-menu-row', link: link, chevron: 'inside' %}
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </nav>
+
+      <div class="nlk-panel-footer">
+        {%- if section.settings.drawer_promo_enable -%}
+          <div class="nlk-promo">
+            <a href="{{ section.settings.drawer_promo_link | default: routes.root_url }}" class="nlk-promo-card">
+              <div class="nlk-promo-img">
+                {%- if section.settings.drawer_promo_image != blank -%}
+                  {{ section.settings.drawer_promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.drawer_promo_title }}
+                {%- endif -%}
+              </div>
+              <div class="nlk-promo-body">
+                {%- if section.settings.drawer_promo_title != blank -%}
+                  <h4 class="nlk-promo-title">
+                    {{ section.settings.drawer_promo_title }}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </h4>
+                {%- endif -%}
+                {%- if section.settings.drawer_promo_text != blank -%}
+                  <p class="nlk-promo-text">{{ section.settings.drawer_promo_text }}</p>
+                {%- endif -%}
+                {%- if section.settings.drawer_promo_button != blank -%}
+                  <span class="nlk-promo-btn">{{ section.settings.drawer_promo_button }}</span>
+                {%- endif -%}
+              </div>
+            </a>
           </div>
-          {% if nlk_has_kids %}
+        {%- endif -%}
+
+        {%- if section.settings.social_instagram != blank or section.settings.social_facebook != blank or section.settings.social_tiktok != blank -%}
+          <div class="nlk-socials">
+            {%- if section.settings.social_instagram != blank -%}
+              <a href="{{ section.settings.social_instagram }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_facebook != blank -%}
+              <a href="{{ section.settings.social_facebook }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_tiktok != blank -%}
+              <a href="{{ section.settings.social_tiktok }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {% for link in main_menu.links %}
+      {% if link.title != blank and link.links != blank %}
+        <div class="nlk-panel" id="nlk-panel-{{ link.handle }}" data-nlk-title="{{ link.title | escape }}">
+          <nav class="nlk-nav" aria-label="{{ link.title | escape }}">
             {%- assign mob_link_handle = link.title | handleize -%}
             {% if mob_link_handle == 'brands' %}
-              <div class="mob-submenu">
-                {%- assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," -%}
-                {%- for letter in alphabet -%}
-                  {%- assign letter_has = false -%}
-                  {%- for brand in link.links -%}{%- assign bf = brand.title | slice: 0 | upcase -%}{%- if bf == letter -%}{%- assign letter_has = true -%}{%- endif -%}{%- endfor -%}
-                  {%- if letter_has -%}
-                    <div class="nlk-letter">{{ letter }}</div>
-                    {%- for brand in link.links -%}
-                      {%- assign bf = brand.title | slice: 0 | upcase -%}
-                      {%- if bf == letter -%}
-                        {%- assign brand_has_kids = false -%}
-                        {%- if brand.links != blank -%}{%- assign brand_has_kids = true -%}{%- endif -%}
-                        <div class="nlk-item">
-                          <div class="nlk-bar">
-                            {% if brand_has_kids %}
-                              {% render 'nlk-menu-row', link: brand, chevron: 'none' %}
-                              <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ brand.title | escape }}">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-                              </button>
-                            {% else %}
-                              {% render 'nlk-menu-row', link: brand, chevron: 'inside' %}
-                            {% endif %}
-                          </div>
+              {%- assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," -%}
+              {%- for letter in alphabet -%}
+                {%- assign letter_has = false -%}
+                {%- for brand in link.links -%}{%- assign bf = brand.title | slice: 0 | upcase -%}{%- if bf == letter -%}{%- assign letter_has = true -%}{%- endif -%}{%- endfor -%}
+                {%- if letter_has -%}
+                  <div class="nlk-letter">{{ letter }}</div>
+                  {%- for brand in link.links -%}
+                    {%- assign bf = brand.title | slice: 0 | upcase -%}
+                    {%- if bf == letter -%}
+                      {%- assign brand_has_kids = false -%}
+                      {%- if brand.links != blank -%}{%- assign brand_has_kids = true -%}{%- endif -%}
+                      <div class="nlk-item">
+                        <div class="nlk-bar">
                           {% if brand_has_kids %}
-                            <div class="mob-submenu">
-                              {% for r in brand.links %}
-                                <div class="nlk-bar">{% render 'nlk-menu-row', link: r, chevron: 'inside' %}</div>
-                              {% endfor %}
-                            </div>
+                            {%- capture nlk_panel_id -%}nlk-panel-{{ link.handle }}-{{ brand.handle }}{%- endcapture -%}
+                            {% render 'nlk-menu-row', link: brand, chevron: 'inside', panel_id: nlk_panel_id %}
+                          {% else %}
+                            {% render 'nlk-menu-row', link: brand, chevron: 'inside' %}
                           {% endif %}
                         </div>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              </div>
-            {% else %}
-              <div class="mob-submenu">
-                {% for child in link.links %}
-                  {%- assign child_has_kids = false -%}
-                  {%- if child.links != blank -%}{%- assign child_has_kids = true -%}{%- endif -%}
-                  <div class="nlk-item">
-                    <div class="nlk-bar">
-                      {% if child_has_kids %}
-                        {% render 'nlk-menu-row', link: child, chevron: 'none' %}
-                        <button type="button" class="nlk-chevron nlk-expand" onclick="toggleSubMobile(event, this)" aria-expanded="false" aria-label="{{ child.title | escape }}">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-                        </button>
-                      {% else %}
-                        {% render 'nlk-menu-row', link: child, chevron: 'inside' %}
-                      {% endif %}
-                    </div>
-                    {% if child_has_kids %}
-                      <div class="mob-submenu">
-                        {% for sub_child in child.links %}
-                          <div class="nlk-bar">{% render 'nlk-menu-row', link: sub_child, chevron: 'inside' %}</div>
-                        {% endfor %}
                       </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {% else %}
+              {% for child in link.links %}
+                {%- assign child_has_kids = false -%}
+                {%- if child.links != blank -%}{%- assign child_has_kids = true -%}{%- endif -%}
+                <div class="nlk-item">
+                  <div class="nlk-bar">
+                    {% if child_has_kids %}
+                      {%- capture nlk_panel_id -%}nlk-panel-{{ link.handle }}-{{ child.handle }}{%- endcapture -%}
+                      {% render 'nlk-menu-row', link: child, chevron: 'inside', panel_id: nlk_panel_id %}
+                    {% else %}
+                      {% render 'nlk-menu-row', link: child, chevron: 'inside' %}
                     {% endif %}
                   </div>
-                {% endfor %}
+                </div>
+              {% endfor %}
+            {% endif %}
+          </nav>
+        </div>
+
+        {% if mob_link_handle == 'brands' %}
+          {% for brand in link.links %}
+            {% if brand.links != blank %}
+              <div class="nlk-panel" id="nlk-panel-{{ link.handle }}-{{ brand.handle }}" data-nlk-title="{{ brand.title | escape }}">
+                <nav class="nlk-nav" aria-label="{{ brand.title | escape }}">
+                  {% for r in brand.links %}
+                    <div class="nlk-item">
+                      <div class="nlk-bar">{% render 'nlk-menu-row', link: r, chevron: 'inside' %}</div>
+                    </div>
+                  {% endfor %}
+                </nav>
               </div>
             {% endif %}
-          {% endif %}
-        </div>
+          {% endfor %}
+        {% else %}
+          {% for child in link.links %}
+            {% if child.links != blank %}
+              <div class="nlk-panel" id="nlk-panel-{{ link.handle }}-{{ child.handle }}" data-nlk-title="{{ child.title | escape }}">
+                <nav class="nlk-nav" aria-label="{{ child.title | escape }}">
+                  {% for sub_child in child.links %}
+                    <div class="nlk-item">
+                      <div class="nlk-bar">{% render 'nlk-menu-row', link: sub_child, chevron: 'inside' %}</div>
+                    </div>
+                  {% endfor %}
+                </nav>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       {% endif %}
     {% endfor %}
-  </nav>
-
-  {%- if section.settings.drawer_promo_enable -%}
-    <div class="nlk-promo">
-      <a href="{{ section.settings.drawer_promo_link | default: routes.root_url }}" class="nlk-promo-card">
-        <div class="nlk-promo-img">
-          {%- if section.settings.drawer_promo_image != blank -%}
-            {{ section.settings.drawer_promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.drawer_promo_title }}
-          {%- endif -%}
-        </div>
-        <div class="nlk-promo-body">
-          {%- if section.settings.drawer_promo_title != blank -%}
-            <h4 class="nlk-promo-title">
-              {{ section.settings.drawer_promo_title }}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            </h4>
-          {%- endif -%}
-          {%- if section.settings.drawer_promo_text != blank -%}
-            <p class="nlk-promo-text">{{ section.settings.drawer_promo_text }}</p>
-          {%- endif -%}
-          {%- if section.settings.drawer_promo_button != blank -%}
-            <span class="nlk-promo-btn">{{ section.settings.drawer_promo_button }}</span>
-          {%- endif -%}
-        </div>
-      </a>
-    </div>
-  {%- endif -%}
-
-  {%- if section.settings.social_instagram != blank or section.settings.social_facebook != blank or section.settings.social_tiktok != blank -%}
-    <div class="nlk-socials">
-      {%- if section.settings.social_instagram != blank -%}
-        <a href="{{ section.settings.social_instagram }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        </a>
-      {%- endif -%}
-      {%- if section.settings.social_facebook != blank -%}
-        <a href="{{ section.settings.social_facebook }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        </a>
-      {%- endif -%}
-      {%- if section.settings.social_tiktok != blank -%}
-        <a href="{{ section.settings.social_tiktok }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-        </a>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
+  </div>
 </div>
 
 <div class="overlay-bg" id="header-overlay" onclick="closeDrawers()"></div>
@@ -1477,6 +1495,7 @@
   function closeDrawers() {
     var mob = document.getElementById('mobile-nav');
     if (mob) mob.classList.remove('active');
+    if (typeof nlkResetPanels === 'function') nlkResetPanels();
     var lux = document.getElementById('lux-cart-drawer');
     if (lux) lux.classList.remove('is-open');
     var overlay = document.getElementById('header-overlay');
@@ -1487,6 +1506,7 @@
   }
 
   function toggleMenu() {
+    if (typeof nlkResetPanels === 'function') nlkResetPanels();
     document.getElementById('mobile-nav').classList.add('active');
     document.getElementById('header-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1509,21 +1529,104 @@
   window.openCart = openCart;
   window.closeDrawers = closeDrawers;
 
-  // ── Mobile submenu ──────────────────────────────────────────────
-  function toggleSubMobile(e, btn) {
-    e.preventDefault();
-    e.stopPropagation();
-    var bar = btn.closest('.nlk-bar') || btn.parentElement;
-    var sub = bar ? bar.nextElementSibling : null;
-    if (sub && sub.classList.contains('mob-submenu')) {
-      var opening = !sub.classList.contains('open');
-      sub.classList.toggle('open', opening);
-      btn.classList.toggle('is-open', opening);
-      btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+  // ── Mobile multi-level panel nav ────────────────────────────────
+  var nlkStack = ['nlk-panel-root'];
+
+  function nlkUpdateHead() {
+    var back = document.getElementById('nlk-back');
+    var title = document.getElementById('nlk-head-title');
+    var logo = document.getElementById('nlk-head-logo');
+    var currentId = nlkStack[nlkStack.length - 1];
+    var current = document.getElementById(currentId);
+    var atRoot = nlkStack.length <= 1;
+
+    if (back) back.classList.toggle('is-visible', !atRoot);
+    if (logo) logo.classList.toggle('is-hidden', !atRoot);
+    if (title) {
+      if (atRoot) {
+        title.classList.remove('is-visible');
+        title.textContent = '';
+      } else if (current) {
+        title.textContent = current.getAttribute('data-nlk-title') || '';
+        title.classList.add('is-visible');
+      }
     }
   }
 
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawers(); });
+  function nlkResetPanels() {
+    nlkStack = ['nlk-panel-root'];
+    document.querySelectorAll('#mobile-nav .nlk-panel').forEach(function(panel) {
+      panel.classList.remove('is-current', 'is-behind');
+      panel.scrollTop = 0;
+    });
+    var root = document.getElementById('nlk-panel-root');
+    if (root) root.classList.add('is-current');
+    nlkUpdateHead();
+  }
+
+  function nlkOpenPanel(panelId) {
+    var next = document.getElementById(panelId);
+    if (!next) return;
+    var currentId = nlkStack[nlkStack.length - 1];
+    var current = document.getElementById(currentId);
+    if (current) {
+      current.classList.remove('is-current');
+      current.classList.add('is-behind');
+    }
+    next.classList.add('is-current');
+    next.classList.remove('is-behind');
+    next.scrollTop = 0;
+    nlkStack.push(panelId);
+    nlkUpdateHead();
+  }
+
+  function nlkGoBack() {
+    if (nlkStack.length <= 1) return;
+    var currentId = nlkStack.pop();
+    var current = document.getElementById(currentId);
+    var prevId = nlkStack[nlkStack.length - 1];
+    var prev = document.getElementById(prevId);
+    if (current) {
+      current.classList.remove('is-current', 'is-behind');
+    }
+    if (prev) {
+      prev.classList.add('is-current');
+      prev.classList.remove('is-behind');
+    }
+    nlkUpdateHead();
+  }
+
+  window.nlkResetPanels = nlkResetPanels;
+  window.nlkOpenPanel = nlkOpenPanel;
+  window.nlkGoBack = nlkGoBack;
+
+  document.addEventListener('click', function(e) {
+    var trigger = e.target.closest('[data-nlk-open]');
+    if (trigger && trigger.closest('#mobile-nav')) {
+      e.preventDefault();
+      nlkOpenPanel(trigger.getAttribute('data-nlk-open'));
+      return;
+    }
+    var leaf = e.target.closest('#mobile-nav a.nlk-row:not(.nlk-row--trigger)');
+    if (leaf) closeDrawers();
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var back = document.getElementById('nlk-back');
+    if (back) back.addEventListener('click', nlkGoBack);
+    nlkResetPanels();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (nlkStack.length > 1) {
+        e.stopImmediatePropagation();
+        nlkGoBack();
+        return;
+      }
+      closeDrawers();
+    }
+  });
 
   // ── Touch/iPad mega menu: first tap opens, second navigates ──────
   (function() {
