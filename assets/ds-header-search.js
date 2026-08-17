@@ -14,6 +14,8 @@ function getHeaderBarEl() {
     document.querySelector('.section-header sticky-header') ||
     document.querySelector('.section-header .header-wrapper') ||
     document.querySelector('.section-header header.header') ||
+    document.querySelector('.lf-header-root') ||
+    document.querySelector('#header-group') ||
     getHeaderEl()
   );
 }

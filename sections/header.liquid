@@ -44,7 +44,7 @@
     -webkit-font-smoothing: antialiased;
     font-weight: var(--font-body--weight);
   }
-  @media (max-width: 1023px) { body { padding-top: 168px; } }
+  @media (max-width: 1023px) { body { padding-top: 210px; } }
 
   #header-group {
     position: fixed;
@@ -54,10 +54,11 @@
     z-index: 1000;
     background: #fff;
   }
-  #shopify-section-trust-bar {
+  #header-group .trust-bar-section {
     margin: 0;
     padding: 0;
     width: 100%;
+    max-width: none;
   }
 
   /* Global Playfair Display headings */
@@ -106,6 +107,50 @@
   /* Search trigger */
   .lf-left-col { display: flex; align-items: center; gap: 10px; min-width: 0; }
   .lf-left-col .ds-header-search { width: 100%; max-width: 300px; }
+  .lf-menu-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lf-mobile-search-row { display: none; }
+
+  @media (max-width: 1023px) {
+    .lf-main-header {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 8px 0 6px;
+    }
+    .lf-left-col {
+      width: auto;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .lf-logo-wrap {
+      min-width: 0;
+      overflow: hidden;
+    }
+    .lf-tool-flex {
+      flex-shrink: 0;
+      gap: 12px;
+    }
+    .lf-mobile-search-row {
+      display: block;
+      width: 100%;
+      padding: 0 0 10px;
+    }
+    .lf-mobile-search-row .ds-header-search {
+      width: 100%;
+      max-width: none;
+      display: block;
+    }
+    .lf-mobile-search-row .lf-search-trigger {
+      width: 100% !important;
+      max-width: none !important;
+    }
+  }
 
   .lf-search-trigger {
     display: flex !important;
@@ -923,8 +968,10 @@
   <div class="container-wide">
     <div class="lf-main-header">
       <div class="lf-left-col">
-        <button class="mobile-only icon-btn" onclick="toggleMenu()" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
-        {% render 'header-search', input_id: 'Search-In-Modal-Desktop', section: section %}
+        <button type="button" class="mobile-only icon-btn lf-menu-btn" onclick="toggleMenu()" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+        <div class="desktop-only lf-desktop-search">
+          {% render 'header-search', input_id: 'Search-In-Modal-Desktop', section: section %}
+        </div>
       </div>
 
       <div class="lf-logo-wrap">
@@ -973,6 +1020,10 @@
           </div>
         </button>
       </div>
+    </div>
+
+    <div class="lf-mobile-search-row">
+      {% render 'header-search', input_id: 'Search-In-Modal-Mobile', section: section %}
     </div>
   </div>
 

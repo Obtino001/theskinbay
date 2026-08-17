@@ -9,8 +9,8 @@ wi-cartdrawer {
   --wi-font: "Lato", sans-serif;
   --wi-heading: "Playfair Display", Georgia, serif;
   --wi-drawer-w: min(960px, 100vw);
-  --wi-cart-w: 420px;
-  --wi-upsell-w: calc(var(--wi-drawer-w) - var(--wi-cart-w));
+  --wi-upsell-w: 250px;
+  --wi-cart-w: calc(var(--wi-drawer-w) - var(--wi-upsell-w));
   width: 100%;
   height: 100dvh;
   position: fixed;
@@ -37,24 +37,26 @@ wi-cartdrawer {
 /* ── Left upsell panel ── */
 .WI_cartDrawerin_upsell {
   width: var(--wi-upsell-w);
-  min-width: 0;
+  min-width: var(--wi-upsell-w);
+  max-width: var(--wi-upsell-w);
+  flex-shrink: 0;
   background: var(--wi-bg);
   border-right: 1px solid var(--wi-line);
   display: flex;
   flex-direction: column;
-  padding: 28px 24px 24px;
+  padding: 20px 16px 16px;
 }
 
 .WI_upsell_header {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .WI_upsell_title {
   margin: 0;
   font-family: var(--wi-heading);
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-size: 1.15rem;
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--wi-fg);
   letter-spacing: -0.01em;
 }
@@ -71,17 +73,17 @@ wi-cartdrawer {
 
 .WI_upsell_item {
   display: grid;
-  grid-template-columns: 72px 1fr 40px;
-  gap: 14px;
+  grid-template-columns: 52px 1fr 34px;
+  gap: 8px;
   align-items: center;
-  padding: 16px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--wi-line);
 }
 
 .WI_upsell_img {
   display: block;
-  width: 72px;
-  height: 72px;
+  width: 52px;
+  height: 52px;
   background: #f5f5f5;
   overflow: hidden;
 }
@@ -100,11 +102,11 @@ wi-cartdrawer {
 
 .WI_upsell_title_link {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   line-height: 1.35;
   color: var(--wi-fg);
   text-decoration: none;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .WI_upsell_prices {
@@ -115,26 +117,26 @@ wi-cartdrawer {
 }
 
 .WI_upsell_price--was {
-  font-size: 12px;
+  font-size: 10px;
   color: rgba(20, 20, 20, 0.4);
   text-decoration: line-through;
 }
 
 .WI_upsell_price--sale {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--wi-sale);
 }
 
 .WI_upsell_price--reg {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--wi-fg);
 }
 
 .WI_upsell_add_btn {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: none;
   background: #8b7355;
@@ -158,30 +160,30 @@ wi-cartdrawer {
 }
 
 .WI_upsell_add_btn svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 
 .WI_upsell_trust {
   margin-top: auto;
-  padding-top: 20px;
+  padding-top: 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .WI_upsell_trust_item {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
   color: var(--wi-fg);
   line-height: 1.3;
 }
 
 .WI_upsell_trust_icon {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
   color: var(--wi-fg);
   display: flex;
@@ -197,6 +199,8 @@ wi-cartdrawer {
 /* ── Right cart panel ── */
 .WI_cartDrawerin_cart {
   width: var(--wi-cart-w);
+  min-width: 0;
+  flex: 1;
   max-width: 100%;
   flex-shrink: 0;
   height: 100%;
@@ -793,6 +797,7 @@ wi-cartdrawer.wi-cart-updating .WI_cartDrawerin_cart_items {
 @media (max-width: 860px) {
   wi-cartdrawer {
     --wi-drawer-w: 100vw;
+    --wi-upsell-w: 0px;
     --wi-cart-w: 100vw;
   }
 
