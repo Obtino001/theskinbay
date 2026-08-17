@@ -279,7 +279,7 @@ wi-cartdrawer {
 .WI_cartDrawer_shipping_track {
   position: relative;
   height: var(--wi-node);
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 
 .WI_cartDrawer_shipping_track::before {
