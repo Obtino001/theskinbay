@@ -4,6 +4,7 @@
 
   @param {object} link - Navigation link
   @param {string} [chevron] - 'inside' (default) or 'none'
+  @param {string} [panel_id] - When set, renders a button that opens this panel instead of a link
 {%- enddoc -%}
 
 {%- liquid
@@ -51,11 +52,20 @@
   endif
 -%}
 
+{%- if panel_id != blank -%}
+<button
+  type="button"
+  class="nlk-row nlk-row--trigger{% if link.current %} nlk-row--current{% endif %}"
+  data-nlk-open="{{ panel_id }}"
+  aria-label="{{ link.title | escape }}"
+>
+{%- else -%}
 <a
   href="{{ link.url }}"
   class="nlk-row{% if link.current %} nlk-row--current{% endif %}"
   {% if link.current %}aria-current="page"{% endif %}
 >
+{%- endif -%}
   <span class="nlk-thumb">
     {%- if nlk_img != blank -%}
       {{ nlk_img | image_url: width: 160, height: 160, crop: 'center' | image_tag: loading: 'lazy', alt: nlk_alt }}
@@ -67,4 +77,4 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
     </span>
   {%- endif -%}
-</a>
+</{%- if panel_id != blank -%}button{%- else -%}a{%- endif -%}>
