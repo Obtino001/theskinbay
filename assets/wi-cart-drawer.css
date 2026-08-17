@@ -8,7 +8,7 @@ wi-cartdrawer {
   --wi-sale: #c44444;
   --wi-font: var(--font-body--family), sans-serif;
   --wi-heading: var(--font-heading--family), serif;
-  --wi-drawer-w: min(700px, 100vw);
+  --wi-drawer-w: min(770px, 100vw);
   --wi-upsell-w: 300px;
   --wi-cart-w: calc(var(--wi-drawer-w) - var(--wi-upsell-w));
   width: 100%;
@@ -308,12 +308,11 @@ wi-cartdrawer {
 .WI_ship_milestone {
   position: absolute;
   top: 0;
-  left: calc((100% - var(--wi-milestone-size)) * var(--wi-pos) / 100 + var(--wi-milestone-size) / 2);
   transform: translateX(-50%);
 }
 
 .WI_ship_milestone--ship {
-  left: calc((100% - var(--wi-milestone-size)) * 0.72 + var(--wi-milestone-size) / 2);
+  left: calc(100% - var(--wi-milestone-size) * 1.5 - 6px);
 }
 
 .WI_ship_milestone--gift {
@@ -351,7 +350,8 @@ wi-cartdrawer {
 }
 
 .WI_ship_caption--ship {
-  left: calc((100% - var(--wi-milestone-size)) * 0.72 + var(--wi-milestone-size) / 2);
+  left: calc(100% - var(--wi-milestone-size) * 1.5 - 6px);
+  max-width: 72px;
 }
 
 .WI_ship_caption--gift {
@@ -359,14 +359,7 @@ wi-cartdrawer {
   max-width: 72px;
 }
 
-.WI_ship_milestone.is-reached .WI_ship_milestone_icon,
 .WI_ship_caption.is-reached {
-  border-color: var(--wi-fg);
-  color: var(--wi-fg);
-}
-
-.WI_ship_milestone.is-reached .WI_ship_milestone_icon {
-  border-color: var(--wi-fg);
   color: var(--wi-fg);
 }
 
