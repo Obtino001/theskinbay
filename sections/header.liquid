@@ -442,32 +442,88 @@
   .nlk-viewport {
     flex: 1;
     min-height: 0;
+    height: 100%;
     position: relative;
     overflow: hidden;
   }
 
-  .nlk-panel {
-    position: absolute;
-    inset: 0;
+  .nlk-root-scroll {
+    height: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
+  }
+
+  .nlk-viewport.is-sub-open .nlk-root-scroll {
+    transform: translateX(-18%);
+  }
+
+  .nlk-submenu {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
     background: #fff;
-    transform: translateX(100%);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translate3d(100%, 0, 0);
     visibility: hidden;
-    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.32s;
-    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.35s;
     display: flex;
     flex-direction: column;
   }
-  .nlk-panel.is-current {
-    transform: translateX(0);
+
+  .nlk-submenu.is-open {
+    transform: translate3d(0, 0, 0);
     visibility: visible;
+    pointer-events: auto;
+    z-index: 6;
+  }
+
+  .nlk-submenu.is-behind {
+    transform: translate3d(-18%, 0, 0);
+    visibility: visible;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .nlk-submenu-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    flex-shrink: 0;
+    background: #fff;
+    position: sticky;
+    top: 0;
     z-index: 2;
   }
-  .nlk-panel.is-behind {
-    transform: translateX(-28%);
-    visibility: visible;
-    z-index: 1;
+
+  .nlk-submenu-back {
+    background: none;
+    border: none;
+    padding: 6px;
+    margin: -6px;
+    cursor: pointer;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+
+  .nlk-submenu-back svg { width: 22px; height: 22px; display: block; }
+
+  .nlk-submenu-title {
+    margin: 0;
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-transform: lowercase;
+    color: #222;
   }
 
   .nlk-nav { flex: 1 0 auto; }
@@ -556,8 +612,8 @@
   .nlk-chevron svg { width: 16px; height: 16px; display: block; }
 
   .nlk-panel .nlk-thumb { width: 38px; height: 38px; border-radius: 6px; }
-  .nlk-panel:not(#nlk-panel-root) .nlk-row { min-height: 54px; }
-  .nlk-panel:not(#nlk-panel-root) .nlk-label { font-size: 15px !important; }
+  .nlk-submenu .nlk-row { min-height: 54px; }
+  .nlk-submenu .nlk-label { font-size: 15px !important; }
 
   .nlk-letter {
     padding: 14px 18px 6px;
@@ -646,18 +702,44 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 22px;
-    padding: 28px 16px 8px;
-    margin-top: auto;
+    gap: 14px;
+    padding: 22px 16px 6px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4px;
   }
-  .nlk-social {
-    color: #c4a4a4;
+
+  .nlk-social-link {
     display: flex;
-    line-height: 0;
-    transition: color 0.15s ease;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
   }
-  .nlk-social:hover { color: #8c7171; }
-  .nlk-social svg { width: 22px; height: 22px; display: block; }
+
+  .nlk-social-link:hover {
+    border-color: #c9b79b;
+    background: #c9b79b;
+    transform: translateY(-2px);
+  }
+
+  .nlk-social-icon {
+    width: 19px;
+    height: 19px;
+    display: block;
+  }
+
+  .nlk-social-icon path {
+    fill: #1a1a1a;
+    transition: fill 0.3s ease;
+  }
+
+  .nlk-social-link:hover .nlk-social-icon path {
+    fill: #111111;
+  }
 
   /* ── Overlay ── */
   .overlay-bg { position: fixed; inset: 0; z-index: 1500; background: rgba(0,0,0,0); visibility: hidden; transition: background 0.4s ease, visibility 0s linear 0.4s; }
@@ -1301,9 +1383,10 @@
     </button>
   </div>
 
-  <div class="nlk-viewport">
-    <div class="nlk-panel is-current" id="nlk-panel-root" data-nlk-title="{{ shop.name }}">
-      <nav class="nlk-nav" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
+  <div class="nlk-viewport" id="nlk-viewport">
+    <div class="nlk-root-scroll">
+      <div id="nlk-panel-root" data-nlk-title="{{ shop.name }}">
+        <nav class="nlk-nav" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
         {% for link in main_menu.links %}
           {% if link.title != blank %}
             {%- assign nlk_has_kids = false -%}
@@ -1321,6 +1404,8 @@
           {% endif %}
         {% endfor %}
       </nav>
+
+      {% render 'tsb-social-icons', section: section %}
 
       <div class="nlk-panel-footer">
         {%- if section.settings.drawer_promo_enable -%}
@@ -1348,32 +1433,19 @@
             </a>
           </div>
         {%- endif -%}
-
-        {%- if section.settings.social_instagram != blank or section.settings.social_facebook != blank or section.settings.social_tiktok != blank -%}
-          <div class="nlk-socials">
-            {%- if section.settings.social_instagram != blank -%}
-              <a href="{{ section.settings.social_instagram }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
-            {%- endif -%}
-            {%- if section.settings.social_facebook != blank -%}
-              <a href="{{ section.settings.social_facebook }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
-            {%- endif -%}
-            {%- if section.settings.social_tiktok != blank -%}
-              <a href="{{ section.settings.social_tiktok }}" class="nlk-social" target="_blank" rel="noopener nofollow" aria-label="TikTok">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-              </a>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+      </div>
       </div>
     </div>
 
     {% for link in main_menu.links %}
       {% if link.title != blank and link.links != blank %}
-        <div class="nlk-panel" id="nlk-panel-{{ link.handle }}" data-nlk-title="{{ link.title | escape }}">
+        <div class="nlk-submenu" id="nlk-panel-{{ link.handle }}" data-nlk-title="{{ link.title | escape }}">
+          <div class="nlk-submenu-head">
+            <button type="button" class="nlk-submenu-back" data-nlk-back aria-label="Back to {{ 'accessibility.header_navigation_label' | t }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <p class="nlk-submenu-title">{{ link.title | escape }}</p>
+          </div>
           <nav class="nlk-nav" aria-label="{{ link.title | escape }}">
             {%- assign mob_link_handle = link.title | handleize -%}
             {% if mob_link_handle == 'brands' %}
@@ -1424,7 +1496,13 @@
         {% if mob_link_handle == 'brands' %}
           {% for brand in link.links %}
             {% if brand.links != blank %}
-              <div class="nlk-panel" id="nlk-panel-{{ link.handle }}-{{ brand.handle }}" data-nlk-title="{{ brand.title | escape }}">
+              <div class="nlk-submenu" id="nlk-panel-{{ link.handle }}-{{ brand.handle }}" data-nlk-title="{{ brand.title | escape }}">
+                <div class="nlk-submenu-head">
+                  <button type="button" class="nlk-submenu-back" data-nlk-back aria-label="Back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <p class="nlk-submenu-title">{{ brand.title | escape }}</p>
+                </div>
                 <nav class="nlk-nav" aria-label="{{ brand.title | escape }}">
                   {% for r in brand.links %}
                     <div class="nlk-item">
@@ -1438,7 +1516,13 @@
         {% else %}
           {% for child in link.links %}
             {% if child.links != blank %}
-              <div class="nlk-panel" id="nlk-panel-{{ link.handle }}-{{ child.handle }}" data-nlk-title="{{ child.title | escape }}">
+              <div class="nlk-submenu" id="nlk-panel-{{ link.handle }}-{{ child.handle }}" data-nlk-title="{{ child.title | escape }}">
+                <div class="nlk-submenu-head">
+                  <button type="button" class="nlk-submenu-back" data-nlk-back aria-label="Back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <p class="nlk-submenu-title">{{ child.title | escape }}</p>
+                </div>
                 <nav class="nlk-nav" aria-label="{{ child.title | escape }}">
                   {% for sub_child in child.links %}
                     <div class="nlk-item">
@@ -1529,70 +1613,88 @@
   window.openCart = openCart;
   window.closeDrawers = closeDrawers;
 
-  // ── Mobile multi-level panel nav ────────────────────────────────
+  // ── Mobile menu: Dawn-style slide panels (not accordion) ────────
   var nlkStack = ['nlk-panel-root'];
 
   function nlkUpdateHead() {
     var back = document.getElementById('nlk-back');
     var title = document.getElementById('nlk-head-title');
     var logo = document.getElementById('nlk-head-logo');
-    var currentId = nlkStack[nlkStack.length - 1];
-    var current = document.getElementById(currentId);
     var atRoot = nlkStack.length <= 1;
 
     if (back) back.classList.toggle('is-visible', !atRoot);
     if (logo) logo.classList.toggle('is-hidden', !atRoot);
     if (title) {
+      title.classList.toggle('is-visible', !atRoot);
       if (atRoot) {
-        title.classList.remove('is-visible');
         title.textContent = '';
-      } else if (current) {
-        title.textContent = current.getAttribute('data-nlk-title') || '';
-        title.classList.add('is-visible');
+      } else {
+        var current = document.getElementById(nlkStack[nlkStack.length - 1]);
+        title.textContent = current ? (current.getAttribute('data-nlk-title') || '') : '';
       }
     }
   }
 
   function nlkResetPanels() {
     nlkStack = ['nlk-panel-root'];
-    document.querySelectorAll('#mobile-nav .nlk-panel').forEach(function(panel) {
-      panel.classList.remove('is-current', 'is-behind');
+    var viewport = document.getElementById('nlk-viewport');
+    if (viewport) viewport.classList.remove('is-sub-open');
+    document.querySelectorAll('#mobile-nav .nlk-submenu').forEach(function(panel) {
+      panel.classList.remove('is-open', 'is-behind');
       panel.scrollTop = 0;
     });
-    var root = document.getElementById('nlk-panel-root');
-    if (root) root.classList.add('is-current');
+    var rootScroll = document.querySelector('#mobile-nav .nlk-root-scroll');
+    if (rootScroll) rootScroll.scrollTop = 0;
     nlkUpdateHead();
   }
 
   function nlkOpenPanel(panelId) {
     var next = document.getElementById(panelId);
-    if (!next) return;
+    if (!next || !next.classList.contains('nlk-submenu')) return;
+
+    var viewport = document.getElementById('nlk-viewport');
     var currentId = nlkStack[nlkStack.length - 1];
-    var current = document.getElementById(currentId);
-    if (current) {
-      current.classList.remove('is-current');
-      current.classList.add('is-behind');
+
+    if (currentId !== 'nlk-panel-root') {
+      var current = document.getElementById(currentId);
+      if (current) {
+        current.classList.remove('is-open');
+        current.classList.add('is-behind');
+      }
     }
-    next.classList.add('is-current');
+
+    next.classList.add('is-open');
     next.classList.remove('is-behind');
     next.scrollTop = 0;
     nlkStack.push(panelId);
+
+    if (viewport) viewport.classList.add('is-sub-open');
     nlkUpdateHead();
   }
 
   function nlkGoBack() {
     if (nlkStack.length <= 1) return;
-    var currentId = nlkStack.pop();
-    var current = document.getElementById(currentId);
+
+    var viewport = document.getElementById('nlk-viewport');
+    var closingId = nlkStack.pop();
+    var closing = document.getElementById(closingId);
+    if (closing) closing.classList.remove('is-open', 'is-behind');
+
     var prevId = nlkStack[nlkStack.length - 1];
-    var prev = document.getElementById(prevId);
-    if (current) {
-      current.classList.remove('is-current', 'is-behind');
+
+    if (prevId === 'nlk-panel-root') {
+      if (viewport) viewport.classList.remove('is-sub-open');
+      document.querySelectorAll('#mobile-nav .nlk-submenu.is-behind').forEach(function(p) {
+        p.classList.remove('is-behind');
+      });
+    } else {
+      var prev = document.getElementById(prevId);
+      if (prev) {
+        prev.classList.add('is-open');
+        prev.classList.remove('is-behind');
+      }
     }
-    if (prev) {
-      prev.classList.add('is-current');
-      prev.classList.remove('is-behind');
-    }
+
     nlkUpdateHead();
   }
 
@@ -1607,25 +1709,29 @@
       nlkOpenPanel(trigger.getAttribute('data-nlk-open'));
       return;
     }
+    if (e.target.closest('#mobile-nav [data-nlk-back]') || e.target.closest('#nlk-back')) {
+      e.preventDefault();
+      nlkGoBack();
+      return;
+    }
     var leaf = e.target.closest('#mobile-nav a.nlk-row:not(.nlk-row--trigger)');
     if (leaf) closeDrawers();
   });
 
   document.addEventListener('DOMContentLoaded', function() {
-    var back = document.getElementById('nlk-back');
-    if (back) back.addEventListener('click', nlkGoBack);
     nlkResetPanels();
   });
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      if (nlkStack.length > 1) {
-        e.stopImmediatePropagation();
-        nlkGoBack();
-        return;
-      }
-      closeDrawers();
+    if (e.key !== 'Escape') return;
+    var mob = document.getElementById('mobile-nav');
+    if (!mob || !mob.classList.contains('active')) return;
+    if (nlkStack.length > 1) {
+      e.preventDefault();
+      nlkGoBack();
+      return;
     }
+    closeDrawers();
   });
 
   // ── Touch/iPad mega menu: first tap opens, second navigates ──────

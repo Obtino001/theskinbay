@@ -1,0 +1,50 @@
+{%- doc -%}
+  Single brand cell for the home brand marquee: image + short label.
+
+  @param {object} [block] - Section block (for shopify_attributes)
+  @param {image} [item_image]
+  @param {string} [item_url]
+  @param {string} [item_label] - Full brand name (alt text)
+  @param {string} [item_short] - Short label under logo
+  @param {boolean} [hidden_copy] - Duplicate track row (disable tab focus)
+{%- enddoc -%}
+
+{%- liquid
+  assign display_label = item_short
+  if display_label == blank
+    assign display_label = item_label
+  endif
+-%}
+
+{%- if item_url != blank or item_image != blank or display_label != blank -%}
+  <span class="tsb-marquee-item"{% if block %} {{ block.shopify_attributes }}{% endif %}>
+    {%- if item_url != blank -%}
+      <a
+        href="{{ item_url }}"
+        class="tsb-marquee-item__link"
+        {% if hidden_copy %}tabindex="-1"{% endif %}
+        {% if item_label != blank %}aria-label="{{ item_label | escape }}"{% endif %}
+      >
+        {%- if item_image != blank -%}
+          <span class="tsb-marquee-item__media">
+            {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
+          </span>
+        {%- endif -%}
+        {%- if display_label != blank -%}
+          <span class="tsb-marquee-item__label">{{ display_label | escape }}</span>
+        {%- endif -%}
+      </a>
+    {%- else -%}
+      <span class="tsb-marquee-item__link tsb-marquee-item__link--static">
+        {%- if item_image != blank -%}
+          <span class="tsb-marquee-item__media">
+            {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
+          </span>
+        {%- endif -%}
+        {%- if display_label != blank -%}
+          <span class="tsb-marquee-item__label">{{ display_label | escape }}</span>
+        {%- endif -%}
+      </span>
+    {%- endif -%}
+  </span>
+{%- endif -%}

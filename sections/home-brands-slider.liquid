@@ -36,7 +36,7 @@
 
   #shopify-section-{{ section.id }} .tsb-marquee-group {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex: 0 0 auto;
     gap: var(--tsb-marquee-gap);
     padding-right: var(--tsb-marquee-gap);
@@ -44,49 +44,70 @@
 
   #shopify-section-{{ section.id }} .tsb-marquee-item {
     flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  #shopify-section-{{ section.id }} .tsb-marquee-item a {
+  #shopify-section-{{ section.id }} .tsb-marquee-item__link {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 8px;
     width: var(--tsb-marquee-logo);
-    min-height: calc(var(--tsb-marquee-logo) * 0.45);
     text-decoration: none;
     transition: opacity 0.2s ease;
   }
 
-  #shopify-section-{{ section.id }} .tsb-marquee-item a:hover {
-    opacity: 0.72;
+  #shopify-section-{{ section.id }} .tsb-marquee-item__link--static {
+    cursor: default;
   }
 
-  #shopify-section-{{ section.id }} .tsb-marquee-item img {
+  #shopify-section-{{ section.id }} .tsb-marquee-item__link:hover {
+    opacity: 0.85;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: calc(var(--tsb-marquee-logo) * 0.52);
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item__media img {
     display: block;
     width: 100%;
     height: auto;
-    max-height: calc(var(--tsb-marquee-logo) * 0.55);
+    max-height: calc(var(--tsb-marquee-logo) * 0.52);
     object-fit: contain;
     filter: grayscale(100%);
     opacity: 0.72;
     transition: filter 0.25s ease, opacity 0.25s ease;
   }
 
-  #shopify-section-{{ section.id }} .tsb-marquee-item a:hover img {
+  #shopify-section-{{ section.id }} .tsb-marquee-item__link:hover .tsb-marquee-item__media img {
     filter: grayscale(0%);
     opacity: 1;
   }
 
-  #shopify-section-{{ section.id }} .tsb-marquee-item__text {
+  #shopify-section-{{ section.id }} .tsb-marquee-item__label {
+    display: block;
+    width: 100%;
+    max-width: calc(var(--tsb-marquee-logo) + 12px);
     font-family: var(--font-body--family), sans-serif;
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(12, 12, 12, 0.35);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    text-align: center;
+    color: rgba(12, 12, 12, 0.58);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #shopify-section-{{ section.id }} .tsb-marquee-item__link:hover .tsb-marquee-item__label {
+    color: rgba(12, 12, 12, 0.82);
   }
 
   @keyframes tsbBrandsMarquee {
@@ -125,6 +146,7 @@
                 assign item_url = block.settings.link
                 assign item_image = block.settings.image
                 assign item_label = block.settings.name
+                assign item_short = block.settings.short_name
                 assign col = block.settings.collection
 
                 if col != blank
@@ -139,25 +161,14 @@
                   endif
                 endif
               -%}
-              {%- if item_url != blank or item_image != blank or item_label != blank -%}
-                <span class="tsb-marquee-item" {{ block.shopify_attributes }}>
-                  {%- if item_url != blank -%}
-                    <a href="{{ item_url }}"{% if copy > 1 %} tabindex="-1"{% endif %}{% if item_label != blank %} aria-label="{{ item_label | escape }}"{% endif %}>
-                      {%- if item_image != blank -%}
-                        {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
-                      {%- else -%}
-                        <span class="tsb-marquee-item__text">{{ item_label }}</span>
-                      {%- endif -%}
-                    </a>
-                  {%- else -%}
-                    {%- if item_image != blank -%}
-                      {{ item_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item_label | escape }}
-                    {%- else -%}
-                      <span class="tsb-marquee-item__text">{{ item_label }}</span>
-                    {%- endif -%}
-                  {%- endif -%}
-                </span>
-              {%- endif -%}
+              {% render 'tsb-marquee-brand',
+                block: block,
+                item_url: item_url,
+                item_image: item_image,
+                item_label: item_label,
+                item_short: item_short,
+                hidden_copy: copy > 1
+              %}
             {%- endfor -%}
           {%- else -%}
             {%- assign hp_menu = linklists[section.settings.menu] | default: linklists['main-menu'] -%}
@@ -177,15 +188,12 @@
                   {%- assign bth = brand.title | handleize -%}
                   {%- if bh == bc_slug or bth == bc_slug -%}
                     {%- assign bc_col = collections[bh] -%}
-                    <span class="tsb-marquee-item">
-                      <a href="{{ brand.url }}"{% if copy > 1 %} tabindex="-1"{% endif %} aria-label="{{ brand.title | escape }}">
-                        {%- if bc_col.image != blank -%}
-                          {{ bc_col.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: brand.title | escape }}
-                        {%- else -%}
-                          <span class="tsb-marquee-item__text">{{ brand.title }}</span>
-                        {%- endif -%}
-                      </a>
-                    </span>
+                    {% render 'tsb-marquee-brand',
+                      item_url: brand.url,
+                      item_image: bc_col.image,
+                      item_label: brand.title,
+                      hidden_copy: copy > 1
+                    %}
                     {%- break -%}
                   {%- endif -%}
                 {%- endfor -%}
@@ -195,15 +203,12 @@
                 {%- assign bth = brand.title | handleize -%}
                 {%- unless bc_priority contains bh or bc_priority contains bth -%}
                   {%- assign bc_col = collections[bh] -%}
-                  <span class="tsb-marquee-item">
-                    <a href="{{ brand.url }}"{% if copy > 1 %} tabindex="-1"{% endif %} aria-label="{{ brand.title | escape }}">
-                      {%- if bc_col.image != blank -%}
-                        {{ bc_col.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: brand.title | escape }}
-                      {%- else -%}
-                        <span class="tsb-marquee-item__text">{{ brand.title }}</span>
-                      {%- endif -%}
-                    </a>
-                  </span>
+                  {% render 'tsb-marquee-brand',
+                    item_url: brand.url,
+                    item_image: bc_col.image,
+                    item_label: brand.title,
+                    hidden_copy: copy > 1
+                  %}
                 {%- endunless -%}
               {%- endfor -%}
             {%- endif -%}
@@ -311,7 +316,13 @@
           "type": "text",
           "id": "name",
           "label": "Brand name",
-          "info": "Used for alt text and text fallback."
+          "info": "Used for alt text and fallback label."
+        },
+        {
+          "type": "text",
+          "id": "short_name",
+          "label": "Short label (under logo)",
+          "info": "Optional. e.g. LRP instead of La Roche-Posay. Falls back to brand name."
         },
         {
           "type": "url",

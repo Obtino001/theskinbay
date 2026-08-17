@@ -359,6 +359,11 @@ wi-cartdrawer {
   max-width: 72px;
 }
 
+.WI_ship_milestone.is-reached .WI_ship_milestone_icon {
+  border-color: var(--wi-fg);
+  color: var(--wi-fg);
+}
+
 .WI_ship_caption.is-reached {
   color: var(--wi-fg);
 }
