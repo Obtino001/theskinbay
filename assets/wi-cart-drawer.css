@@ -607,14 +607,45 @@ wi-cartdrawer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: var(--wi-muted);
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 13px;
+  background: #eaf6ef;
+  border: 1px solid #cbe6d7;
+  border-radius: 7px;
+}
+
+.WI_cartDrawer_savings_label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2e7d52;
+}
+
+.WI_cartDrawer_savings_label svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
 }
 
 .WI_cartDrawer_savings_val {
-  color: var(--wi-sale);
-  font-weight: 700;
+  color: #2e7d52;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: right;
+  line-height: 1.2;
+}
+
+.WI_cartDrawer_savings_gift {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #b0812e;
+  white-space: nowrap;
 }
 
 .WI_cartDrawer_total {

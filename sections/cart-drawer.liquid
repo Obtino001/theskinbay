@@ -16,7 +16,11 @@
   endif
 
   assign total_savings = 0
+  assign gift_count = 0
   for item in cart.items
+    if item.original_price == 0 and item.final_price == 0
+      assign gift_count = gift_count | plus: item.quantity
+    endif
     assign compare_price = item.variant.compare_at_price
     if item.original_line_price > item.line_price
       assign total_savings = total_savings | plus: item.original_line_price | minus: item.line_price
@@ -27,6 +31,9 @@
   endfor
 
   assign gift_already = false
+  if gift_count > 0
+    assign gift_already = true
+  endif
   assign gift_paid = 0
   assign gift_threshold = 0
   assign gift_name = ''
@@ -34,12 +41,6 @@
   assign sc_threshold = section.settings.gift_skinceuticals | times: 100
   assign m8_threshold = section.settings.gift_medik8 | times: 100
   assign cc_threshold = section.settings.gift_cliniccare | times: 100
-
-  for item in cart.items
-    if item.original_price == 0 and item.final_price == 0
-      assign gift_already = true
-    endif
-  endfor
 
   unless gift_already
     for item in cart.items
@@ -287,10 +288,18 @@
             </div>
 
             <div class="WI_cartDrawerin_cart_footer">
-              {%- if total_savings > 0 -%}
+              {%- if total_savings > 0 or gift_count > 0 -%}
                 <div class="WI_cartDrawer_savings">
-                  <span>{{ section.settings.savings_label }}</span>
-                  <span class="WI_cartDrawer_savings_val">−{{ total_savings | money }}</span>
+                  <span class="WI_cartDrawer_savings_label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    {{ section.settings.savings_label }}
+                  </span>
+                  <span class="WI_cartDrawer_savings_val">
+                    {%- if total_savings > 0 -%}{{ total_savings | money }}{%- endif -%}
+                    {%- if gift_count > 0 -%}
+                      <span class="WI_cartDrawer_savings_gift">{% if total_savings > 0 %} {% endif %}+ {{ gift_count }} {{ section.settings.savings_gift_label }}{% if gift_count > 1 %}s{% endif %}</span>
+                    {%- endif -%}
+                  </span>
                 </div>
               {%- endif -%}
               <div class="WI_cartDrawer_total">
@@ -532,8 +541,15 @@
     {
       "type": "text",
       "id": "savings_label",
-      "label": "Total savings label",
-      "default": "Total savings:"
+      "label": "Savings banner label",
+      "default": "You're saving"
+    },
+    {
+      "type": "text",
+      "id": "savings_gift_label",
+      "label": "Free gift label",
+      "default": "FREE gift",
+      "info": "Shown as + 1 FREE gift. An s is added when there is more than one."
     },
     {
       "type": "text",
