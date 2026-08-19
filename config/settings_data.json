@@ -18,9 +18,190 @@
     "type_subheading_font": "lato_n4",
     "type_heading_font": "lato_n4",
     "type_accent_font": "lato_n4",
+    "badge_sale_color_scheme": "scheme-4",
+    "badge_sold_out_color_scheme": "scheme-5",
+    "drawer_color_scheme": "scheme-1",
     "drawer_border": "none",
+    "popover_color_scheme": "scheme-1",
     "currency_code_enabled_product_pages": false,
     "currency_code_enabled_product_cards": false,
+    "quick_add_color_scheme": "scheme-1",
+    "sections": {
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {
+          "show_upsell_panel": true,
+          "upsell_title": "Recommended products",
+          "cart_title": "Your bag",
+          "remove_text": "Remove",
+          "ship_threshold": 400,
+          "ship_progress_text": "Spend [amount] more for free UK delivery",
+          "ship_unlocked_text": "You've unlocked free UK delivery",
+          "gift_panel_title": "Exclusive Privileges",
+          "gift_generic_text": "Exclusive gifts available on qualifying orders.",
+          "gift_progress_text": "You're [amount] away from your complimentary [gift].",
+          "gift_unlocked_text": "Your complimentary [gift] will be added — thank you for your order.",
+          "gift_note_1": "Complimentary samples with qualifying brand orders",
+          "gift_skinceuticals": 150,
+          "gift_skinceuticals_name": "Skinceuticals gift set",
+          "gift_medik8": 100,
+          "gift_medik8_name": "Medik8 gift set",
+          "gift_cliniccare": 200,
+          "gift_cliniccare_name": "Cliniccare gift",
+          "loyalty_banner": "<p>BayPoints members earn rewards on every order. <a href=\"/account/login\">Sign in</a> or <a href=\"/pages/skinbay-loyalty-rewards\">join now</a></p>",
+          "trust_1": "Free UK delivery over £400",
+          "trust_2": "Fast UK delivery",
+          "trust_3": "Earn BayPoints on every order",
+          "show_discount_code": true,
+          "discount_toggle_text": "Use gift card / discount code — click here",
+          "discount_placeholder": "Enter code",
+          "discount_btn_text": "Apply",
+          "savings_label": "You're saving",
+          "savings_gift_label": "FREE gift",
+          "total_label": "Total",
+          "checkout_btn_text": "Go to checkout",
+          "secure_checkout_text": "Secured checkout",
+          "empty_text": "Discover expertly curated skincare from leading dermatology brands."
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "18208872656243357035": {
+        "type": "shopify://apps/joy-loyalty-program/blocks/joy-points-calculator-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+        "disabled": false,
+        "settings": {
+          "points_calculator_alignment": "left"
+        }
+      },
+      "589228961406621311": {
+        "type": "shopify://apps/joy-loyalty-program/blocks/joy-redeem-inline-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+        "disabled": false,
+        "settings": {
+          "background-color-button": "#ffffff",
+          "text-color-button": "#000000",
+          "border-color-button": "#000000",
+          "hasEnableCancel": true,
+          "hasReloadPage": false
+        }
+      },
+      "7584948915495707528": {
+        "type": "shopify://apps/joy-loyalty-program/blocks/app-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+        "disabled": false,
+        "settings": {}
+      },
+      "7280966411886983154": {
+        "type": "shopify://apps/monk/blocks/app-embed/e949adb6-87ca-4b97-8f31-0e51bf507f2d",
+        "disabled": false,
+        "settings": {}
+      },
+      "17920835415960095625": {
+        "type": "shopify://apps/swatch-king/blocks/variant-swatch-king/0850b1e4-ba30-4a0d-a8f4-f9a939276d7d",
+        "disabled": false,
+        "settings": {
+          "alignment": "left",
+          "swatch_location": "After image",
+          "switch_on_hover": true,
+          "preselect_variant": false
+        }
+      },
+      "341186785192672687": {
+        "type": "shopify://apps/seal-subscriptions/blocks/subscription-script-append/13b25004-a140-4ab7-b5fe-29918f759699",
+        "disabled": false,
+        "settings": {}
+      },
+      "13768625480086291342": {
+        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": false,
+        "settings": {}
+      },
+      "11797761893487868451": {
+        "type": "shopify://apps/convertflow/blocks/convertflow_script/f6367d00-7b7b-4ff9-aea4-2576ea814ccc",
+        "disabled": true,
+        "settings": {}
+      },
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "6159598353363395418": {
+        "type": "shopify://apps/google-youtube/blocks/store_widget/14ec7bd0-ac77-49a9-9417-90752398bdff",
+        "disabled": false,
+        "settings": {
+          "widget_position": "LEFT_BOTTOM",
+          "side_margin": 36,
+          "bottom_margin": 36,
+          "mobile_side_margin": 16,
+          "mobile_bottom_margin": 46
+        }
+      },
+      "15316669992541710076": {
+        "type": "shopify://apps/reviews-io/blocks/reviewsio-rating-snippet/92a082e5-b297-4e88-b428-ac96cbc505f9",
+        "disabled": false,
+        "settings": {
+          "star": "#000000",
+          "text_color": "#333333",
+          "snippet_mode": "minimal",
+          "text": "Reviews",
+          "line_break": false,
+          "listen_for_changes": false,
+          "rating_without_brackets": false,
+          "format_review_count": false,
+          "show_popup": true,
+          "anchor_to_reviews_widget": false,
+          "show_empty_stars": false
+        }
+      },
+      "10830403595879607806": {
+        "type": "shopify://apps/reviews-io/blocks/reviewsio-core/92a082e5-b297-4e88-b428-ac96cbc505f9",
+        "disabled": true,
+        "settings": {
+          "url_key": "REVIEWS.io",
+          "lang": "auto",
+          "enable_syndication": false
+        }
+      },
+      "16274361319697914395": {
+        "type": "shopify://apps/reviews-io/blocks/reviewsio-floating/92a082e5-b297-4e88-b428-ac96cbc505f9",
+        "disabled": true,
+        "settings": {
+          "widget_id": "",
+          "show_all": true,
+          "show_index": true,
+          "show_product": true,
+          "show_collection": true,
+          "show_cart": true
+        }
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": false,
+        "settings": {
+          "greeting_message": "",
+          "background_color": "#FFFFFF",
+          "font_color": "#000000",
+          "button_color": "#efede8",
+          "button_icon": "chat_bubble",
+          "button_text": "chat_with_us",
+          "button_horizontal_position": "bottom_left",
+          "button_vertical_position": "lowest",
+          "agent_inherit_fonts": true,
+          "agent_font": "system_ui_n4",
+          "agent_border_radius": 0
+        }
+      },
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": true,
+        "settings": {}
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -294,189 +475,6 @@
           "selected_variant_hover_text_color": "#ffffff",
           "selected_variant_hover_border_color": "#1a1a1a"
         }
-      }
-    },
-    "badge_sale_color_scheme": "scheme-4",
-    "badge_sold_out_color_scheme": "scheme-5",
-    "drawer_color_scheme": "scheme-1",
-    "popover_color_scheme": "scheme-1",
-    "quick_add_color_scheme": "scheme-1",
-    "sections": {
-      "cart-drawer": {
-        "type": "cart-drawer",
-        "settings": {
-          "show_upsell_panel": true,
-          "upsell_title": "Recommended products",
-          "cart_title": "Your bag",
-          "remove_text": "Remove",
-          "ship_threshold": 400,
-          "ship_progress_text": "Spend [amount] more for free UK delivery",
-          "ship_unlocked_text": "You've unlocked free UK delivery",
-          "ship_milestone_label": "Free delivery",
-          "gift_milestone_label": "Complimentary gift",
-          "gift_panel_title": "Exclusive Privileges",
-          "gift_generic_text": "Exclusive gifts available on qualifying orders.",
-          "gift_progress_text": "You're [amount] away from your complimentary [gift].",
-          "gift_unlocked_text": "Your complimentary [gift] will be added — thank you for your order.",
-          "gift_note_1": "Complimentary samples with qualifying brand orders",
-          "gift_skinceuticals": 150,
-          "gift_skinceuticals_name": "Skinceuticals gift set",
-          "gift_medik8": 100,
-          "gift_medik8_name": "Medik8 gift set",
-          "gift_cliniccare": 200,
-          "gift_cliniccare_name": "Cliniccare gift",
-          "loyalty_banner": "<p>BayPoints members earn rewards on every order. <a href=\"/account/login\">Sign in</a> or <a href=\"/pages/skinbay-loyalty-rewards\">join now</a></p>",
-          "trust_1": "Free UK delivery over £400",
-          "trust_2": "Fast UK delivery",
-          "trust_3": "Earn BayPoints on every order",
-          "show_discount_code": true,
-          "discount_toggle_text": "Use gift card / discount code — click here",
-          "discount_placeholder": "Enter code",
-          "discount_btn_text": "Apply",
-          "savings_label": "You're saving",
-          "savings_gift_label": "FREE gift",
-          "total_label": "Total",
-          "checkout_btn_text": "Go to checkout",
-          "secure_checkout_text": "Secured checkout",
-          "empty_text": "Discover expertly curated skincare from leading dermatology brands."
-        }
-      }
-    },
-    "content_for_index": [],
-    "blocks": {
-      "18208872656243357035": {
-        "type": "shopify://apps/joy-loyalty-program/blocks/joy-points-calculator-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
-        "disabled": false,
-        "settings": {
-          "points_calculator_alignment": "left"
-        }
-      },
-      "589228961406621311": {
-        "type": "shopify://apps/joy-loyalty-program/blocks/joy-redeem-inline-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
-        "disabled": false,
-        "settings": {
-          "background-color-button": "#ffffff",
-          "text-color-button": "#000000",
-          "border-color-button": "#000000",
-          "hasEnableCancel": true,
-          "hasReloadPage": false
-        }
-      },
-      "7584948915495707528": {
-        "type": "shopify://apps/joy-loyalty-program/blocks/app-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
-        "disabled": false,
-        "settings": {}
-      },
-      "7280966411886983154": {
-        "type": "shopify://apps/monk/blocks/app-embed/e949adb6-87ca-4b97-8f31-0e51bf507f2d",
-        "disabled": false,
-        "settings": {}
-      },
-      "17920835415960095625": {
-        "type": "shopify://apps/swatch-king/blocks/variant-swatch-king/0850b1e4-ba30-4a0d-a8f4-f9a939276d7d",
-        "disabled": false,
-        "settings": {
-          "alignment": "left",
-          "swatch_location": "After image",
-          "switch_on_hover": true,
-          "preselect_variant": false
-        }
-      },
-      "341186785192672687": {
-        "type": "shopify://apps/seal-subscriptions/blocks/subscription-script-append/13b25004-a140-4ab7-b5fe-29918f759699",
-        "disabled": false,
-        "settings": {}
-      },
-      "13768625480086291342": {
-        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
-        "disabled": false,
-        "settings": {}
-      },
-      "11797761893487868451": {
-        "type": "shopify://apps/convertflow/blocks/convertflow_script/f6367d00-7b7b-4ff9-aea4-2576ea814ccc",
-        "disabled": true,
-        "settings": {}
-      },
-      "855628211100114053": {
-        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
-        "disabled": false,
-        "settings": {}
-      },
-      "6159598353363395418": {
-        "type": "shopify://apps/google-youtube/blocks/store_widget/14ec7bd0-ac77-49a9-9417-90752398bdff",
-        "disabled": false,
-        "settings": {
-          "widget_position": "LEFT_BOTTOM",
-          "side_margin": 36,
-          "bottom_margin": 36,
-          "mobile_side_margin": 16,
-          "mobile_bottom_margin": 46
-        }
-      },
-      "15316669992541710076": {
-        "type": "shopify://apps/reviews-io/blocks/reviewsio-rating-snippet/92a082e5-b297-4e88-b428-ac96cbc505f9",
-        "disabled": false,
-        "settings": {
-          "star": "#000000",
-          "text_color": "#333333",
-          "snippet_mode": "minimal",
-          "text": "Reviews",
-          "line_break": false,
-          "listen_for_changes": false,
-          "rating_without_brackets": false,
-          "format_review_count": false,
-          "show_popup": true,
-          "anchor_to_reviews_widget": false,
-          "show_empty_stars": false
-        }
-      },
-      "10830403595879607806": {
-        "type": "shopify://apps/reviews-io/blocks/reviewsio-core/92a082e5-b297-4e88-b428-ac96cbc505f9",
-        "disabled": true,
-        "settings": {
-          "url_key": "REVIEWS.io",
-          "lang": "auto",
-          "enable_syndication": false
-        }
-      },
-      "16274361319697914395": {
-        "type": "shopify://apps/reviews-io/blocks/reviewsio-floating/92a082e5-b297-4e88-b428-ac96cbc505f9",
-        "disabled": true,
-        "settings": {
-          "widget_id": "",
-          "show_all": true,
-          "show_index": true,
-          "show_product": true,
-          "show_collection": true,
-          "show_cart": true
-        }
-      },
-      "15683396631634586217": {
-        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
-        "disabled": false,
-        "settings": {
-          "greeting_message": "",
-          "background_color": "#FFFFFF",
-          "font_color": "#000000",
-          "button_color": "#efede8",
-          "button_icon": "chat_bubble",
-          "button_text": "chat_with_us",
-          "button_horizontal_position": "bottom_left",
-          "button_vertical_position": "lowest",
-          "agent_inherit_fonts": true,
-          "agent_font": "system_ui_n4",
-          "agent_border_radius": 0
-        }
-      },
-      "2200952712151285029": {
-        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
-        "disabled": true,
-        "settings": {}
-      },
-      "2567389343055140935": {
-        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
