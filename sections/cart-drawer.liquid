@@ -25,6 +25,70 @@
       assign total_savings = total_savings | plus: line_save
     endif
   endfor
+
+  assign gift_already = false
+  assign gift_paid = 0
+  assign gift_threshold = 0
+  assign gift_name = ''
+  assign gift_matched = false
+  assign sc_threshold = section.settings.gift_skinceuticals | times: 100
+  assign m8_threshold = section.settings.gift_medik8 | times: 100
+  assign cc_threshold = section.settings.gift_cliniccare | times: 100
+
+  for item in cart.items
+    if item.original_price == 0 and item.final_price == 0
+      assign gift_already = true
+    endif
+  endfor
+
+  unless gift_already
+    for item in cart.items
+      assign skip_gift = false
+      if item.final_price <= 0
+        assign skip_gift = true
+      endif
+      assign gift_hay = item.product.handle | append: ' ' | append: item.product.title | downcase
+      if gift_hay contains 'extra free' or gift_hay contains 'extra-free' or gift_hay contains 'free-15ml' or gift_hay contains 'free 15ml' or gift_hay contains '50% extra' or gift_hay contains '15ml-bundle'
+        assign skip_gift = true
+      endif
+      unless skip_gift
+        assign gift_paid = gift_paid | plus: item.final_line_price
+        unless gift_matched
+          assign vendor_l = item.vendor | downcase
+          if vendor_l contains 'skinceuticals'
+            assign gift_threshold = sc_threshold
+            assign gift_name = section.settings.gift_skinceuticals_name
+            assign gift_matched = true
+          elsif vendor_l contains 'medik8' or vendor_l contains 'medik 8'
+            assign gift_threshold = m8_threshold
+            assign gift_name = section.settings.gift_medik8_name
+            assign gift_matched = true
+          elsif vendor_l contains 'cliniccare'
+            assign gift_threshold = cc_threshold
+            assign gift_name = section.settings.gift_cliniccare_name
+            assign gift_matched = true
+          endif
+        endunless
+      endunless
+    endfor
+  endunless
+
+  assign gift_remaining = 0
+  assign gift_percent = 0
+  assign gift_unlocked = false
+  if gift_threshold > 0
+    assign gift_remaining = gift_threshold | minus: gift_paid
+    if gift_remaining < 0
+      assign gift_remaining = 0
+    endif
+    assign gift_percent = gift_paid | times: 100.0 | divided_by: gift_threshold
+    if gift_percent > 100
+      assign gift_percent = 100
+    endif
+    if gift_paid >= gift_threshold
+      assign gift_unlocked = true
+    endif
+  endif
 -%}
 
 <wi-cartdrawer>
@@ -81,28 +145,34 @@
             {%- assign ship_remaining_money = ship_remaining | money -%}
             <p class="WI_cartDrawer_shipping_msg">{{ section.settings.ship_progress_text | replace: '[amount]', ship_remaining_money }}</p>
           {%- endif -%}
-          <div class="WI_cartDrawer_shipping_rail">
-            <div class="WI_cartDrawer_shipping_bar">
-              <div class="WI_cartDrawer_shipping_track">
-                <div class="WI_cartDrawer_shipping_fill{% if cart.total_price >= ship_threshold %} is-full{% endif %}" style="width:{{ ship_percent }}%"></div>
-                <span class="WI_ship_milestone WI_ship_milestone--ship{% if cart.total_price >= ship_threshold %} is-reached{% endif %}">
-                  <span class="WI_ship_milestone_icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                  </span>
-                </span>
-                <span class="WI_ship_milestone WI_ship_milestone--gift{% if cart.total_price >= ship_threshold %} is-reached{% endif %}">
-                  <span class="WI_ship_milestone_icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-                  </span>
-                </span>
-              </div>
-              <div class="WI_cartDrawer_shipping_labels">
-                <span class="WI_ship_caption WI_ship_caption--ship{% if cart.total_price >= ship_threshold %} is-reached{% endif %}">{{ section.settings.ship_milestone_label }}</span>
-                <span class="WI_ship_caption WI_ship_caption--gift{% if cart.total_price >= ship_threshold %} is-reached{% endif %}">{{ section.settings.gift_milestone_label }}</span>
-              </div>
-            </div>
+          <div class="WI_cartDrawer_shipping_track">
+            <div class="WI_cartDrawer_shipping_fill{% if cart.total_price >= ship_threshold %} is-full{% endif %}" style="width:{{ ship_percent }}%"></div>
           </div>
         </div>
+
+        {%- unless gift_already -%}
+          {%- if section.settings.gift_panel_title != blank -%}
+          <div class="WI_cartDrawer_gift">
+            <p class="WI_cartDrawer_gift_eyebrow">{{ section.settings.gift_panel_title }}</p>
+            {%- if gift_matched == false -%}
+              <p class="WI_cartDrawer_gift_msg">{{ section.settings.gift_generic_text }}</p>
+              <div class="WI_cartDrawer_gift_track"><div class="WI_cartDrawer_gift_fill" style="width:0%"></div></div>
+            {%- elsif gift_unlocked -%}
+              {%- assign gift_unlocked_text = section.settings.gift_unlocked_text | replace: '[gift]', gift_name -%}
+              <p class="WI_cartDrawer_gift_msg is-unlocked">{{ gift_unlocked_text }}</p>
+              <div class="WI_cartDrawer_gift_track"><div class="WI_cartDrawer_gift_fill is-full" style="width:100%"></div></div>
+            {%- else -%}
+              {%- assign gift_remaining_money = gift_remaining | money -%}
+              {%- assign gift_progress_text = section.settings.gift_progress_text | replace: '[amount]', gift_remaining_money | replace: '[gift]', gift_name -%}
+              <p class="WI_cartDrawer_gift_msg">{{ gift_progress_text }}</p>
+              <div class="WI_cartDrawer_gift_track"><div class="WI_cartDrawer_gift_fill" style="width:{{ gift_percent }}%"></div></div>
+            {%- endif -%}
+            {%- if section.settings.gift_note_1 != blank -%}
+              <p class="WI_cartDrawer_gift_note">{{ section.settings.gift_note_1 }}</p>
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+        {%- endunless -%}
       {%- endif -%}
 
       {%- if section.settings.loyalty_banner != blank and cart.item_count > 0 -%}
@@ -162,8 +232,6 @@
                           <input value="{{ item.quantity }}" type="number" readonly aria-label="Quantity">
                           <button type="button" class="WI_cartDrawer_plus" aria-label="Increase quantity">+</button>
                         </div>
-                      {%- else -%}
-                        <span class="WI_cartDrawer_gift_label">Complimentary</span>
                       {%- endunless -%}
                     </div>
 
@@ -232,9 +300,21 @@
               <button type="submit" name="checkout" value="Checkout" class="WI_cartDrawer_checkout">
                 {{ section.settings.checkout_btn_text }}
               </button>
-              <ul class="WI_cartDrawer_badges">
-                {% render 'wi-cart-payments' %}
-              </ul>
+              {%- if section.settings.secure_checkout_text != blank -%}
+              <div class="WI_cartDrawer_secure">
+                <span class="WI_cartDrawer_secure_stars" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l2.9 6.3L22 9.3l-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7.1-1z"/></svg>
+                  <svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l2.9 6.3L22 9.3l-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7.1-1z"/></svg>
+                  <svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l2.9 6.3L22 9.3l-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7.1-1z"/></svg>
+                  <svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l2.9 6.3L22 9.3l-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7.1-1z"/></svg>
+                  <svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l2.9 6.3L22 9.3l-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7.1-1z"/></svg>
+                </span>
+                <span class="WI_cartDrawer_secure_lock" aria-hidden="true">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <span>{{ section.settings.secure_checkout_text }}</span>
+              </div>
+              {%- endif -%}
             </div>
           {% endform %}
         </div>
@@ -292,10 +372,15 @@
       "content": "Shipping progress"
     },
     {
+      "type": "paragraph",
+      "content": "Change free-delivery spend in Theme settings → Cart Drawer. Use [amount] in the progress text for the remaining total."
+    },
+    {
       "type": "number",
       "id": "ship_threshold",
       "label": "Free shipping threshold (£)",
-      "default": 400
+      "default": 400,
+      "info": "Cart total needed to unlock free UK delivery."
     },
     {
       "type": "text",
@@ -311,22 +396,88 @@
       "default": "You've unlocked free UK delivery"
     },
     {
-      "type": "text",
-      "id": "ship_milestone_label",
-      "label": "Shipping milestone label",
-      "default": "Free delivery"
+      "type": "header",
+      "content": "Complimentary gift"
+    },
+    {
+      "type": "paragraph",
+      "content": "Works like the live theme: first matching brand in the bag sets the gift, then paid items count toward that spend. Gifts are still added by your gift app (Monk). Hide this panel by leaving the title blank. Thresholds are in pounds."
     },
     {
       "type": "text",
-      "id": "gift_milestone_label",
-      "label": "Gift milestone label",
-      "default": "Complimentary gift"
+      "id": "gift_panel_title",
+      "label": "Gift panel title",
+      "default": "Exclusive Privileges"
+    },
+    {
+      "type": "text",
+      "id": "gift_generic_text",
+      "label": "Text when no brand gift applies",
+      "default": "Exclusive gifts available on qualifying orders."
+    },
+    {
+      "type": "text",
+      "id": "gift_progress_text",
+      "label": "Gift progress text",
+      "default": "You're [amount] away from your complimentary [gift].",
+      "info": "Use [amount] for remaining spend and [gift] for the gift name."
+    },
+    {
+      "type": "text",
+      "id": "gift_unlocked_text",
+      "label": "Gift unlocked text",
+      "default": "Your complimentary [gift] will be added — thank you for your order.",
+      "info": "Use [gift] for the gift name."
+    },
+    {
+      "type": "text",
+      "id": "gift_note_1",
+      "label": "Gift note (optional)",
+      "default": "Complimentary samples with qualifying brand orders",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "number",
+      "id": "gift_skinceuticals",
+      "label": "SkinCeuticals gift spend (£)",
+      "default": 150
+    },
+    {
+      "type": "text",
+      "id": "gift_skinceuticals_name",
+      "label": "SkinCeuticals gift name",
+      "default": "Skinceuticals gift set"
+    },
+    {
+      "type": "number",
+      "id": "gift_medik8",
+      "label": "Medik8 gift spend (£)",
+      "default": 100
+    },
+    {
+      "type": "text",
+      "id": "gift_medik8_name",
+      "label": "Medik8 gift name",
+      "default": "Medik8 gift set"
+    },
+    {
+      "type": "number",
+      "id": "gift_cliniccare",
+      "label": "Cliniccare gift spend (£)",
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "gift_cliniccare_name",
+      "label": "Cliniccare gift name",
+      "default": "Cliniccare gift"
     },
     {
       "type": "richtext",
       "id": "loyalty_banner",
       "label": "Loyalty banner",
-      "default": "<p>BayPoints members earn rewards on every order. <a href=\"/account/login\">Sign in</a> or <a href=\"/pages/skinbay-loyalty-rewards\">join now</a></p>"
+      "default": "<p>BayPoints members earn rewards on every order. <a href=\"/account/login\">Sign in</a> or <a href=\"/pages/skinbay-loyalty-rewards\">join now</a></p>",
+      "info": "Leave empty to hide this strip."
     },
     {
       "type": "header",
@@ -395,6 +546,13 @@
       "id": "checkout_btn_text",
       "label": "Checkout button",
       "default": "Go to checkout"
+    },
+    {
+      "type": "text",
+      "id": "secure_checkout_text",
+      "label": "Secured checkout text",
+      "default": "Secured checkout",
+      "info": "Shown under the checkout button with stars. Leave blank to hide."
     },
     {
       "type": "textarea",

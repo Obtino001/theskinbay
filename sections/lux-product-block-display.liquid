@@ -18,19 +18,20 @@
 
 /* --- GALLERY --- */
 .omni-gallery-col { min-width: 0; }
-.omni-thumbs-wrap { display: flex; align-items: center; gap: 6px; margin-top: 14px; }
-.omni-thumbs-rail { display: flex; flex-direction: row; gap: 10px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding-bottom: 4px; flex: 1 1 auto; min-width: 0; scroll-behavior: smooth; }
-.omni-thumbs-rail::-webkit-scrollbar { display: none; }
-.omni-thumbs-arrow { flex: 0 0 auto; width: 30px; height: 90px; display: none; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 4px; cursor: pointer; color: #141414; padding: 0; transition: 0.2s; }
-.omni-thumbs-arrow:hover { background: #f4f4f4; border-color: #ddd; }
-.omni-thumbs-wrap.is-scrollable .omni-thumbs-arrow { display: flex; }
-.omni-thumb { width: 72px; height: 90px; object-fit: cover; cursor: pointer; border: 1px solid #eee; border-radius: 4px; transition: 0.3s; background: #fff; flex-shrink: 0; }
+.omni-gallery-layout { display: block; }
+.omni-gallery-layout.has-thumbs { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; }
+.omni-thumbs-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin: 0; max-height: min(620px, 72vh); position: sticky; top: 24px; }
+.omni-thumbs-rail { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; padding: 0; flex: 1 1 auto; min-height: 0; scroll-behavior: smooth; }
+.omni-thumbs-rail::-webkit-scrollbar { width: 3px; }
+.omni-thumbs-arrow { display: none; }
+.omni-thumb { width: 56px; height: 56px; object-fit: cover; cursor: pointer; border: 1px solid #eee; border-radius: 0; transition: 0.2s; background: #fff; flex-shrink: 0; display: block; }
 .omni-thumb.active { border-color: var(--accent); border-width: 2px; }
-.omni-stage { position: static; width: 100%; overflow: visible; }
-.omni-track { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
-.omni-slide { min-width: 0; display: flex; align-items: center; justify-content: center; }
-.omni-slide img { width: 100%; height: auto; aspect-ratio: 1/1; object-fit: cover; display: block; border-radius: 4px; }
-.omni-nav-arrow { display: none; } /* Hidden on desktop */
+.omni-stage { position: relative; width: 100%; overflow: hidden; }
+.omni-track { display: block; width: 100%; }
+.omni-slide { display: none; min-width: 0; align-items: center; justify-content: flex-start; }
+.omni-slide.is-active { display: block; }
+.omni-slide img { width: 100%; height: auto; aspect-ratio: 1/1; object-fit: cover; display: block; border-radius: 0; }
+.omni-nav-arrow { display: none; }
 
 /* --- BUY COLUMN --- */
 .omni-buy-col { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 40px; }
@@ -88,8 +89,20 @@
 .omni-dispatch-note svg { flex-shrink:0; color:#c9a96e; }
 
 /* --- PAYMENT ICONS --- */
-.omni-payment-icons { display: flex; justify-content: center; margin-top: 5px; }
-.omni-payment-icons img { max-width: 300px; width: 85%; height: auto; display: block; margin: 0 auto; }
+.omni-payment-icons { display: flex; justify-content: flex-start; margin-top: 8px; }
+.omni-payment-icons img { max-width: 280px; width: 85%; height: auto; display: block; margin: 0; }
+.omni-payment-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 6px; }
+.omni-payment-list li { display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.08); padding: 3px 6px; background: #fff; }
+.omni-payment-list svg { height: 18px; width: auto; display: block; }
+
+/* --- STOCK --- */
+.omni-stock { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2e7d52; }
+.omni-stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #2e7d52; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(46,125,82,0.18); }
+.omni-stock--low { color: #c0392b; }
+.omni-stock--low .omni-stock-dot { background: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,0.18); animation: omni-stock-pulse 1.6s ease-in-out infinite; }
+.omni-stock--out { color: #888; }
+.omni-stock--out .omni-stock-dot { background: #bbb; box-shadow: none; }
+@keyframes omni-stock-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(0.8); } }
 
 /* --- GIFT OFFER BOX --- */
 .omni-gift { display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 15px 18px; border: 1px solid #e4d4ad; border-radius: 10px; background: linear-gradient(180deg,#fdfaf2,#faf3e4); }
@@ -108,25 +121,32 @@
 .omni-hl { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px 7px 10px; border: 1px solid #e6e0d5; border-radius: 30px; font-size: 11px; font-weight: 600; letter-spacing: .01em; color: #33302b; background: #faf7f2; white-space: nowrap; line-height: 1; }
 .omni-hl svg { width: 15px; height: 15px; color: #b08d3f; flex-shrink: 0; }
 
-.omni-sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--page-bg); padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; z-index: 9999; transform: translateY(110%); transition: 0.5s; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
+.omni-sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--page-bg); padding: 12px 5%; display: flex; align-items: center; justify-content: space-between; gap: 16px; z-index: 9999; transform: translateY(110%); transition: 0.5s; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
 .omni-sticky-bar.visible { transform: translateY(0); }
-@media (min-width: 750px) { .omni-sticky-bar { display: none !important; } }
+.omni-sticky-bar .omni-btn { width: auto; padding: 12px 28px; border-radius: 4px; }
 
 /* --- MOBILE OPTIMIZATIONS --- */
 @media (max-width: 749px) {
-  .omni-perfect-{{sb_uid}} { padding: 12px 0 20px 0; }
+  .omni-perfect-{{sb_uid}} { padding: 12px 0 90px 0; }
   .omni-grid { grid-template-columns: 1fr; gap: 0; padding: 0 20px; display: flex; flex-direction: column; }
-  .omni-thumbs-wrap { display: none; }
+  .omni-gallery-layout,
+  .omni-gallery-layout.has-thumbs { display: flex; flex-direction: column; gap: 0; }
+  .omni-stage { order: 1; }
+  .omni-thumbs-wrap { order: 2; display: flex; flex-direction: row; max-height: none; position: static; margin-top: 12px; }
+  .omni-thumbs-rail { flex-direction: row; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  .omni-thumbs-rail::-webkit-scrollbar { display: none; }
+  .omni-thumb { width: 48px; height: 48px; }
   .omni-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .omni-hl { justify-content: center; width: 100%; box-sizing: border-box; padding: 9px 10px; }
   
   /* Reordering for Conversion */
   .omni-header { order: 1; margin-bottom: 20px; }
-  .omni-stage { order: 2; position: relative; margin: 0 -20px 30px -20px; width: 100vw; display: block; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .omni-stage { order: 2; position: relative; margin: 0 -20px 0 -20px; width: 100vw; display: block; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .omni-stage::-webkit-scrollbar { display: none; }
   .omni-track { width: auto; display: flex; }
-  .omni-slide { width: 100vw; min-width: 100vw; scroll-snap-align: center; }
+  .omni-slide { display: flex; width: 100vw; min-width: 100vw; scroll-snap-align: center; }
   .omni-slide img { max-height: 60vh; padding: 0 10px; }
+  .omni-thumbs-wrap { order: 3; }
   
   /* Mobile Arrows */
   .omni-nav-arrow { 
@@ -154,27 +174,17 @@
 <div class="omni-perfect-{{sb_uid}}" data-product-json='{{ product | json | escape }}'>
 <div class="omni-grid">
   <!-- GALLERY -->
-    {%- assign _cl = product.metafields.custom.cleanser_upsell.value -%}
-  {%- capture cleanser_box -%}{%- if _cl != blank and _cl.available -%}{%- assign _clv = _cl.selected_or_first_available_variant -%}<div class="pgc-box"><div class="pgc-head"><span class="pgc-eyebrow">Complimenting Cleanser</span><span class="pgc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Start Your Routine</span></div><div class="pgc-body"><a href="{{ _cl.url }}" class="pgc-img">{% if _cl.featured_image %}<img src="{{ _cl.featured_image | image_url: width: 200 }}" alt="{{ _cl.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgc-info"><p class="pgc-role">Cleanse First</p><p class="pgc-vendor">{{ _cl.vendor }}</p><a href="{{ _cl.url }}" class="pgc-title">{{ _cl.title }}</a><p class="pgc-price">{{ _clv.price | money }}</p></div></div><div class="pgc-reason">Cleansing is the first, and most important, step of any good routine, it preps the skin so everything you apply after works harder.</div><div class="pgc-foot"><button type="button" class="pgc-btn" onclick="pgcAdd(this, {{ _clv.id }})">Add Cleanser</button></div></div>{%- endif -%}{%- endcapture -%}
-  <style>
-  .pgc-box{border:1px solid #e6e0d5;border-radius:6px;background:#fff;overflow:hidden;font-family:var(--font-body--family), sans-serif;margin-top:16px;}
-  .pgc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid #efe9df;}
-  .pgc-eyebrow{font-size:10px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:#141414;}
-  .pgc-tag{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b08d3f;}.pgc-tag svg{width:13px;height:13px;}
-  .pgc-body{display:flex;gap:14px;align-items:center;padding:18px;}
-  .pgc-img{flex-shrink:0;display:block;}.pgc-img img{width:84px;height:84px;object-fit:cover;border-radius:4px;display:block;background:#faf9f7;}
-  .pgc-info{min-width:0;}.pgc-role{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#a89f8f;margin:0 0 4px;}
-  .pgc-vendor{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8a8478;margin:0 0 3px;}
-  .pgc-title{font-size:13px;line-height:1.35;color:#141414;margin:0 0 5px;text-decoration:none;display:block;}.pgc-title:hover{text-decoration:underline;}
-  .pgc-price{font-size:13px;font-weight:700;color:#141414;margin:0;}
-  .pgc-reason{padding:12px 18px;background:#f9f3ed;border-top:1px solid #efe9df;font-size:11.5px;line-height:1.6;color:#6b6459;}
-  .pgc-foot{padding:16px 18px;border-top:1px solid #efe9df;}
-  .pgc-btn{width:100%;padding:14px 20px;background:#141414;color:#fff;border:none;border-radius:40px;font-family:var(--font-body--family), sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}.pgc-btn:hover{background:#333;}.pgc-btn[disabled]{opacity:.6;}
-  .pgc-desk{display:none;}
-  @media (min-width:750px){.pgc-desk{display:block;}}
-  </style>
-  <script>function pgcAdd(b,id){b.disabled=true;var o=b.textContent;b.textContent='Adding…';fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:id,quantity:1}]})}).then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));if(window.openCart)window.openCart();b.textContent='Added';setTimeout(function(){b.disabled=false;b.textContent=o;},1600);}).catch(function(){b.disabled=false;b.textContent=o;alert('Sorry, could not add that.');});}</script>
   <div class="omni-gallery-col">
+  <div class="omni-gallery-layout{% if product.images.size > 1 %} has-thumbs{% endif %}">
+  {%- if product.images.size > 1 -%}
+  <div class="omni-thumbs-wrap" id="ThumbsWrap-{{sb_uid}}">
+    <div class="omni-thumbs-rail" id="ThumbsRail-{{sb_uid}}">
+    {% for image in product.images %}
+      <img src="{{ image | image_url: width: 160 }}" class="omni-thumb {% if forloop.first %}active{% endif %}" onclick="omniJump({{ forloop.index0 }})" alt="{{ image.alt | escape }}" loading="lazy" width="56" height="56">
+    {% endfor %}
+    </div>
+  </div>
+  {%- endif -%}
   <div class="omni-stage" id="Stage-{{sb_uid}}">
     <!-- Mobile Arrows -->
     <button class="omni-nav-arrow omni-arrow-prev" type="button" aria-label="Previous image" onclick="omniMove(-1)">
@@ -186,11 +196,10 @@
     
     {%- assign _hero = product.images.first -%}
     {%- if _hero -%}<link rel="preload" as="image" href="{{ _hero | image_url: width: 1200 }}" imagesrcset="{{ _hero | image_url: width: 600 }} 600w, {{ _hero | image_url: width: 900 }} 900w, {{ _hero | image_url: width: 1200 }} 1200w" imagesizes="(min-width: 750px) 50vw, 100vw">{%- endif -%}
-    {%- assign _img_limit = 4 -%}
-    {%- for _v in product.variants -%}{%- if _v.featured_image and _v.title != 'Default Title' -%}{%- assign _img_limit = 50 -%}{%- break -%}{%- endif -%}{%- endfor -%}
+    {%- assign _img_limit = 50 -%}
     <div class="omni-track" id="Track-{{sb_uid}}">
       {% for image in product.images limit: _img_limit %}
-        <div class="omni-slide">
+        <div class="omni-slide{% if forloop.first %} is-active{% endif %}">
           <img
             src="{{ image | image_url: width: 1200 }}"
             srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
@@ -208,68 +217,8 @@
       {% endfor %}
     </div>
   </div>
-  <!-- THUMBNAIL CAROUSEL (bottom) -->
-  <div class="omni-thumbs-wrap" id="ThumbsWrap-{{sb_uid}}">
-    <button class="omni-thumbs-arrow omni-thumbs-prev" type="button" aria-label="Previous thumbnails" onclick="omniThumbScroll(-1)">
-      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="omni-thumbs-rail" id="ThumbsRail-{{sb_uid}}">
-    {% for image in product.images %}
-      <img src="{{ image | image_url: width: 200 }}" class="omni-thumb {% if forloop.first %}active{% endif %}" onclick="omniZoom({{ forloop.index0 }})" alt="{{ image.alt | escape }}" loading="lazy" width="200" height="250">
-    {% endfor %}
-    </div>
-    <button class="omni-thumbs-arrow omni-thumbs-next" type="button" aria-label="Next thumbnails" onclick="omniThumbScroll(1)">
-      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
   {%- if product.vendor == 'La Roche-Posay' -%}<div style="margin-top:18px;">{% render 'cancer-support-banner' %}</div>{%- endif -%}
-
-  {%- comment -%} Perfect Pairing in the gallery column (desktop) — fills space freed by fewer images {%- endcomment -%}
-  {%- assign _pgp = product.metafields.custom.paired_product.value -%}
-  {%- if _pgp != blank and _pgp.available -%}
-    {%- assign _pgpthis = product.selected_or_first_available_variant -%}
-    {%- assign _pgppair = _pgp.selected_or_first_available_variant -%}
-    {%- assign _pgptotal = _pgpthis.price | plus: _pgppair.price -%}
-    {%- assign _pgptag = product.metafields.custom.paired_reason_tag | default: 'Perfectly Paired' -%}
-    {%- assign _pgpdesc = product.metafields.custom.paired_reason_desc -%}
-    <div class="pgp-wrap">
-      <div class="pgp-box">
-        <div class="pgp-head"><span class="pgp-eyebrow">Perfect Pairing</span><span class="pgp-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>{{ _pgptag }}</span></div>
-        <div class="pgp-row">
-          <div class="pgp-item"><a href="{{ product.url }}" class="pgp-img">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgp-info"><p class="pgp-role">This item</p><p class="pgp-vendor">{{ product.vendor }}</p><p class="pgp-title">{{ product.title }}</p><p class="pgp-price">{{ _pgpthis.price | money }}</p></div></div>
-          <div class="pgp-plus">+</div>
-          <div class="pgp-item"><a href="{{ _pgp.url }}" class="pgp-img">{% if _pgp.featured_image %}<img src="{{ _pgp.featured_image | image_url: width: 200 }}" alt="{{ _pgp.title | escape }}" width="84" height="84" loading="lazy">{% endif %}</a><div class="pgp-info"><p class="pgp-role">Pairs with</p><p class="pgp-vendor">{{ _pgp.vendor }}</p><a href="{{ _pgp.url }}" class="pgp-title pgp-title-link">{{ _pgp.title }}</a><p class="pgp-price">{{ _pgppair.price | money }}</p></div></div>
-        </div>
-        {%- if _pgpdesc != blank -%}<div class="pgp-reason">{{ _pgpdesc }}</div>{%- endif -%}
-        <div class="pgp-foot"><div class="pgp-total-wrap"><span class="pgp-total-label">Combined total</span><span class="pgp-total">{{ _pgptotal | money }}</span></div><button type="button" class="pgp-btn" onclick="pgpCheckout(this, {{ _pgpthis.id }}, {{ _pgppair.id }})">Checkout Now</button></div>
-      </div>
-    </div>
-    <style>
-      .pgp-wrap { margin: 26px 0 0; font-family: var(--font-body--family), sans-serif; }
-      .pgp-box { border: 1px solid #e6e0d5; border-radius: 6px; background: #fff; overflow: hidden; }
-      .pgp-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px; border-bottom:1px solid #efe9df; }
-      .pgp-eyebrow { font-size:10px; font-weight:800; letter-spacing:.26em; text-transform:uppercase; color:#141414; }
-      .pgp-tag { display:inline-flex; align-items:center; gap:6px; font-size:9.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#b08d3f; } .pgp-tag svg { width:13px; height:13px; }
-      .pgp-row { display:grid; grid-template-columns:1fr 24px 1fr; align-items:start; gap:6px; padding:20px 18px; }
-      .pgp-item { display:flex; gap:12px; align-items:flex-start; min-width:0; } .pgp-img { flex-shrink:0; display:block; } .pgp-img img { width:84px; height:84px; object-fit:cover; border-radius:4px; display:block; }
-      .pgp-info { min-width:0; } .pgp-role { font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:#a89f8f; margin:0 0 4px; }
-      .pgp-vendor { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8a8478; margin:0 0 3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-      .pgp-title { font-size:12px; line-height:1.35; color:#141414; margin:0 0 5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-decoration:none; }
-      .pgp-title-link:hover { text-decoration:underline; }
-      .pgp-price { font-size:12.5px; font-weight:700; color:#141414; margin:0; }
-      .pgp-plus { display:flex; align-items:center; justify-content:center; padding-top:28px; color:#b7ae9e; font-size:18px; }
-      .pgp-reason { padding:12px 18px; background:#f9f3ed; border-top:1px solid #efe9df; font-size:11.5px; line-height:1.6; color:#6b6459; }
-      .pgp-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-top:1px solid #efe9df; flex-wrap:wrap; }
-      .pgp-total-label { display:block; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#8a8478; margin-bottom:4px; }
-      .pgp-total { font-family:var(--font-heading--family), serif; font-size:22px; color:#141414; }
-      .pgp-btn { flex:1; min-width:160px; max-width:260px; padding:14px 20px; background:#141414; color:#fff; border:none; border-radius:40px; font-family:var(--font-body--family), sans-serif; font-size:11px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; } .pgp-btn:hover { background:#333; } .pgp-btn.pgp-loading { opacity:.6; pointer-events:none; }
-      @media (max-width: 749px){ .pgp-wrap { display:none !important; } }
-    </style>
-    <script>
-      function pgpCheckout(btn,v1,v2){ btn.classList.add('pgp-loading'); btn.textContent='Adding…'; fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:v1,quantity:1},{id:v2,quantity:1}]})}).then(function(r){if(!r.ok)throw new Error('x');window.location.href='/checkout';}).catch(function(){btn.classList.remove('pgp-loading');btn.textContent='Checkout Now';alert('Sorry, something went wrong adding these to your bag.');}); }
-    </script>
-  {%- endif -%}
-  {%- if cleanser_box != blank -%}<div class="pgc-desk">{{ cleanser_box }}</div>{%- endif -%}
   </div>
 
   <!-- BUY SIDE -->
@@ -289,6 +238,21 @@
           <span id="SaveBadge-{{sb_uid}}" class="omni-save-badge" style="display:none;"></span>
         {%- endif -%}
       </div>
+      {%- liquid
+        assign omni_stock_status = 'in'
+        assign omni_stock_text = 'In stock'
+        if current_variant.available == false
+          assign omni_stock_status = 'out'
+          assign omni_stock_text = 'Sold out'
+        elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 10
+          assign omni_stock_status = 'low'
+          assign omni_stock_text = 'Only ' | append: current_variant.inventory_quantity | append: ' left in stock'
+        endif
+      -%}
+      <p class="omni-stock omni-stock--{{ omni_stock_status }}" id="Stock-{{sb_uid}}">
+        <span class="omni-stock-dot" aria-hidden="true"></span>
+        <span id="StockText-{{sb_uid}}">{{ omni_stock_text }}</span>
+      </p>
       {%- assign omni_hls = product.metafields.custom.highlights.value -%}
       {%- if omni_hls -%}
       <div class="omni-highlights">
@@ -370,11 +334,17 @@
           <img
             src="{{ section.settings.payment_icons | image_url: width: 400 }}"
             srcset="{{ section.settings.payment_icons | image_url: width: 200 }} 200w, {{ section.settings.payment_icons | image_url: width: 400 }} 400w"
-            sizes="(min-width: 750px) 300px, 90vw"
+            sizes="(min-width: 750px) 280px, 90vw"
             alt="Payment methods"
             loading="lazy"
           >
         </div>
+      {% elsif shop.enabled_payment_types != empty %}
+        <ul class="omni-payment-list" aria-label="Accepted payment methods">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag }}</li>
+          {%- endfor -%}
+        </ul>
       {% endif %}
     </div>
 
@@ -445,7 +415,7 @@
   <div class="omni-sticky-info"><p style="font-size:14px; font-weight:700; text-transform:uppercase; margin:0;">{{ product.title | truncate: 30 }}</p></div>
   <div style="display:flex; align-items:center; gap:20px;">
     <span style="font-size:20px; font-weight:600;" id="StickyPrice-{{sb_uid}}">{{ current_variant.price | money }}</span>
-    <button class="omni-btn omni-btn-checkout" style="width:auto; padding: 12px 30px; border-radius:4px;" onclick="omniAction('now')">CHECKOUT</button>
+    <button class="omni-btn omni-btn-bag" style="width:auto; padding: 12px 30px; border-radius:4px;" onclick="omniAction('bag')">ADD TO BAG</button>
   </div>
 </div>
 
@@ -496,20 +466,40 @@ function omniRefreshPrice(variant) {
     if (_cap > finalPrice) { _sb.textContent = 'Save ' + Math.round((_cap - finalPrice) / _cap * 100) + '%'; _sb.style.display = ''; }
     else { _sb.style.display = 'none'; }
   }
+  omniRefreshStock(variant);
+}
+
+function omniRefreshStock(variant) {
+  const wrap = document.getElementById('Stock-{{sb_uid}}');
+  const text = document.getElementById('StockText-{{sb_uid}}');
+  if (!wrap || !text) return;
+  let status = 'in';
+  let label = 'In stock';
+  const qty = typeof variant.inventory_quantity === 'number' ? variant.inventory_quantity : null;
+  if (variant.available === false) {
+    status = 'out';
+    label = 'Sold out';
+  } else if (qty !== null && qty > 0 && qty <= 10) {
+    status = 'low';
+    label = 'Only ' + qty + ' left in stock';
+  }
+  wrap.className = 'omni-stock omni-stock--' + status;
+  text.textContent = label;
 }
 
 function omniJump(i) {
   currentSlide = i;
   const track = document.getElementById('Track-{{sb_uid}}');
   const stage = document.getElementById('Stage-{{sb_uid}}');
-  if(window.innerWidth > 768) {
-    const dslide = track.querySelectorAll('.omni-slide')[i];
-    if(dslide) dslide.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  } else {
-    const slide = stage.querySelectorAll('.omni-slide')[i];
-    stage.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+  const slides = track ? track.querySelectorAll('.omni-slide') : [];
+  slides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === i));
+  if(window.innerWidth <= 768 && stage && slides[i]) {
+    stage.scrollTo({ left: slides[i].offsetLeft, behavior: 'smooth' });
   }
-  document.querySelectorAll('.omni-thumb').forEach((t, idx) => { t.classList.toggle('active', idx === i); });
+  document.querySelectorAll('#ThumbsRail-{{sb_uid}} .omni-thumb').forEach((t, idx) => {
+    t.classList.toggle('active', idx === i);
+    if (idx === i) t.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+  });
 }
 
 function omniMove(dir) {
@@ -636,7 +626,7 @@ async function omniAction(type) {
   { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#000000" },
   { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1a1a1a" },
   { "type": "color", "id": "btn_text_color", "label": "Button Text Color", "default": "#ffffff" },
-  { "type": "image_picker", "id": "payment_icons", "label": "Payment Icons Image" }
+  { "type": "image_picker", "id": "payment_icons", "label": "Payment Icons Image", "info": "Optional. Leave empty to use Shopify payment icons under the buttons, left aligned." }
 ],
 "presets": [{ "name": "Omni-Luxe Pro Commerce" }]
 }

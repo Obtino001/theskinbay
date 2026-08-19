@@ -314,6 +314,17 @@
           "ship_unlocked_text": "You've unlocked free UK delivery",
           "ship_milestone_label": "Free delivery",
           "gift_milestone_label": "Complimentary gift",
+          "gift_panel_title": "Exclusive Privileges",
+          "gift_generic_text": "Exclusive gifts available on qualifying orders.",
+          "gift_progress_text": "You're [amount] away from your complimentary [gift].",
+          "gift_unlocked_text": "Your complimentary [gift] will be added — thank you for your order.",
+          "gift_note_1": "Complimentary samples with qualifying brand orders",
+          "gift_skinceuticals": 150,
+          "gift_skinceuticals_name": "Skinceuticals gift set",
+          "gift_medik8": 100,
+          "gift_medik8_name": "Medik8 gift set",
+          "gift_cliniccare": 200,
+          "gift_cliniccare_name": "Cliniccare gift",
           "loyalty_banner": "<p>BayPoints members earn rewards on every order. <a href=\"/account/login\">Sign in</a> or <a href=\"/pages/skinbay-loyalty-rewards\">join now</a></p>",
           "trust_1": "Free UK delivery over £400",
           "trust_2": "Fast UK delivery",
@@ -325,6 +336,7 @@
           "savings_label": "Total savings:",
           "total_label": "Total",
           "checkout_btn_text": "Go to checkout",
+          "secure_checkout_text": "Secured checkout",
           "empty_text": "Discover expertly curated skincare from leading dermatology brands."
         }
       }

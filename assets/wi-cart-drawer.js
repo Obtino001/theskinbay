@@ -307,12 +307,20 @@ class WIcartDrawer extends HTMLElement {
 
       this._lastUpdate = Date.now();
       this.loadRecommendations();
+      if (mode === "add") this.scheduleGiftRefresh();
     } catch (err) {
       console.error("WIcartDrawer Update Error:", err);
     } finally {
       this.classList.remove("wi-cart-updating");
       this.clearLoadingStates();
     }
+  }
+
+  scheduleGiftRefresh() {
+    clearTimeout(this._giftRefreshTimer);
+    this._giftRefreshTimer = setTimeout(() => {
+      this.updateCart({ mode: "refresh" });
+    }, 900);
   }
 
   loadRecommendations() {
