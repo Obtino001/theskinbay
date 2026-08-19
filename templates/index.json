@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "home_hero": {
@@ -12,7 +21,7 @@
             "eyebrow": "",
             "heading": "Instant Peel @ Home",
             "headline_image": "hero-cliniccare.png",
-            "body": "Free ClinicCare Instant Peel @ Home sample when you spend \u00a350 on any ClinicCare order. Helping restore the skin's natural radiance, refine texture and support cellular renewal, with visible results in just minutes.",
+            "body": "Free ClinicCare Instant Peel @ Home sample when you spend £50 on any ClinicCare order. Helping restore the skin's natural radiance, refine texture and support cellular renewal, with visible results in just minutes.",
             "cta1_label": "SHOP NOW",
             "cta1_link": "shopify://collections/cliniccare",
             "cta2_label": "",
@@ -74,6 +83,8 @@
           "type": "brand",
           "settings": {
             "name": "Skinceuticals",
+            "short_name": "",
+            "link": "",
             "collection": "skinceuticals"
           }
         },
@@ -81,6 +92,8 @@
           "type": "brand",
           "settings": {
             "name": "Cliniccare",
+            "short_name": "",
+            "link": "",
             "collection": "cliniccare"
           }
         },
@@ -88,6 +101,8 @@
           "type": "brand",
           "settings": {
             "name": "Medik8",
+            "short_name": "",
+            "link": "",
             "collection": "medik8"
           }
         },
@@ -95,6 +110,8 @@
           "type": "brand",
           "settings": {
             "name": "Avène",
+            "short_name": "",
+            "link": "",
             "collection": "avene"
           }
         },
@@ -102,6 +119,8 @@
           "type": "brand",
           "settings": {
             "name": "Vichy",
+            "short_name": "",
+            "link": "",
             "collection": "vichy"
           }
         },
@@ -109,6 +128,8 @@
           "type": "brand",
           "settings": {
             "name": "La Roche-Posay",
+            "short_name": "",
+            "link": "",
             "collection": "la-roche-posay"
           }
         },
@@ -116,6 +137,8 @@
           "type": "brand",
           "settings": {
             "name": "Jane Iredale",
+            "short_name": "",
+            "link": "",
             "collection": "jane-iredale"
           }
         },
@@ -123,6 +146,8 @@
           "type": "brand",
           "settings": {
             "name": "Vita Liberata",
+            "short_name": "",
+            "link": "",
             "collection": "vita-liberata"
           }
         },
@@ -130,6 +155,8 @@
           "type": "brand",
           "settings": {
             "name": "Skinade",
+            "short_name": "",
+            "link": "",
             "collection": "skinade"
           }
         },
@@ -137,6 +164,8 @@
           "type": "brand",
           "settings": {
             "name": "Voya",
+            "short_name": "",
+            "link": "",
             "collection": "voya"
           }
         },
@@ -144,6 +173,8 @@
           "type": "brand",
           "settings": {
             "name": "Olaplex",
+            "short_name": "",
+            "link": "",
             "collection": "olaplex"
           }
         },
@@ -151,6 +182,8 @@
           "type": "brand",
           "settings": {
             "name": "Cebelia",
+            "short_name": "",
+            "link": "",
             "collection": "cebelia"
           }
         }
@@ -169,6 +202,7 @@
         "brand_olaplex",
         "brand_cebelia"
       ],
+      "disabled": true,
       "settings": {
         "bg_color": "#ffffff",
         "padding_y": 20,
@@ -179,6 +213,23 @@
         "aria_label": "Featured brands",
         "menu": "main-menu",
         "auto_brand_handles": "skinceuticals|cliniccare|medik8|avene|vichy|la-roche-posay|jane-iredale|vita-liberata|skinade|voya|olaplex|cebelia"
+      }
+    },
+    "lf_usp": {
+      "type": "lf-usp-strip",
+      "settings": {
+        "bg_color": "#f7f4ef",
+        "icon_color": "#b8925a",
+        "heading_color": "#141414",
+        "sub_color": "#6a6a6a",
+        "usp1_label": "Free UK Delivery",
+        "usp1_sub": "On all orders over £400",
+        "usp2_label": "100% Authentic",
+        "usp2_sub": "Genuine products, direct from brands",
+        "usp3_label": "Expert Advice",
+        "usp3_sub": "Free personal consultation",
+        "usp4_label": "Easy Returns",
+        "usp4_sub": "30-day hassle-free returns"
       }
     },
     "home_collections": {
@@ -443,24 +494,6 @@
         "cta_link": "shopify://pages/free-personal-skincare-consultation",
         "image": "shopify://shop_images/6B8B3409-77BE-4BB2-BFEE-41FA162DE723.png",
         "image_focal": "center"
-      }
-    },
-    "lf_usp": {
-      "type": "lf-usp-strip",
-      "disabled": false,
-      "settings": {
-        "bg_color": "#f7f4ef",
-        "icon_color": "#b8925a",
-        "heading_color": "#141414",
-        "sub_color": "#6a6a6a",
-        "usp1_label": "Free UK Delivery",
-        "usp1_sub": "On all orders over \u00a3400",
-        "usp2_label": "100% Authentic",
-        "usp2_sub": "Genuine products, direct from brands",
-        "usp3_label": "Expert Advice",
-        "usp3_sub": "Free personal consultation",
-        "usp4_label": "Easy Returns",
-        "usp4_sub": "30-day hassle-free returns"
       }
     }
   },
