@@ -1,0 +1,269 @@
+{% doc %}
+Sticky add-to-bag bar for product pages. Shows on mobile and desktop after the main button scrolls away.
+@param {string} uid - Unique id for this instance
+@param {string} [trigger_id] - DOM id of the main add-to-bag button
+@param {string} [trigger_selector] - CSS selector for the main add-to-bag button
+@param {string} [cta_text] - Button label
+@param {object} [variant] - Selected variant
+@param {object} [product] - Product
+@example
+{% render 'pdp-sticky-atc', uid: section.id, trigger_id: 'nadcta-123', variant: product.selected_or_first_available_variant, product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign v = variant | default: product.selected_or_first_available_variant
+  assign cta_text = cta_text | default: 'Add to bag'
+  assign img = v.featured_image | default: product.featured_image
+-%}
+
+<div
+  class="pdp-sticky-atc"
+  id="pdp-sticky-{{ uid }}"
+  data-trigger="{{ trigger_id }}"
+  data-trigger-selector="{{ trigger_selector }}"
+  data-cta="{{ cta_text | escape }}"
+  aria-hidden="true"
+>
+  <div class="pdp-sticky-atc__inner">
+    {%- if img != blank -%}
+      <img
+        class="pdp-sticky-atc__img"
+        src="{{ img | image_url: width: 120 }}"
+        alt=""
+        width="48"
+        height="48"
+        loading="lazy"
+      >
+    {%- endif -%}
+    <div class="pdp-sticky-atc__info">
+      <span class="pdp-sticky-atc__title">{{ product.title | truncate: 36 }}</span>
+      <span class="pdp-sticky-atc__price" id="pdp-sticky-price-{{ uid }}">{{ v.price | money }}</span>
+    </div>
+    <button
+      type="button"
+      class="pdp-sticky-atc__btn"
+      id="pdp-sticky-btn-{{ uid }}"
+      {% unless v.available %}disabled{% endunless %}
+    >
+      {%- if v.available -%}{{ cta_text }}{%- else -%}Sold out{%- endif -%}
+    </button>
+  </div>
+</div>
+
+{% javascript %}
+  window.pdpStickyRefresh = function (uid, variant) {
+    var bar = document.getElementById('pdp-sticky-' + uid);
+    if (!bar || !variant) return;
+    var price = bar.querySelector('.pdp-sticky-atc__price');
+    var btn = bar.querySelector('.pdp-sticky-atc__btn');
+    var img = bar.querySelector('.pdp-sticky-atc__img');
+    if (price && typeof variant.price === 'number') {
+      price.textContent = '£' + (variant.price / 100).toFixed(2).replace(/\.00$/, '.00');
+      try {
+        price.textContent = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(variant.price / 100);
+      } catch (e) {}
+    }
+    if (btn) {
+      var label = bar.getAttribute('data-cta') || 'Add to bag';
+      var trigger = document.getElementById(bar.getAttribute('data-trigger'));
+      if (trigger && trigger.getAttribute('data-label')) label = trigger.getAttribute('data-label');
+      btn.disabled = variant.available === false;
+      btn.textContent = variant.available === false ? 'Sold out' : label;
+    }
+    if (img && variant.featured_image) {
+      var src = variant.featured_image.src || variant.featured_image;
+      if (typeof src === 'string') img.src = src.replace(/(\.[a-z]+)(\?|$)/i, '_120x$1$2');
+    }
+  };
+
+  window.pdpStickyInit = function () {
+    document.querySelectorAll('.pdp-sticky-atc').forEach(function (bar) {
+      if (bar.getAttribute('data-ready') === '1') return;
+      bar.setAttribute('data-ready', '1');
+      var btn = bar.querySelector('.pdp-sticky-atc__btn');
+      if (!btn) return;
+
+      function getTrigger() {
+        var id = bar.getAttribute('data-trigger');
+        if (id) {
+          var byId = document.getElementById(id);
+          if (byId) return byId;
+        }
+        var sel = bar.getAttribute('data-trigger-selector');
+        if (sel) return document.querySelector(sel);
+        return null;
+      }
+
+      var trigger = getTrigger();
+
+      function update() {
+        if (!trigger) trigger = getTrigger();
+        if (!trigger) return;
+        var past = trigger.getBoundingClientRect().bottom < 24;
+        bar.classList.toggle('is-visible', past);
+        bar.setAttribute('aria-hidden', past ? 'false' : 'true');
+        document.body.classList.toggle('pdp-sticky-visible', past);
+      }
+
+      btn.addEventListener('click', function () {
+        if (!trigger) trigger = getTrigger();
+        if (!trigger || trigger.disabled) return;
+        trigger.click();
+      });
+
+      function bindTrigger() {
+        if (!trigger) trigger = getTrigger();
+        if (!trigger || bar.getAttribute('data-bound') === '1') return;
+        bar.setAttribute('data-bound', '1');
+        new MutationObserver(function () {
+          btn.disabled = trigger.disabled;
+          var t = (trigger.textContent || '').trim();
+          if (t) btn.textContent = t;
+        }).observe(trigger, { attributes: true, childList: true, characterData: true, subtree: true });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(update, { threshold: [0, 0.01, 0.2, 1] }).observe(trigger);
+        }
+      }
+
+      bindTrigger();
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+      setTimeout(function () { bindTrigger(); update(); }, 400);
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.pdpStickyInit);
+  } else {
+    window.pdpStickyInit();
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .pdp-sticky-atc {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9990;
+    background: #fff;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.08);
+    padding: 10px 16px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    transform: translateY(110%);
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+
+  .pdp-sticky-atc.is-visible {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .pdp-sticky-atc__inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .pdp-sticky-atc__img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f3f3f1;
+  }
+
+  .pdp-sticky-atc__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .pdp-sticky-atc__title {
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #141414;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pdp-sticky-atc__price {
+    font-family: var(--font-heading--family), serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #141414;
+    line-height: 1.2;
+  }
+
+  .pdp-sticky-atc__btn {
+    flex-shrink: 0;
+    appearance: none;
+    border: none;
+    background: #141414;
+    color: #fff;
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+
+  .pdp-sticky-atc__btn:hover:not(:disabled) {
+    background: #000;
+  }
+
+  .pdp-sticky-atc__btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  body.pdp-sticky-visible {
+    padding-bottom: 88px;
+  }
+
+  @media (max-width: 749px) {
+    .pdp-sticky-atc {
+      padding: 8px 12px;
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+
+    .pdp-sticky-atc__img {
+      width: 44px;
+      height: 44px;
+    }
+
+    .pdp-sticky-atc__title {
+      font-size: 11px;
+    }
+
+    .pdp-sticky-atc__price {
+      font-size: 15px;
+    }
+
+    .pdp-sticky-atc__btn {
+      font-size: 10px;
+      padding: 13px 14px;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .pdp-sticky-atc__img {
+      display: none;
+    }
+  }
+{% endstylesheet %}

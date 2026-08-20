@@ -8,7 +8,16 @@
 <style>:root{--box:{{ section.settings.box_bg | default: '#FBF6EA' }};--boxline:{{ section.settings.box_border | default: '#ECE3CE' }};--accent:{{ section.settings.accent | default: '#F6C21A' }};--acctext:{{ section.settings.acctext | default: '#141414' }};--accent2:{{ section.settings.accent2 | default: '#F6C21A' }};--card:{{ section.settings.card | default: '#10233B' }};--tickcheck:{{ section.settings.tickcheck | default: '#10233B' }};}</style>
 <section class="nad-hero{% if section.settings.headline_style == 'title' %} nadh-mreorder{% endif %}" style="background:{{ section.settings.bg }};--onbg:{{ section.settings.on_bg | default: '#141414' }};">
   <div class="nadh-wrap">
-    <figure class="nadh-media">
+    <figure class="nadh-media{% if product.images.size > 1 %} has-thumbs{% endif %}">
+      {%- if product.images.size > 1 -%}
+        <div class="nadh-thumbs" id="{{ gid }}-thumbs">
+          {%- for image in product.images -%}
+            <button type="button" class="nadh-thumb{% if forloop.first %} on{% endif %}" aria-label="View image {{ forloop.index }}" onclick="nadGo('{{ gid }}',{{ forloop.index0 }})">
+              <img src="{{ image | image_url: width: 140 }}" alt="{{ image.alt | default: product.title | escape }}" width="56" height="56" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
       <div class="nadh-imgwrap">
       <div class="nadh-gallery" id="{{ gid }}">
         {%- for image in product.images -%}
@@ -18,9 +27,6 @@
       {%- if product.images.size > 1 -%}
         <button type="button" class="nadh-gnav prev" aria-label="Previous image" onclick="nadStep('{{ gid }}',-1)">‹</button>
         <button type="button" class="nadh-gnav next" aria-label="Next image" onclick="nadStep('{{ gid }}',1)">›</button>
-        <div class="nadh-dots" id="{{ gid }}-dots">
-          {%- for image in product.images -%}<button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Go to image {{ forloop.index }}" onclick="nadGo('{{ gid }}',{{ forloop.index0 }})"></button>{%- endfor -%}
-        </div>
       {%- endif -%}
       {%- if v.compare_at_price > v.price -%}
         {%- assign save = v.compare_at_price | minus: v.price -%}
@@ -121,7 +127,31 @@
       <button type="button" class="nadh-cta" id="nadcta-{{ section.id }}" data-vid="{{ v.id }}" data-label="{{ section.settings.cta_text | escape }}" onclick="nadAdd(this,{{ v.id }},'{{ section.id }}')" {% unless v.available %}disabled{% endunless %}>
         {%- if v.available -%}{{ section.settings.cta_text }}{%- else -%}Sold out{%- endif -%}
       </button>
-      <p class="nadh-trust">{{ section.settings.trust_line }}</p>
+      {%- liquid
+        assign _trust_parts = section.settings.trust_line | split: '·'
+        assign _usp_1 = _trust_parts[0] | strip
+        assign _usp_2 = _trust_parts[1] | strip
+        assign _usp_3 = _trust_parts[2] | strip
+        if _usp_1 == blank
+          assign _usp_1 = 'Genuine products'
+        endif
+        if _usp_2 == blank
+          assign _usp_2 = 'Expert-curated'
+        endif
+        if _usp_3 == blank
+          assign _usp_3 = 'Tracked UK dispatch'
+        endif
+      -%}
+      {% render 'pdp-buy-trust',
+        uid: section.id,
+        variant: v,
+        status_text: section.settings.stock_status_text,
+        pre_date_text: section.settings.pre_date_text,
+        delivery_days: section.settings.delivery_days,
+        usp_1: _usp_1,
+        usp_2: _usp_2,
+        usp_3: _usp_3
+      %}
       </div>
       {%- if product.requires_selling_plan and customer == blank -%}
         <div class="nadh-viplogin"><span>Already a VIP?</span><a href="/account/login?return_url={{ product.url | url_encode }}">Log in for your free shipping &rarr;</a></div>
@@ -159,13 +189,22 @@
     </div>
   </div>
 </section>
+{%- capture nad_cta_id -%}nadcta-{{ section.id }}{%- endcapture -%}
+{% render 'pdp-sticky-atc',
+  uid: section.id,
+  trigger_id: nad_cta_id,
+  cta_text: section.settings.cta_text,
+  variant: v,
+  product: product
+%}
 <script type="application/ld+json">
 {"@context":"https://schema.org/","@type":"Product","name":{{ product.title | json }},"image":[{{ hero_img | image_url: width: 1200 | prepend: 'https:' | json }}],"description":{{ product.description | strip_html | truncatewords: 50 | json }},"brand":{"@type":"Brand","name":{{ product.vendor | json }}},"sku":{{ v.sku | json }},{% if rc > 0 %}"aggregateRating":{"@type":"AggregateRating","ratingValue":"{{ rv }}","reviewCount":"{{ rc }}"},{% endif %}"offers":{"@type":"Offer","priceCurrency":{{ cart.currency.iso_code | json }},"price":"{{ v.price | divided_by: 100.0 }}","availability":"https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}","url":"{{ shop.url }}{{ product.url }}"}}
 </script>
 <script>
+  function nadSyncThumbs(gid,i){var wrap=document.getElementById(gid+'-thumbs');if(!wrap)return;var bs=wrap.querySelectorAll('.nadh-thumb');bs.forEach(function(b,x){b.classList.toggle('on',x===i);});if(bs[i])bs[i].scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});}
   function nadStep(gid,d){var g=document.getElementById(gid);if(!g)return;g.scrollBy({left:d*g.clientWidth,behavior:'smooth'});}
-  function nadGo(gid,i){var g=document.getElementById(gid);if(!g)return;g.scrollTo({left:i*g.clientWidth,behavior:'smooth'});}
-  (function(){var g=document.getElementById('{{ gid }}');if(!g)return;var dots=document.getElementById('{{ gid }}-dots');if(!dots)return;var bs=dots.querySelectorAll('button');var t;g.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){var i=Math.round(g.scrollLeft/g.clientWidth);bs.forEach(function(b,x){b.classList.toggle('on',x===i);});},60);});})();
+  function nadGo(gid,i){var g=document.getElementById(gid);if(!g)return;g.scrollTo({left:i*g.clientWidth,behavior:'smooth'});nadSyncThumbs(gid,i);}
+  (function(){var g=document.getElementById('{{ gid }}');if(!g)return;var t;g.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){nadSyncThumbs('{{ gid }}',Math.round(g.scrollLeft/g.clientWidth));},60);});})();
   function nadMoney(c){return '£'+(c/100).toFixed(2);}
   function nadPick(sid,btn){var row=btn.parentNode;var sib=row.querySelectorAll('.nadh-optval');for(var i=0;i<sib.length;i++)sib[i].classList.remove('on');btn.classList.add('on');
     var wrap=document.getElementById('nadv-'+sid);var rows=wrap.querySelectorAll('.nadh-optrow');var chosen=[];for(var j=0;j<rows.length;j++){var a=rows[j].querySelector('.nadh-optval.on');chosen.push(a?a.getAttribute('data-val'):null);}
@@ -174,7 +213,9 @@
     if(!m)return;
     var now=document.getElementById('nadprice-'+sid);if(now)now.textContent=nadMoney(m.price);
     var was=document.getElementById('nadwas-'+sid);if(was){if(m.compare_at_price&&m.compare_at_price>m.price){was.textContent=nadMoney(m.compare_at_price);was.style.display='';}else{was.style.display='none';}}
-    var cta=document.getElementById('nadcta-'+sid);if(cta){cta.setAttribute('data-vid',m.id);if(m.available){cta.disabled=false;if(cta.textContent.trim()==='Sold out')cta.textContent=cta.getAttribute('data-label')||'Add to bag';}else{cta.disabled=true;cta.textContent='Sold out';}}
+    var label=null;var cta=document.getElementById('nadcta-'+sid);if(cta){label=cta.getAttribute('data-label')||'Add to bag';cta.setAttribute('data-vid',m.id);if(m.available){cta.disabled=false;if(cta.textContent.trim()==='Sold out')cta.textContent=label;}else{cta.disabled=true;cta.textContent='Sold out';}}
+    if(window.pdpTrustRefresh)window.pdpTrustRefresh(sid,m);
+    if(window.pdpStickyRefresh)window.pdpStickyRefresh(sid,m);
     if(m.featured_image&&m.featured_image.position){var g=document.getElementById('nadg-'+sid);if(g)g.scrollTo({left:(m.featured_image.position-1)*g.clientWidth,behavior:'smooth'});}
   }
   function nadAdd(b,id,grp){var o=b.textContent;var vid=b.getAttribute('data-vid')||id;var item={id:parseInt(vid,10),quantity:1};
@@ -202,7 +243,12 @@
   .nadh-wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(18px,3vw,44px);align-items:center;
     grid-template-columns:1.02fr 1fr;grid-template-areas:"media head" "media chips" "media buy";}
   .nadh-media{grid-area:media;margin:0;position:relative;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:26px;padding:16px;overflow:hidden;}
-  .nadh-imgwrap{position:relative;}
+  .nadh-media.has-thumbs{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:start;}
+  .nadh-thumbs{display:flex;flex-direction:column;gap:8px;max-height:min(560px,70vh);overflow-y:auto;scrollbar-width:thin;padding:2px 0;}
+  .nadh-thumb{width:56px;height:56px;padding:0;border:1px solid var(--boxline,#ECE3CE);background:#fff;cursor:pointer;flex-shrink:0;overflow:hidden;}
+  .nadh-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .nadh-thumb.on{border-color:#141414;box-shadow:0 0 0 1px #141414;}
+  .nadh-imgwrap{position:relative;min-width:0;}
   .nadh-desc{margin:16px 4px 4px;font-family:var(--font-body--family), sans-serif;font-size:14px;line-height:1.65;color:var(--onbg);opacity:.82;}
   .nadh-gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:14px;}
   .nadh-gallery::-webkit-scrollbar{display:none;}
@@ -211,34 +257,32 @@
   .nadh-gnav{position:absolute;top:calc(50% - 16px);transform:translateY(-50%);width:38px;height:38px;border:1px solid var(--boxline,#ECE3CE);background:rgba(255,255,255,.92);color:#141414;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
   .nadh-gnav:hover{background:#fff;}
   .nadh-gnav.prev{left:24px;}.nadh-gnav.next{right:24px;}
-  .nadh-dots{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:7px;}
-  .nadh-dots button{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:rgba(20,20,20,.28);cursor:pointer;transition:transform .15s,background .15s;}
-  .nadh-dots button.on{background:#141414;transform:scale(1.4);}
-  .nadh-badge{position:absolute;top:26px;left:26px;background:#141414;color:#fff;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:30px;z-index:2;}
+  .nadh-badge{position:absolute;top:12px;left:12px;background:#141414;color:#fff;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:30px;z-index:2;}
   .nadh-head{grid-area:head;}
   .nadh-rating{display:flex;align-items:center;gap:3px;margin-bottom:10px;}
   .nadh-rating svg{width:17px;height:17px;fill:#d9cdae;}
   .nadh-rating svg.on{fill:var(--onbg);}
   .nadh-rating span{font-family:var(--font-body--family), sans-serif;font-size:12px;color:var(--onbg);margin-left:8px;letter-spacing:.02em;}
   .nadh-banner{width:100%;max-width:520px;height:auto;display:block;margin:0 0 6px -2px;}
-  .nadh-title{font-family:var(--font-heading--family), serif;font-size:19px;font-weight:600;color:var(--onbg);margin:4px 0 6px;line-height:1.25;}
-  .nadh-eyebrow{display:block;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 10px;}
-  .nadh-title--lg{font-size:clamp(22px,2.5vw,32px);font-weight:700;line-height:1.16;margin:0 0 12px;}
-  .nadh-tag{font-family:var(--font-body--family), sans-serif;font-size:16px;line-height:1.55;color:var(--onbg);margin:6px 0 0;max-width:460px;}
-  .nadh-chips{grid-area:chips;display:flex;flex-wrap:wrap;gap:9px;}
-  .nadh-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-body--family), sans-serif;font-size:13px;font-weight:600;color:#141414;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:30px;padding:8px 14px;}
+  .nadh-title{font-family:var(--font-heading--family), serif;font-size:19px;font-weight:600;color:var(--onbg);margin:4px 0 6px;line-height:1.25;text-align:left;}
+  .nadh-eyebrow{display:block;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 10px;text-align:left;}
+  .nadh-title--lg{font-size:clamp(22px,2.5vw,32px);font-weight:700;line-height:1.16;margin:0 0 12px;text-align:left;}
+  .nadh-tag{font-family:var(--font-body--family), sans-serif;font-size:16px;line-height:1.55;color:var(--onbg);margin:6px 0 0;max-width:460px;text-align:left;}
+  .nadh-chips{grid-area:chips;display:flex;flex-wrap:wrap;justify-content:flex-start;align-content:flex-start;gap:8px;width:100%;margin:0;padding:0;}
+  .nadh-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-body--family), sans-serif;font-size:13px;font-weight:600;color:#141414;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:30px;padding:8px 14px;margin:0;box-sizing:border-box;}
   .nadh-chip svg{width:16px;height:16px;fill:none;stroke:#141414;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
   .nadh-buy{grid-area:buy;display:flex;flex-direction:column;gap:12px;}
   .nadh-buycore{display:flex;flex-direction:column;gap:12px;}
-  .nadh-gift{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--boxline,#ECE3CE);border-radius:14px;background:var(--box,#FBF6EA);margin-bottom:14px;}
-  .nadh-gift-ico{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--boxline,#ECE3CE);display:flex;align-items:center;justify-content:center;color:var(--onbg);}
-  .nadh-gift-ico svg{width:18px;height:18px;}
-  .nadh-gift-body{flex:1;min-width:0;}
-  .nadh-gift-eyebrow{font-family:var(--font-body--family), sans-serif;font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 2px;}
-  .nadh-gift-title{font-family:var(--font-body--family), sans-serif;font-size:13px;font-weight:700;color:var(--onbg);margin:0 0 1px;line-height:1.25;}
-  .nadh-gift-offer{font-family:var(--font-body--family), sans-serif;font-size:11.5px;line-height:1.4;color:var(--onbg);opacity:.75;margin:0;}
+  .nadh-gift-mount{width:100%;align-self:stretch;}
+  .nadh-gift{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--boxline,#ECE3CE);border-radius:14px;background:var(--box,#FBF6EA);margin:0;width:100%;box-sizing:border-box;}
+  .nadh-gift-ico{flex:0 0 40px;width:40px;height:40px;border-radius:8px;background:#fff;border:1px solid var(--boxline,#ECE3CE);display:flex;align-items:center;justify-content:center;color:var(--onbg);overflow:hidden;}
+  .nadh-gift-ico svg{width:18px;height:18px;display:block;}
+  .nadh-gift-ico img{width:100%;height:100%;object-fit:cover;display:block;}
+  .nadh-gift-body{flex:1;min-width:0;text-align:left;}
+  .nadh-gift-eyebrow{font-family:var(--font-body--family), sans-serif;font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 3px;text-align:left;}
+  .nadh-gift-title{font-family:var(--font-body--family), sans-serif;font-size:13px;font-weight:700;color:var(--onbg);margin:0 0 2px;line-height:1.25;text-align:left;}
+  .nadh-gift-offer{font-family:var(--font-body--family), sans-serif;font-size:11.5px;line-height:1.4;color:var(--onbg);opacity:.75;margin:0;text-align:left;}
   .nadh-gift-cta{flex:0 0 auto;padding:8px 14px;border-radius:30px;background:#141414;color:#fff!important;font-family:var(--font-body--family), sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;}
-  @media(max-width:600px){.nadh-gift{flex-wrap:wrap;}.nadh-gift-cta{width:100%;text-align:center;margin-top:4px;}}
   .nad-exp-in{transition:max-height .25s ease;}
   .nad-exp.clamp .nad-exp-in{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}
   .nad-exp.clamp.open .nad-exp-in{display:block;overflow:visible;}
@@ -257,7 +301,7 @@
   .nadh-plan:has(input:checked){border-color:#141414;background:#fff;}
   .nadh-plan input{accent-color:#141414;width:16px;height:16px;}
   .nadh-plan-t em{font-style:normal;color:var(--acctext,#141414);background:var(--accent,#F6C21A);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-left:6px;white-space:nowrap;}
-  .nadh-price{display:flex;align-items:baseline;gap:12px;}
+  .nadh-price{display:flex;align-items:baseline;justify-content:flex-start;gap:12px;width:100%;}
   .nadh-now{font-family:var(--font-heading--family), serif;font-size:34px;font-weight:700;color:var(--onbg);line-height:1;}
   .nadh-was{font-family:var(--font-body--family), sans-serif;font-size:18px;color:var(--onbg);opacity:.55;text-decoration:line-through;}
   .nadh-cta{appearance:none;border:none;cursor:pointer;background:#141414;color:#fff;font-family:var(--font-body--family), sans-serif;font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:18px 26px;border-radius:40px;transition:transform .15s ease,background .2s ease;}
@@ -296,14 +340,23 @@
   .nadh-acc-b ul,.nadh-acc-b ol{margin:0 0 8px;padding-left:18px;}
   .nadh-acc-b--inci{font-size:12.5px;line-height:1.7;word-break:break-word;opacity:.78;}
   @media(max-width:849px){
-    .nadh-wrap{grid-template-columns:1fr;grid-template-areas:"head" "media" "chips" "buy";gap:18px;}
+    .nad-hero{padding:16px 16px 28px;}
+    .nadh-wrap{grid-template-columns:1fr;grid-template-areas:"head" "media" "chips" "buy";gap:16px;align-items:stretch;justify-items:stretch;}
+    .nadh-media,.nadh-head,.nadh-chips,.nadh-buy,.nadh-buycore,.nadh-tag,.nadh-title,.nadh-eyebrow,.nadh-price{width:100%;max-width:none;text-align:left;align-self:stretch;box-sizing:border-box;}
     .nadh-media{padding:12px;border-radius:20px;}
-    .nadh-banner{max-width:440px;margin-left:0;}
+    .nadh-banner{max-width:none;margin-left:0;}
     .nadh-now{font-size:30px;}
     .nadh-cta{width:100%;}
     .nadh-gnav{display:none;}
-    /* Default/general PDP mobile order: image, title, price+buy, description, accordions, tags, gifts, VIP */
-    .nadh-mreorder .nadh-wrap{display:flex;flex-direction:column;gap:16px;}
+    .nadh-media.has-thumbs{grid-template-columns:1fr;gap:10px;}
+    .nadh-thumbs{order:2;flex-direction:row;max-height:none;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+    .nadh-thumbs::-webkit-scrollbar{display:none;}
+    .nadh-imgwrap{order:1;}
+    .nadh-buycore .pdp-buy-trust{width:100%;}
+    .nadh-buycore .pdp-trust-stock,
+    .nadh-buycore .WI_paymentIcons .payment-icons{justify-content:flex-start;}
+    /* Default/general PDP mobile order: image, title, price+buy, description, chips, gifts, VIP */
+    .nadh-mreorder .nadh-wrap{display:flex;flex-direction:column;align-items:stretch;gap:16px;}
     .nadh-mreorder .nadh-head,.nadh-mreorder .nadh-buy{display:contents;}
     .nadh-mreorder .nadh-media{order:1;}
     .nadh-mreorder .nadh-banner{order:2;}
@@ -312,8 +365,8 @@
     .nadh-mreorder .nadh-buycore{order:4;}
     .nadh-mreorder .nadh-tag{order:5;margin-top:0;}
     .nadh-mreorder .nadh-chips{order:6;}
-    .nadh-mreorder .nadh-gift-mount,.nadh-mreorder .nadh-gift{order:7;margin-bottom:0;}
-    .nadh-mreorder .nadh-viplogin,.nadh-mreorder .nadh-vipup{order:8;margin-top:0;}
+    .nadh-mreorder .nadh-gift-mount,.nadh-mreorder .nadh-gift{order:7;margin-bottom:0;width:100%;align-self:stretch;}
+    .nadh-mreorder .nadh-viplogin,.nadh-mreorder .nadh-vipup{order:8;margin-top:0;width:100%;}
     .nadh-mreorder .nadh-acc{order:9;margin-top:0;align-self:stretch;width:100%;text-align:left;}
     .nadh-mreorder .nadh-cancer{order:10;}
   }
@@ -337,7 +390,10 @@
     { "type": "text", "id": "header_image", "label": "Header image file (blank = default)" },
     { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Look younger, feel stronger, live better. Pharmaceutical-grade NAD+ replenished at home." },
     { "type": "text", "id": "cta_text", "label": "Button text", "default": "Add to bag" },
-    { "type": "text", "id": "trust_line", "label": "Trust line", "default": "ISO-certified labs · ~100% bioavailability · Discreet, tracked UK dispatch" }
+    { "type": "text", "id": "trust_line", "label": "Trust icons (split with · )", "default": "ISO-certified labs · ~100% bioavailability · Discreet, tracked UK dispatch" },
+    { "type": "text", "id": "stock_status_text", "label": "In-stock label", "default": "In stock" },
+    { "type": "text", "id": "pre_date_text", "label": "Text before delivery date", "default": "Order now for delivery" },
+    { "type": "range", "id": "delivery_days", "min": 3, "max": 14, "step": 1, "unit": "d", "label": "Delivery window end (days)", "default": 8 }
   ],
   "blocks": [
     { "type": "chip", "name": "Benefit chip", "settings": [

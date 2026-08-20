@@ -249,6 +249,23 @@
     </div>
   {%- endif -%}
 
+  {% render 'pdp-buy-trust',
+    uid: block.id,
+    variant: variant,
+    usp_1: 'Genuine products',
+    usp_2: 'Expert-curated',
+    usp_3: 'Tracked UK dispatch'
+  %}
+
+  {%- capture pdp_atc_sel -%}.buy-buttons-block--{{ block.id }} [ref=addToCartButton], .buy-buttons-block--{{ block.id }} .add-to-cart-button, .buy-buttons-block--{{ block.id }} button[name=add]{%- endcapture -%}
+  {% render 'pdp-sticky-atc',
+    uid: block.id,
+    trigger_selector: pdp_atc_sel,
+    cta_text: add_to_cart_text,
+    variant: variant,
+    product: product
+  %}
+
   {%- comment -%} SB PDP reassurance, Klarna pay-in-3 + BayPoints + delivery trust {%- endcomment -%}
   {%- assign _sbprice = product.selected_or_first_available_variant.price | default: product.price -%}
   {%- assign _sbpts = _sbprice | times: 0.005 | round -%}

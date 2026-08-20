@@ -121,10 +121,6 @@
 .omni-hl { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px 7px 10px; border: 1px solid #e6e0d5; border-radius: 30px; font-size: 11px; font-weight: 600; letter-spacing: .01em; color: #33302b; background: #faf7f2; white-space: nowrap; line-height: 1; }
 .omni-hl svg { width: 15px; height: 15px; color: #b08d3f; flex-shrink: 0; }
 
-.omni-sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--page-bg); padding: 12px 5%; display: flex; align-items: center; justify-content: space-between; gap: 16px; z-index: 9999; transform: translateY(110%); transition: 0.5s; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
-.omni-sticky-bar.visible { transform: translateY(0); }
-.omni-sticky-bar .omni-btn { width: auto; padding: 12px 28px; border-radius: 4px; }
-
 /* --- MOBILE OPTIMIZATIONS --- */
 @media (max-width: 749px) {
   .omni-perfect-{{sb_uid}} { padding: 12px 0 90px 0; }
@@ -238,21 +234,6 @@
           <span id="SaveBadge-{{sb_uid}}" class="omni-save-badge" style="display:none;"></span>
         {%- endif -%}
       </div>
-      {%- liquid
-        assign omni_stock_status = 'in'
-        assign omni_stock_text = 'In stock'
-        if current_variant.available == false
-          assign omni_stock_status = 'out'
-          assign omni_stock_text = 'Sold out'
-        elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 10
-          assign omni_stock_status = 'low'
-          assign omni_stock_text = 'Only ' | append: current_variant.inventory_quantity | append: ' left in stock'
-        endif
-      -%}
-      <p class="omni-stock omni-stock--{{ omni_stock_status }}" id="Stock-{{sb_uid}}">
-        <span class="omni-stock-dot" aria-hidden="true"></span>
-        <span id="StockText-{{sb_uid}}">{{ omni_stock_text }}</span>
-      </p>
       {%- assign omni_hls = product.metafields.custom.highlights.value -%}
       {%- if omni_hls -%}
       <div class="omni-highlights">
@@ -329,23 +310,16 @@
       })();
       </script>
 
-      {% if section.settings.payment_icons != blank %}
-        <div class="omni-payment-icons">
-          <img
-            src="{{ section.settings.payment_icons | image_url: width: 400 }}"
-            srcset="{{ section.settings.payment_icons | image_url: width: 200 }} 200w, {{ section.settings.payment_icons | image_url: width: 400 }} 400w"
-            sizes="(min-width: 750px) 280px, 90vw"
-            alt="Payment methods"
-            loading="lazy"
-          >
-        </div>
-      {% elsif shop.enabled_payment_types != empty %}
-        <ul class="omni-payment-list" aria-label="Accepted payment methods">
-          {%- for type in shop.enabled_payment_types -%}
-            <li>{{ type | payment_type_svg_tag }}</li>
-          {%- endfor -%}
-        </ul>
-      {% endif %}
+      {% render 'pdp-buy-trust',
+        uid: sb_uid,
+        variant: current_variant,
+        status_text: section.settings.stock_status_text,
+        pre_date_text: section.settings.pre_date_text,
+        delivery_days: section.settings.delivery_days,
+        usp_1: section.settings.usp_1,
+        usp_2: section.settings.usp_2,
+        usp_3: section.settings.usp_3
+      %}
     </div>
 
     <!-- SUBSCRIPTION SELECTOR -->
@@ -410,14 +384,14 @@
 </div>
 </div>
 
-<!-- STICKY BAR -->
-<div class="omni-sticky-bar" id="Sticky-{{sb_uid}}">
-  <div class="omni-sticky-info"><p style="font-size:14px; font-weight:700; text-transform:uppercase; margin:0;">{{ product.title | truncate: 30 }}</p></div>
-  <div style="display:flex; align-items:center; gap:20px;">
-    <span style="font-size:20px; font-weight:600;" id="StickyPrice-{{sb_uid}}">{{ current_variant.price | money }}</span>
-    <button class="omni-btn omni-btn-bag" style="width:auto; padding: 12px 30px; border-radius:4px;" onclick="omniAction('bag')">ADD TO BAG</button>
-  </div>
-</div>
+{%- capture omni_add_id -%}AddBtn-{{ sb_uid }}{%- endcapture -%}
+{% render 'pdp-sticky-atc',
+  uid: sb_uid,
+  trigger_id: omni_add_id,
+  cta_text: 'Add to bag',
+  variant: current_variant,
+  product: product
+%}
 
 <script>
 const prodData = JSON.parse(document.querySelector('.omni-perfect-{{sb_uid}}').dataset.productJson);
@@ -459,7 +433,7 @@ function omniRefreshPrice(variant) {
   }
   const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(finalPrice / 100);
   document.getElementById('Price-{{sb_uid}}').innerText = fmt;
-  document.getElementById('StickyPrice-{{sb_uid}}').innerText = fmt;
+  if (window.pdpStickyRefresh) window.pdpStickyRefresh('{{sb_uid}}', Object.assign({}, variant, { price: finalPrice }));
   var _sb = document.getElementById('SaveBadge-{{sb_uid}}');
   if (_sb) {
     var _cap = variant.compare_at_price || 0;
@@ -470,21 +444,7 @@ function omniRefreshPrice(variant) {
 }
 
 function omniRefreshStock(variant) {
-  const wrap = document.getElementById('Stock-{{sb_uid}}');
-  const text = document.getElementById('StockText-{{sb_uid}}');
-  if (!wrap || !text) return;
-  let status = 'in';
-  let label = 'In stock';
-  const qty = typeof variant.inventory_quantity === 'number' ? variant.inventory_quantity : null;
-  if (variant.available === false) {
-    status = 'out';
-    label = 'Sold out';
-  } else if (qty !== null && qty > 0 && qty <= 10) {
-    status = 'low';
-    label = 'Only ' + qty + ' left in stock';
-  }
-  wrap.className = 'omni-stock omni-stock--' + status;
-  text.textContent = label;
+  if (window.pdpTrustRefresh) window.pdpTrustRefresh('{{sb_uid}}', variant);
 }
 
 function omniJump(i) {
@@ -530,12 +490,6 @@ function omniTab(btn) {
   if(!isActive) item.classList.add('active');
 }
 
-window.addEventListener('scroll', () => {
-  const trigger = document.getElementById('Trigger-{{sb_uid}}');
-  const sticky = document.getElementById('Sticky-{{sb_uid}}');
-  if(trigger && sticky) sticky.classList.toggle('visible', trigger.getBoundingClientRect().top < 0);
-});
-
 async function omniAction(type) {
   const vid = document.getElementById('VariantId-{{sb_uid}}').value;
   const plan = document.getElementById('SellingPlan-{{sb_uid}}').value;
@@ -551,8 +505,11 @@ async function omniAction(type) {
       });
       if(res.ok) {
         document.dispatchEvent(new CustomEvent('cart:refresh'));
+        if(window.openCart) window.openCart();
         btn.innerText = "ADDED!";
         setTimeout(() => { btn.disabled = false; btn.innerText = "ADD TO BAG"; }, 2000);
+      } else {
+        btn.disabled = false; btn.innerText = "ADD TO BAG";
       }
     } catch (e) { btn.disabled = false; btn.innerText = "ADD TO BAG"; }
   } else {
@@ -626,7 +583,12 @@ async function omniAction(type) {
   { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#000000" },
   { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1a1a1a" },
   { "type": "color", "id": "btn_text_color", "label": "Button Text Color", "default": "#ffffff" },
-  { "type": "image_picker", "id": "payment_icons", "label": "Payment Icons Image", "info": "Optional. Leave empty to use Shopify payment icons under the buttons, left aligned." }
+  { "type": "text", "id": "stock_status_text", "label": "In-stock label", "default": "In stock" },
+  { "type": "text", "id": "pre_date_text", "label": "Text before delivery date", "default": "Order now for delivery" },
+  { "type": "range", "id": "delivery_days", "min": 3, "max": 14, "step": 1, "unit": "d", "label": "Delivery window end (days)", "default": 8 },
+  { "type": "text", "id": "usp_1", "label": "Trust icon 1", "default": "Genuine products" },
+  { "type": "text", "id": "usp_2", "label": "Trust icon 2", "default": "Expert-curated" },
+  { "type": "text", "id": "usp_3", "label": "Trust icon 3", "default": "Tracked UK dispatch" }
 ],
 "presets": [{ "name": "Omni-Luxe Pro Commerce" }]
 }
