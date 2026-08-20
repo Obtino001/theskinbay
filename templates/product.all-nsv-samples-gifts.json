@@ -185,6 +185,29 @@
               },
               "blocks": {}
             },
+            "buy_buttons_pdp": {
+              "type": "buy-buttons",
+              "settings": {
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  }
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true
+                }
+              },
+              "block_order": []
+            },
             "group_JbmQwr": {
               "type": "group",
               "name": "Policies",
@@ -428,6 +451,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "buy_buttons_pdp",
             "group_JbmQwr",
             "text_aEtTtq"
           ]
