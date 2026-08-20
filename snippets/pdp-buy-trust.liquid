@@ -19,9 +19,9 @@ Stock status with delivery date, payment icons, and three USP icons.
   assign status_text = in_label
   assign pre_date_text = pre_date_text | default: 'Order now for delivery'
   assign delivery_days = delivery_days | default: 8
-  assign usp_1 = usp_1 | default: 'Fast shipping'
-  assign usp_2 = usp_2 | default: 'Secure checkout'
-  assign usp_3 = usp_3 | default: 'Easy returns'
+  assign usp_1 = usp_1 | default: 'Genuine products'
+  assign usp_2 = usp_2 | default: 'Expert-curated'
+  assign usp_3 = usp_3 | default: 'Tracked UK dispatch'
   assign part = part | default: 'all'
   assign stock_mod = 'in'
   assign extra_hidden = false
@@ -61,7 +61,7 @@ Stock status with delivery date, payment icons, and three USP icons.
     {%- if usp_1 != blank -%}
       <div class="pdp-trust-icon-item">
         <span class="pdp-trust-icon-svg" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
         </span>
         <span>{{ usp_1 }}</span>
       </div>
@@ -69,7 +69,7 @@ Stock status with delivery date, payment icons, and three USP icons.
     {%- if usp_2 != blank -%}
       <div class="pdp-trust-icon-item">
         <span class="pdp-trust-icon-svg" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
         </span>
         <span>{{ usp_2 }}</span>
       </div>
@@ -77,7 +77,7 @@ Stock status with delivery date, payment icons, and three USP icons.
     {%- if usp_3 != blank -%}
       <div class="pdp-trust-icon-item">
         <span class="pdp-trust-icon-svg" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>
         </span>
         <span>{{ usp_3 }}</span>
       </div>
@@ -293,11 +293,9 @@ Stock status with delivery date, payment icons, and three USP icons.
     text-align: center;
     gap: 6px;
     font-family: var(--font-body--family), sans-serif;
-    font-size: 10px;
-    line-height: 1.25;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
     color: #141414;
   }
 
