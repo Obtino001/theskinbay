@@ -35,6 +35,45 @@ Stock status with delivery date, payment icons, and three USP icons.
   endif
 -%}
 
+{%- if part == 'rest' or part == 'all' -%}
+{%- capture pdp_trust_rest -%}
+  <div class="WI_paymentIcons">
+    <ul class="payment-icons" aria-label="Accepted payment methods">
+      {%- assign active_payments = 'american_express,apple_pay,google_pay,master,paypal,shop_pay,unionpay,visa' | split: ',' -%}
+      {%- for type in active_payments -%}
+        <li>{{ type | payment_type_svg_tag: class: 'dp-payment-icon' }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <div class="pdp-trust-icons">
+    {%- if usp_1 != blank -%}
+      <div class="pdp-trust-icon-item">
+        <span class="pdp-trust-icon-svg" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <span>{{ usp_1 }}</span>
+      </div>
+    {%- endif -%}
+    {%- if usp_2 != blank -%}
+      <div class="pdp-trust-icon-item">
+        <span class="pdp-trust-icon-svg" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </span>
+        <span>{{ usp_2 }}</span>
+      </div>
+    {%- endif -%}
+    {%- if usp_3 != blank -%}
+      <div class="pdp-trust-icon-item">
+        <span class="pdp-trust-icon-svg" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>
+        </span>
+        <span>{{ usp_3 }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endcapture -%}
+{%- endif -%}
+
 {%- if part == 'stock' or part == 'all' -%}
 <div
   class="pdp-buy-trust{% if part == 'stock' %} pdp-buy-trust--stock{% endif %}"
@@ -52,9 +91,13 @@ Stock status with delivery date, payment icons, and three USP icons.
       </span>
     </span>
   </div>
-  {%- if part == 'all' -%}
-    {% render 'pdp-buy-trust-rest', usp_1: usp_1, usp_2: usp_2, usp_3: usp_3 %}
-  {%- endif -%}
+  {%- if part == 'all' -%}{{ pdp_trust_rest }}{%- endif -%}
+</div>
+{%- endif -%}
+
+{%- if part == 'rest' -%}
+<div class="pdp-buy-trust pdp-buy-trust--rest">
+  {{ pdp_trust_rest }}
 </div>
 {%- endif -%}
 
@@ -120,11 +163,16 @@ Stock status with delivery date, payment icons, and three USP icons.
 
   .pdp-buy-trust--stock {
     gap: 0;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
   }
 
   .pdp-buy-trust--rest {
-    margin-top: 10px;
+    margin-top: 4px;
+  }
+
+  .nadh-buycore > .pdp-buy-trust--stock,
+  .omni-actions > .pdp-buy-trust--stock {
+    margin-bottom: 0;
   }
 
   .pdp-trust-stock {

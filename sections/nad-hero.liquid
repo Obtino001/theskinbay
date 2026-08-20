@@ -125,9 +125,6 @@
         </div>
       {%- endif -%}
       {%- if product.metafields.custom.dispatch_note != blank -%}<p class="nadh-dispatch"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="12" height="9" rx="1"/><path d="M14.5 10h4l2.5 3v3h-6.5z"/><circle cx="6.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg><span>{{ product.metafields.custom.dispatch_note }}</span></p>{%- endif -%}
-      <button type="button" class="nadh-cta" id="nadcta-{{ section.id }}" data-vid="{{ v.id }}" data-label="{{ section.settings.cta_text | escape }}" onclick="nadAdd(this,{{ v.id }},'{{ section.id }}')" {% unless v.available %}disabled{% endunless %}>
-        {%- if v.available -%}{{ section.settings.cta_text }}{%- else -%}Sold out{%- endif -%}
-      </button>
       {%- liquid
         assign _trust_parts = section.settings.trust_line | split: '·'
         assign _usp_1 = _trust_parts[0] | strip
@@ -146,6 +143,21 @@
       {% render 'pdp-buy-trust',
         uid: section.id,
         variant: v,
+        part: 'stock',
+        status_text: section.settings.stock_status_text,
+        pre_date_text: section.settings.pre_date_text,
+        delivery_days: section.settings.delivery_days,
+        usp_1: _usp_1,
+        usp_2: _usp_2,
+        usp_3: _usp_3
+      %}
+      <button type="button" class="nadh-cta" id="nadcta-{{ section.id }}" data-vid="{{ v.id }}" data-label="{{ section.settings.cta_text | escape }}" onclick="nadAdd(this,{{ v.id }},'{{ section.id }}')" {% unless v.available %}disabled{% endunless %}>
+        {%- if v.available -%}{{ section.settings.cta_text }}{%- else -%}Sold out{%- endif -%}
+      </button>
+      {% render 'pdp-buy-trust',
+        uid: section.id,
+        variant: v,
+        part: 'rest',
         status_text: section.settings.stock_status_text,
         pre_date_text: section.settings.pre_date_text,
         delivery_days: section.settings.delivery_days,
@@ -244,7 +256,7 @@
   .nad-hero{padding:24px 20px 34px;}
   .nadh-wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(18px,3vw,44px);align-items:start;
     grid-template-columns:1.02fr 1fr;grid-template-areas:"media info";}
-  .nadh-info{grid-area:info;display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:192px;max-height:calc(100vh - 208px);overflow:auto;scrollbar-width:thin;padding-bottom:4px;}
+  .nadh-info{grid-area:info;display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:192px;padding-bottom:4px;}
   @media(max-width:1023px){.nadh-info{top:174px;max-height:calc(100vh - 190px);}}
   .nadh-media{grid-area:media;margin:0;align-self:start;position:sticky;top:192px;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:26px;padding:16px;overflow:hidden;}
   @media(max-width:1023px){.nadh-media{top:174px;}}

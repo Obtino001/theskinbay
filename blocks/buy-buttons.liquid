@@ -67,6 +67,14 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
           <span class="buy-buttons-block__bar">
         {%- endif -%}
+        {% render 'pdp-buy-trust',
+          uid: block.id,
+          variant: variant,
+          part: 'stock',
+          usp_1: 'Genuine products',
+          usp_2: 'Expert-curated',
+          usp_3: 'Tracked UK dispatch'
+        %}
         <div
           class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% endif %}"
           style="{% render 'spacing-style', settings: block_settings %}"
@@ -237,6 +245,14 @@
       {%- endform -%}
     </product-form-component>
   {%- else -%}
+    {% render 'pdp-buy-trust',
+      uid: block.id,
+      variant: variant,
+      part: 'stock',
+      usp_1: 'Genuine products',
+      usp_2: 'Expert-curated',
+      usp_3: 'Tracked UK dispatch'
+    %}
     <div class="product-form-buttons">
       <button
         type="submit"
@@ -252,6 +268,7 @@
   {% render 'pdp-buy-trust',
     uid: block.id,
     variant: variant,
+    part: 'rest',
     usp_1: 'Genuine products',
     usp_2: 'Expert-curated',
     usp_3: 'Tracked UK dispatch'
