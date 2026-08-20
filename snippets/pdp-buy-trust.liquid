@@ -38,8 +38,7 @@ Stock status with delivery date, payment icons, and three USP icons.
 {%- if part == 'rest' or part == 'all' -%}
 {%- capture pdp_trust_rest -%}
   {%- liquid
-    assign pdp_pay_all = 'visa,master,american_express,apple_pay,google_pay,paypal,shop_pay,klarna,unionpay,diners_club,discover,jcb,maestro,bancontact,ideal,giropay,eps,multibanco,p24,bitcoin' | split: ','
-    assign active_payments = shop.enabled_payment_types | concat: pdp_pay_all | uniq
+    assign active_payments = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna,unionpay,diners_club,discover,jcb,maestro,ideal,sofort' | split: ','
     assign pay_visible = 5
     assign pay_extra = active_payments.size | minus: pay_visible
   -%}
@@ -258,8 +257,13 @@ Stock status with delivery date, payment icons, and three USP icons.
 
   .WI_paymentIcons .dp-payment-icon {
     height: 24px;
-    width: auto;
+    width: 38px;
     display: block;
+  }
+
+  .WI_paymentIcons .dp-payment-icon:empty,
+  .WI_paymentIcons li:has(.dp-payment-icon:not(:has(*))) {
+    display: none;
   }
 
   .pdp-pay-more {
