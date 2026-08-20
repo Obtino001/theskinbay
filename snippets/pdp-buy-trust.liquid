@@ -37,12 +37,24 @@ Stock status with delivery date, payment icons, and three USP icons.
 
 {%- if part == 'rest' or part == 'all' -%}
 {%- capture pdp_trust_rest -%}
+  {%- liquid
+    assign pdp_pay_all = 'visa,master,american_express,apple_pay,google_pay,paypal,shop_pay,klarna,unionpay,diners_club,discover,jcb,maestro,bancontact,ideal,giropay,eps,multibanco,p24,bitcoin' | split: ','
+    assign active_payments = shop.enabled_payment_types | concat: pdp_pay_all | uniq
+    assign pay_visible = 5
+    assign pay_extra = active_payments.size | minus: pay_visible
+  -%}
   <div class="WI_paymentIcons">
     <ul class="payment-icons" aria-label="Accepted payment methods">
-      {%- assign active_payments = 'american_express,apple_pay,google_pay,master,paypal,shop_pay,unionpay,visa' | split: ',' -%}
       {%- for type in active_payments -%}
-        <li>{{ type | payment_type_svg_tag: class: 'dp-payment-icon' }}</li>
+        {%- if forloop.index <= pay_visible -%}
+          <li>{{ type | payment_type_svg_tag: class: 'dp-payment-icon' }}</li>
+        {%- endif -%}
       {%- endfor -%}
+      {%- if pay_extra > 0 -%}
+        <li>
+          <span class="pdp-pay-more" title="{{ pay_extra }} more payment methods" aria-label="{{ pay_extra }} more payment methods">+{{ pay_extra }}</span>
+        </li>
+      {%- endif -%}
     </ul>
   </div>
   <div class="pdp-trust-icons">
@@ -232,7 +244,7 @@ Stock status with delivery date, payment icons, and three USP icons.
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
@@ -241,12 +253,30 @@ Stock status with delivery date, payment icons, and three USP icons.
   .WI_paymentIcons .payment-icons li {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
 
   .WI_paymentIcons .dp-payment-icon {
     height: 24px;
     width: auto;
     display: block;
+  }
+
+  .pdp-pay-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    min-width: 34px;
+    padding: 0 8px;
+    border: 1px solid #e6e0d5;
+    border-radius: 6px;
+    background: #fff;
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    color: #141414;
   }
 
   .pdp-trust-icons {
