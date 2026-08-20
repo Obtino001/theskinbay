@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "lux_product_block_display_ELt7zW": {
@@ -8,7 +17,13 @@
         "box_bg": "#efefee",
         "accent_color": "#000000",
         "text_color": "#1a1a1a",
-        "btn_text_color": "#ffffff"
+        "btn_text_color": "#ffffff",
+        "stock_status_text": "In stock",
+        "pre_date_text": "Order now for delivery",
+        "delivery_days": 5,
+        "usp_1": "Genuine products",
+        "usp_2": "Expert-curated",
+        "usp_3": "Tracked UK dispatch"
       }
     },
     "main": {
@@ -172,4 +187,3 @@
     "collection_product_page_iUqHpj"
   ]
 }
-
