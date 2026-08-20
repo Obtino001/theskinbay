@@ -202,6 +202,7 @@
         "brand_olaplex",
         "brand_cebelia"
       ],
+      "disabled": true,
       "settings": {
         "bg_color": "#ffffff",
         "padding_y": 20,
@@ -216,7 +217,6 @@
     },
     "lf_usp": {
       "type": "lf-usp-strip",
-      "disabled": true,
       "settings": {
         "bg_color": "#f7f4ef",
         "icon_color": "#b8925a",
