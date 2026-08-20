@@ -20,7 +20,7 @@
 .omni-gallery-col { min-width: 0; }
 .omni-gallery-layout { display: block; }
 .omni-gallery-layout.has-thumbs { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; }
-.omni-thumbs-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin: 0; max-height: min(620px, 72vh); position: sticky; top: 24px; }
+.omni-thumbs-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin: 0; max-height: min(620px, 72vh); position: sticky; top: 192px; }
 .omni-thumbs-rail { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; padding: 0; flex: 1 1 auto; min-height: 0; scroll-behavior: smooth; }
 .omni-thumbs-rail::-webkit-scrollbar { width: 3px; }
 .omni-thumbs-arrow { display: none; }
@@ -34,7 +34,7 @@
 .omni-nav-arrow { display: none; }
 
 /* --- BUY COLUMN --- */
-.omni-buy-col { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 40px; }
+.omni-buy-col { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 192px; align-self: start; max-height: calc(100vh - 208px); overflow: auto; scrollbar-width: thin; }
 .omni-brand { font-size: 12px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin: 0; }
 .omni-title { font-family: var(--font-heading--family), serif !important; font-size: 30px; font-weight: 500; text-transform: none; line-height: 1.12; margin: 10px 0; letter-spacing: -0.2px; }
 .omni-price-row { font-size: 24px; font-weight: 500; display: flex; align-items: baseline; gap: 12px; }
@@ -154,7 +154,7 @@
   .omni-arrow-prev { left: 15px; }
   .omni-arrow-next { right: 15px; }
 
-  .omni-buy-col { order: 3; position: static; gap: 15px; }
+  .omni-buy-col { order: 3; position: static; gap: 15px; max-height: none; overflow: visible; }
   .omni-variants { order: 1; }
   .omni-actions { order: 2; margin-top: 10px; }
   .omni-sub-wrap { order: 3; }

@@ -36,6 +36,7 @@
       {%- comment -%} under-photo description removed: shown on the right only {%- endcomment -%}
     </figure>
 
+    <div class="nadh-info">
     <div class="nadh-head">
       {%- if section.settings.headline_style == 'title' -%}
         {%- if product.vendor != blank -%}<span class="nadh-eyebrow">{{ product.vendor }}</span>{%- endif -%}
@@ -187,6 +188,7 @@
         </div>
       {%- endif -%}
     </div>
+    </div>
   </div>
 </section>
 {%- capture nad_cta_id -%}nadcta-{{ section.id }}{%- endcapture -%}
@@ -240,9 +242,12 @@
 </script>
 <style>
   .nad-hero{padding:24px 20px 34px;}
-  .nadh-wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(18px,3vw,44px);align-items:center;
-    grid-template-columns:1.02fr 1fr;grid-template-areas:"media head" "media chips" "media buy";}
-  .nadh-media{grid-area:media;margin:0;position:relative;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:26px;padding:16px;overflow:hidden;}
+  .nadh-wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(18px,3vw,44px);align-items:start;
+    grid-template-columns:1.02fr 1fr;grid-template-areas:"media info";}
+  .nadh-info{grid-area:info;display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:192px;max-height:calc(100vh - 208px);overflow:auto;scrollbar-width:thin;padding-bottom:4px;}
+  @media(max-width:1023px){.nadh-info{top:174px;max-height:calc(100vh - 190px);}}
+  .nadh-media{grid-area:media;margin:0;align-self:start;position:sticky;top:192px;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:26px;padding:16px;overflow:hidden;}
+  @media(max-width:1023px){.nadh-media{top:174px;}}
   .nadh-media.has-thumbs{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:start;}
   .nadh-thumbs{display:flex;flex-direction:column;gap:8px;max-height:min(560px,70vh);overflow-y:auto;scrollbar-width:thin;padding:2px 0;}
   .nadh-thumb{width:56px;height:56px;padding:0;border:1px solid var(--boxline,#ECE3CE);background:#fff;cursor:pointer;flex-shrink:0;overflow:hidden;}
@@ -258,7 +263,7 @@
   .nadh-gnav:hover{background:#fff;}
   .nadh-gnav.prev{left:24px;}.nadh-gnav.next{right:24px;}
   .nadh-badge{position:absolute;top:12px;left:12px;background:#141414;color:#fff;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:30px;z-index:2;}
-  .nadh-head{grid-area:head;}
+  .nadh-head{grid-area:auto;}
   .nadh-rating{display:flex;align-items:center;gap:3px;margin-bottom:10px;}
   .nadh-rating svg{width:17px;height:17px;fill:#d9cdae;}
   .nadh-rating svg.on{fill:var(--onbg);}
@@ -268,10 +273,10 @@
   .nadh-eyebrow{display:block;font-family:var(--font-body--family), sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--onbg);opacity:.6;margin:0 0 10px;text-align:left;}
   .nadh-title--lg{font-size:clamp(22px,2.5vw,32px);font-weight:700;line-height:1.16;margin:0 0 12px;text-align:left;}
   .nadh-tag{font-family:var(--font-body--family), sans-serif;font-size:16px;line-height:1.55;color:var(--onbg);margin:6px 0 0;max-width:460px;text-align:left;}
-  .nadh-chips{grid-area:chips;display:flex;flex-wrap:wrap;justify-content:flex-start;align-content:flex-start;gap:8px;width:100%;margin:0;padding:0;}
+  .nadh-chips{grid-area:auto;display:flex;flex-wrap:wrap;justify-content:flex-start;align-content:flex-start;gap:8px;width:100%;margin:0;padding:0;}
   .nadh-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-body--family), sans-serif;font-size:13px;font-weight:600;color:#141414;background:var(--box,#FBF6EA);border:1px solid var(--boxline,#ECE3CE);border-radius:30px;padding:8px 14px;margin:0;box-sizing:border-box;}
   .nadh-chip svg{width:16px;height:16px;fill:none;stroke:#141414;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-  .nadh-buy{grid-area:buy;display:flex;flex-direction:column;gap:12px;}
+  .nadh-buy{grid-area:auto;display:flex;flex-direction:column;gap:12px;}
   .nadh-buycore{display:flex;flex-direction:column;gap:12px;}
   .nadh-gift-mount{width:100%;align-self:stretch;}
   .nadh-gift{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--boxline,#ECE3CE);border-radius:14px;background:var(--box,#FBF6EA);margin:0;width:100%;box-sizing:border-box;}
@@ -341,9 +346,10 @@
   .nadh-acc-b--inci{font-size:12.5px;line-height:1.7;word-break:break-word;opacity:.78;}
   @media(max-width:849px){
     .nad-hero{padding:16px 16px 28px;}
-    .nadh-wrap{grid-template-columns:1fr;grid-template-areas:"head" "media" "chips" "buy";gap:16px;align-items:stretch;justify-items:stretch;}
+    .nadh-wrap{grid-template-columns:1fr;grid-template-areas:"info";gap:16px;align-items:stretch;justify-items:stretch;}
+    .nadh-info{display:contents;position:static;max-height:none;overflow:visible;top:auto;padding:0;}
     .nadh-media,.nadh-head,.nadh-chips,.nadh-buy,.nadh-buycore,.nadh-tag,.nadh-title,.nadh-eyebrow,.nadh-price{width:100%;max-width:none;text-align:left;align-self:stretch;box-sizing:border-box;}
-    .nadh-media{padding:12px;border-radius:20px;}
+    .nadh-media{position:relative;top:auto;padding:12px;border-radius:20px;}
     .nadh-banner{max-width:none;margin-left:0;}
     .nadh-now{font-size:30px;}
     .nadh-cta{width:100%;}
