@@ -21,9 +21,9 @@
         "stock_status_text": "In stock",
         "pre_date_text": "Order now for delivery",
         "delivery_days": 3,
-        "usp_1": "Fast shipping",
-        "usp_2": "Secure checkout",
-        "usp_3": "Easy returns"
+        "usp_1": "Secure Checkout",
+        "usp_2": "Easy Returns",
+        "usp_3": "Fast Shipping"
       }
     },
     "main": {
