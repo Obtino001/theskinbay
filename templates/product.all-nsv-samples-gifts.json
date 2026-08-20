@@ -203,7 +203,8 @@
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
-                  "static": true
+                  "static": true,
+                  "settings": {}
                 }
               },
               "block_order": []
