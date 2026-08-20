@@ -1,5 +1,5 @@
 {% doc %}
-Stock status with delivery date, payment icons, and three USP icons under Add to bag.
+Stock status with delivery date, payment icons, and three USP icons.
 @param {string} uid - Unique id for this instance
 @param {object} [variant] - Selected variant
 @param {string} [status_text] - In-stock label
@@ -8,6 +8,7 @@ Stock status with delivery date, payment icons, and three USP icons under Add to
 @param {string} [usp_1] - First USP
 @param {string} [usp_2] - Second USP
 @param {string} [usp_3] - Third USP
+@param {string} [part] - `stock` (above ATC), `rest` (payments + USPs), or `all`
 @example
 {% render 'pdp-buy-trust', uid: section.id, variant: product.selected_or_first_available_variant %}
 {% enddoc %}
