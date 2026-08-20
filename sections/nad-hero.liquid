@@ -226,7 +226,7 @@
     if(grp){var r=document.querySelector('input[name="nadplan-'+grp+'"]:checked');if(r&&r.value){item.selling_plan=parseInt(r.value.replace(/\D/g,''),10);}}
     b.disabled=true;b.textContent='Adding…';
     fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[item]})})
-    .then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));if(window.openCart)window.openCart();b.textContent='Added ✓';setTimeout(function(){b.disabled=false;b.textContent=o;},1600);})
+    .then(function(r){if(!r.ok)throw 0;document.dispatchEvent(new CustomEvent('cart:refresh'));b.textContent='Added ✓';setTimeout(function(){b.disabled=false;b.textContent=o;},1600);})
     .catch(function(){b.disabled=false;b.textContent=o;window.location.href='/cart';});}
   function nadExp(b){var w=b.parentNode;w.classList.toggle('open');var s=b.querySelector('span'),i=b.querySelector('b');if(w.classList.contains('open')){s.textContent='Show less';i.textContent='−';}else{s.textContent='Read more';i.textContent='+';w.scrollIntoView({block:'nearest'});}}
   (function(){function ini(){var xs=document.querySelectorAll('.nad-exp');for(var k=0;k<xs.length;k++){var w=xs[k];w.classList.add('clamp');var inr=w.querySelector('.nad-exp-in');if(inr&&inr.scrollHeight<=inr.clientHeight+2)w.classList.remove('clamp');}}

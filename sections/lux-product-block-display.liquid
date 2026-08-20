@@ -517,7 +517,6 @@ async function omniAction(type) {
       });
       if(res.ok) {
         document.dispatchEvent(new CustomEvent('cart:refresh'));
-        if(window.openCart) window.openCart();
         btn.innerText = "ADDED!";
         setTimeout(() => { btn.disabled = false; btn.innerText = "ADD TO BAG"; }, 2000);
       } else {

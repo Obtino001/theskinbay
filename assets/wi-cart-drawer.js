@@ -147,8 +147,12 @@ class WIcartDrawer extends HTMLElement {
       if (!drawer) return;
       drawer.openCart({ refresh: true, mode: "add" });
     };
-    document.addEventListener("opencart", refreshFromEvent);
-    document.addEventListener("cart:refresh", refreshFromEvent);
+    const coalescedRefresh = () => {
+      clearTimeout(window.__wiCartRefreshT);
+      window.__wiCartRefreshT = setTimeout(refreshFromEvent, 40);
+    };
+    document.addEventListener("opencart", coalescedRefresh);
+    document.addEventListener("cart:refresh", coalescedRefresh);
   }
 
   openCart(options = {}) {
@@ -244,7 +248,7 @@ class WIcartDrawer extends HTMLElement {
         }
       } else if (itemKey) {
         this.setItemLoading(this.findCartItem(itemKey), true);
-      } else if (mode === "add" || mode === "refresh") {
+      } else if ((mode === "add" || mode === "refresh") && !options.silent) {
         this.setGlobalLoading(true);
       }
 
@@ -306,7 +310,7 @@ class WIcartDrawer extends HTMLElement {
       }
 
       this._lastUpdate = Date.now();
-      this.loadRecommendations();
+      if (!options.skipRecs) this.loadRecommendations();
       if (mode === "add") this.scheduleGiftRefresh();
     } catch (err) {
       console.error("WIcartDrawer Update Error:", err);
@@ -316,11 +320,48 @@ class WIcartDrawer extends HTMLElement {
     }
   }
 
+  cartHasComplimentary() {
+    return !!this.querySelector(".WI_cartDrawer_item_price--gift");
+  }
+
   scheduleGiftRefresh() {
     clearTimeout(this._giftRefreshTimer);
-    this._giftRefreshTimer = setTimeout(() => {
-      this.updateCart({ mode: "refresh" });
-    }, 900);
+    this._giftPollAbort = true;
+    if (this.cartHasComplimentary()) return;
+
+    const startCount = this.querySelectorAll(".WI_cartDrawer_item").length;
+    this._giftPollAbort = false;
+    let attempts = 0;
+
+    const poll = async () => {
+      if (this._giftPollAbort) return;
+      attempts += 1;
+      try {
+        const cart = await fetch("/cart.js", { cache: "no-store" }).then((r) =>
+          r.json()
+        );
+        const items = cart.items || [];
+        const hasGift = items.some((item) => {
+          const price = Number(item.final_price ?? item.price ?? item.line_price);
+          return price === 0;
+        });
+        if (hasGift || items.length > startCount) {
+          await this.updateCart({
+            mode: "refresh",
+            skipRecs: true,
+            silent: true,
+          });
+          return;
+        }
+      } catch (err) {
+        /* keep polling */
+      }
+      if (attempts < 8) {
+        this._giftRefreshTimer = setTimeout(poll, 160);
+      }
+    };
+
+    this._giftRefreshTimer = setTimeout(poll, 120);
   }
 
   loadRecommendations() {
