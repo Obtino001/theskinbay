@@ -594,7 +594,7 @@
 .ds-trending-card__thumb {
   margin-bottom: 0.3125rem;
   overflow: hidden;
-  border-radius: 0.15625rem;
+  border-radius: 16px;
   aspect-ratio: 658 / 955;
   background: #f3f3f3;
 }
@@ -605,6 +605,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 16px;
   transition: transform 0.3s ease-in-out;
 }
 
