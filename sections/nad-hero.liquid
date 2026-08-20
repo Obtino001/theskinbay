@@ -125,21 +125,6 @@
         </div>
       {%- endif -%}
       {%- if product.metafields.custom.dispatch_note != blank -%}<p class="nadh-dispatch"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="12" height="9" rx="1"/><path d="M14.5 10h4l2.5 3v3h-6.5z"/><circle cx="6.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg><span>{{ product.metafields.custom.dispatch_note }}</span></p>{%- endif -%}
-      {%- liquid
-        assign _trust_parts = section.settings.trust_line | split: '·'
-        assign _usp_1 = _trust_parts[0] | strip
-        assign _usp_2 = _trust_parts[1] | strip
-        assign _usp_3 = _trust_parts[2] | strip
-        if _usp_1 == blank
-          assign _usp_1 = 'Genuine products'
-        endif
-        if _usp_2 == blank
-          assign _usp_2 = 'Expert-curated'
-        endif
-        if _usp_3 == blank
-          assign _usp_3 = 'Tracked UK dispatch'
-        endif
-      -%}
       {% render 'pdp-buy-trust',
         uid: section.id,
         variant: v,
@@ -147,9 +132,9 @@
         status_text: section.settings.stock_status_text,
         pre_date_text: section.settings.pre_date_text,
         delivery_days: section.settings.delivery_days,
-        usp_1: _usp_1,
-        usp_2: _usp_2,
-        usp_3: _usp_3
+        usp_1: 'Fast shipping',
+        usp_2: 'Secure checkout',
+        usp_3: 'Easy returns'
       %}
       <button type="button" class="nadh-cta" id="nadcta-{{ section.id }}" data-vid="{{ v.id }}" data-label="{{ section.settings.cta_text | escape }}" onclick="nadAdd(this,{{ v.id }},'{{ section.id }}')" {% unless v.available %}disabled{% endunless %}>
         {%- if v.available -%}{{ section.settings.cta_text }}{%- else -%}Sold out{%- endif -%}
@@ -161,9 +146,9 @@
         status_text: section.settings.stock_status_text,
         pre_date_text: section.settings.pre_date_text,
         delivery_days: section.settings.delivery_days,
-        usp_1: _usp_1,
-        usp_2: _usp_2,
-        usp_3: _usp_3
+        usp_1: 'Fast shipping',
+        usp_2: 'Secure checkout',
+        usp_3: 'Easy returns'
       %}
       </div>
       {%- if product.requires_selling_plan and customer == blank -%}

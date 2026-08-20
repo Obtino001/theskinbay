@@ -286,9 +286,9 @@
         status_text: section.settings.stock_status_text,
         pre_date_text: section.settings.pre_date_text,
         delivery_days: section.settings.delivery_days,
-        usp_1: section.settings.usp_1,
-        usp_2: section.settings.usp_2,
-        usp_3: section.settings.usp_3
+        usp_1: 'Fast shipping',
+        usp_2: 'Secure checkout',
+        usp_3: 'Easy returns'
       %}
       <button class="omni-btn omni-btn-bag" id="AddBtn-{{sb_uid}}" onclick="omniAction('bag')">ADD TO BAG</button>
       <button class="omni-btn omni-btn-checkout" onclick="omniAction('now')">CHECKOUT NOW</button>
@@ -328,9 +328,9 @@
         status_text: section.settings.stock_status_text,
         pre_date_text: section.settings.pre_date_text,
         delivery_days: section.settings.delivery_days,
-        usp_1: section.settings.usp_1,
-        usp_2: section.settings.usp_2,
-        usp_3: section.settings.usp_3
+        usp_1: 'Fast shipping',
+        usp_2: 'Secure checkout',
+        usp_3: 'Easy returns'
       %}
     </div>
 
@@ -598,9 +598,9 @@ async function omniAction(type) {
   { "type": "text", "id": "stock_status_text", "label": "In-stock label", "default": "In stock" },
   { "type": "text", "id": "pre_date_text", "label": "Text before delivery date", "default": "Order now for delivery" },
   { "type": "range", "id": "delivery_days", "min": 3, "max": 14, "step": 1, "unit": "d", "label": "Delivery window end (days)", "default": 8 },
-  { "type": "text", "id": "usp_1", "label": "Trust icon 1", "default": "Genuine products" },
-  { "type": "text", "id": "usp_2", "label": "Trust icon 2", "default": "Expert-curated" },
-  { "type": "text", "id": "usp_3", "label": "Trust icon 3", "default": "Tracked UK dispatch" }
+  { "type": "text", "id": "usp_1", "label": "Trust icon 1", "default": "Fast shipping" },
+  { "type": "text", "id": "usp_2", "label": "Trust icon 2", "default": "Secure checkout" },
+  { "type": "text", "id": "usp_3", "label": "Trust icon 3", "default": "Easy returns" }
 ],
 "presets": [{ "name": "Omni-Luxe Pro Commerce" }]
 }
