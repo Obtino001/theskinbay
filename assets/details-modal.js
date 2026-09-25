@@ -1,12 +1,18 @@
 class DetailsModal extends HTMLElement {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    if (this.dataset.dsModalReady) return;
     this.detailsContainer = this.querySelector('details');
     this.summaryToggle = this.querySelector('summary');
+    if (!this.detailsContainer || !this.summaryToggle) return;
+    this.dataset.dsModalReady = 'true';
 
     this.detailsContainer.addEventListener('keyup', (event) => event.code.toUpperCase() === 'ESCAPE' && this.close());
     this.summaryToggle.addEventListener('click', this.onSummaryClick.bind(this));
-    this.querySelector('button[type="button"]').addEventListener('click', this.close.bind(this));
+    this.querySelector('button[type="button"]')?.addEventListener('click', this.close.bind(this));
 
     this.summaryToggle.setAttribute('role', 'button');
   }
@@ -31,14 +37,20 @@ class DetailsModal extends HTMLElement {
 
   open(event) {
     this.onBodyClickEvent = this.onBodyClickEvent || this.onBodyClick.bind(this);
-    event.target.closest('details').setAttribute('open', true);
+    const detailsEl = event?.target?.closest?.('details') || this.detailsContainer;
+    if (!detailsEl) return;
+    detailsEl.setAttribute('open', true);
     document.body.addEventListener('click', this.onBodyClickEvent);
     document.body.classList.add('overflow-hidden');
 
-    trapFocus(
-      this.detailsContainer.querySelector('[tabindex="-1"]'),
-      this.detailsContainer.querySelector('input:not([type="hidden"])')
-    );
+    if (typeof trapFocus === 'function') {
+      trapFocus(
+        this.detailsContainer.querySelector('[tabindex="-1"]'),
+        this.detailsContainer.querySelector('input:not([type="hidden"])')
+      );
+    } else {
+      this.detailsContainer.querySelector('input:not([type="hidden"])')?.focus();
+    }
   }
 
   close(focusToggle = true) {
@@ -49,4 +61,6 @@ class DetailsModal extends HTMLElement {
   }
 }
 
-customElements.define('details-modal', DetailsModal);
+if (!customElements.get('details-modal')) {
+  customElements.define('details-modal', DetailsModal);
+}

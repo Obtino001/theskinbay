@@ -1,13 +1,12 @@
 // Polyfill for Dawn utilities missing in Horizon
-if (typeof debounce === 'undefined') {
-  function debounce(fn, wait) {
-    let t;
-    return (...args) => {
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(this, args), wait);
-    };
-  }
-}
+window.debounce = window.debounce || function debounce(fn, wait) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+};
+var debounce = window.debounce;
 
 if (typeof trapFocus === 'undefined') {
   function trapFocus(handlers, elementToFocus = null) {

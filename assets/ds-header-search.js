@@ -109,7 +109,7 @@ function unpinHeaderForSearch() {
 function placePanelUnderHeader(panel) {
   if (!panel) return 0;
   const top = getSearchPanelTop();
-  panel.style.top = `${top}px`;
+  panel.style.setProperty('top', `${top}px`, 'important');
   document.documentElement.style.setProperty('--ds-search-top', `${top}px`);
   return top;
 }
@@ -292,8 +292,19 @@ function bindDsSearchCollapse(modal) {
   const panel = modal.querySelector('.ds-search-panel');
   if (!details || !panel) return;
 
-  const originalOpen = modal.open.bind(modal);
-  const originalClose = modal.close.bind(modal);
+  const originalOpen =
+    typeof modal.open === 'function'
+      ? modal.open.bind(modal)
+      : function (event) {
+          const detailsEl = event?.target?.closest?.('details') || details;
+          detailsEl.setAttribute('open', '');
+        };
+  const originalClose =
+    typeof modal.close === 'function'
+      ? modal.close.bind(modal)
+      : function () {
+          details.removeAttribute('open');
+        };
 
   modal.open = function dsAnimatedOpen(event) {
     pinHeaderForSearch();

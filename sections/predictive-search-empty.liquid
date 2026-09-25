@@ -1,0 +1,15 @@
+<div class="predictive-search-empty-section">
+  {% render 'predictive-search-empty-state',
+    load_empty_state: true,
+    shadow_opacity: 0.1,
+    products_test_id: 'products-list-default--reset'
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Predictive search empty",
+  "class": "predictive-search-empty-section",
+  "settings": []
+}
+{% endschema %}
