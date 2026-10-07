@@ -43,7 +43,7 @@
       </div>
     {% endcapture %}
 
-    {% for block in render_order | split: ',' %}
+    {% for block in render_order %}
       {% if block == 'media' and product_has_media %}
         {{ media }}
       {% elsif block == 'product-details' %}
@@ -157,4 +157,13 @@
   object-fit: contain;
 }
 
-{% endstylesheet %}
+{% endstylesheet %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% for block in render_order | split: ',' %}"
+  to: "{% for block in render_order %}"
+  position: 1320..1351
+{%- endcomment -%}
