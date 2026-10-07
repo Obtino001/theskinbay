@@ -115,7 +115,7 @@
           "name": "Vitamin C",
           "settings": {
             "target_collections": [
-              "medik8-vitamin-c-collection",
+              "medik8-vitamin-c-collection-old",
               "vitamin-c-products",
               "antioxidant-vitamin-c-serums"
             ],
